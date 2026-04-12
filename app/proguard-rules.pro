@@ -1,0 +1,5 @@
+-keep class com.google.** { *; }
+-keep class androidx.** { *; }
+-keep class com.sage.localai.** { *; }
+-dontwarn com.google.**
+-dontwarn androidx.**
