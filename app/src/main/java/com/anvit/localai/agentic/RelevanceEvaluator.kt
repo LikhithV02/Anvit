@@ -1,0 +1,56 @@
+package com.anvit.localai.agentic
+
+import android.util.Log
+import com.anvit.localai.inference.GemmaInferenceService
+import com.anvit.localai.retrieval.RetrievedChunk
+
+/**
+ * CRAG (Corrective RAG) evaluator: checks if retrieved chunks are relevant to the query.
+ * Returns an action: USE | REQUERY | SUPPLEMENT
+ */
+enum class RelevanceAction { USE, REQUERY, SUPPLEMENT }
+
+class RelevanceEvaluator(private val inferenceService: GemmaInferenceService) {
+
+    companion object {
+        private const val TAG = "RelevanceEvaluator"
+
+        private val SYSTEM_PROMPT = """
+You evaluate document retrieval quality. Given a user query and retrieved text passages, decide:
+
+USE - The passages contain directly relevant information to answer the query.
+SUPPLEMENT - The passages are partially relevant but more retrieval may help.
+REQUERY - The passages are irrelevant or do not address the query at all.
+
+Reply with ONLY ONE WORD: USE, SUPPLEMENT, or REQUERY.
+        """.trimIndent()
+    }
+
+    suspend fun evaluate(query: String, chunks: List<RetrievedChunk>): RelevanceAction {
+        if (chunks.isEmpty()) return RelevanceAction.REQUERY
+
+        return try {
+            val passagesSummary = chunks.take(3).joinToString("\n---\n") {
+                "[${it.fileName}]: ${it.content.take(300)}"
+            }
+            val prompt = """
+Query: "$query"
+
+Retrieved passages:
+$passagesSummary
+
+Are these passages relevant to the query?
+            """.trimIndent()
+
+            val response = inferenceService.generateResponse(prompt, SYSTEM_PROMPT).trim().uppercase()
+            when {
+                response.contains("REQUERY") -> RelevanceAction.REQUERY
+                response.contains("SUPPLEMENT") -> RelevanceAction.SUPPLEMENT
+                else -> RelevanceAction.USE
+            }.also { Log.d(TAG, "Relevance for '$query' -> $it") }
+        } catch (e: Exception) {
+            Log.e(TAG, "Relevance eval failed, defaulting to USE: ${e.message}")
+            RelevanceAction.USE
+        }
+    }
+}

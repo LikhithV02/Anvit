@@ -38,7 +38,7 @@ data class ChatSessionEntity(
 - Add `getMessagesForSessionList(sessionId): List<ChatMessageEntity>`  
 - Existing `getAllMessages()` kept for migration compatibility only
 
-**Modified: `SageDatabase`** — version 2 → 3, `MIGRATION_2_3`:
+**Modified: `AnvitDatabase`** — version 2 → 3, `MIGRATION_2_3`:
 1. `CREATE TABLE chat_sessions (...)`
 2. `INSERT INTO chat_sessions VALUES ('legacy-session', 'Previous Conversation', <now>, <now>, 0)`
 3. `ALTER TABLE chat_messages ADD COLUMN sessionId TEXT NOT NULL DEFAULT 'legacy-session'`
@@ -47,7 +47,7 @@ data class ChatSessionEntity(
 
 ### Preferences
 
-**Modified: `SagePreferences`** — add `ACTIVE_SESSION_ID` key, `activeSessionId: Flow<String>`, `setActiveSessionId()`.
+**Modified: `AnvitPreferences`** — add `ACTIVE_SESSION_ID` key, `activeSessionId: Flow<String>`, `setActiveSessionId()`.
 
 ---
 
@@ -90,7 +90,7 @@ ModalNavigationDrawer(
 ```
 
 **`SessionsDrawerContent` composable** (new, inside `ChatScreen.kt` or extracted):
-- **Drawer header**: gradient `Navy900 → Navy800` background, "Sage" wordmark + subtitle "Local AI"
+- **Drawer header**: gradient `Navy900 → Navy800` background, "Anvit" wordmark + subtitle "Local AI"
 - **"New Chat" button**: full-width `OutlinedButton` with `Icons.Default.Add`, teal border
 - `LazyColumn` of session items:
   - `SessionItem` composable: title (bold), relative timestamp ("2 min ago"), message count chip
@@ -148,7 +148,7 @@ data class CollectionEntity(
 - `getAllDocuments()` → `getDocumentsForCollection(collectionId): Flow<List<DocumentEntity>>`  
 - Keep `getAllDocuments()` for the "All" virtual collection view
 
-**Modified: `SageDatabase`** — version 3 → 4, `MIGRATION_3_4`:
+**Modified: `AnvitDatabase`** — version 3 → 4, `MIGRATION_3_4`:
 1. `CREATE TABLE collections (...)`
 2. Insert default collection row (`id='default-collection', name='General', isDefault=1`)
 3. `ALTER TABLE documents ADD COLUMN collectionId TEXT NOT NULL DEFAULT 'default-collection'`
@@ -158,7 +158,7 @@ data class CollectionEntity(
 
 ### Preferences
 
-**Modified: `SagePreferences`** — add `ACTIVE_COLLECTION_ID`, default = `"default-collection"`.
+**Modified: `AnvitPreferences`** — add `ACTIVE_COLLECTION_ID`, default = `"default-collection"`.
 
 ---
 
@@ -283,14 +283,14 @@ Use `MaterialTheme.typography.*` instead of hard-coded `fontSize` throughout.
 
 **Empty state**:
 - Centered `Column` with a large `Icon(Icons.Outlined.AutoAwesome)` in `TealPrimary.copy(0.4f)`
-- "Ask Sage anything" headline
+- "Ask Anvit anything" headline
 - Subtle suggestion chips row: `["Summarize my docs", "Key findings?", "Compare sections"]` — tapping pre-fills input
 
 ---
 
 ### Sessions Drawer
 
-- Gradient drawer header using `Box` with `Brush.verticalGradient(Surface0, Surface2)`, "Sage" in large `headlineMedium` with TealPrimary tint, version/model name in `bodySmall`
+- Gradient drawer header using `Box` with `Brush.verticalGradient(Surface0, Surface2)`, "Anvit" in large `headlineMedium` with TealPrimary tint, version/model name in `bodySmall`
 - Session items: `Card(tonalElevation = 2.dp)` per item, animated selection highlight via `animateColorAsState`
 - Swipe-to-delete: red `Surface` revealed behind, trash icon, spring-back animation on cancel
 

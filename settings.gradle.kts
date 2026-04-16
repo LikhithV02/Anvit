@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Sage"
+rootProject.name = "Anvit"
 include(":app")

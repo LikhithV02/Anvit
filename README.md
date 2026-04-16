@@ -1,64 +1,114 @@
-# Sage — Local Agentic RAG for Android
+# Anvit — Local Agentic RAG for Android
 
-A fully local, privacy-first Android app for intelligent PDF document analysis using Gemma 4 and an agentic RAG pipeline. No cloud. No API keys. Everything runs on-device.
+A fully local, privacy-first Android app for intelligent document analysis and multimodal Q&A using Gemma 4 and an agentic RAG pipeline. No cloud. No API keys. Everything runs on-device.
 
 ---
 
 ## App Name
-**Sage** — because it brings wisdom from your documents.  
-Package: `com.sage.localai`
+**Anvit** — because it brings wisdom from your documents.  
+Package: `com.anvit.localai`
+
+---
+
+## Features
+
+### Multimodal Input
+- **Image attachment** — attach a photo or image from the gallery alongside a text query; Gemma 4 processes both natively
+- **Audio recording** — tap the mic button to record a voice query; audio is captured as WAV (16kHz mono PCM) compatible with LiteRT-LM's miniaudio decoder
+- **Audio transcription** — recorded audio is automatically transcribed before RAG retrieval so spoken questions produce meaningful vector search results
+- **Audio + text combined** — when both audio and text are provided, the transcription is prepended to the typed text and both are used as the RAG query
+- **Audio playback in chat** — sent audio messages are stored and playable directly in the chat screen with a progress bar and duration display
+
+### Agentic RAG Pipeline
+- **Query routing** — classifies each query as SINGLE_SHOT (direct retrieval) or AGENTIC (multi-step pipeline) based on complexity
+- **Query decomposition** — breaks compound questions ("compare X and Y across documents") into focused sub-queries, each retrieved independently
+- **Hybrid retrieval** — combines vector cosine similarity and BM25 (FTS5) full-text search, merged via Reciprocal Rank Fusion (RRF)
+- **CRAG relevance evaluation** — scores retrieved chunks; if relevance is low it re-queries with a rephrased version (up to 2 attempts) or supplements with additional passages
+- **Selective content reduction** — trims retrieved chunks ~30% before passing to the LLM, reducing prompt length and latency
+- **Native tool calling** — Gemma 4 autonomously calls `search_documents` and `get_document_section` tools during generation to fetch additional context mid-response
+- **Self-critique loop** — after generating an answer, evaluates completeness; if gaps are found, retrieves targeted extra context and refines the response
+- **Document collections** — organise PDFs into named collections; each chat session can be scoped to a specific collection or run across all documents
+
+### Chat Interface
+- **Multi-session chat** — create, rename, and delete independent chat sessions; sessions are grouped by Today / Yesterday / Earlier in the side drawer
+- **Auto session titling** — new sessions are automatically named from the first message (or audio transcription for voice-only queries)
+- **Streaming responses** — assistant replies stream token by token with animated loading indicators
+- **Thinking mode** — toggleable chain-of-thought reasoning via Gemma 4's `<|think|>` tokens; thinking content is shown in a collapsible panel that auto-closes when the response begins
+- **Agent steps panel** — collapsible timeline showing each pipeline step (routing, decomposition, retrieval, reduction, generation) with human-readable descriptions
+- **Source citations** — referenced document chunks are shown as tappable cards below each response; tapping a card shows the full passage
+- **"Transcribed" label** — audio-only messages show a mic + "Transcribed" badge to indicate the displayed text was auto-transcribed from speech
+- **Message actions** — copy, edit and re-send, or restart generation from any user message
+- **Stop generation** — cancel an in-progress response at any point
+- **Direct chat mode** — when no collection is selected, Anvit answers without RAG (plain LLM conversation); a "Direct chat" badge marks these responses
+
+### Document Management
+- **PDF ingestion** — import PDFs via the system file picker; text is extracted (iText7), chunked with overlap, embedded, and stored in Room + FTS5
+- **Collection management** — create, rename, and delete named collections; assign documents to collections at import time
+- **Ingestion progress** — per-document progress shown during embedding
+- **Chunk statistics** — total chunk counts visible per document and collection
+
+### Settings & Model Configuration
+- **Model selection** — choose between Gemma 4 E2B (default, ~1.3 GB) and Gemma 4 E4B (~2.5 GB)
+- **Accelerator selection** — CPU (default) or GPU backend; GPU includes an experimental warning since support varies by device
+- **Temperature** — 0.0 – 2.0 (default 1.0)
+- **Max output tokens** — 100 – 32,000 (default 4,000)
+- **Top-K** — token sampling breadth
+- **Enable Agentic RAG** — toggle the full multi-step pipeline on/off
+- **Self-critique loop** — toggle post-generation refinement
+- **Retrieval mode** — vector / BM25 / hybrid
+- **Max retrieval chunks** — number of chunks fed to the LLM per query
+- **Thinking mode** — toggle chain-of-thought reasoning
+- **Embedding model selection** — EmbeddingGemma-300M (recommended) or Gecko-110M
 
 ---
 
 ## Architecture Overview
 
-Sage implements an advanced Agentic RAG pipeline. For a detailed breakdown of the agentic components, see [Agents.md](Agents.md).
+For a detailed breakdown of the agentic components, see [Agents.md](Agents.md).
 
 ```mermaid
 flowchart TD
     UserQuery([User Query])
-    
+
     %% Routing
     Router{Query Router}
     UserQuery --> Router
-    
-    Router -->|DIRECT| DirectGen[Direct Generation]
+
     Router -->|SINGLE_SHOT| SingleRet[Standard Hybrid Retrieval]
     Router -->|AGENTIC| Decomposer[Query Decomposer]
-    
+
     %% Single-Shot Flow
     SingleRet --> SingleRed[Content Reducer]
     SingleRed --> SingleGen[LLM Generation]
-    
+
     %% Agentic Flow
     Decomposer --> SubQ[multiple sub-queries]
     SubQ --> AgenticRet[(Hybrid Retrieval)]
     AgenticRet --> MergeRRF[Merge & Deduplicate]
-    
+
     MergeRRF --> Evaluator{Relevance Evaluator}
-    
+
     Evaluator -->|REQUERY| Rephrase[Rephrase Query]
     Rephrase --> AgenticRet
-    
+
     Evaluator -->|SUPPLEMENT| SuppRet[(Supplemental Retrieval)]
     SuppRet --> MergeSupp[Merge]
     MergeSupp --> Reducer
-    
+
     Evaluator -->|USE| Reducer[Selective Content Reducer]
-    
+
     Reducer --> AgenticGen[LLM Generation with Native Tools]
-    
-    %% Self Critique Flow
+
+    %% Self-Critique Flow
     AgenticGen --> Critique{Self-Critique Loop}
     Critique -->|INSUFFICIENT| GapQuery[Generate Gap Query]
     GapQuery --> ExtraRet[(Gap Retrieval)]
     ExtraRet --> RefinedGen[Refined Generation]
-    
+
     Critique -->|SUFFICIENT| FinalResponse
-    
+
     %% Terminations
-    DirectGen --> FinalResponse([Final Response])
-    SingleGen --> FinalResponse
+    SingleGen --> FinalResponse([Final Response])
     RefinedGen --> FinalResponse
 ```
 
@@ -69,22 +119,26 @@ flowchart TD
 | File | Role |
 |------|------|
 | `agentic/AgenticRagOrchestrator.kt` | Main pipeline coordinator |
-| `agentic/QueryRouter.kt` | Classify query: DIRECT / SINGLE_SHOT / AGENTIC |
+| `agentic/QueryRouter.kt` | Classify query: SINGLE_SHOT / AGENTIC |
 | `agentic/QueryDecomposer.kt` | Break complex queries into sub-questions |
 | `agentic/RelevanceEvaluator.kt` | CRAG: evaluate retrieval quality |
 | `agentic/SelectiveContentReducer.kt` | Trim chunks before LLM (~30% token reduction) |
 | `agentic/SelfCritiqueLoop.kt` | Post-generation quality check + refinement |
-| `inference/GemmaInferenceService.kt` | Gemma 4 E2B/E4B via LiteRT-LM |
+| `inference/GemmaInferenceService.kt` | Gemma 4 E2B/E4B via LiteRT-LM; CPU/GPU backend; image + audio content |
 | `inference/RagAgentTools.kt` | Gemma 4 native tool definitions (search_documents, get_document_section) |
+| `inference/InferenceForegroundService.kt` | Foreground service keeping inference alive during generation |
 | `embedding/EmbeddingService.kt` | Gecko / EmbeddingGemma-300M embeddings |
 | `retrieval/HybridRetriever.kt` | Vector cosine + FTS5 BM25 via Reciprocal Rank Fusion |
 | `document/PdfProcessor.kt` | PDF text extraction (iText7) |
 | `document/DocumentChunker.kt` | Paragraph → sentence chunking with overlap |
 | `document/DocumentIngestionService.kt` | Full PDF → chunks → embeddings → DB pipeline |
-| `data/db/SageDatabase.kt` | Room DB (documents, chunks, FTS5, chat history) |
-| `ui/screens/ChatScreen.kt` | Chat UI with streaming + agent step display |
-| `ui/screens/DocumentsScreen.kt` | PDF upload + knowledge base management |
-| `ui/screens/SettingsScreen.kt` | Model selection, RAG config, generation params |
+| `data/db/AnvitDatabase.kt` | Room DB v8 (documents, chunks, FTS5, chat sessions, messages, collections) |
+| `data/preferences/AnvitPreferences.kt` | DataStore: model, accelerator, RAG config, generation params |
+| `ui/screens/ChatScreen.kt` | Chat UI: streaming, agent steps, audio player, source cards, message actions |
+| `ui/screens/DocumentsScreen.kt` | PDF upload + collection management |
+| `ui/screens/SettingsScreen.kt` | Model selection, accelerator, RAG config, generation params |
+| `ui/viewmodels/ChatViewModel.kt` | Chat state, send/stop, audio transcription, session management |
+| `ui/viewmodels/SettingsViewModel.kt` | Model load/unload, settings persistence |
 
 ---
 
@@ -94,7 +148,7 @@ flowchart TD
 
 Place the following files in the app's internal storage:
 ```
-Android/data/com.sage.localai/files/models/
+Android/data/com.anvit.localai/files/models/
 ```
 
 **LLM (one of):**
@@ -115,27 +169,30 @@ Open the project in Android Studio → Build → Run on device (API 27+, arm64).
 ### Step 3: First Launch
 
 1. Go to **Settings** tab
-2. Select model (E2B or E4B)
-3. Tap **Load Selected Model** — wait ~10-30 seconds
+2. Select model (E2B or E4B) and accelerator (CPU recommended)
+3. Tap **Load Selected Model** — wait ~10–30 seconds
 4. Tap **Initialize** next to Embedding Model
-5. Go to **Documents** tab → tap **+** → select a PDF
-6. Wait for ingestion (embedding all chunks takes 1-5 minutes per PDF)
-7. Go to **Chat** tab → ask questions about your documents
+5. Go to **Documents** tab → create a collection → tap **+** → select a PDF
+6. Wait for ingestion (embedding all chunks takes 1–5 minutes per PDF)
+7. Go to **Chat** tab → select your collection → ask questions
 
 ---
 
-## Agentic RAG Features
+## Settings Reference
 
-| Feature | Description |
-|---------|-------------|
-| **Query Routing** | Skips retrieval for simple queries; saves battery |
-| **Query Decomposition** | Breaks "compare X and Y" into sub-questions |
-| **Hybrid Retrieval** | Vector (cosine) + BM25 (FTS5) merged via RRF |
-| **CRAG Evaluation** | Checks chunk relevance; re-queries if poor |
-| **Selective Content Reduction** | Trims chunks ~30% before LLM; reduces latency |
-| **Native Tool Calling** | Gemma 4 autonomously calls search_documents |
-| **Self-Critique Loop** | Evaluates its own answer; refines if incomplete |
-| **Thinking Mode** | Gemma 4 chain-of-thought via `<\|think\|>` tokens |
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Model | Gemma 4 E2B or E4B | E2B |
+| Accelerator | CPU or GPU backend | CPU |
+| Enable Thinking | Chain-of-thought reasoning | On |
+| Enable Agentic RAG | Full multi-step pipeline | On |
+| Self-Critique Loop | Post-generation refinement | On |
+| Native Tool Calling | Gemma 4 autonomous tool use | On |
+| Retrieval Mode | vector / bm25 / hybrid | hybrid |
+| Max Retrieval Chunks | Chunks fed to LLM | 5 |
+| Temperature | Generation randomness | 1.0 (range 0.0–2.0) |
+| Max Output Tokens | Max tokens per response | 4,000 (range 100–32,000) |
+| Top-K | Token sampling breadth | 40 |
 
 ---
 
@@ -145,26 +202,82 @@ Open the project in Android Studio → Build → Run on device (API 27+, arm64).
 |-----------|-----|
 | Gemma 4 E2B Q4 (LiteRT-LM) | ~1.3 GB |
 | EmbeddingGemma-300M | ~300 MB |
-| Room DB + FTS5 index | ~50-200 MB |
+| Room DB + FTS5 index | ~50–200 MB |
 | KV cache + buffers | ~500 MB |
 | **Total** | **~2.2–2.5 GB** |
 
-Works on 6 GB RAM devices. For 4 GB devices, reduce chunk count to 3 and disable Self-Critique.
+Works on 6 GB RAM devices. For 4 GB devices, reduce max retrieval chunks to 3 and disable Self-Critique.
 
 ---
 
-## Settings Reference
+## Database Schema
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| Model | Gemma 4 E2B or E4B | E2B |
-| Enable Thinking | Chain-of-thought reasoning | On |
-| Enable Agentic RAG | Full multi-step pipeline | On |
-| Self-Critique Loop | Post-generation refinement | On |
-| Retrieval Mode | vector / bm25 / hybrid | hybrid |
-| Max Retrieval Chunks | Chunks fed to LLM | 5 |
-| Temperature | Generation randomness | 1.0 |
-| Top-K | Token sampling breadth | 40 |
+Room database `anvit_database` — current version **8**.
+
+```
+collections
+├── id           TEXT  PK
+├── name         TEXT
+├── description  TEXT  DEFAULT ''
+├── createdAt    INTEGER
+└── isDefault    INTEGER (0/1)
+
+documents
+├── id           TEXT  PK
+├── fileName     TEXT
+├── filePath     TEXT
+├── pageCount    INTEGER
+├── chunkCount   INTEGER
+├── status       TEXT  -- PENDING | PROCESSING | READY | FAILED
+├── createdAt    INTEGER
+├── sizeBytes    INTEGER
+└── collectionId TEXT  FK → collections.id
+
+chunks
+├── id           TEXT  PK  -- "{docId}_{chunkIndex}"
+├── docId        TEXT  FK → documents.id  (CASCADE DELETE)
+├── fileName     TEXT
+├── chunkIndex   INTEGER
+├── content      TEXT
+├── embedding    BLOB  -- float[] serialised as ByteArray (vector search)
+├── createdAt    INTEGER
+└── collectionId TEXT  FK → collections.id
+
+chunks_fts  (FTS4 virtual table, content = chunks)
+└── content  TEXT  -- mirrors chunks.content for BM25 full-text search
+
+chat_sessions
+├── id           TEXT  PK
+├── title        TEXT
+├── createdAt    INTEGER
+├── updatedAt    INTEGER
+└── messageCount INTEGER
+
+chat_messages
+├── id               TEXT  PK
+├── sessionId        TEXT  FK → chat_sessions.id
+├── role             TEXT  -- "user" | "assistant"
+├── content          TEXT
+├── agentSteps       TEXT  -- JSON array of {type, description}
+├── thinkingContent  TEXT  -- <|think|> chain-of-thought from Gemma 4
+├── createdAt        INTEGER
+├── imagePath        TEXT  -- absolute path in filesDir/chat_images/; NULL = none
+├── audioPath        TEXT  -- absolute path in filesDir/chat_audio/; NULL = none
+├── usedSources      TEXT  -- JSON array of {title, snippet} RAG sources
+└── isTranscribed    INTEGER (0/1)  -- 1 when content was auto-transcribed from audio
+```
+
+### Migration History
+
+| Version | Change |
+|---------|--------|
+| 1 → 2 | Added `thinkingContent` to `chat_messages` |
+| 2 → 3 | Added `chat_sessions` table; added `sessionId` to `chat_messages` |
+| 3 → 4 | Added `collections` table; added `collectionId` to `documents` and `chunks`; rebuilt FTS index |
+| 4 → 5 | Added `imagePath` to `chat_messages` |
+| 5 → 6 | Added `usedSources` to `chat_messages` |
+| 6 → 7 | Added `audioPath` to `chat_messages` |
+| 7 → 8 | Added `isTranscribed` to `chat_messages` |
 
 ---
 
@@ -177,18 +290,14 @@ Works on 6 GB RAM devices. For 4 GB devices, reduce chunk count to 3 and disable
 - **UI:** Jetpack Compose + Material3 (dark navy/teal theme)
 - **Language:** Kotlin with Coroutines + Flow
 - **Architecture:** MVVM + Repository pattern
+- **Audio:** Android `AudioRecord` API, raw PCM → WAV (16kHz mono 16-bit)
 
 ---
 
 ## Known Limitations
 
 - **Image-only PDFs** (scanned documents) are not supported — text extraction only
-- **GPU acceleration** is temporarily CPU-only (LiteRT-LM 0.10.0 GPU bug, fixed in 0.10.1)
+- **GPU acceleration** is experimental and may crash on some devices depending on driver support
 - **Concurrent queries** not supported — wait for current generation to finish
 - **Large PDFs (100+ pages)** take several minutes to embed on first ingest
-
----
-
-## Credits
-
-Adapted from [LLM-Hub](https://github.com/timmyy123/LLM-Hub) — specifically the LiteRT-LM inference service and Gecko embedding service patterns.
+- **Audio input** requires `RECORD_AUDIO` permission; denied permission disables the mic button

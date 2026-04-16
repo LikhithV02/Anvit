@@ -30,7 +30,7 @@ wrapper that needs updating.
 val imagePath: String? = null   // absolute path inside filesDir/chat_images/; null = no image
 ```
 
-**Modified: `SageDatabase`** — version 4 → 5, `MIGRATION_4_5`:
+**Modified: `AnvitDatabase`** — version 4 → 5, `MIGRATION_4_5`:
 ```sql
 ALTER TABLE chat_messages ADD COLUMN imagePath TEXT
 ```
@@ -413,7 +413,7 @@ based on `collectionId == null`.
 | File | Change |
 |------|--------|
 | `app/build.gradle.kts` | Bump litertlm to ≥ 0.10.1 |
-| `data/db/SageDatabase.kt` | Version 4→5, MIGRATION_4_5 |
+| `data/db/AnvitDatabase.kt` | Version 4→5, MIGRATION_4_5 |
 | `data/db/entities/ChatMessageEntity.kt` | + `imagePath: String?` |
 | `data/models/GemmaModel.kt` | + `supportsVision: Boolean` |
 | `document/ImageAttachmentManager.kt` | **NEW** |

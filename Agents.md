@@ -1,6 +1,6 @@
 # Agentic System Architecture
 
-Sage represents a paradigm shift from traditional "dumb" RAG (Retrieval-Augmented Generation) to an **Agentic RAG** system that actively reasons about user queries, evaluates its own retrieved context, and refines its answers iteratively—all completely on-device.
+Anvit represents a paradigm shift from traditional "dumb" RAG (Retrieval-Augmented Generation) to an **Agentic RAG** system that actively reasons about user queries, evaluates its own retrieved context, and refines its answers iteratively—all completely on-device.
 
 ## Agentic RAG Pipeline Visualization
 
@@ -9,58 +9,55 @@ The following diagram illustrates the lifecycle of a query as it traverses Sage'
 ```mermaid
 flowchart TD
     UserQuery([User Query])
-    
+
     %% Routing
     Router{Query Router}
     UserQuery --> Router
-    
-    Router -->|DIRECT| DirectGen[Direct Generation]
+
     Router -->|SINGLE_SHOT| SingleRet[Standard Hybrid Retrieval]
     Router -->|AGENTIC| Decomposer[Query Decomposer]
-    
+
     %% Single-Shot Flow
     SingleRet --> SingleRed[Content Reducer]
     SingleRed --> SingleGen[LLM Generation]
-    
+
     %% Agentic Flow
     Decomposer --> SubQ[multiple sub-queries]
     SubQ --> AgenticRet[(Hybrid Retrieval)]
     AgenticRet --> MergeRRF[Merge & Deduplicate]
-    
+
     MergeRRF --> Evaluator{Relevance Evaluator}
-    
+
     Evaluator -->|REQUERY| Rephrase[Rephrase Query]
     Rephrase --> AgenticRet
-    
+
     Evaluator -->|SUPPLEMENT| SuppRet[(Supplemental Retrieval)]
     SuppRet --> MergeSupp[Merge]
     MergeSupp --> Reducer
-    
+
     Evaluator -->|USE| Reducer[Selective Content Reducer]
-    
+
     Reducer --> AgenticGen[LLM Generation with Native Tools]
-    
-    %% Self Critique Flow
+
+    %% Self-Critique Flow
     AgenticGen --> Critique{Self-Critique Loop}
     Critique -->|INSUFFICIENT| GapQuery[Generate Gap Query]
     GapQuery --> ExtraRet[(Gap Retrieval)]
     ExtraRet --> RefinedGen[Refined Generation]
-    
+
     Critique -->|SUFFICIENT| FinalResponse
-    
+
     %% Terminations
-    DirectGen --> FinalResponse([Final Response])
-    SingleGen --> FinalResponse
+    SingleGen --> FinalResponse([Final Response])
     RefinedGen --> FinalResponse
 ```
 
 ## Core Agentic Components
 
-All components are located within the `app/src/main/java/com/sage/localai/agentic/` package.
+All components are located within the `app/src/main/java/com/anvit/localai/agentic/` package.
 
 ### 1. Query Router (`QueryRouter.kt`)
-The router acts as the front door, determining the computational path needed for a given user prompt. 
-- **DIRECT**: Simple conversational inputs ("hello", "thanks") bypass retrieval entirely to save API/compute overhead and battery.
+The router acts as the front door, determining the computational path needed for a given user prompt.
 - **SINGLE_SHOT**: Fact-finding questions with clear keywords where simple hybrid retrieval is sufficient.
 - **AGENTIC**: Complex, multi-part, or comparative queries that require the full pipeline.
 
