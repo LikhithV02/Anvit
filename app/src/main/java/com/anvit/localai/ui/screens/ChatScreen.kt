@@ -4,6 +4,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -49,7 +50,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
+import com.anvit.localai.R
 import com.anvit.localai.data.db.entities.ChatSessionEntity
 import com.anvit.localai.data.db.entities.CollectionEntity
 import com.anvit.localai.ui.components.AgentStepsPanel
@@ -275,6 +278,7 @@ private fun ChatTopBar(
                 Icon(Icons.Outlined.Menu, "Sessions", tint = TextSecondary)
             }
 
+
             // Centre block — session title + model status
             Column(
                 modifier = Modifier
@@ -374,17 +378,6 @@ private fun SessionsDrawerContent(
                 .background(Brush.verticalGradient(listOf(Surface0, Surface1)))
                 .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp)
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                Box(
-                    modifier = Modifier
-                        .size(42.dp)
-                        .clip(RoundedCornerShape(13.dp))
-                        .background(TealPrimary.copy(alpha = 0.10f))
-                        .border(1.dp, TealPrimary.copy(alpha = 0.18f), RoundedCornerShape(13.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(Icons.Outlined.AutoAwesome, null, tint = TealPrimary, modifier = Modifier.size(22.dp))
-                }
                 Column {
                     Text(
                         "Anvit",
@@ -396,7 +389,6 @@ private fun SessionsDrawerContent(
                     Text("AI Document Assistant", color = TextSecondary, fontSize = 12.sp)
                 }
             }
-        }
 
         HorizontalDivider(color = BorderSubtle, thickness = 0.5.dp)
 

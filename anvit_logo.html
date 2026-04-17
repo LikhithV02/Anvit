@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anvit · Brand Identity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:          #0B0F19;
+      --teal:        #00F2FF;
+      --mint:        #A7FFEB;
+      --slate:       #4B5563;
+      --glass-bdr:   rgba(0, 242, 255, 0.18);
+      --glass-bg:    rgba(0, 242, 255, 0.055);
+      --glow-strong: rgba(0, 242, 255, 0.45);
+      --glow-soft:   rgba(0, 242, 255, 0.10);
+    }
+
+    body {
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 72px;
+      font-family: 'Manrope', system-ui, sans-serif;
+      padding: 64px 40px 80px;
+      overflow-x: hidden;
+    }
+
+    /* subtle dot grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(75,85,99,0.28) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-header {
+      z-index: 1;
+      color: var(--slate);
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .section-label {
+      color: var(--slate);
+      font-size: 8.5px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* ── APP ICON ── */
+    .app-icon {
+      width: 136px;
+      height: 136px;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 32% 22%, rgba(0,242,255,0.11) 0%, transparent 55%),
+        linear-gradient(145deg, rgba(0,242,255,0.06) 0%, rgba(11,15,25,0.95) 100%);
+      border: 1px solid var(--glass-bdr);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 8px 40px rgba(0,0,0,0.55),
+        0 0 0 1px rgba(0,0,0,0.4),
+        0 0 70px var(--glow-soft);
+      animation: iconPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
+      0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,0,0,0.4), 0 0 70px var(--glow-soft); }
+      50%       { box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,0,0,0.4), 0 0 100px rgba(0,242,255,0.18); }
+    }
+
+    /* ── SVG shared styles ── */
+    .a-path {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* draw-on animation */
+    .draw-anim {
+      stroke-dasharray: 320;
+      stroke-dashoffset: 320;
+      animation: drawA 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+    }
+
+    @keyframes drawA {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .node-pulse {
+      animation: nodePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes nodePulse {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.25); }
+    }
+
+    /* ── WORDMARK ROW ── */
+    .wordmark-row {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .wordmark-text {
+      color: rgba(225, 242, 248, 0.92);
+      font-size: 38px;
+      font-weight: 200;
+      letter-spacing: 16px;
+      text-indent: 16px;  /* visual balance for trailing tracking */
+      text-transform: uppercase;
+    }
+
+    /* ── HORIZONTAL DIVIDER ── */
+    .divider {
+      z-index: 1;
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--glass-bdr), transparent);
+    }
+
+    /* ── SPLASH MOCKUP ── */
+    .splash-phone {
+      width: 300px;
+      height: 600px;
+      border-radius: 44px;
+      background: var(--bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.65),
+        0 0 0 1px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    /* ambient glow behind icon in splash */
+    .splash-phone::before {
+      content: '';
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,242,255,0.07) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -58%);
+      pointer-events: none;
+    }
+
+    /* notch */
+    .splash-phone::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      width: 80px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .splash-wordmark {
+      color: rgba(225, 242, 248, 0.88);
+      font-size: 20px;
+      font-weight: 200;
+      letter-spacing: 10px;
+      text-indent: 10px;
+      text-transform: uppercase;
+    }
+
+    .splash-tagline {
+      color: var(--slate);
+      font-size: 8px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-top: -6px;
+    }
+
+    /* loading bar */
+    .load-track {
+      width: 80px;
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 1px;
+      margin-top: 36px;
+      overflow: hidden;
+    }
+
+    .load-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--mint));
+      border-radius: 1px;
+      box-shadow: 0 0 8px var(--teal);
+      animation: loadFill 2.4s ease-in-out infinite;
+    }
+
+    @keyframes loadFill {
+      0%   { width: 0%;   opacity: 1; }
+      75%  { width: 100%; opacity: 1; }
+      100% { width: 100%; opacity: 0; }
+    }
+
+    /* ── PALETTE ── */
+    .palette {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .swatch-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .swatch-name {
+      color: rgba(255,255,255,0.35);
+      font-size: 8px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .swatch-hex {
+      color: var(--slate);
+      font-size: 8px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ── ICON GRID (sizes) ── */
+    .icon-grid {
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .icon-size-label {
+      color: var(--slate);
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .icon-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .mini-icon {
+      background:
+        radial-gradient(circle at 32% 22%, rgba(0,242,255,0.1) 0%, transparent 55%),
+        linear-gradient(145deg, rgba(0,242,255,0.06) 0%, rgba(11,15,25,0.95) 100%);
+      border: 1px solid var(--glass-bdr);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px var(--glow-soft);
+    }
+  </style>
+</head>
+<body>
+
+  <p class="page-header">Anvit &nbsp;·&nbsp; Brand Identity &nbsp;·&nbsp; 2026</p>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  1. APP ICON                                -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <p class="section-label">App Icon</p>
+    <div class="app-icon">
+      <svg width="80" height="88" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="5" y1="100" x2="95" y2="8" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#A7FFEB"/>
+            <stop offset="55%"  stop-color="#00F2FF"/>
+            <stop offset="100%" stop-color="#00C8FF"/>
+          </linearGradient>
+          <filter id="glow1" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <!-- soft outer glow layer -->
+          <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="7" result="b2"/>
+            <feMerge><feMergeNode in="b2"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- ghost glow path behind -->
+        <path d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62"
+              fill="none" stroke="#00F2FF" stroke-width="6"
+              stroke-linecap="round" stroke-linejoin="round"
+              opacity="0.18" filter="url(#softGlow)"/>
+
+        <!-- main A path -->
+        <path class="a-path draw-anim"
+              d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62"
+              stroke="url(#g1)" stroke-width="4"
+              filter="url(#glow1)"/>
+
+        <!-- node at crossbar centre -->
+        <g class="node-pulse" style="transform-origin: 50px 62px;">
+          <!-- node halo -->
+          <circle cx="50" cy="62" r="9" fill="rgba(0,242,255,0.12)"/>
+          <circle cx="50" cy="62" r="5" fill="#00F2FF"
+                  style="filter: drop-shadow(0 0 8px #00F2FF) drop-shadow(0 0 3px #fff)"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  2. WORDMARK                                -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <p class="section-label">Wordmark</p>
+    <div class="wordmark-row">
+      <svg width="38" height="44" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g2" x1="5" y1="100" x2="95" y2="8" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"  stop-color="#A7FFEB"/>
+            <stop offset="60%" stop-color="#00F2FF"/>
+          </linearGradient>
+          <filter id="glow2" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <path class="a-path"
+              d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62"
+              stroke="url(#g2)" stroke-width="4.5"
+              filter="url(#glow2)"/>
+        <g class="node-pulse" style="transform-origin: 50px 62px;">
+          <circle cx="50" cy="62" r="8" fill="rgba(0,242,255,0.14)"/>
+          <circle cx="50" cy="62" r="4.5" fill="#00F2FF"
+                  style="filter: drop-shadow(0 0 6px #00F2FF)"/>
+        </g>
+      </svg>
+      <span class="wordmark-text">ANVIT</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  3. SPLASH SCREEN MOCKUP                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <p class="section-label">Splash Screen</p>
+    <div class="splash-phone">
+      <svg width="72" height="80" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g3" x1="5" y1="100" x2="95" y2="8" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"  stop-color="#A7FFEB"/>
+            <stop offset="60%" stop-color="#00F2FF"/>
+          </linearGradient>
+          <filter id="glow3" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="softGlow3" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="8" result="b2"/>
+            <feMerge><feMergeNode in="b2"/></feMerge>
+          </filter>
+        </defs>
+        <path d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62"
+              fill="none" stroke="#00F2FF" stroke-width="6"
+              stroke-linecap="round" stroke-linejoin="round"
+              opacity="0.15" filter="url(#softGlow3)"/>
+        <path class="a-path draw-anim"
+              d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62"
+              stroke="url(#g3)" stroke-width="4.5"
+              filter="url(#glow3)"/>
+        <g class="node-pulse" style="transform-origin: 50px 62px;">
+          <circle cx="50" cy="62" r="10" fill="rgba(0,242,255,0.10)"/>
+          <circle cx="50" cy="62" r="5" fill="#00F2FF"
+                  style="filter: drop-shadow(0 0 10px #00F2FF) drop-shadow(0 0 3px #fff)"/>
+        </g>
+      </svg>
+
+      <span class="splash-wordmark">ANVIT</span>
+      <span class="splash-tagline">Private Logic</span>
+
+      <div class="load-track">
+        <div class="load-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  4. MULTI-SIZE ICON GRID                    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <p class="section-label">Sizes</p>
+    <div class="icon-grid">
+
+      <!-- 16px -->
+      <div class="icon-cell">
+        <div class="mini-icon" style="width:16px;height:16px;border-radius:4px;">
+          <svg width="10" height="12" viewBox="0 0 100 110" fill="none">
+            <path d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62" fill="none" stroke="#00F2FF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="50" cy="62" r="12" fill="#00F2FF"/>
+          </svg>
+        </div>
+        <p class="icon-size-label">16</p>
+      </div>
+
+      <!-- 32px -->
+      <div class="icon-cell">
+        <div class="mini-icon" style="width:32px;height:32px;border-radius:8px;">
+          <svg width="18" height="20" viewBox="0 0 100 110" fill="none">
+            <path d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62" fill="none" stroke="#00F2FF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 2px #00F2FF)"/>
+            <circle cx="50" cy="62" r="10" fill="#00F2FF"/>
+          </svg>
+        </div>
+        <p class="icon-size-label">32</p>
+      </div>
+
+      <!-- 64px -->
+      <div class="icon-cell">
+        <div class="mini-icon" style="width:64px;height:64px;border-radius:16px;">
+          <svg width="36" height="40" viewBox="0 0 100 110" fill="none">
+            <defs>
+              <linearGradient id="g4" x1="5" y1="100" x2="95" y2="8" gradientUnits="userSpaceOnUse">
+                <stop offset="0%"  stop-color="#A7FFEB"/><stop offset="60%" stop-color="#00F2FF"/>
+              </linearGradient>
+              <filter id="glow4" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <path d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62" fill="none" stroke="url(#g4)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow4)"/>
+            <circle cx="50" cy="62" r="7" fill="#00F2FF" style="filter:drop-shadow(0 0 5px #00F2FF)"/>
+          </svg>
+        </div>
+        <p class="icon-size-label">64</p>
+      </div>
+
+      <!-- 128px (main) -->
+      <div class="icon-cell">
+        <div class="mini-icon app-icon" style="width:128px;height:128px;border-radius:32px;animation:none;">
+          <svg width="72" height="80" viewBox="0 0 100 110" fill="none">
+            <defs>
+              <linearGradient id="g5" x1="5" y1="100" x2="95" y2="8" gradientUnits="userSpaceOnUse">
+                <stop offset="0%"  stop-color="#A7FFEB"/><stop offset="55%" stop-color="#00F2FF"/><stop offset="100%" stop-color="#00C8FF"/>
+              </linearGradient>
+              <filter id="glow5" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <path d="M 5 100 L 50 8 L 95 100 L 76 62 L 24 62" fill="none" stroke="url(#g5)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow5)"/>
+            <circle cx="50" cy="62" r="8" fill="rgba(0,242,255,0.14)"/>
+            <circle cx="50" cy="62" r="5" fill="#00F2FF" style="filter:drop-shadow(0 0 8px #00F2FF) drop-shadow(0 0 3px #fff)"/>
+          </svg>
+        </div>
+        <p class="icon-size-label">128</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  5. COLOR PALETTE                           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <p class="section-label">Palette</p>
+    <div class="palette">
+      <div class="swatch">
+        <div class="swatch-dot" style="background:#0B0F19;"></div>
+        <p class="swatch-name">Deep Charcoal</p>
+        <p class="swatch-hex">#0B0F19</p>
+      </div>
+      <div class="swatch">
+        <div class="swatch-dot" style="background:#00F2FF;box-shadow:0 0 18px rgba(0,242,255,0.55);"></div>
+        <p class="swatch-name">Electric Teal</p>
+        <p class="swatch-hex">#00F2FF</p>
+      </div>
+      <div class="swatch">
+        <div class="swatch-dot" style="background:#A7FFEB;box-shadow:0 0 12px rgba(167,255,235,0.3);"></div>
+        <p class="swatch-name">Mint Frost</p>
+        <p class="swatch-hex">#A7FFEB</p>
+      </div>
+      <div class="swatch">
+        <div class="swatch-dot" style="background:#00C8FF;box-shadow:0 0 10px rgba(0,200,255,0.3);"></div>
+        <p class="swatch-name">Deep Azure</p>
+        <p class="swatch-hex">#00C8FF</p>
+      </div>
+      <div class="swatch">
+        <div class="swatch-dot" style="background:#4B5563;"></div>
+        <p class="swatch-name">Slate Grey</p>
+        <p class="swatch-hex">#4B5563</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
