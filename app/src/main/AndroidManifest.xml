@@ -10,6 +10,8 @@
     <!-- Required to keep inference alive when the user switches to another app -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- Required on Android 13+ to show the foreground service notification -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Prevents CPU from throttling mid-inference when screen turns off -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 

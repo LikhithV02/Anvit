@@ -1,0 +1,44 @@
+// SKETCH — snippet to add inside composeApp/build.gradle.kts
+// inside the kotlin { } block, under the ios targets.
+
+kotlin {
+    listOf(
+        iosArm64(),          // physical device
+        iosSimulatorArm64(), // Apple Silicon simulator
+    ).forEach { target ->
+        target.binaries.framework {
+            baseName = "composeApp"
+            isStatic = true
+        }
+
+        target.compilations["main"].cinterops {
+            val litertlm by creating {
+                defFile(project.file("../native/litertlm-ios/litertlm.def"))
+                packageName("litertlm")
+
+                // Headers dir so the compiler finds engine.h
+                includeDirs(project.file("../native/litertlm-ios/headers"))
+
+                // Point at the right XCFramework slice per target
+                val xcfwRoot = project.file("../native/litertlm-ios/LiteRtLM.xcframework")
+                val (sliceName, libName) = when (target.name) {
+                    "iosArm64"          -> "ios-arm64"          to "libLiteRtLM.a"
+                    "iosSimulatorArm64" -> "ios-arm64-simulator" to "libLiteRtLM.a"
+                    else -> error("Unsupported target ${target.name}")
+                }
+                val sliceLib = xcfwRoot.resolve("$sliceName/$libName")
+
+                // Only add linkerOpts when the xcframework is present (i.e. build.sh has been run)
+                if (sliceLib.exists()) {
+                    extraOpts("-compilerOpts", "-I${project.file("../native/litertlm-ios/headers")}")
+                    extraOpts("-linkerOpts", "${sliceLib.absolutePath} -lc++ -lz")
+                } else {
+                    project.logger.warn(
+                        "LiteRtLM.xcframework not found at $xcfwRoot. " +
+                        "Run native/litertlm-ios/build.sh (requires Xcode) to generate it."
+                    )
+                }
+            }
+        }
+    }
+}

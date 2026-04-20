@@ -8,3 +8,8 @@ local.properties
 .DS_Store
 app/release/
 gallery/
+.kilo/
+.gitignore
+.kotlin/
+.claude/
+Plan_Phase4.md

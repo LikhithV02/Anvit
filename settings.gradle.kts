@@ -17,8 +17,10 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://plugins.gradle.org/m2/") }
     }
 }
 
 rootProject.name = "Anvit"
 include(":app")
+include(":composeApp")

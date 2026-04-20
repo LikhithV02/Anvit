@@ -1,0 +1,87 @@
+// SKETCH — not a real file yet; will live at:
+//   composeApp/src/iosMain/kotlin/com/anvit/localai/inference/InferenceEngineIos.kt
+//
+// This is the iOS `actual` for the `expect class InferenceEngine` declared in commonMain.
+// It drives the LiteRT-LM C API via cinterop (the bindings generated from litertlm.def).
+
+package com.anvit.localai.inference
+
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import litertlm.* // generated cinterop package — classes/functions from engine.h
+
+actual class InferenceEngine {
+
+    private var engine: LiteRtLmEngine? = null
+    private var conversation: LiteRtLmConversation? = null
+
+    actual fun load(modelPath: String) {
+        val settings = litert_lm_engine_settings_create(
+            model_path = modelPath,
+            backend_str = "cpu",  // CPU only for now; Metal path arrives with upstream GPU support
+            vision_backend_str = null,
+            audio_backend_str = null,
+        ) ?: error("Failed to create engine settings for $modelPath")
+        engine = litert_lm_engine_create(settings)
+            ?: error("Failed to create LiteRT-LM engine")
+        litert_lm_engine_settings_delete(settings)
+
+        // Start a fresh conversation (no system prompt — set per-request via extra_context)
+        val convConfig = litert_lm_conversation_config_create(
+            engine = engine!!,
+            session_config = null,
+            system_message_json = null,
+            tools_json = null,
+            messages_json = null,
+            enable_constrained_decoding = false,
+        )
+        conversation = litert_lm_conversation_create(engine!!, convConfig)
+        litert_lm_conversation_config_delete(convConfig)
+    }
+
+    actual fun unload() {
+        conversation?.let { litert_lm_conversation_delete(it) }
+        engine?.let { litert_lm_engine_delete(it) }
+        conversation = null
+        engine = null
+    }
+
+    // Builds the JSON the C API expects: {"role":"user","content":[{"type":"text","text":"..."}]}
+    private fun buildMessageJson(text: String): String =
+        """{"role":"user","content":[{"type":"text","text":${kotlinx.serialization.json.Json.encodeToString(text)}}]}"""
+
+    actual fun generateStream(prompt: String, systemPrompt: String?): Flow<String> =
+        callbackFlow {
+            val conv = conversation ?: error("Engine not loaded")
+
+            val extraContext = systemPrompt?.let {
+                """{"system":"$it"}"""
+            }
+
+            val rc = litert_lm_conversation_send_message_stream(
+                conversation = conv,
+                message_json = buildMessageJson(prompt),
+                extra_context = extraContext,
+                callback = { _, chunk, isFinal, errorMsg ->
+                    if (errorMsg != null) {
+                        close(RuntimeException("LiteRT-LM error: $errorMsg"))
+                        return@litert_lm_conversation_send_message_stream
+                    }
+                    if (chunk != null) trySend(chunk)
+                    if (isFinal == true) close()
+                },
+                callback_data = null,
+            )
+            if (rc != 0) close(RuntimeException("Failed to start streaming (rc=$rc)"))
+
+            awaitClose { litert_lm_conversation_cancel_process(conv) }
+        }
+
+    actual fun setGenerationParams(temperature: Float, topK: Int, topP: Float) {
+        // Session config must be applied before creating the conversation.
+        // For dynamic updates, unload+reload is the safest path until the C API
+        // exposes in-place param mutation.
+        // TODO: reconstruct conversation with new session config
+    }
+}

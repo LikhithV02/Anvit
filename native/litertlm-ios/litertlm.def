@@ -1,0 +1,12 @@
+# Kotlin/Native cinterop definition for LiteRT-LM C API
+# Used in composeApp/build.gradle.kts as:
+#   cinterops { val litertlm by creating { defFile("../native/litertlm-ios/litertlm.def") } }
+#
+# The XCFramework is produced by running native/litertlm-ios/build.sh (requires Xcode).
+# Linker opts and framework paths are set in build.gradle.kts, not here.
+
+language = C
+headers = headers/engine.h
+
+# These are set in build.gradle.kts per target to point at the right XCFramework slice.
+# compilerOpts and linkerOpts are intentionally empty here.
