@@ -33,7 +33,8 @@ data class SettingsUiState(
     val embeddingModelStatus: String = "Not initialized",
     val downloads: Map<String, DownloadProgress> = emptyMap(),
     val huggingFaceToken: String = "",
-    val hfTokenSaved: Boolean = false
+    val hfTokenSaved: Boolean = false,
+    val userEmail: String = ""
 )
 
 class SettingsViewModel(
@@ -61,6 +62,10 @@ class SettingsViewModel(
         }
         viewModelScope.launch { preferences.accelerator.collect { _uiState.update { s -> s.copy(accelerator = it) } } }
         viewModelScope.launch { preferences.huggingFaceToken.collect { t -> _uiState.update { s -> s.copy(huggingFaceToken = t) } } }
+        viewModelScope.launch {
+            val initialEmail = preferences.userEmail.first()
+            _uiState.update { s -> s.copy(userEmail = initialEmail) }
+        }
         viewModelScope.launch {
             downloadService.downloads.collect { map ->
                 _uiState.update { it.copy(downloads = map) }
@@ -94,6 +99,10 @@ class SettingsViewModel(
         downloadService.startDownload(model.id, model.fileName, model.downloadUrl, model.sizeBytes, _uiState.value.huggingFaceToken)
     }
     fun setHuggingFaceToken(t: String) { _uiState.update { it.copy(huggingFaceToken = t, hfTokenSaved = false) } }
+    fun setUserEmail(e: String) {
+        _uiState.update { it.copy(userEmail = e) }
+        viewModelScope.launch { preferences.setUserEmail(e) }
+    }
     fun saveHuggingFaceToken() {
         viewModelScope.launch {
             preferences.setHuggingFaceToken(_uiState.value.huggingFaceToken.trim())

@@ -130,6 +130,9 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
 
+            // Ktor
+            implementation(libs.ktor.client.core)
+
             // Coil 3 (coil-compose-core is the KMP-safe artifact)
             implementation(libs.coil.compose)
         }
@@ -140,6 +143,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.koin.android)
             implementation(libs.coil.network.okhttp)
+            implementation(libs.ktor.client.okhttp)
 
             // LiteRT-LM Android inference
             implementation("com.google.ai.edge.litertlm:litertlm-android:0.10.2")
@@ -186,7 +190,7 @@ dependencies {
 // ── Android library config ─────────────────────────────────────────────────────
 android {
     namespace   = "com.anvit.localai"
-    compileSdk  = 36
+    compileSdk  = 35
 
     defaultConfig {
         minSdk = 27

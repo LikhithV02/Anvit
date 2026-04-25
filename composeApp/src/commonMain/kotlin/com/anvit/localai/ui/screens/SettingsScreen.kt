@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -164,6 +165,33 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                     Text("Initialize", fontSize = 12.sp)
                 }
             }
+        }
+
+        // ── User Information ──────────────────────────────────────────────────
+        SettingsSection(title = "User Information") {
+            Text(
+                "Your email is used only for reporting issues.",
+                color = TextSecondary, fontSize = 11.sp
+            )
+            OutlinedTextField(
+                value = uiState.userEmail,
+                onValueChange = { viewModel.setUserEmail(it) },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text("email@example.com", color = TextHint, fontSize = 13.sp) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = androidx.compose.ui.text.input.KeyboardType.Email),
+                leadingIcon = {
+                    Icon(Icons.Default.Email, null, tint = TealPrimary.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = TealPrimary,
+                    unfocusedBorderColor = BorderDefault,
+                    focusedTextColor = TextPrimary,
+                    unfocusedTextColor = TextPrimary,
+                    cursorColor = TealPrimary
+                ),
+                textStyle = LocalTextStyle.current.copy(fontSize = 13.sp)
+            )
         }
 
         // ── HuggingFace Token ─────────────────────────────────────────────────
@@ -598,7 +626,7 @@ private fun HuggingFaceTokenSection(
                 unfocusedTextColor = TextPrimary,
                 cursorColor = TealPrimary
             ),
-            textStyle = androidx.compose.ui.text.TextStyle(fontFamily = FontFamily.Monospace, fontSize = 13.sp)
+            textStyle = LocalTextStyle.current.copy(fontFamily = FontFamily.Monospace, fontSize = 13.sp)
         )
         Button(
             onClick = onSave,

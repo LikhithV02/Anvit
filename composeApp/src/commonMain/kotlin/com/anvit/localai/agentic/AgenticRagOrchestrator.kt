@@ -214,22 +214,34 @@ class AgenticRagOrchestrator(
         val now = Instant.fromEpochMilliseconds(currentTimeMillis())
         val tz = TimeZone.currentSystemDefault()
         val localTime = now.toLocalDateTime(tz)
-        val timeString = "${localTime.year}-${localTime.monthNumber.toString().padStart(2, '0')}-${localTime.dayOfMonth.toString().padStart(2, '0')} ${localTime.hour.toString().padStart(2, '0')}:${localTime.minute.toString().padStart(2, '0')}"
-        val locationHint = tz.id  // e.g. "Asia/Kolkata" — gives geographic context without permissions
+        val dayNames = listOf("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")
+        val dayName = dayNames.getOrElse(localTime.dayOfWeek.ordinal) { "" }
+        val hour12 = when {
+            localTime.hour == 0  -> 12
+            localTime.hour <= 12 -> localTime.hour
+            else                 -> localTime.hour - 12
+        }
+        val amPm = if (localTime.hour < 12) "AM" else "PM"
+        val timeString = "$dayName, ${localTime.dayOfMonth} ${monthName(localTime.monthNumber)} ${localTime.year}, $hour12:${localTime.minute.toString().padStart(2,'0')} $amPm"
+        val tzId = tz.id
 
-        val timeContext = "Current date and time: $timeString (Timezone: $locationHint)"
+        val locationNote = """
+Timezone (approximate region hint only): $tzId
+IMPORTANT: Do NOT assert the user's exact city or location with confidence — the timezone only hints at a broad region. If your answer depends on a precise location (e.g. nearby restaurants, local laws, specific addresses), ask the user to share their exact location instead of guessing.""".trimIndent()
 
         return if (context.isBlank()) {
             """
 You are Anvit, a helpful and accurate AI assistant.
-$timeContext
+Current date and time: $timeString
+$locationNote
 
-Answer the question directly and concisely.
+Answer the question directly and concisely. When asked about the current time or date, use the information provided above.
             """.trimIndent()
         } else {
             """
 You are Anvit, a helpful and accurate AI document assistant.
-$timeContext
+Current date and time: $timeString
+$locationNote
 
 Answer the user's question directly and specifically — do not pad with filler, caveats, or repetition.
 Be crisp: give the exact answer first, then supporting detail only if it adds value.
@@ -246,6 +258,11 @@ $context
             """.trimIndent()
         }
     }
+
+    private fun monthName(month: Int) = listOf(
+        "Jan","Feb","Mar","Apr","May","Jun",
+        "Jul","Aug","Sep","Oct","Nov","Dec"
+    ).getOrElse(month - 1) { "$month" }
 
     private fun buildPrompt(history: String, query: String, note: String?): String {
         val noteStr = if (note != null) "\n[Note: $note]" else ""

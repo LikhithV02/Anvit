@@ -32,6 +32,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anvit.localai.data.db.entities.ChatSessionEntity
@@ -157,11 +159,15 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
                         val canInteract = !message.isStreaming && !uiState.isGenerating
                         MessageBubble(
                             message       = message,
+                            userEmail     = uiState.userEmail,
                             onEditQuery   = if (canInteract && message.role == "user") {
                                 { newText -> viewModel.editAndResendMessage(message.id, newText) }
                             } else null,
                             onRestartFrom = if (canInteract && message.role == "user") {
                                 { viewModel.restartFromMessage(message.id) }
+                            } else null,
+                            onReportResponse = if (canInteract && message.role == "assistant") {
+                                { email, reason, content -> viewModel.submitReport(message.id, content, reason, email) }
                             } else null
                         )
                     }
@@ -200,6 +206,20 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
                 showCollectionPicker = false
             },
             onDismiss   = { showCollectionPicker = false }
+        )
+    }
+
+    if (uiState.showComplianceReminder) {
+        AlertDialog(
+            onDismissRequest = { /* Forced interaction */ },
+            containerColor = Surface2,
+            title = { Text("Terms of Service Reminder", color = TextPrimary, fontWeight = FontWeight.Bold) },
+            text = { Text("As per IT Rules 2026, please be reminded that you must not use AI tools to generate illegal, offensive, or harmful content (e.g., deepfakes, hate speech). Misuse is subject to legal penalties.", color = TextSecondary) },
+            confirmButton = {
+                TextButton(onClick = { viewModel.acknowledgeCompliance() }) {
+                    Text("I Agree", color = TealPrimary)
+                }
+            }
         )
     }
 }
@@ -943,12 +963,17 @@ private fun CollectionPickerRow(
 @Composable
 private fun MessageBubble(
     message: ChatMessage,
+    userEmail: String = "",
     onEditQuery: ((String) -> Unit)? = null,
-    onRestartFrom: (() -> Unit)? = null
+    onRestartFrom: (() -> Unit)? = null,
+    onReportResponse: ((String, String, String) -> Unit)? = null
 ) {
     val isUser = message.role == "user"
     val clipboardManager = LocalClipboardManager.current
     var showEditDialog by remember { mutableStateOf(false) }
+    var showReportDialog by remember { mutableStateOf(false) }
+    var reportReason by remember { mutableStateOf("") }
+    var reportEmail by remember(userEmail) { mutableStateOf(userEmail) }
 
     Column(
         modifier = Modifier
@@ -1080,7 +1105,7 @@ private fun MessageBubble(
                     }
                 }
 
-                // Assistant copy action
+                // Assistant copy and report action
                 if (!isUser && !message.isStreaming && message.content.isNotEmpty()) {
                     Row(
                         modifier = Modifier.padding(top = 2.dp),
@@ -1092,6 +1117,14 @@ private fun MessageBubble(
                         ) {
                             Icon(Icons.Default.ContentCopy, "Copy response", tint = TextHint, modifier = Modifier.size(16.dp))
                         }
+                        if (onReportResponse != null) {
+                            IconButton(
+                                onClick  = { showReportDialog = true },
+                                modifier = Modifier.size(32.dp)
+                            ) {
+                                Icon(Icons.Default.Flag, "Report response", tint = TextHint, modifier = Modifier.size(16.dp))
+                            }
+                        }
                     }
                 }
 
@@ -1099,20 +1132,31 @@ private fun MessageBubble(
                     SourcesPanel(message.usedSources)
                 }
 
-                // Timestamp
+                // Timestamp and Provenance
                 val timeStr = remember(message.id) {
                     val ldt = Instant.fromEpochMilliseconds(currentTimeMillis())
                         .toLocalDateTime(TimeZone.currentSystemDefault())
                     "${ldt.hour.toString().padStart(2, '0')}:${ldt.minute.toString().padStart(2, '0')}"
                 }
-                Text(
-                    timeStr,
-                    color    = TextHint,
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .padding(top = 3.dp)
-                        .then(if (isUser) Modifier.align(Alignment.End) else Modifier)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(top = 3.dp).then(if (isUser) Modifier.align(Alignment.End) else Modifier)
+                ) {
+                    Text(
+                        timeStr,
+                        color    = TextHint,
+                        fontSize = 12.sp
+                    )
+                    if (!isUser && !message.isStreaming) {
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "✨ Generated by Anvit AI | Ref: ${message.provenanceId}",
+                            color = TextHint,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
             }
 
             if (isUser) Spacer(Modifier.width(4.dp))
@@ -1127,6 +1171,75 @@ private fun MessageBubble(
                 showEditDialog = false
             },
             onDismiss = { showEditDialog = false }
+        )
+    }
+
+    if (showReportDialog) {
+        val emailMissing = userEmail.isBlank()
+        var emailError by remember { mutableStateOf(false) }
+        AlertDialog(
+            onDismissRequest = { showReportDialog = false },
+            containerColor   = Surface2,
+            title = { Text("Report Response", color = TextPrimary) },
+            text  = {
+                Column {
+                    Text("Does this response contain offensive, unsafe, or inappropriate content? Please briefly explain below:", color = TextSecondary, fontSize = 13.sp)
+                    Spacer(Modifier.height(8.dp))
+                    if (emailMissing) {
+                        OutlinedTextField(
+                            value         = reportEmail,
+                            onValueChange = { reportEmail = it; emailError = false },
+                            placeholder   = { Text("Your email (required)...", color = TextHint) },
+                            isError       = emailError,
+                            supportingText = if (emailError) {
+                                { Text("Email is required to submit a report", color = ErrorRed, fontSize = 11.sp) }
+                            } else null,
+                            singleLine    = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                            colors        = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor     = TextPrimary,
+                                unfocusedTextColor   = TextPrimary,
+                                focusedBorderColor   = TealPrimary,
+                                unfocusedBorderColor = BorderDefault
+                            ),
+                            modifier      = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(8.dp))
+                    }
+                    OutlinedTextField(
+                        value         = reportReason,
+                        onValueChange = { reportReason = it },
+                        placeholder   = { Text("Reason (optional)...", color = TextHint) },
+                        colors        = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor     = TextPrimary,
+                            unfocusedTextColor   = TextPrimary,
+                            focusedBorderColor   = TealPrimary,
+                            unfocusedBorderColor = BorderDefault
+                        ),
+                        modifier      = Modifier.fillMaxWidth(),
+                        maxLines      = 3
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    if (emailMissing && reportEmail.isBlank()) {
+                        emailError = true
+                    } else {
+                        val finalEmail = if (emailMissing) reportEmail else userEmail
+                        onReportResponse?.invoke(finalEmail, reportReason, message.content)
+                        showReportDialog = false
+                        reportReason = ""
+                    }
+                }) {
+                    Text("Submit", color = ErrorRed)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showReportDialog = false }) {
+                    Text("Cancel", color = TextSecondary)
+                }
+            }
         )
     }
 }

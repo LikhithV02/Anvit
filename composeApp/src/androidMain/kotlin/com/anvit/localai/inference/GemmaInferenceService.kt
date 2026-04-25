@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.ai.edge.litertlm.Backend
 import com.google.ai.edge.litertlm.Content
 import com.google.ai.edge.litertlm.Contents
+import com.google.ai.edge.litertlm.Conversation
 import com.google.ai.edge.litertlm.ConversationConfig
 import com.google.ai.edge.litertlm.Engine
 import com.google.ai.edge.litertlm.EngineConfig
@@ -33,6 +34,9 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
     private val engineMutex = Mutex()
 
     private val sessionResetTimes = mutableMapOf<String, Long>()
+
+    @Volatile
+    private var activeConversation: Conversation? = null
 
     private var topK: Int = 40
     private var topP: Float = 0.95f
@@ -230,15 +234,19 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
             val config = buildConversationConfig(systemPrompt)
             val contents = buildContents(prompt, imagePath, audioBytes)
             val effectiveMaxTokens = currentModel?.let { getEffectiveMaxTokens(it) } ?: maxTokens
-            eng.createConversation(config).use { conv ->
-                conv.sendMessageAsync(contents)
-                    .take(effectiveMaxTokens)
-                    .collect { msg ->
-                        sb.append(
-                            msg.contents.contents.filterIsInstance<Content.Text>()
-                                .joinToString("") { it.text }
-                        )
-                    }
+            eng.createConversation(config).also { activeConversation = it }.use { conv ->
+                try {
+                    conv.sendMessageAsync(contents)
+                        .take(effectiveMaxTokens)
+                        .collect { msg ->
+                            sb.append(
+                                msg.contents.contents.filterIsInstance<Content.Text>()
+                                    .joinToString("") { it.text }
+                            )
+                        }
+                } finally {
+                    activeConversation = null
+                }
             }
             val (cleaned, _) = processStopTokens(sb.toString())
             cleaned
@@ -272,25 +280,29 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
         val contents = buildContents(prompt, imagePath, audioBytes)
 
         withContext(Dispatchers.IO) {
-            eng.createConversation(config).use { conv ->
-                conv.sendMessageAsync(contents)
-                    .take(effectiveMaxTokens)
-                    .collect { msg ->
-                        val chunk = msg.contents.contents.filterIsInstance<Content.Text>()
-                            .joinToString("") { it.text }
-                        val thinkChunk = try { msg.channels?.get("thought") } catch (_: Exception) { null }
-                        val isThinking = enableThinking && !thinkChunk.isNullOrEmpty()
+            eng.createConversation(config).also { activeConversation = it }.use { conv ->
+                try {
+                    conv.sendMessageAsync(contents)
+                        .take(effectiveMaxTokens)
+                        .collect { msg ->
+                            val chunk = msg.contents.contents.filterIsInstance<Content.Text>()
+                                .joinToString("") { it.text }
+                            val thinkChunk = try { msg.channels?.get("thought") } catch (_: Exception) { null }
+                            val isThinking = enableThinking && !thinkChunk.isNullOrEmpty()
 
-                        if (isThinking) {
-                            if (!thinkOpen) { send(InferenceService.SENTINEL_THINK); thinkOpen = true }
-                            val (cleaned, _) = processStopTokens(thinkChunk!!)
-                            if (cleaned.isNotEmpty()) send(cleaned)
-                        } else {
-                            if (thinkOpen && !thinkClose) { send(InferenceService.SENTINEL_ENDTHINK); thinkClose = true }
-                            val (cleaned, _) = processStopTokens(chunk)
-                            if (cleaned.isNotEmpty()) send(cleaned)
+                            if (isThinking) {
+                                if (!thinkOpen) { send(InferenceService.SENTINEL_THINK); thinkOpen = true }
+                                val (cleaned, _) = processStopTokens(thinkChunk!!)
+                                if (cleaned.isNotEmpty()) send(cleaned)
+                            } else {
+                                if (thinkOpen && !thinkClose) { send(InferenceService.SENTINEL_ENDTHINK); thinkClose = true }
+                                val (cleaned, _) = processStopTokens(chunk)
+                                if (cleaned.isNotEmpty()) send(cleaned)
+                            }
                         }
-                    }
+                } finally {
+                    activeConversation = null
+                }
             }
         }
 
@@ -337,5 +349,14 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
     override fun stopInferenceForeground() {
         try { InferenceForegroundService.stop(context) }
         catch (e: Throwable) { Log.w(TAG, "stopInferenceForeground swallowed: ${e.message}") }
+    }
+
+    override fun stopGeneration() {
+        try {
+            activeConversation?.cancelProcess()
+            Log.d(TAG, "Canceled active conversation process")
+        } catch (e: Exception) {
+            Log.w(TAG, "stopGeneration failed: ${e.message}")
+        }
     }
 }

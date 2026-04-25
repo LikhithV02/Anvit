@@ -9,29 +9,41 @@ plugins {
 
 android {
     namespace  = "com.anvit.localai"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.anvit.localai"
+        applicationId = "com.likhith.anvit"
         minSdk        = 27
-        targetSdk     = 36
-        versionCode   = 1
-        versionName   = "1.0.0"
+        targetSdk     = 35
+        versionCode   = 4
+        versionName   = "1.0.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters += setOf("arm64-v8a")
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("/Users/likhithv/Documents/Android Studio Keystore.jks")
+            storePassword = "DishanthV#5649"
+            keyAlias = "key0"
+            keyPassword = "DishanthV#5649"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled   = false
-            isShrinkResources = false
-            signingConfig     = signingConfigs.getByName("debug")
+            isMinifyEnabled   = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
         }
     }
 

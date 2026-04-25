@@ -79,4 +79,5 @@ class IosInferenceService : InferenceService {
 
     override fun startInferenceForeground() { /* no-op */ }
     override fun stopInferenceForeground() { /* no-op */ }
+    override fun stopGeneration() { /* no-op */ }
 }

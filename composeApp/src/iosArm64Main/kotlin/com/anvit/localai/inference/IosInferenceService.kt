@@ -159,6 +159,10 @@ class IosInferenceService : InferenceService {
         // No-op for iOS v1.
     }
 
+    override fun stopGeneration() {
+        engine.cancel()
+    }
+
     private fun currentTimeMillis(): Long {
         return com.anvit.localai.utils.currentTimeMillis()
     }

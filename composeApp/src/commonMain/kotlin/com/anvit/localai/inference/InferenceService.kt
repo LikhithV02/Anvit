@@ -71,4 +71,7 @@ interface InferenceService {
 
     /** Stop platform-specific foreground service. */
     fun stopInferenceForeground() {}
+
+    /** Signals the platform inference engine to cancel any active generation. */
+    fun stopGeneration() {}
 }

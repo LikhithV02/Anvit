@@ -12,6 +12,7 @@ import com.anvit.localai.data.db.entities.ChatSessionEntity
 import com.anvit.localai.data.db.entities.CollectionEntity
 import com.anvit.localai.data.models.GemmaModels
 import com.anvit.localai.data.preferences.AnvitPreferences
+import com.anvit.localai.data.reporting.ReportingService
 import com.anvit.localai.inference.InferenceService
 import com.anvit.localai.retrieval.HybridRetriever
 import com.anvit.localai.utils.currentTimeMillis
@@ -22,6 +23,9 @@ import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -42,7 +46,9 @@ data class ChatMessage(
     val audioPath: String? = null,
     val isTranscribed: Boolean = false,
     val usedSources: List<SourceChunk> = emptyList()
-)
+) {
+    val provenanceId: String get() = id.replace("-", "").take(8).uppercase()
+}
 
 data class ChatUiState(
     val messages: List<ChatMessage> = emptyList(),
@@ -63,7 +69,9 @@ data class ChatUiState(
     val pendingImagePath: String? = null,
     val pendingAudioPath: String? = null,
     val loadedModelName: String = "",
-    val enableThinking: Boolean = true
+    val enableThinking: Boolean = true,
+    val showComplianceReminder: Boolean = false,
+    val userEmail: String = ""
 ) {
     val allMessages: List<ChatMessage> get() =
         if (streamingMessage != null) messages + streamingMessage else messages
@@ -75,7 +83,8 @@ class ChatViewModel(
     private val chatDao: ChatDao,
     private val chatSessionDao: ChatSessionDao,
     private val orchestrator: AgenticRagOrchestrator,
-    private val collectionDao: CollectionDao
+    private val collectionDao: CollectionDao,
+    private val reportingService: ReportingService
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChatUiState())
@@ -83,6 +92,7 @@ class ChatViewModel(
 
     private var currentSessionId: String = ""
     private var generationJob: Job? = null
+
 
     companion object {
         private const val MAX_HISTORY_MESSAGES = 10
@@ -140,11 +150,51 @@ class ChatViewModel(
                 _uiState.update { it.copy(enableThinking = enabled) }
             }
         }
+        viewModelScope.launch {
+            preferences.userEmail.collect { email ->
+                _uiState.update { it.copy(userEmail = email) }
+            }
+        }
         viewModelScope.launch { ensureDefaultSession() }
+        viewModelScope.launch { checkCompliance() }
         checkModelLoaded()
     }
 
     // ── Session management ────────────────────────────────────────────────────
+
+    private suspend fun checkCompliance() {
+        val lastSeen = preferences.getComplianceLastSeen()
+        val now = currentTimeMillis()
+        val ninetyDaysMillis = 90L * 24L * 60L * 60L * 1000L
+        if (now - lastSeen > ninetyDaysMillis) {
+            _uiState.update { it.copy(showComplianceReminder = true) }
+        }
+    }
+
+    fun acknowledgeCompliance() {
+        viewModelScope.launch {
+            preferences.setComplianceLastSeen(currentTimeMillis())
+            _uiState.update { it.copy(showComplianceReminder = false) }
+        }
+    }
+
+    fun submitReport(messageId: String, content: String, reason: String, email: String) {
+        viewModelScope.launch {
+            preferences.setUserEmail(email)
+            val messages = _uiState.value.messages
+            val index = messages.indexOfFirst { it.id == messageId }
+            val query = if (index > 0) messages[index - 1].content else "N/A"
+            val refId = messages.getOrNull(index)?.provenanceId ?: "N/A"
+
+            reportingService.sendReport(
+                messageId = refId,
+                query = query,
+                response = content,
+                reason = reason,
+                userEmail = email
+            )
+        }
+    }
 
     private suspend fun ensureDefaultSession() {
         val sessions = chatSessionDao.getAllSessionsList()
@@ -165,6 +215,9 @@ class ChatViewModel(
             val s = newSessionEntity("New Chat")
             chatSessionDao.insertSession(s)
             switchToSession(s.id)
+            // Always start a new session with No docs selected
+            preferences.setActiveCollectionId(null)
+            _uiState.update { it.copy(chatCollectionId = null, chatCollectionName = "No docs") }
         }
     }
 
@@ -247,7 +300,10 @@ class ChatViewModel(
     fun clearAttachedAudio() { _uiState.update { it.copy(pendingAudioPath = null) } }
 
     fun setInputText(text: String) { _uiState.update { it.copy(inputText = text) } }
-    fun stopGeneration() { generationJob?.cancel() }
+    fun stopGeneration() {
+        generationJob?.cancel()
+        inferenceService.stopGeneration()
+    }
     fun toggleThinking() { viewModelScope.launch { preferences.setEnableThinking(!_uiState.value.enableThinking) } }
 
     fun refreshModelState() {
@@ -341,7 +397,7 @@ class ChatViewModel(
                 val answerFlow = if (collectionId == null) {
                     usedDirectMode = true
                     val directPrompt = if (history.isNotEmpty()) "$history\nuser: $effectiveUserText" else effectiveUserText
-                    inferenceService.generateStream(directPrompt, "You are Anvit, a helpful and concise AI assistant.", false, capturedImagePath, audioBytes)
+                    inferenceService.generateStream(directPrompt, buildDirectSystemPrompt(), false, capturedImagePath, audioBytes)
                 } else {
                     val result = orchestrator.process(
                         effectiveUserText, history, enableAgenticRag, maxChunks, enableSelfCritique,
@@ -518,4 +574,30 @@ class ChatViewModel(
 
     private fun parseSources(raw: String): List<SourceChunk> =
         if (raw.isBlank()) emptyList() else try { Json.decodeFromString(raw) } catch (_: Exception) { emptyList() }
+
+    private fun buildDirectSystemPrompt(): String {
+        val now = Instant.fromEpochMilliseconds(currentTimeMillis())
+        val tz = TimeZone.currentSystemDefault()
+        val localTime = now.toLocalDateTime(tz)
+        val dayNames = listOf("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")
+        val dayName = dayNames.getOrElse(localTime.dayOfWeek.ordinal) { "" }
+        val monthNames = listOf("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+        val monthName = monthNames.getOrElse(localTime.monthNumber - 1) { "${localTime.monthNumber}" }
+        val hour12 = when {
+            localTime.hour == 0  -> 12
+            localTime.hour <= 12 -> localTime.hour
+            else                 -> localTime.hour - 12
+        }
+        val amPm = if (localTime.hour < 12) "AM" else "PM"
+        val timeString = "$dayName, ${localTime.dayOfMonth} $monthName ${localTime.year}, $hour12:${localTime.minute.toString().padStart(2,'0')} $amPm"
+        val tzId = tz.id
+        return """
+You are Anvit, a helpful and concise AI assistant.
+Current date and time: $timeString
+Timezone (approximate region hint only): $tzId
+IMPORTANT: Do NOT assert the user's exact city or location with confidence — the timezone only hints at a broad region. If your answer depends on a precise location (e.g. nearby restaurants, local laws, specific addresses), ask the user to share their exact location instead of guessing.
+
+Answer the question directly and concisely. When asked about the current time or date, use the information provided above.
+        """.trimIndent()
+    }
 }

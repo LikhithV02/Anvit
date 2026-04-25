@@ -27,6 +27,8 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
         val ACTIVE_SESSION_ID        = stringPreferencesKey("active_session_id")
         val ACTIVE_COLLECTION_ID     = stringPreferencesKey("active_collection_id")
         val ACCELERATOR              = stringPreferencesKey("accelerator")
+        val COMPLIANCE_LAST_SEEN     = longPreferencesKey("compliance_last_seen")
+        val USER_EMAIL               = stringPreferencesKey("user_email")
     }
 
     private fun <T> flow(key: Preferences.Key<T>, default: T): Flow<T> =
@@ -48,6 +50,8 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     val activeSessionId:        Flow<String>  = flow(ACTIVE_SESSION_ID,         "")
     val activeCollectionId:     Flow<String>  = flow(ACTIVE_COLLECTION_ID,      DEFAULT_COLLECTION_ID)
     val accelerator:            Flow<String>  = flow(ACCELERATOR,               "cpu")
+    val complianceLastSeen:     Flow<Long>    = flow(COMPLIANCE_LAST_SEEN,      0L)
+    val userEmail:              Flow<String>  = flow(USER_EMAIL,               "")
 
     suspend fun setSelectedModelId(id: String)            { dataStore.edit { it[SELECTED_MODEL_ID] = id } }
     suspend fun setSelectedEmbeddingModel(m: String)      { dataStore.edit { it[SELECTED_EMBEDDING_MODEL] = m } }
@@ -63,6 +67,8 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     suspend fun setActiveSessionId(id: String)            { dataStore.edit { it[ACTIVE_SESSION_ID] = id } }
     suspend fun setActiveCollectionId(id: String?)         { dataStore.edit { it[ACTIVE_COLLECTION_ID] = id ?: NO_DOCS_SENTINEL } }
     suspend fun setAccelerator(v: String)                 { dataStore.edit { it[ACCELERATOR] = v } }
+    suspend fun setComplianceLastSeen(t: Long)            { dataStore.edit { it[COMPLIANCE_LAST_SEEN] = t } }
+    suspend fun setUserEmail(email: String)               { dataStore.edit { it[USER_EMAIL] = email } }
 
     suspend fun getHuggingFaceToken(): String =
         dataStore.data.catch { emit(emptyPreferences()) }.map { it[HUGGINGFACE_TOKEN] ?: "" }.first()
@@ -75,6 +81,9 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
             .map { it[ACTIVE_COLLECTION_ID] ?: DEFAULT_COLLECTION_ID }.first()
         return if (raw == NO_DOCS_SENTINEL) null else raw
     }
+
+    suspend fun getComplianceLastSeen(): Long =
+        dataStore.data.catch { emit(emptyPreferences()) }.map { it[COMPLIANCE_LAST_SEEN] ?: 0L }.first()
 }
 
 /** Platform-specific DataStore provider. */
