@@ -9,3 +9,5 @@ actual fun currentTimeMillis(): Long =
 
 actual fun randomUUID(): String =
     NSUUID().UUIDString()
+
+actual fun isIosPlatform(): Boolean = true

@@ -39,11 +39,11 @@ import androidx.compose.ui.unit.sp
 import com.anvit.localai.data.models.EmbeddingModelInfo
 import com.anvit.localai.data.models.EmbeddingModels
 import com.anvit.localai.data.models.GemmaModel
-import com.anvit.localai.data.models.GemmaModels
 import com.anvit.localai.download.DownloadProgress
 import com.anvit.localai.download.DownloadState
 import com.anvit.localai.ui.theme.*
 import com.anvit.localai.ui.viewmodels.SettingsViewModel
+import com.anvit.localai.utils.isIosPlatform
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -65,10 +65,12 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
 
         // ── Gemma Model Selection ──────────────────────────────────────────────
         SettingsSection(title = "Gemma Model") {
-            GemmaModels.all.forEachIndexed { index, model ->
+            viewModel.availableModels.forEachIndexed { index, model ->
                 val selected = uiState.selectedModelId == model.id
                 val download = uiState.downloads[model.id]
-                val filePresent = viewModel.isModelFilePresent(model.fileName)
+                val filePresent = remember(uiState.downloads, uiState.deletionTick) {
+                    viewModel.isModelFilePresent(model.fileName)
+                }
 
                 GemmaModelRow(
                     model = model,
@@ -81,16 +83,18 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                     onDelete = { viewModel.deleteModel(model.fileName, model.id) },
                     formatBytes = viewModel::formatBytes
                 )
-                if (index < GemmaModels.all.lastIndex) {
+                if (index < viewModel.availableModels.lastIndex) {
                     HorizontalDivider(color = BorderSubtle, thickness = 0.5.dp)
                 }
             }
 
             Spacer(Modifier.height(4.dp))
 
-            val selectedModelFilePresent = GemmaModels.all
-                .find { it.id == uiState.selectedModelId }
-                ?.let { viewModel.isModelFilePresent(it.fileName) } ?: false
+            val selectedModelFilePresent = remember(uiState.selectedModelId, uiState.downloads, uiState.deletionTick) {
+                viewModel.availableModels
+                    .find { it.id == uiState.selectedModelId }
+                    ?.let { viewModel.isModelFilePresent(it.fileName) } ?: false
+            }
 
             Button(
                 onClick = { viewModel.loadSelectedModel() },
@@ -128,7 +132,9 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
         SettingsSection(title = "Embedding Model") {
             EmbeddingModels.all.forEachIndexed { index, model ->
                 val download = uiState.downloads[model.id]
-                val filePresent = viewModel.isModelFilePresent(model.fileName)
+                val filePresent = remember(uiState.downloads, uiState.deletionTick) {
+                    viewModel.isModelFilePresent(model.fileName)
+                }
 
                 EmbeddingModelRow(
                     model = model,
@@ -242,33 +248,35 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
 
         // ── Generation Parameters ─────────────────────────────────────────────
         SettingsSection(title = "Generation Parameters") {
-            // Accelerator selection
-            Text("Accelerator", color = TextSecondary, fontSize = 12.sp)
-            Spacer(Modifier.height(4.dp))
-            SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                listOf("cpu", "gpu").forEachIndexed { index, option ->
-                    SegmentedButton(
-                        selected = uiState.accelerator == option,
-                        onClick = { viewModel.setAccelerator(option) },
-                        shape = SegmentedButtonDefaults.itemShape(index = index, count = 2),
-                        colors = SegmentedButtonDefaults.colors(
-                            activeContainerColor = TealPrimary.copy(alpha = 0.2f),
-                            activeContentColor = TealPrimary,
-                            inactiveContentColor = TextSecondary
-                        )
-                    ) {
-                        Text(option.uppercase(), fontSize = 13.sp, fontWeight = FontWeight.Medium)
+            // Accelerator selection — Android only; MLX always uses Metal GPU on iOS
+            if (!isIosPlatform()) {
+                Text("Accelerator", color = TextSecondary, fontSize = 12.sp)
+                Spacer(Modifier.height(4.dp))
+                SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                    listOf("cpu", "gpu").forEachIndexed { index, option ->
+                        SegmentedButton(
+                            selected = uiState.accelerator == option,
+                            onClick = { viewModel.setAccelerator(option) },
+                            shape = SegmentedButtonDefaults.itemShape(index = index, count = 2),
+                            colors = SegmentedButtonDefaults.colors(
+                                activeContainerColor = TealPrimary.copy(alpha = 0.2f),
+                                activeContentColor = TealPrimary,
+                                inactiveContentColor = TextSecondary
+                            )
+                        ) {
+                            Text(option.uppercase(), fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                        }
                     }
                 }
-            }
-            if (uiState.accelerator == "gpu") {
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    "GPU is experimental — may crash on some devices. Reload model after switching.",
-                    color = Color(0xFFFFA726),
-                    fontSize = 11.sp,
-                    lineHeight = 15.sp
-                )
+                if (uiState.accelerator == "gpu") {
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        "GPU is experimental — may crash on some devices. Reload model after switching.",
+                        color = Color(0xFFFFA726),
+                        fontSize = 11.sp,
+                        lineHeight = 15.sp
+                    )
+                }
             }
 
             Spacer(Modifier.height(4.dp))

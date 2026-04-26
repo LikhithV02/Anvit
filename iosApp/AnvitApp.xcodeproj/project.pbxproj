@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E09A1992F9CE945004421F2 /* Hub in Frameworks */ = {isa = PBXBuildFile; productRef = 6E09A1982F9CE945004421F2 /* Hub */; };
+		6E09A19B2F9CE945004421F2 /* Tokenizers in Frameworks */ = {isa = PBXBuildFile; productRef = 6E09A19A2F9CE945004421F2 /* Tokenizers */; };
+		6E09A19D2F9CE945004421F2 /* Transformers in Frameworks */ = {isa = PBXBuildFile; productRef = 6E09A19C2F9CE945004421F2 /* Transformers */; };
+		6E09A19F2F9D2292004421F2 /* MLXBridgeImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09A19E2F9D2292004421F2 /* MLXBridgeImpl.swift */; };
+		6E09A1A32F9D24E9004421F2 /* MLXLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 6E09A1A22F9D24E9004421F2 /* MLXLLM */; };
+		6E09A1A52F9D24FF004421F2 /* MLXVLM in Frameworks */ = {isa = PBXBuildFile; productRef = 6E09A1A42F9D24FF004421F2 /* MLXVLM */; };
+		6E09A1A72F9D250B004421F2 /* MLXLMCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 6E09A1A62F9D250B004421F2 /* MLXLMCommon */; };
+		6E09A1A92F9D2521004421F2 /* Tokenizers in Frameworks */ = {isa = PBXBuildFile; productRef = 6E09A1A82F9D2521004421F2 /* Tokenizers */; };
+		6E09A1AB2F9D2535004421F2 /* MLXHuggingFace in Frameworks */ = {isa = PBXBuildFile; productRef = 6E09A1AA2F9D2535004421F2 /* MLXHuggingFace */; };
 		A1000001 /* AnvitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* AnvitApp.swift */; };
 		A1000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* ContentView.swift */; };
 		A1000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000003 /* Assets.xcassets */; };
@@ -14,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E09A19E2F9D2292004421F2 /* MLXBridgeImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLXBridgeImpl.swift; sourceTree = "<group>"; };
 		A2000001 /* AnvitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AnvitApp.swift; path = AnvitApp/AnvitApp.swift; sourceTree = "<group>"; };
 		A2000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = AnvitApp/ContentView.swift; sourceTree = "<group>"; };
 		A2000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = AnvitApp/Assets.xcassets; sourceTree = "<group>"; };
@@ -27,7 +37,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E09A1A92F9D2521004421F2 /* Tokenizers in Frameworks */,
+				6E09A1A32F9D24E9004421F2 /* MLXLLM in Frameworks */,
+				6E09A1AB2F9D2535004421F2 /* MLXHuggingFace in Frameworks */,
+				6E09A1992F9CE945004421F2 /* Hub in Frameworks */,
+				6E09A1A52F9D24FF004421F2 /* MLXVLM in Frameworks */,
 				A1000004 /* ComposeApp.framework in Frameworks */,
+				6E09A19D2F9CE945004421F2 /* Transformers in Frameworks */,
+				6E09A19B2F9CE945004421F2 /* Tokenizers in Frameworks */,
+				6E09A1A72F9D250B004421F2 /* MLXLMCommon in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +55,7 @@
 		A4000000 = {
 			isa = PBXGroup;
 			children = (
+				6E09A19E2F9D2292004421F2 /* MLXBridgeImpl.swift */,
 				A4000002 /* AnvitApp */,
 				A4000003 /* Frameworks */,
 				A4000001 /* Products */,
@@ -115,6 +134,10 @@
 				Base,
 			);
 			mainGroup = A4000000;
+			packageReferences = (
+				6E09A1962F9CE90A004421F2 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */,
+				6E09A1972F9CE945004421F2 /* XCRemoteSwiftPackageReference "swift-transformers" */,
+			);
 			productRefGroup = A4000001 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -156,22 +179,6 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"$SRCROOT/..\"\n\n# ── Locate Java (Xcode strips PATH, so check common locations) ──\nif [ -z \"$JAVA_HOME\" ]; then\n  # 1. Android Studio's bundled JBR (most common on dev machines)\n  AS_JBR=\"/Applications/Android Studio.app/Contents/jbr/Contents/Home\"\n  if [ -d \"$AS_JBR\" ]; then\n    export JAVA_HOME=\"$AS_JBR\"\n  # 2. system java_home helper\n  elif JAVA_HOME_FROM_HELPER=$(/usr/libexec/java_home 2>/dev/null); then\n    export JAVA_HOME=\"$JAVA_HOME_FROM_HELPER\"\n  fi\nfi\nexport PATH=\"$JAVA_HOME/bin:$PATH\"\n\necho \"Using JAVA_HOME=$JAVA_HOME\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
 		};
-		A6000004 /* Embed Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)/ComposeApp.framework",
-			);
-			name = "Embed Frameworks";
-			outputPaths = (
-				"$(TARGET_BUILD_DIR)/$(FRAMEWORKS_FOLDER_PATH)/ComposeApp.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rsync --delete -av \"$SRCROOT/../composeApp/build/xcode-frameworks/$CONFIGURATION/$SDK_NAME/ComposeApp.framework\" \"$TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -180,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1000001 /* AnvitApp.swift in Sources */,
+				6E09A19F2F9D2292004421F2 /* MLXBridgeImpl.swift in Sources */,
 				A1000002 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,6 +321,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = LL3DY5594U;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -342,6 +351,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = LL3DY5594U;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -385,6 +395,68 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6E09A1962F9CE90A004421F2 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ml-explore/mlx-swift-lm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.31.3;
+			};
+		};
+		6E09A1972F9CE945004421F2 /* XCRemoteSwiftPackageReference "swift-transformers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/huggingface/swift-transformers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6E09A1982F9CE945004421F2 /* Hub */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E09A1972F9CE945004421F2 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Hub;
+		};
+		6E09A19A2F9CE945004421F2 /* Tokenizers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E09A1972F9CE945004421F2 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Tokenizers;
+		};
+		6E09A19C2F9CE945004421F2 /* Transformers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E09A1972F9CE945004421F2 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Transformers;
+		};
+		6E09A1A22F9D24E9004421F2 /* MLXLLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E09A1962F9CE90A004421F2 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
+			productName = MLXLLM;
+		};
+		6E09A1A42F9D24FF004421F2 /* MLXVLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E09A1962F9CE90A004421F2 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
+			productName = MLXVLM;
+		};
+		6E09A1A62F9D250B004421F2 /* MLXLMCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E09A1962F9CE90A004421F2 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
+			productName = MLXLMCommon;
+		};
+		6E09A1A82F9D2521004421F2 /* Tokenizers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E09A1972F9CE945004421F2 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Tokenizers;
+		};
+		6E09A1AA2F9D2535004421F2 /* MLXHuggingFace */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E09A1962F9CE90A004421F2 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
+			productName = MLXHuggingFace;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A0000000 /* Project object */;
 }

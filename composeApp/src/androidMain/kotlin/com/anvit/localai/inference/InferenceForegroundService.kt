@@ -26,7 +26,7 @@ class InferenceForegroundService : Service() {
 
     companion object {
         private const val TAG = "InferenceFgService"
-        private const val CHANNEL_ID = "anvit_inference_channel"
+        private const val CHANNEL_ID = "anvit_inference_channel_v2"
         private const val NOTIFICATION_ID = 1001
 
         fun start(context: Context) {
@@ -99,7 +99,7 @@ class InferenceForegroundService : Service() {
         val channel = NotificationChannel(
             CHANNEL_ID,
             "AI Inference",
-            NotificationManager.IMPORTANCE_LOW
+            NotificationManager.IMPORTANCE_HIGH
         ).apply {
             description = "Keeps AI response generation running in the background"
             setShowBadge(false)
@@ -116,14 +116,14 @@ class InferenceForegroundService : Service() {
             launchIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
+
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("Anvit is thinking…")
-            .setContentText("Tap to return to the app")
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setSmallIcon(com.anvit.localai.R.mipmap.ic_launcher_foreground)
+            .setContentTitle("Anvit AI is running")
+            .setContentText("Tap to return")
             .setContentIntent(tapIntent)
             .setOngoing(true)
-            .setSilent(true)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
     }
 }

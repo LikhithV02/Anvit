@@ -6,6 +6,7 @@ import com.anvit.localai.data.models.EmbeddingModelInfo
 import com.anvit.localai.data.models.EmbeddingModels
 import com.anvit.localai.data.models.GemmaModel
 import com.anvit.localai.data.models.GemmaModels
+import com.anvit.localai.utils.isIosPlatform
 import com.anvit.localai.data.preferences.AnvitPreferences
 import com.anvit.localai.download.DownloadProgress
 import com.anvit.localai.download.DownloadService
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 data class SettingsUiState(
-    val selectedModelId: String = "gemma4-e2b",
+    val selectedModelId: String = GemmaModels.defaultForPlatform(isIosPlatform()).id,
     val enableThinking: Boolean = true,
     val enableAgenticRag: Boolean = true,
     val temperature: Float = 1.0f,
@@ -32,6 +33,7 @@ data class SettingsUiState(
     val availableModelFiles: List<String> = emptyList(),
     val embeddingModelStatus: String = "Not initialized",
     val downloads: Map<String, DownloadProgress> = emptyMap(),
+    val deletionTick: Int = 0,
     val huggingFaceToken: String = "",
     val hfTokenSaved: Boolean = false,
     val userEmail: String = ""
@@ -46,7 +48,7 @@ class SettingsViewModel(
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
-    val availableModels: List<GemmaModel> = GemmaModels.all
+    val availableModels: List<GemmaModel> = GemmaModels.forPlatform(isIosPlatform())
     val availableEmbeddingModels: List<EmbeddingModelInfo> = EmbeddingModels.all
 
     init {
@@ -78,7 +80,7 @@ class SettingsViewModel(
     fun selectModel(modelId: String) { viewModelScope.launch { preferences.setSelectedModelId(modelId) } }
     fun loadSelectedModel() {
         viewModelScope.launch {
-            val model = GemmaModels.all.find { it.id == _uiState.value.selectedModelId } ?: return@launch
+            val model = availableModels.find { it.id == _uiState.value.selectedModelId } ?: return@launch
             _uiState.update { it.copy(isLoadingModel = true, modelLoadError = null, modelLoadSuccess = null) }
             inferenceService.setGenerationParams(
                 topK = _uiState.value.topK, temperature = _uiState.value.temperature,
@@ -119,6 +121,7 @@ class SettingsViewModel(
             }
             downloadService.deleteModel(fileName)
             downloadService.clearDownloadState(modelId)
+            _uiState.update { it.copy(deletionTick = it.deletionTick + 1) }
             refreshModelFiles()
         }
     }

@@ -26,9 +26,9 @@ kotlin {
             }
         }
         compilations["main"].cinterops {
-            val litertlm by creating {
-                defFile(project.file("src/nativeInterop/cinterop/litertlm.def"))
-                packageName("com.anvit.litertlm")
+            val mlxbridge by creating {
+                defFile(project.file("src/nativeInterop/cinterop/mlxbridge.def"))
+                packageName("com.anvit.mlxbridge")
             }
         }
         // Export as static framework for the Xcode host to embed
@@ -46,7 +46,7 @@ kotlin {
         }
     }
 
-    // iosSimulatorArm64 target — LiteRT-LM C++ is device-only in v1; inference is a stub
+    // iosSimulatorArm64 target — MLX symbols are device-only (arm64); inference is a stub
     iosSimulatorArm64 {
         binaries {
             framework {

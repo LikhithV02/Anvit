@@ -1,0 +1,3 @@
+language = Objective-C
+headers = mlxbridge.h
+compilerOpts = -I/Users/likhithv/AndroidStudioProjects/AgenticRAG/native/mlxbridge

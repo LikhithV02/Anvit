@@ -2,176 +2,138 @@
 
 package com.anvit.localai.inference
 
-import cnames.structs.LiteRtLmEngine
-import com.anvit.litertlm.*
+import com.anvit.mlxbridge.*
 import kotlinx.cinterop.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 
 /**
- * iOS implementation of [InferenceEngine] using the LiteRT-LM Conversation API.
+ * iOS inference engine backed by mlx-swift-lm (Gemma4 / VLM).
  *
- * Design: a single Engine is loaded once (expensive). Each [generateStream] call
- * creates a *fresh* Conversation, sends the prompt (which the ViewModel has already
- * built to include full conversation history), streams the response, then destroys
- * the Conversation. This avoids context-window double-counting that would occur if
- * a stateful Conversation accumulated turns that the ViewModel has already embedded
- * in the prompt string.
+ * The Swift bridge exports C symbols via @_cdecl. Each call passes a StableRef
+ * as user_data so the C-compatible staticCFunction can route back to Kotlin state
+ * without capturing closures.
  *
- * Threading: [LiteRtLmStreamCallback] fires on a C library background thread.
- * [Channel.trySend] is thread-safe; tokens are forwarded safely to the coroutine
- * collector.
+ * Threading: MLX callbacks fire from Swift's concurrency thread pool.
+ * Channel.trySend is thread-safe; tokens are forwarded to the coroutine collector.
+ *
+ * Note: [load] (from InferenceEngine interface) is not used on iOS — IosInferenceService
+ * calls [loadAsync] directly since model loading is genuinely async on MLX.
  */
 class IosInferenceEngine : InferenceEngine {
 
-    private var engine: CPointer<LiteRtLmEngine>? = null
+    private var topK:             Int   = 40
+    private var topP:             Float = 0.95f
+    private var temp:             Float = 0.6f
+    private var maxOutputTokens:  Int   = 4000
 
-    // Sampler params applied to each fresh Conversation.
-    private var topK: Int    = 40
-    private var topP: Float  = 0.95f
-    private var temp: Float  = 1.0f
-    private var maxOutputTokens: Int = 4000
-
-    // activeConv is only non-null while a generation is in flight (for cancel()).
-    private var activeConv: kotlinx.cinterop.CPointer<cnames.structs.LiteRtLmConversation>? = null
-
-    override val isLoaded: Boolean get() = engine != null
-
-    // ── configure ─────────────────────────────────────────────────────────────
+    override val isLoaded: Boolean get() = mlx_engine_is_loaded()
 
     fun setSamplerParams(topK: Int, topP: Float, temperature: Float, maxOutputTokens: Int) {
-        this.topK = topK
-        this.topP = topP
-        this.temp = temperature
+        this.topK           = topK
+        this.topP           = topP
+        this.temp           = temperature
         this.maxOutputTokens = maxOutputTokens
     }
 
     // ── load / unload ──────────────────────────────────────────────────────────
 
+    /**
+     * Not used on iOS — call [loadAsync] from a suspend context instead.
+     * The interface method exists for the Android implementation.
+     */
     override fun load(modelPath: String, maxTokens: Int) {
-        check(engine == null) { "IosInferenceEngine: already loaded — call unload() first." }
+        error("Call loadAsync() on iOS instead of load()")
+    }
 
-        val settings = litert_lm_engine_settings_create(
-            model_path         = modelPath,
-            backend_str        = "cpu",
-            vision_backend_str = null,
-            audio_backend_str  = null
-        ) ?: error("LiteRtLm: engine_settings_create returned null for: $modelPath")
+    /**
+     * Load the MLX model directory at [modelPath].
+     * Bridges the async C callback to a Kotlin Channel so callers can suspend.
+     */
+    suspend fun loadAsync(modelPath: String) {
+        if (mlx_engine_is_loaded()) mlx_engine_unload()
 
-        litert_lm_engine_settings_set_max_num_tokens(settings, maxTokens)
+        val resultChannel = Channel<Result<Unit>>(1)
+        val stableRef = StableRef.create(resultChannel)
 
-        engine = litert_lm_engine_create(settings)
-        litert_lm_engine_settings_delete(settings)
-        engine ?: error("LiteRtLm: engine_create returned null — check model path/format.")
+        mlx_engine_load(
+            model_dir_path = modelPath,
+            user_data      = stableRef.asCPointer(),
+            callback       = staticCFunction { userData, success, errMsg ->
+                val ch = userData!!.asStableRef<Channel<Result<Unit>>>().get()
+                if (success) {
+                    ch.trySend(Result.success(Unit))
+                } else {
+                    val msg = errMsg?.toKString() ?: "mlx_engine_load failed"
+                    ch.trySend(Result.failure(Exception(msg)))
+                }
+                ch.close()
+            }
+        )
+
+        try {
+            resultChannel.receive().getOrThrow()
+        } finally {
+            stableRef.dispose()
+        }
     }
 
     override fun unload() {
-        activeConv?.let { litert_lm_conversation_cancel_process(it) }
-        activeConv = null
-        engine?.let { litert_lm_engine_delete(it) }
-        engine = null
+        mlx_engine_unload()
     }
 
-    // ── cancel ─────────────────────────────────────────────────────────────────
-
     override fun cancel() {
-        activeConv?.let { litert_lm_conversation_cancel_process(it) }
+        mlx_engine_cancel()
+    }
+
+    fun resetSession() {
+        mlx_engine_reset_session()
     }
 
     // ── generateStream ─────────────────────────────────────────────────────────
 
+    /** Single-turn text-only streaming (satisfies InferenceEngine interface). */
+    override fun generateStream(prompt: String): Flow<String> =
+        generateStreamFull(prompt, null, null)
+
     /**
-     * Creates a single-use Conversation with current sampler params, sends [prompt]
-     * as a "user" message, streams tokens, then destroys the Conversation.
-     *
-     * Because the ViewModel embeds the full conversation history inside [prompt],
-     * there is no need to retain state across calls.
+     * Full streaming call with optional system prompt and image.
+     * Each emitted string is one raw token chunk.
      */
-    override fun generateStream(prompt: String): Flow<String> = channelFlow {
-        val eng = engine ?: error("IosInferenceEngine: call load() before generateStream().")
+    fun generateStreamFull(
+        prompt: String,
+        systemPrompt: String?,
+        imagePath: String?
+    ): Flow<String> = channelFlow {
+        val tokenChannel = Channel<Result<String>>(Channel.UNLIMITED)
+        val stableRef = StableRef.create(tokenChannel)
 
-        // Build session config with current sampler params.
-        val sessionConfig = litert_lm_session_config_create()
-            ?: error("LiteRtLm: session_config_create returned null.")
-        litert_lm_session_config_set_max_output_tokens(sessionConfig, maxOutputTokens)
-        val sampler = nativeHeap.alloc<LiteRtLmSamplerParams>().apply {
-            type        = kTopP
-            top_k       = topK
-            top_p       = topP
-            temperature = temp
-            seed        = 0
-        }
-        litert_lm_session_config_set_sampler_params(sessionConfig, sampler.ptr)
-        nativeHeap.free(sampler)
-
-        // Create a fresh, single-use Conversation.
-        val convConfig = litert_lm_conversation_config_create(
-            engine                      = eng,
-            session_config              = sessionConfig,
-            system_message_json         = null,
-            tools_json                  = null,
-            messages_json               = null,
-            enable_constrained_decoding = false
-        ) ?: run {
-            litert_lm_session_config_delete(sessionConfig)
-            error("LiteRtLm: conversation_config_create returned null.")
-        }
-        litert_lm_session_config_delete(sessionConfig)
-
-        val conv = litert_lm_conversation_create(eng, convConfig)
-        litert_lm_conversation_config_delete(convConfig)
-        conv ?: error("LiteRtLm: conversation_create returned null.")
-
-        activeConv = conv
+        mlx_engine_generate_stream(
+            prompt         = prompt,
+            system_prompt  = systemPrompt,
+            image_path     = imagePath,
+            temperature    = temp,
+            top_k          = topK,
+            top_p          = topP,
+            max_tokens     = maxOutputTokens,
+            user_data      = stableRef.asCPointer(),
+            token_callback = staticCFunction { userData, token, isFinal, errMsg ->
+                val ch = userData!!.asStableRef<Channel<Result<String>>>().get()
+                when {
+                    errMsg != null ->
+                        ch.trySend(Result.failure(Exception(errMsg.toKString())))
+                    token != null && token.toKString().isNotEmpty() ->
+                        ch.trySend(Result.success(token.toKString()))
+                }
+                if (isFinal) ch.close()
+            }
+        )
 
         try {
-            // Escape the prompt for embedding in JSON.
-            val escaped = buildString {
-                for (ch in prompt) when (ch) {
-                    '\\' -> append("\\\\")
-                    '"'  -> append("\\\"")
-                    '\n' -> append("\\n")
-                    '\r' -> append("\\r")
-                    '\t' -> append("\\t")
-                    else -> if (ch.code < 0x20) append("\\u%04x".format(ch.code)) else append(ch)
-                }
-            }
-            val messageJson = """{"role":"user","content":"$escaped"}"""
-
-            val tokenChannel = Channel<Result<String>>(Channel.UNLIMITED)
-            val stableRef    = StableRef.create(tokenChannel)
-
-            val rc = litert_lm_conversation_send_message_stream(
-                conversation  = conv,
-                message_json  = messageJson,
-                extra_context = null,
-                callback      = staticCFunction { cbData, chunk, isFinal, errMsg ->
-                    val ch = cbData!!.asStableRef<Channel<Result<String>>>().get()
-                    when {
-                        errMsg != null ->
-                            ch.trySend(Result.failure(Exception(errMsg.toKString())))
-                        chunk != null && chunk.toKString().isNotEmpty() ->
-                            ch.trySend(Result.success(chunk.toKString()))
-                    }
-                    if (isFinal) ch.close()
-                },
-                callback_data = stableRef.asCPointer()
-            )
-
-            if (rc != 0) {
-                stableRef.dispose()
-                throw Exception("LiteRtLm: send_message_stream failed (code $rc)")
-            }
-
-            try {
-                for (result in tokenChannel) send(result.getOrThrow())
-            } finally {
-                stableRef.dispose()
-            }
+            for (result in tokenChannel) send(result.getOrThrow())
         } finally {
-            activeConv = null
-            litert_lm_conversation_delete(conv)
+            stableRef.dispose()
         }
     }
 }

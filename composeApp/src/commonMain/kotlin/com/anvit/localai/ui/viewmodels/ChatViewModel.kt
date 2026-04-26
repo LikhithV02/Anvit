@@ -1,3 +1,5 @@
+@file:OptIn(kotlin.time.ExperimentalTime::class)
+
 package com.anvit.localai.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
@@ -16,6 +18,7 @@ import com.anvit.localai.data.reporting.ReportingService
 import com.anvit.localai.inference.InferenceService
 import com.anvit.localai.retrieval.HybridRetriever
 import com.anvit.localai.utils.currentTimeMillis
+import com.anvit.localai.utils.isIosPlatform
 import com.anvit.localai.utils.randomUUID
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -315,7 +318,8 @@ class ChatViewModel(
 
     private suspend fun autoLoadModel(): Boolean {
         val modelId = preferences.selectedModelId.first()
-        val model = GemmaModels.all.find { it.id == modelId } ?: GemmaModels.all.firstOrNull { it.isDefault } ?: GemmaModels.all.first()
+        val platformModels = GemmaModels.forPlatform(isIosPlatform())
+        val model = platformModels.find { it.id == modelId } ?: GemmaModels.defaultForPlatform(isIosPlatform())
         _uiState.update { it.copy(isAutoLoadingModel = true, autoLoadStatus = "Loading ${model.displayName}…") }
         val prefs = preferences
         inferenceService.setGenerationParams(

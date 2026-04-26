@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.flow
 class IosInferenceService : InferenceService {
 
     private val stubMessage =
-        "[Simulator stub] LiteRT-LM inference is not available in the iOS Simulator (v1). " +
-        "Run on a physical iPhone to use AI features."
+        "[Simulator stub] MLX inference is not available in the iOS Simulator. " +
+        "Run on a physical iPhone (arm64) to use AI features."
 
     override suspend fun loadModel(model: GemmaModel): Boolean = false
 

@@ -15,8 +15,8 @@ android {
         applicationId = "com.likhith.anvit"
         minSdk        = 27
         targetSdk     = 35
-        versionCode   = 4
-        versionName   = "1.0.3"
+        versionCode   = 8
+        versionName   = "1.0.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters += setOf("arm64-v8a")
@@ -55,6 +55,10 @@ android {
     buildFeatures {
         compose     = true
         buildConfig = true
+    }
+
+    installation {
+        enableBaselineProfile = false
     }
 
     packaging {
