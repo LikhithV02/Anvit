@@ -15,10 +15,16 @@ actual fun rememberPdfPicker(onResult: (fileName: String, bytes: ByteArray) -> U
                 val idx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                 cursor.moveToFirst()
                 if (idx >= 0) cursor.getString(idx) else null
-            } ?: "document.pdf"
+            } ?: "document"
             val bytes = context.contentResolver.openInputStream(it)?.use { stream -> stream.readBytes() }
             if (bytes != null) onResult(fileName, bytes)
         }
     }
-    return { launcher.launch(arrayOf("application/pdf")) }
+    return {
+        launcher.launch(arrayOf(
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/msword"
+        ))
+    }
 }

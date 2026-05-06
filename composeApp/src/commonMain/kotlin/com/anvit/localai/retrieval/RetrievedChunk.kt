@@ -8,5 +8,9 @@ data class RetrievedChunk(
     val content: String,
     val score: Float,
     val vectorScore: Float,
-    val bm25Rank: Int
+    val bm25Rank: Int,
+    val groupId: String? = null,
+    val lexicalScore: Float = 0f,
+    val ftsQuery: String? = null,
+    val retrievalSource: String = "unknown"
 )

@@ -22,6 +22,7 @@ data class SettingsUiState(
     val enableAgenticRag: Boolean = true,
     val temperature: Float = 1.0f,
     val topK: Int = 40,
+    val contextWindow: Int = 8192,
     val maxOutputTokens: Int = 4000,
     val accelerator: String = "cpu",
     val maxRetrievalChunks: Int = 5,
@@ -42,9 +43,9 @@ data class SettingsUiState(
 class SettingsViewModel(
     private val preferences: AnvitPreferences,
     private val inferenceService: InferenceService,
-    private val downloadService: DownloadService
+    private val downloadService: DownloadService,
+    private val embeddingService: EmbeddingService
 ) : ViewModel() {
-    // EmbeddingService is accessed from Koin lazily to avoid circular dep
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
@@ -58,8 +59,8 @@ class SettingsViewModel(
             }.collect()
         }
         viewModelScope.launch {
-            combine(preferences.maxRetrievalChunks, preferences.enableSelfCritique, preferences.retrievalMode, preferences.maxOutputTokens) { chunks, crit, mode, tok ->
-                _uiState.update { it.copy(maxRetrievalChunks = chunks, enableSelfCritique = crit, retrievalMode = mode, maxOutputTokens = tok) }
+            combine(preferences.maxRetrievalChunks, preferences.enableSelfCritique, preferences.retrievalMode, preferences.maxOutputTokens, preferences.contextWindow) { chunks, crit, mode, tok, window ->
+                _uiState.update { it.copy(maxRetrievalChunks = chunks, enableSelfCritique = crit, retrievalMode = mode, maxOutputTokens = tok, contextWindow = window) }
             }.collect()
         }
         viewModelScope.launch { preferences.accelerator.collect { _uiState.update { s -> s.copy(accelerator = it) } } }
@@ -85,6 +86,7 @@ class SettingsViewModel(
             inferenceService.setGenerationParams(
                 topK = _uiState.value.topK, temperature = _uiState.value.temperature,
                 enableThinking = _uiState.value.enableThinking, maxTokens = _uiState.value.maxOutputTokens,
+                contextWindow = _uiState.value.contextWindow,
                 accelerator = _uiState.value.accelerator
             )
             val ok = inferenceService.loadModel(model)
@@ -113,6 +115,7 @@ class SettingsViewModel(
             _uiState.update { it.copy(hfTokenSaved = false) }
         }
     }
+    fun pauseDownload(modelId: String)  { downloadService.pauseDownload(modelId) }
     fun cancelDownload(modelId: String) { downloadService.cancelDownload(modelId) }
     fun deleteModel(fileName: String, modelId: String) {
         viewModelScope.launch {
@@ -121,6 +124,9 @@ class SettingsViewModel(
             }
             downloadService.deleteModel(fileName)
             downloadService.clearDownloadState(modelId)
+            if (isEmbeddingModel(modelId)) {
+                embeddingService.cleanup()
+            }
             _uiState.update { it.copy(deletionTick = it.deletionTick + 1) }
             refreshModelFiles()
         }
@@ -131,6 +137,7 @@ class SettingsViewModel(
     fun setEnableAgenticRag(v: Boolean) { viewModelScope.launch { preferences.setEnableAgenticRag(v) } }
     fun setTemperature(v: Float) { viewModelScope.launch { preferences.setTemperature(v) } }
     fun setTopK(v: Int) { viewModelScope.launch { preferences.setTopK(v) } }
+    fun setContextWindow(v: Int) { viewModelScope.launch { preferences.setContextWindow(v) } }
     fun setMaxOutputTokens(v: Int) { viewModelScope.launch { preferences.setMaxOutputTokens(v) } }
     fun setAccelerator(v: String) { viewModelScope.launch { preferences.setAccelerator(v) } }
     fun setMaxRetrievalChunks(v: Int) { viewModelScope.launch { preferences.setMaxRetrievalChunks(v) } }
@@ -140,11 +147,46 @@ class SettingsViewModel(
         viewModelScope.launch {
             preferences.setTemperature(1.0f)
             preferences.setTopK(40)
+            preferences.setContextWindow(8192)
             preferences.setMaxOutputTokens(4000)
             preferences.setAccelerator("cpu")
         }
     }
     fun clearMessages() { _uiState.update { it.copy(modelLoadError = null, modelLoadSuccess = null) } }
-    fun refreshModelFiles() { /* Platform-specific file listing — overridden via platform VM or expect */ }
-    fun initializeEmbedding() { /* Handled via platform Koin module injection */ }
+    fun refreshModelFiles() {
+        _uiState.update { it.copy(embeddingModelStatus = currentEmbeddingStatus()) }
+    }
+    fun initializeEmbedding() {
+        viewModelScope.launch {
+            if (!hasDownloadedEmbeddingModel()) {
+                embeddingService.cleanup()
+                _uiState.update { it.copy(embeddingModelStatus = "No embedding model downloaded") }
+                return@launch
+            }
+
+            _uiState.update { it.copy(embeddingModelStatus = "Initializing...") }
+            val ok = embeddingService.initialize()
+            _uiState.update {
+                it.copy(
+                    embeddingModelStatus = if (ok) {
+                        "Initialized: ${embeddingService.getModelName()}"
+                    } else {
+                        "Initialization failed"
+                    }
+                )
+            }
+        }
+    }
+
+    private fun isEmbeddingModel(modelId: String): Boolean =
+        availableEmbeddingModels.any { it.id == modelId }
+
+    private fun hasDownloadedEmbeddingModel(): Boolean =
+        availableEmbeddingModels.any { downloadService.isModelPresent(it.fileName) }
+
+    private fun currentEmbeddingStatus(): String = when {
+        embeddingService.isInitialized() -> "Initialized: ${embeddingService.getModelName()}"
+        hasDownloadedEmbeddingModel() -> "Not initialized"
+        else -> "No embedding model downloaded"
+    }
 }

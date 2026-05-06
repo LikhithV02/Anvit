@@ -1,7 +1,13 @@
 package com.anvit.localai.di
 
+import com.anvit.localai.document.AndroidIngestionForegroundController
 import com.anvit.localai.document.AndroidPdfExtractor
+import com.anvit.localai.document.DocxHierarchicalParser
+import com.anvit.localai.document.DocumentIngestionService
+import com.anvit.localai.document.DocumentParser
+import com.anvit.localai.document.IngestionForegroundController
 import com.anvit.localai.document.PdfExtractor
+import com.anvit.localai.document.PdfHierarchicalParser
 import com.anvit.localai.download.AndroidDownloadService
 import com.anvit.localai.download.DownloadService
 import com.anvit.localai.embedding.EmbeddingService
@@ -34,11 +40,20 @@ val androidModule = module {
     }
 
     // Embedding (Android: GeckoEmbeddingModel)
-    single<EmbeddingService> { GeckoEmbeddingService(context = androidContext()) }
+    single<EmbeddingService> { GeckoEmbeddingService(context = androidContext(), preferences = get()) }
 
     // Model download
     single<DownloadService> { AndroidDownloadService(context = androidContext()) }
 
-    // PDF extraction (iText7)
+    // PDF extraction (iText7, legacy fallback)
     single<PdfExtractor> { AndroidPdfExtractor() }
+
+    // Foreground service controller for document ingestion
+    single<IngestionForegroundController> { AndroidIngestionForegroundController(androidContext()) }
+
+    // Structural document parsers (PDF via pdfbox-android, DOCX via POI)
+    single<List<DocumentParser>> { listOf(PdfHierarchicalParser(androidContext()), DocxHierarchicalParser()) }
+
+    // Override common binding to inject the parsers list
+    single { DocumentIngestionService(get(), get(), get(), get<IngestionForegroundController>(), get<List<DocumentParser>>()) }
 }

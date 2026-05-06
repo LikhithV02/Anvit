@@ -1,15 +1,21 @@
 package com.anvit.localai.document
 
-/**
- * iOS stub implementation of [PdfExtractor] for v1.
- *
- * v2 will use PDFKit (PDFDocument.string) for full text extraction.
- * The v1 stub returns null so the UI can inform the user that PDF
- * ingestion is not yet available on iOS.
- */
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import platform.PDFKit.PDFDocument
+
 class IosPdfExtractor : PdfExtractor {
-    override suspend fun extract(fileName: String, documentBytes: ByteArray): PdfExtractionResult? {
-        println("IosPdfExtractor: PDF ingestion not yet implemented on iOS (v1 stub)")
-        return null
-    }
+    @OptIn(ExperimentalForeignApi::class)
+    override suspend fun extract(fileName: String, documentBytes: ByteArray): PdfExtractionResult? =
+        withContext(Dispatchers.Default) {
+            val doc = PDFDocument(data = documentBytes.toNSData()) ?: return@withContext null
+            val text = doc.string ?: return@withContext null
+            if (text.isBlank()) return@withContext null
+            PdfExtractionResult(
+                text      = text,
+                pageCount = doc.pageCount().toInt(),
+                fileName  = fileName
+            )
+        }
 }

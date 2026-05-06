@@ -42,7 +42,7 @@ object GemmaModels {
         ramRequired      = "~1.7 GB RAM (CPU)",
         platform         = ModelPlatform.ANDROID,
         isDefault        = true,
-        contextWindowSize = 32768,
+        contextWindowSize = 128000,
         supportsVision   = true,
         supportsAudio    = true
     )
@@ -57,7 +57,7 @@ object GemmaModels {
         ramRequired      = "~3.2 GB RAM (CPU)",
         platform         = ModelPlatform.ANDROID,
         isDefault        = false,
-        contextWindowSize = 32768,
+        contextWindowSize = 128000,
         supportsVision   = true,
         supportsAudio    = true
     )
@@ -76,7 +76,7 @@ object GemmaModels {
         ramRequired      = "~4 GB (Metal GPU)",
         platform         = ModelPlatform.IOS,
         isDefault        = true,
-        contextWindowSize = 32768,
+        contextWindowSize = 128000,
         supportsVision   = true,
         supportsAudio    = false
     )
@@ -91,7 +91,7 @@ object GemmaModels {
         ramRequired      = "~6 GB (Metal GPU)",
         platform         = ModelPlatform.IOS,
         isDefault        = false,
-        contextWindowSize = 32768,
+        contextWindowSize = 128000,
         supportsVision   = true,
         supportsAudio    = false
     )

@@ -1303,14 +1303,27 @@ private fun EditQueryDialog(
 
 @Composable
 private fun SourcesPanel(sources: List<SourceChunk>) {
+    val sorted = remember(sources) { sources.sortedByDescending { it.score } }
+    val maxScore = remember(sorted) { sorted.firstOrNull()?.score?.coerceAtLeast(0.001f) ?: 1f }
+
     Column(modifier = Modifier.fillMaxWidth().padding(top = 6.dp, start = 16.dp)) {
         var selectedSource by remember { mutableStateOf<SourceChunk?>(null) }
-        Text(
-            "Sources", color = TextSecondary, fontSize = 12.sp,
-            fontWeight = FontWeight.Medium, modifier = Modifier.padding(bottom = 6.dp)
-        )
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 6.dp)) {
+            Text("Sources", color = TextSecondary, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+            Spacer(Modifier.width(6.dp))
+            Text(
+                "(${sorted.size})", color = TextSecondary.copy(alpha = 0.6f),
+                fontSize = 11.sp
+            )
+        }
         androidx.compose.foundation.lazy.LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(sources) { source ->
+            items(sorted) { source ->
+                val relevanceFraction = (source.score / maxScore).coerceIn(0f, 1f)
+                val barColor = when {
+                    relevanceFraction >= 0.75f -> TealPrimary
+                    relevanceFraction >= 0.4f  -> TealPrimary.copy(alpha = 0.65f)
+                    else                       -> TextSecondary.copy(alpha = 0.4f)
+                }
                 Surface(
                     shape    = RoundedCornerShape(8.dp),
                     color    = Surface2,
@@ -1326,7 +1339,23 @@ private fun SourcesPanel(sources: List<SourceChunk>) {
                                 fontWeight = FontWeight.Medium, maxLines = 1, overflow = TextOverflow.Ellipsis
                             )
                         }
-                        Spacer(Modifier.height(4.dp))
+                        Spacer(Modifier.height(5.dp))
+                        // Relevance bar
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(3.dp)
+                                .clip(RoundedCornerShape(2.dp))
+                                .background(BorderDefault)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(relevanceFraction)
+                                    .fillMaxHeight()
+                                    .background(barColor)
+                            )
+                        }
+                        Spacer(Modifier.height(5.dp))
                         Text(
                             source.snippet, color = TextSecondary, fontSize = 11.sp,
                             maxLines = 3, overflow = TextOverflow.Ellipsis, lineHeight = 16.sp

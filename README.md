@@ -6,7 +6,7 @@ A fully local, privacy-first Android app for intelligent document analysis and m
 
 ## App Name
 **Anvit** — because it brings wisdom from your documents.  
-Package: `com.anvit.localai`
+Package: `com.likhith.anvit`
 
 ---
 

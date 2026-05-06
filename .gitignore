@@ -19,3 +19,6 @@ Anvit-Privacy-Policy/
 Generated Screenshots/
 Screenshots/
 anvit_logo.html
+eval/reports/*
+eval/.cache/
+!eval/reports/.gitkeep

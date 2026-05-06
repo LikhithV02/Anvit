@@ -1,5 +1,7 @@
 package com.anvit.localai.utils
 
+import com.anvit.localai.retrieval.FtsQueryBuilder
+
 // Pure-Kotlin ByteBuffer replacement using Kotlin stdlib
 
 fun FloatArray.toByteArray(): ByteArray {
@@ -26,9 +28,4 @@ fun ByteArray.toFloatArray(): FloatArray {
     return result
 }
 
-fun String.sanitizeForFts(): String =
-    this.replace("\"", "\"\"")
-        .replace("*", "")
-        .replace("(", "")
-        .replace(")", "")
-        .trim()
+fun String.sanitizeForFts(): String = FtsQueryBuilder.build(this)

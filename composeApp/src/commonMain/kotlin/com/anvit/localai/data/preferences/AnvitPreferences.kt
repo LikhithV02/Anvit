@@ -20,6 +20,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
         val TEMPERATURE              = floatPreferencesKey("temperature")
         val TOP_K                    = intPreferencesKey("top_k")
         val MAX_OUTPUT_TOKENS        = intPreferencesKey("max_output_tokens")
+        val CONTEXT_WINDOW           = intPreferencesKey("context_window")
         val MAX_RETRIEVAL_CHUNKS     = intPreferencesKey("max_retrieval_chunks")
         val ENABLE_SELF_CRITIQUE     = booleanPreferencesKey("enable_self_critique")
         val RETRIEVAL_MODE           = stringPreferencesKey("retrieval_mode")
@@ -43,6 +44,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     val temperature:            Flow<Float>   = flow(TEMPERATURE,               1.0f)
     val topK:                   Flow<Int>     = flow(TOP_K,                     40)
     val maxOutputTokens:        Flow<Int>     = flow(MAX_OUTPUT_TOKENS,         4000)
+    val contextWindow:          Flow<Int>     = flow(CONTEXT_WINDOW,            8192)
     val maxRetrievalChunks:     Flow<Int>     = flow(MAX_RETRIEVAL_CHUNKS,      5)
     val enableSelfCritique:     Flow<Boolean> = flow(ENABLE_SELF_CRITIQUE,      true)
     val retrievalMode:          Flow<String>  = flow(RETRIEVAL_MODE,            "hybrid")
@@ -60,6 +62,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     suspend fun setTemperature(v: Float)                  { dataStore.edit { it[TEMPERATURE] = v } }
     suspend fun setTopK(v: Int)                           { dataStore.edit { it[TOP_K] = v } }
     suspend fun setMaxOutputTokens(v: Int)                { dataStore.edit { it[MAX_OUTPUT_TOKENS] = v } }
+    suspend fun setContextWindow(v: Int)                  { dataStore.edit { it[CONTEXT_WINDOW] = v } }
     suspend fun setMaxRetrievalChunks(v: Int)             { dataStore.edit { it[MAX_RETRIEVAL_CHUNKS] = v } }
     suspend fun setEnableSelfCritique(v: Boolean)         { dataStore.edit { it[ENABLE_SELF_CRITIQUE] = v } }
     suspend fun setRetrievalMode(m: String)               { dataStore.edit { it[RETRIEVAL_MODE] = m } }

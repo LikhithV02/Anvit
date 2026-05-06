@@ -1,0 +1,71 @@
+name: Agentic RAG Eval
+
+on:
+  pull_request:
+    paths:
+      - "composeApp/src/commonMain/kotlin/com/anvit/localai/agentic/**"
+      - "composeApp/src/commonMain/kotlin/com/anvit/localai/retrieval/**"
+      - "composeApp/src/commonMain/kotlin/com/anvit/localai/document/**"
+      - "composeApp/src/commonMain/kotlin/com/anvit/localai/embedding/**"
+      - "composeApp/build.gradle.kts"
+      - "eval/**"
+      - ".github/workflows/eval.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: agentic-rag-eval
+  cancel-in-progress: false
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Run eval
+        run: ./gradlew :composeApp:runEval
+
+      - name: Upload eval reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentic-rag-eval
+          path: eval/reports/**
+
+      - name: Read eval summary
+        id: summary
+        if: always()
+        run: |
+          SUMMARY=$(cat eval/reports/*/summary.md 2>/dev/null || echo "Eval did not produce a summary.")
+          echo "content<<EOF" >> $GITHUB_OUTPUT
+          echo "$SUMMARY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Find existing eval comment
+        id: find_comment
+        if: always() && github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: "<!-- anvit-eval-comment -->"
+
+      - name: Post eval summary to PR
+        if: always() && github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find_comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.summary.outputs.content }}
+          edit-mode: replace

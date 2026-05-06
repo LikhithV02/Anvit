@@ -35,6 +35,7 @@ class IosInferenceService : InferenceService {
     private var maxTokens: Int = 4000
     private var contextWindow: Int? = null
     private var enableThinking: Boolean = true
+    private val defaultContextWindow = 8192
 
     // ── helpers ───────────────────────────────────────────────────────────────
 
@@ -66,14 +67,15 @@ class IosInferenceService : InferenceService {
             topK            = topK,
             topP            = topP,
             temperature     = temperature,
-            maxOutputTokens = getEffectiveMaxTokens(currentModel ?: return)
+            maxOutputTokens = getMaxOutputTokens()
         )
     }
 
     override fun getEffectiveMaxTokens(model: GemmaModel): Int {
-        val window = contextWindow?.coerceIn(1, model.contextWindowSize) ?: model.contextWindowSize
-        return maxTokens.coerceIn(1, window)
+        return (contextWindow ?: defaultContextWindow).coerceIn(1, model.contextWindowSize)
     }
+
+    override fun getMaxOutputTokens(): Int = maxTokens
 
     override fun setActiveCollection(collectionId: String?) {
         // RAG retrieval is handled by AgenticRagOrchestrator in commonMain; no-op here.
@@ -88,7 +90,7 @@ class IosInferenceService : InferenceService {
                 return false
             }
             engine.loadAsync(modelDir)
-            engine.setSamplerParams(topK, topP, temperature, getEffectiveMaxTokens(model))
+            engine.setSamplerParams(topK, topP, temperature, getMaxOutputTokens())
             currentModel = model
             println("IosInferenceService: loaded ${model.displayName}")
             true

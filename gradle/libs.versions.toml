@@ -1,7 +1,7 @@
 [versions]
-agp                    = "8.8.2"
-kotlin                 = "2.1.20"
-ksp                    = "2.1.20-1.0.32"
+agp                    = "9.1.1"
+kotlin                 = "2.2.10"
+ksp                    = "2.3.2"
 compose                = "1.9.3"          # Compose Multiplatform
 coreKtx                = "1.13.1"
 lifecycleRuntimeKtx    = "2.8.7"
@@ -20,6 +20,8 @@ kotlinxSerialization   = "1.7.3"
 kotlinxDatetime        = "0.6.0"
 ktor                   = "3.1.0"          # must match coil-network-ktor3's transitive ktor version
 profileinstaller       = "1.4.1"
+pdfbox-android         = "2.0.27.0"
+apache-poi             = "5.3.0"
 
 [libraries]
 # AndroidX core
@@ -74,6 +76,9 @@ ktor-client-core                   = { group = "io.ktor",                name = 
 ktor-client-okhttp                 = { group = "io.ktor",                name = "ktor-client-okhttp",            version.ref = "ktor" }
 ktor-client-darwin                 = { group = "io.ktor",                name = "ktor-client-darwin",            version.ref = "ktor" }
 androidx-profileinstaller          = { group = "androidx.profileinstaller", name = "profileinstaller",           version.ref = "profileinstaller" }
+# Document parsing (Android only)
+pdfbox-android                     = { group = "com.tom-roush",             name = "pdfbox-android",                version.ref = "pdfbox-android" }
+apache-poi-ooxml                   = { group = "org.apache.poi",            name = "poi-ooxml",                     version.ref = "apache-poi" }
 # Test
 junit                              = { group = "junit",                  name = "junit",                         version = "4.13.2" }
 androidx-junit                     = { group = "androidx.test.ext",      name = "junit",                         version = "1.2.1" }

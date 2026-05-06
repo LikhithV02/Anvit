@@ -28,6 +28,7 @@ class AnvitApplication : Application() {
 
         // 2. Bootstrap Koin
         startKoin {
+            allowOverride(true)
             androidLogger(Level.ERROR)
             androidContext(this@AnvitApplication)
             modules(commonModule, androidModule)

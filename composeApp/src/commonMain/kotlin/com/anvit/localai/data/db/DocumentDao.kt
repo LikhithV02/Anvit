@@ -39,6 +39,9 @@ interface DocumentDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChunks(chunks: List<ChunkEntity>)
 
+    @Query("INSERT INTO chunks_fts(chunks_fts) VALUES('rebuild')")
+    suspend fun rebuildChunksFts()
+
     @Query("SELECT * FROM chunks WHERE docId = :docId ORDER BY chunkIndex ASC")
     suspend fun getChunksForDocument(docId: String): List<ChunkEntity>
 
@@ -56,6 +59,9 @@ interface DocumentDao {
 
     @Query("SELECT COUNT(*) FROM chunks WHERE collectionId = :collectionId")
     suspend fun getChunkCountForCollection(collectionId: String): Int
+
+    @Query("SELECT * FROM chunks WHERE groupId = :groupId ORDER BY chunkIndex ASC")
+    suspend fun getChunksForGroup(groupId: String): List<ChunkEntity>
 
     // FTS search — global
     @Query("SELECT c.* FROM chunks c INNER JOIN chunks_fts fts ON c.rowid = fts.rowid WHERE chunks_fts MATCH :query LIMIT :limit")

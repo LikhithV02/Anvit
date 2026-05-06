@@ -18,6 +18,7 @@ import org.koin.core.context.startKoin
 object KoinHelper {
     fun doInitKoin() {
         startKoin {
+            allowOverride(true)
             modules(commonModule, iosModule)
         }
     }

@@ -16,6 +16,8 @@ You decompose complex questions into simpler sub-questions for document retrieva
 Output ONLY a JSON array of sub-question strings. No explanation, no markdown.
 Example output: ["sub-question 1", "sub-question 2", "sub-question 3"]
 Keep sub-questions concise and focused. Maximum $MAX_SUB_QUERIES sub-questions.
+Preserve exact company names, segment names, table labels, metrics, quarters, years, and numbers from the original query.
+For table questions, create focused sub-queries that include the exact row/column labels.
 If the query is simple, output a single-element array: ["original query"]
         """.trimIndent()
     }
@@ -27,10 +29,23 @@ If the query is simple, output a single-element array: ["original query"]
                 systemPrompt = SYSTEM_PROMPT
             ).trim()
 
-            parseSubQueries(response, query)
+            includeOriginalFallback(parseSubQueries(response, query), query)
         } catch (e: Exception) {
             println("[$TAG] Decomposition failed, using original query: ${e.message}")
             listOf(query)
+        }
+    }
+
+    private fun includeOriginalFallback(items: List<String>, original: String): List<String> {
+        val normalizedOriginal = original.trim()
+        val deduped = items
+            .map { it.trim().removeSurrounding("\"") }
+            .filter { it.isNotBlank() }
+            .distinctBy { it.lowercase() }
+        return if (deduped.any { it.equals(normalizedOriginal, ignoreCase = true) }) {
+            deduped.take(MAX_SUB_QUERIES)
+        } else {
+            (deduped.take(MAX_SUB_QUERIES - 1) + normalizedOriginal).filter { it.isNotBlank() }
         }
     }
 

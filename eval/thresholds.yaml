@@ -1,0 +1,7 @@
+retrieval:
+  recall_at_5_max_drop: 0.02
+  per_doc_recall_multihop_max_drop: 0.03
+answer:
+  faithfulness_max_drop: 0.05
+perf:
+  latency_p95_max_regression: 0.30

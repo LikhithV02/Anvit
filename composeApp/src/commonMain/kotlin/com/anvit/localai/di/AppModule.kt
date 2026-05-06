@@ -37,15 +37,15 @@ val commonModule = module {
     // Agentic orchestrator
     single { AgenticRagOrchestrator(get(), get(), get()) }
 
-    // Document ingestion
-    single { DocumentIngestionService(get(), get(), get()) }
+    // Document ingestion (IngestionForegroundController + DocumentParser list from platform modules)
+    single { DocumentIngestionService(get(), get(), get(), get(), get()) }
 
     // Reporting
     single { ReportingService() }
 
     // ViewModels
     viewModel { ChatViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { SettingsViewModel(get(), get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { DocumentsViewModel(get(), get(), get(), get(), get()) }
     viewModel { CollectionsViewModel(get(), get(), get()) }
 }

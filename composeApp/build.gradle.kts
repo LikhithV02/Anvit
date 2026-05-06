@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.api.tasks.testing.Test
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -154,9 +155,12 @@ kotlin {
             implementation("com.google.ai.edge.localagents:localagents-rag:0.3.0")
             // Protobuf
             implementation("com.google.protobuf:protobuf-java:3.25.1")
-            // iText7 for PDF
+            // iText7 for PDF (legacy iOS-fallback path)
             implementation("com.itextpdf:itext7-core:7.2.5")
             implementation("org.slf4j:slf4j-nop:2.0.9")
+            // Structural document parsing
+            implementation(libs.pdfbox.android)
+            implementation(libs.apache.poi.ooxml)
             // Markdown
             implementation("com.github.jeziellago:compose-markdown:0.3.0")
         }
@@ -169,6 +173,16 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlin("test"))
+        }
+
+        val androidUnitTest by getting {
+            dependencies {
+                implementation("org.robolectric:robolectric:4.12")
+                implementation("androidx.test:core:1.5.0")
+                implementation("org.apache.pdfbox:pdfbox:2.0.27")
+                implementation(libs.junit)
+                implementation(libs.ktor.client.okhttp)
+            }
         }
     }
 }
@@ -208,6 +222,8 @@ android {
             excludes += "META-INF/DEPENDENCIES"
             excludes += "META-INF/NOTICE*"
             excludes += "google/protobuf/*.proto"
+            excludes += "META-INF/versions/9/module-info.class"
+            excludes += "META-INF/*.kotlin_module"
         }
     }
 }
@@ -215,4 +231,85 @@ android {
 // Suppress spurious KMP hierarchy warning
 kotlin.sourceSets.all {
     languageSettings.optIn("kotlin.RequiresOptIn")
+}
+
+val requestedTaskNames = gradle.startParameter.taskNames
+val runCloudBackedEvalRequested = requestedTaskNames.any {
+    it == "runCloudBackedEval" || it.endsWith(":runCloudBackedEval") ||
+        it == "runEval" || it.endsWith(":runEval")
+}
+val scoreDeviceEvalRequested = requestedTaskNames.any { it == "scoreDeviceEval" || it.endsWith(":scoreDeviceEval") }
+val regenerateDatasetRequested = requestedTaskNames.any { it == "regenerateDataset" || it.endsWith(":regenerateDataset") }
+val refreshBaselineRequested = requestedTaskNames.any { it == "refreshBaseline" || it.endsWith(":refreshBaseline") }
+
+tasks.withType<Test>().configureEach {
+    listOf(
+        "anvit.eval.singleHop",
+        "anvit.eval.multiHop",
+        "anvit.eval.tableLookup",
+        "anvit.eval.adversarial",
+        "anvit.eval.dataset",
+        "anvit.eval.chunks",
+        "anvit.eval.corpus",
+        "anvit.eval.output",
+        "anvit.eval.deviceArtifacts",
+        "anvit.eval.disableBatchJudge",
+        "anvit.eval.cacheDir",
+        "anvit.eval.datasetWorkers",
+        "anvit.eval.traceWorkers",
+        "anvit.eval.judgeWorkers"
+    ).forEach { key ->
+        providers.systemProperty(key).orNull?.let { value -> systemProperty(key, value) }
+    }
+    if (name == "testDebugUnitTest") {
+        when {
+            scoreDeviceEvalRequested -> {
+                filter { includeTestsMatching("com.anvit.localai.eval.DeviceEvalScoringSuite.scoreDeviceEval") }
+                systemProperty("anvit.eval.requireApiKey", "true")
+            }
+            runCloudBackedEvalRequested -> {
+                filter { includeTestsMatching("com.anvit.localai.eval.EvalSuite.runEval") }
+                systemProperty("anvit.eval.requireApiKey", "true")
+                systemProperty("anvit.eval.enforceBaseline", "true")
+            }
+            regenerateDatasetRequested -> {
+                filter { includeTestsMatching("com.anvit.localai.eval.dataset.DatasetGeneratorSuite.regenerateDataset") }
+                systemProperty("anvit.eval.requireApiKey", "true")
+            }
+            refreshBaselineRequested -> {
+                filter { includeTestsMatching("com.anvit.localai.eval.BaselineRefreshSuite.refreshBaseline") }
+                systemProperty("anvit.eval.requireApiKey", "true")
+            }
+        }
+    }
+}
+
+tasks.register("runEval") {
+    group = "verification"
+    description = "Deprecated alias for runCloudBackedEval. Runs the Gemini-backed JVM eval suite."
+    dependsOn("testDebugUnitTest")
+}
+
+tasks.register("runCloudBackedEval") {
+    group = "verification"
+    description = "Runs the Gemini-backed JVM eval suite against the pinned dataset."
+    dependsOn("testDebugUnitTest")
+}
+
+tasks.register("scoreDeviceEval") {
+    group = "verification"
+    description = "Scores pulled device-local eval artifacts with local retrieval metrics and Gemini answer judging."
+    dependsOn("testDebugUnitTest")
+}
+
+tasks.register("regenerateDataset") {
+    group = "verification"
+    description = "Regenerates eval/datasets/v1/dataset.json from exported chunk CSVs using Gemini."
+    dependsOn("testDebugUnitTest")
+}
+
+tasks.register("refreshBaseline") {
+    group = "verification"
+    description = "Runs the eval suite and refreshes eval/baseline.json from the current metrics."
+    dependsOn("testDebugUnitTest")
 }

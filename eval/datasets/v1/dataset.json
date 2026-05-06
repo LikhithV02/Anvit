@@ -1,0 +1,2332 @@
+{
+    "version": "v1",
+    "description": "Gemini-generated Anvit Agentic RAG eval dataset.",
+    "samples": [
+        {
+            "id": "single-0",
+            "type": "single_hop",
+            "question": "What is the document path and associated numerical identifier for the financial statement item concerning 'Loss Income tax relating to items that will not be'?",
+            "expected_chunk_ids": [
+                "61718552-b4f3-4a86-999d-5f420d2e3039"
+            ],
+            "expected_content_hashes": [
+                "-34334199e4136815"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Document > Media Release > I (316) (53) 267 (402) 255",
+            "rationale": "The gold answer, 'Document > Media Release > I (316) (53) 267 (402) 255', is directly extracted from the first chunk. The second chunk, 'Loss Income tax relating to items that will not be', provides the specific financial item that the question refers to, linking the request to the correct path and identifier from the first chunk. Both chunks are essential: the first provides the answer, and the second provides the necessary context to understand what the question is asking for.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-1",
+            "type": "single_hop",
+            "question": "What are the values listed for 'Progress and Stock-in-Trade' under 'Col 2', 'Col 3', and the column indicated by ',014)'?",
+            "expected_chunk_ids": [
+                "a2023137-6e23-450e-a951-457a4ec3245b"
+            ],
+            "expected_content_hashes": [
+                "-7571bdacb830b723"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "For 'Progress and Stock-in-Trade', the value under 'Col 2' is (81-1), under 'Col 3' is (8,421), and under the column indicated by ',014)' is 5.",
+            "rationale": "The question requires identifying the 'Progress and Stock-in-Trade' line item within the 'Expenses' section. The first chunk establishes the table's column headers, including 'Col 2', 'Col 3', and ',014)'. The second chunk provides the specific data row for 'Progress and Stock-in-Trade', detailing its corresponding values for these columns: (81-1) for 'Col 2', (8,421) for 'Col 3', and 5 for the column indicated by ',014)'. Both chunks are essential to understand the table structure and extract the requested specific values for the specified line item.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-2",
+            "type": "single_hop",
+            "question": "What is a notable characteristic of Jio-bp's chargers, and how has RBML expanded its Bio-CNG retailing network under the Clean N Green initiative?",
+            "expected_chunk_ids": [
+                "da4b5128-7811-4227-a710-740a2d94c6a2"
+            ],
+            "expected_content_hashes": [
+                "-1d278c73d97d2e2a"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Jio-bp is noted for industry leading charger uptime. Under its Clean N Green initiative, RBML has expanded its CBG network to 112 sites, retailing Bio-CNG produced at RIL’s Bio-gas plants, and is also ramping up its network of CNG outlets.",
+            "rationale": "The question requires combining two distinct pieces of information from the provided chunks: the charger uptime for Jio-bp and the details of RBML's CBG network expansion and Bio-CNG retailing under the Clean N Green initiative, including the number of sites and the origin of the Bio-CNG. All parts of the chunks are used to formulate the answer.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-3",
+            "type": "single_hop",
+            "question": "According to the document, what action has been taken regarding the ratios for the quarter/nine months?",
+            "expected_chunk_ids": [
+                "6851a469-855c-4d87-bdb0-ebcca19c7e9e"
+            ],
+            "expected_content_hashes": [
+                "-704ae79b539d5cb2"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The ratios for the quarter/nine months have been annualised.",
+            "rationale": "The question directly asks for the action applied to the 'ratios for the quarter/nine months', which is explicitly stated in the provided chunk: 'Ratios for the quarter/nine months have been arinua!ised'. The gold answer is a direct extraction of this information.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-4",
+            "type": "single_hop",
+            "question": "What is the face value of the equity share mentioned in the 'Earnings per equity share' section, and what is an important clarification regarding its annualization for the quarter or nine months?",
+            "expected_chunk_ids": [
+                "87beff79-ba83-4ce6-a2e7-3857ed5cc012"
+            ],
+            "expected_content_hashes": [
+                "-33cc1187338e9e44"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The face value of the equity share is ₹10. It is clarified that the earnings per equity share are not annualised for the quarter or nine months.",
+            "rationale": "The question directly asks for two specific pieces of information explicitly stated in the provided chunks: the face value of the equity share (₹10) and the note about non-annualization for quarter/nine months. Both parts of the answer are found verbatim in the text, making it a direct extraction task.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-5",
+            "type": "single_hop",
+            "question": "According to the annual performance report, what was the year-over-year increase in Oil to Chemicals (O2C) revenue and what primarily drove this increase?",
+            "expected_chunk_ids": [
+                "f5c89dbd-db4a-45d9-850d-2a9d37c0e4d3"
+            ],
+            "expected_content_hashes": [
+                "6a253be818f2899e"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Oil to Chemicals (O2C) revenue increased by 5.7% Y-o-Y. This was largely driven by higher domestic market product placement and better price realisation.",
+            "rationale": "The question asks for specific information about the O2C segment's revenue performance and its drivers. The provided chunk explicitly states: 'Oil to Chemicals (O2C) revenue increased by 5.7% Y-o-Y. This was largely driven by higher domestic market product placement and better price realisation.' This sentence directly answers both parts of the question, making the chunk necessary and sufficient.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-6",
+            "type": "single_hop",
+            "question": "Based on the unaudited standalone segment information for the quarter/nine months ended December 31, 2025, how is inventory turnover calculated?",
+            "expected_chunk_ids": [
+                "ebb95089-dfc2-42fa-a72c-5959b6cff36d"
+            ],
+            "expected_content_hashes": [
+                "6018214a1ffd9389"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Inventory turnover is calculated as Cost of Goods Sold (Cost of Material Consumed + Purchases).",
+            "rationale": "Chunk 1 provides the exact formula for 'Inventory turnover Cost of Goods Sold (Cost of Material Consumed + Purchases)'. Chunk 2 provides the specific context 'UN.AUDITED STANDALONE SEGMENT INFORMATION FOR THE QUARTER I NINE MONTHS ENDED 31sr DECEMBER, 2025' which is essential to the question's premise. Both chunks are required to fully answer the question by extracting the formula and confirming its source and period.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-8",
+            "type": "single_hop",
+            "question": "What was the 'Total Current Assets' amount for the 'Investments' category when the associated value was '50,540'?",
+            "expected_chunk_ids": [
+                "5edb6cb4-640d-4a67-aac3-fff4bd70bbd8"
+            ],
+            "expected_content_hashes": [
+                "1f81dafe738be69a"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "327,619",
+            "rationale": "The question asks for the 'Total Current Assets' amount specifically under the 'Investments' category corresponding to the value '50,540'. The provided chunk contains a table where 'Investments: Total Current Assets' is listed, and the value '327,619' is directly associated with '50,540' in that row. This requires a direct lookup within the provided financial data table.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-9",
+            "type": "single_hop",
+            "question": "What location details and period are mentioned in the document?",
+            "expected_chunk_ids": [
+                "6e556fbb-b910-484d-a3cb-0c4b93603d60"
+            ],
+            "expected_content_hashes": [
+                "7d51d6a8c03f0019"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The document mentions location details as Mumbai - 4000'13, Maharashtra, India, and covers the period ending December 31, 2025.",
+            "rationale": "The question requires combining all information across the provided chunks: the date 'months ended December 31, 2025', the city and postal code 'Mumbai - 4000'13', and the state/country 'Maharashtra, India'. The gold answer synthesizes these distinct pieces of information into a comprehensive response, directly extracting all relevant content.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-11",
+            "type": "single_hop",
+            "question": "For the exit quarter, what was the ARPU, the per capita data consumption per month, and the monthly churn?",
+            "expected_chunk_ids": [
+                "d8ba5075-cc9b-4820-9c21-d8ccbf2e2add"
+            ],
+            "expected_content_hashes": [
+                "-45cb98704e98fa42"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "For the exit quarter, the ARPU increased to ₹ 214.0, the per capita data consumption was 42.3 GB/month, and the monthly churn was stable at 1.7%.",
+            "rationale": "The question directly asks for three specific metrics (ARPU, per capita data consumption per month, and monthly churn) all of which are clearly and concisely stated within the provided chunk for the 'exit quarter'. No other information is required or relevant to answer the question, making the chunk both sufficient and necessary.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-12",
+            "type": "single_hop",
+            "question": "According to the provided data, what were the Total Expenses for the column labeled '4,591'?",
+            "expected_chunk_ids": [
+                "eaeb368b-22a6-48ac-aab5-528837fc1c12"
+            ],
+            "expected_content_hashes": [
+                "3f80e061ea9efad"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "244,713",
+            "rationale": "The question asks for the 'Total Expenses' for the column identified by '4,591'. In the chunk, the row 'Excise Duty: (empty) | Col 2: Total Expenses' shows '4,591: 244,713'. Thus, the answer is directly extracted from this cell.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-13",
+            "type": "single_hop",
+            "question": "Based on the provided documents, what specific item is listed under 'Long term. debt to' in the table, what value is found under 'Col 4', and what kind of proceeds are mentioned elsewhere in the document?",
+            "expected_chunk_ids": [
+                "5390780c-09d9-45f5-b91c-418255d03099"
+            ],
+            "expected_content_hashes": [
+                "315bff0b5c27728b"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "In the table, 'working capital' is listed under 'Long term. debt to', and 'Current Borrowings' is found under 'Col 4'. Separately, 'proceeds of profit from sale of listed investments' are mentioned.",
+            "rationale": "The question requires extracting 'working capital' by identifying the row for 'Long term. debt to' in the table. It also requires extracting 'Current Borrowings' by looking under 'Col 4' in the same table. Finally, it requires identifying 'proceeds of profit from sale of listed investments' from the standalone text chunk. All provided chunks are necessary to formulate the complete answer.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-14",
+            "type": "single_hop",
+            "question": "Identify all financial ratios and sources of profit mentioned across the provided documents.",
+            "expected_chunk_ids": [
+                "d4f0aba7-3151-489d-bdb1-3bb7324241ca"
+            ],
+            "expected_content_hashes": [
+                "12f0a911c5343466"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The documents mention 'proceeds of profit from sale of listed investments' as a source of profit. The financial ratios identified are 'Interest Service Coverage Ratio' and 'Debt Equity Ratio'.",
+            "rationale": "The question requires extracting the source of profit from the first chunk ('proceeds of profit from sale of listed investments'). It also requires identifying the two distinct financial ratios from the table in the second chunk: 'Debt Equity Ratio' is directly named, and 'Interest Service Coverage Ratio' is formed by combining 'I Interest Service' and 't Coverage Ratio' from the 'Ratio' column, representing a single common financial ratio.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-15",
+            "type": "single_hop",
+            "question": "Describe the current operational status of Jio-bp, including its network size, key customer engagement initiatives, and recent quarterly sales performance compared to industry growth rates.",
+            "expected_chunk_ids": [
+                "4f97ce98-77f9-453b-95db-0c160b50ea2c"
+            ],
+            "expected_content_hashes": [
+                "388d053b763e6472"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Jio-bp, operating as Reliance BP Mobility Limited (RBML), maintains a country-wide network of 2,199 outlets. Its key customer engagement initiatives include 'Active Technology' high-performance fuels, which offer extra mileage without additional cost, and loyalty programs such as ‘Trans-Connect’ for fleets, ‘RewardMeter’ for truck drivers, and ‘4ever’ for car travelers. Additionally, they have introduced a new ‘Mobility+’ credit card in collaboration with IndusInd Bank and RuPay. In terms of recent performance, RBML's quarterly sales for High-Speed Diesel (HSD) grew by 24% year-on-year and Motor Spirit (MS) sales grew by 37% year-on-year, significantly outpacing the industry sales volume growth rates of 6.1% for HSD and 6.5% for MS.",
+            "rationale": "The question requires synthesizing information across all aspects detailed in the provided chunk. The current network size is stated as 2,199 outlets in the first bullet point. The customer engagement initiatives, including 'Active Technology' fuels, loyalty programs ('Trans-Connect', 'RewardMeter', '4ever'), and the 'Mobility+' credit card, are all detailed in the second bullet point. Finally, the quarterly sales growth for HSD (24%) and MS (37%) for RBML, along with their comparison to the industry growth rates (6.1% for HSD, 6.5% for MS), is provided in the third bullet point. Thus, all parts of the single provided chunk are essential and collectively sufficient to construct the comprehensive answer.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-17",
+            "type": "single_hop",
+            "question": "What was the year-over-year change in Segment EBITDA for 4Q FY26, and what factors contributed to this performance?",
+            "expected_chunk_ids": [
+                "9d9ad6f4-e174-40ca-aa14-ad2e05c5ef8b"
+            ],
+            "expected_content_hashes": [
+                "-17974d14ff35034"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Segment EBITDA for 4Q FY26 decreased by 3.7% year-over-year to ₹ 14,520 crore ($ 1.5 billion). This decrease occurred despite strength in transportation fuel cracks, due to multiple headwinds including a sharp rise in crude premiums on physical barrels, elevated freight and insurance costs, and higher fuel costs.",
+            "rationale": "The question asks for the specific change in Segment EBITDA for 4Q FY26 and the contributing factors. The provided chunk directly states that 'Segment EBITDA for 4Q FY26 decreased by 3.7% Y-o-Y to ₹ 14,520 crore ($ 1.5 billion)' and lists all the reasons: 'despite strength in transportation fuel cracks. Multiple headwinds curtailed margin capture including sharp rise in crude premiums on physical barrels, elevated freight and insurance cost and higher fuel cost.' All parts of the answer are explicitly present in and extracted from the single provided chunk, and no additional information is required or present in the chunk that is not used.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-18",
+            "type": "single_hop",
+            "question": "What led to the sharp increase in middle distillate cracks, and what factors made margin capture challenging despite this increase in Q4 FY26 compared to Q4 FY25?",
+            "expected_chunk_ids": [
+                "38511513-976d-49fb-b1b1-2f1b56a2fd5c"
+            ],
+            "expected_content_hashes": [
+                "-3d75200e6186a597"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Middle distillate cracks jumped sharply particularly after the outbreak of the Middle East conflict. Despite this, margin capture remained challenging due to significant volatility and policy interventions.",
+            "rationale": "The question directly asks for two pieces of information, both explicitly stated in the provided chunk. The first part asks about the cause of the sharp jump in middle distillate cracks ('particularly after the outbreak of ME conflict'). The second part asks about the challenges to margin capture ('margin capture remained challenging with significant volatility and policy interventions'). The answer synthesizes these points directly from the text.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-19",
+            "type": "single_hop",
+            "question": "According to the provided table row, what value is listed under 'Col 4' when 'Long term debt to' is 'working capital'?",
+            "expected_chunk_ids": [
+                "ddf28696-deac-4585-94c4-cd6c0e500e19"
+            ],
+            "expected_content_hashes": [
+                "-3854136ea509cdd2"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Current Borrowings)",
+            "rationale": "The question asks for the specific value under 'Col 4'. To answer this, one must identify the row where 'Long term debt to' corresponds to 'working capital'. In that identified row, the value under 'Col 4' is directly stated as 'Current Borrowings)'. This requires using both the 'Long term debt to: working capital' and 'Col 4: Current Borrowings)' parts of the provided chunks.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-20",
+            "type": "single_hop",
+            "question": "According to the 'Notes' section of the document, what is the full description provided for 'Current Assets Less Current Liabilities', including any specified exclusions?",
+            "expected_chunk_ids": [
+                "ea0574dc-ceff-4380-a118-89656dc8fd7a"
+            ],
+            "expected_content_hashes": [
+                "52245780328c31fd"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Current Assets Less Current Liabilities (Excluding Current Maturities of Non-Current Borrowings)",
+            "rationale": "The question directly asks for the complete phrase used in the 'Notes' section that describes 'Current Assets Less Current Liabilities' along with its specific exclusion, which precisely matches the provided chunk.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-21",
+            "type": "single_hop",
+            "question": "According to the provided document, what is the formula for the Current Ratio?",
+            "expected_chunk_ids": [
+                "dc92c15b-3428-4cfb-b069-29654643dc3b"
+            ],
+            "expected_content_hashes": [
+                "-42f2a6d0ec757be4"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Current Assets / Current Liabilities",
+            "rationale": "The chunk explicitly states 'd) Current Ratio Current Assets Current Liabilities', which directly provides the components of the Current Ratio formula. The question requires extracting this exact relationship.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-22",
+            "type": "single_hop",
+            "question": "What is the 'Finance Costs' value for the column labeled \"- 4591 .. C,- .\", in the Excise Duty table?",
+            "expected_chunk_ids": [
+                "6e880b55-43f8-445c-a6aa-583b47bd0bf2"
+            ],
+            "expected_content_hashes": [
+                "-32b9a1b1c99582c7"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "6,613",
+            "rationale": "The question asks for a specific value ('Finance Costs') corresponding to a particular column header (\"- 4591 .. C,- .\") within the provided table of 'Excise Duty' expenses. The value '6,613' is found at the intersection of the 'Finance Costs' row and the specified column in the provided data.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-23",
+            "type": "single_hop",
+            "question": "According to the provided document, which listed entities contain 'India' in their name?",
+            "expected_chunk_ids": [
+                "644b183a-6269-43bf-b7e0-e1fdc34f3078"
+            ],
+            "expected_content_hashes": [
+                "5a11531474f6cb"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "IndiaCast Media Distribution Private Limited, IndiaCast UK Limited, IndiaCast US Limited, Indiavidual Learning Limited, Indiawin Sports Middle East Limited, Indiawin Sports Private Limited, Indiawin Sports USA Inc., Infomedia Press Limited, and Intimi India Limited.",
+            "rationale": "The question specifically asks for all entities mentioned in the provided chunks that have 'India' as part of their name. The gold answer accurately compiles this list directly and entirely from the given text, demonstrating that the provided chunks are both necessary and sufficient to answer the question.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-24",
+            "type": "single_hop",
+            "question": "What strategic initiatives were implemented to elevate customer experience and transform operations in the Fashion and Lifestyle business, and what was the year-over-year increase in Ajio's Average Bill Value?",
+            "expected_chunk_ids": [
+                "a4a61c82-57c8-4e47-81b1-ba879c4a2b0c"
+            ],
+            "expected_content_hashes": [
+                "-56ca5168a8fdc10b"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "To elevate customer experience, a strategic refresh and digital enablement of over 1,500 stores was undertaken. For operational transformation, the business adopted an AI-native operating model, embedding intelligence across merchandising, supply chain, and omni-channel fulfillment. Ajio's Average Bill Value saw a 23% year-over-year increase.",
+            "rationale": "The question requires information about specific strategic initiatives related to customer experience (store refresh/digital enablement), operational transformation (AI-native operating model), and a specific growth metric for Ajio (23% Y-o-Y increase in Average Bill Value). All these distinct pieces of information are present and explicitly stated across different bullet points within the single provided chunk, making the chunk necessary and sufficient to answer accurately.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-25",
+            "type": "single_hop",
+            "question": "According to the Media Release, what specific amount from the proceeds of profit from the sale of listed investments is included in the FY26 EBITDA?",
+            "expected_chunk_ids": [
+                "7f5920f0-a21b-46fe-867f-b9a39bd85e73"
+            ],
+            "expected_content_hashes": [
+                "1ce04b91fe2d1289"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "₹ 8,924 crore",
+            "rationale": "Chunk 2 explicitly states, 'FY26 EBITDA includes ₹ 8,924 crore being proceeds of profit from sale of listed investments.' Chunk 1 is necessary to establish the document's context as a 'Media Release' and its specific section ('Associates & JVs'), which is referenced in the question. Both chunks are required to fully answer the question accurately within its provided context.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-26",
+            "type": "single_hop",
+            "question": "What is the current status of the second phase of the multi-lateral well (MLW) campaign for CBM, including the number of wells drilled and connected, and what is the current production rate?",
+            "expected_chunk_ids": [
+                "8723b5d7-fa96-4732-9e8f-6dd76b6a4098"
+            ],
+            "expected_content_hashes": [
+                "7e91c15f8d9c2b60"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The second phase of the multi-lateral well (MLW) campaign is underway to augment CBM production. Out of a 40 MLW wells campaign, 23 wells have been drilled and 21 wells have been connected to the production system. The current production rate is 0.91 MMSCMD, with new wells significantly contributing to this production.",
+            "rationale": "The question requires extracting the status of the MLW campaign, the specific numbers of wells drilled and connected, and the current production rate, all of which are explicitly stated in the provided chunk.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-27",
+            "type": "single_hop",
+            "question": "Which specific cricket tournaments and bilateral series were highlighted as leading the strong performance of the sports lineup during the quarter?",
+            "expected_chunk_ids": [
+                "74251f76-49df-4952-b9e9-5c7d74e90d4a"
+            ],
+            "expected_content_hashes": [
+                "4781835733b40d78"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The strong performance of the sports lineup was led by the record-breaking ICC T20 World Cup, Women’s Premier League, and the India vs New Zealand bilateral series.",
+            "rationale": "The question asks for the specific events that led the strong performance, which is explicitly stated in the first bullet point of the provided chunk. The gold answer directly extracts these three events.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-29",
+            "type": "single_hop",
+            "question": "According to the document, what is the definition of 'Inventory turnover', and what specific dates are listed under the 'Quarter Ended' and 'Nine Months Ended' categories in the provided table?",
+            "expected_chunk_ids": [
+                "e2018115-d434-402f-a284-48babe363877"
+            ],
+            "expected_content_hashes": [
+                "654d84f911f63a2"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The document defines 'Inventory turnover' as 'Cost of Goods Sold (Cost of Material Consumed + Purchases > fin crore)'. The specific dates listed under 'Quarter Ended' are 31st Dec'25, 30th Se '25, and 31st Dec'24 (from Col 5). The specific dates listed under 'Nine Months Ended' are 31st Dec'25 and 31st Dec'24 (from Col 7).",
+            "rationale": "Chunk 1 ('e2018115-d434-402f-a284-48babe363877') provides the exact definition for 'Inventory turnover'. Chunk 2 (the 'Table' chunk) provides the specific dates for the 'Quarter Ended' (31st Dec'25, 30th Se '25, and 31st Dec'24 from Col 5) and 'Nine Months Ended' (31st Dec'25 and 31st Dec'24 from Col 7) categories. Both chunks are essential and directly contribute to the complete answer, making them exactly required.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-30",
+            "type": "single_hop",
+            "question": "According to the provided document, what are all the entities listed as Joint Ventures?",
+            "expected_chunk_ids": [
+                "7051ec0a-258d-4576-a87a-cd4389fcf0a9"
+            ],
+            "expected_content_hashes": [
+                "-eb41fa9ec1611f8"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The document lists the following Joint Ventures: Alok Industries International Limited; Alok Industries Limited; Alok Infrastructure Limited; Alok International (Middle East) FZE; Alok International Inc.; Alok Singapore PTE Limited; Alok Worldwide Limited; BAM DLR Data Center Services Private Limited; BAM DLR Kolkata Private Limited; BAM DLR Mumbai Private Limited; BAM DLR Network Services Private Limited; Brooks Brothers India Private Limited; Burberry India Private Limited; BVM Overseas Limited; Canali India Private Limited; D. E. Shaw India Securities Private Limited; Diesel Fashion India Reliance Private Limited; DXDC Chennai Private Limited; Grabal Alok International Limited; Hathway Bhawani NDS Network Limited; Hathway Channel 5 Cable and Datacom Private Limited; Hathway ICE Television Private Limited$; Hathway Latur MCN Cable & Datacom Private Limited; Hathway MCN Private Limited; Hathway Sonali OM Crystal Cable Private Limited; Hathway SS Cable & Datacom LLP; IBN Lokmat News Private Limited#; Icon ix Lifestyle India Private Limited; India Gas Solutions Private Limited; lndospace MET Logistics Park Farukhnagar Private Limited; Jio BLAST eSports Private Limited; Jio Space Technology Limited; Marks and Spencer Reliance India Private Limited; Media Pro Enterprise India Private Limited; Mileta a.s.; Pipeline Management Services Private Limited; Reidel Apparel Private Limited; Reliance Bally India Private Limited; Reliance International Leasing IFSC Private Limited; Reliance Paul & Shark Fashions Private Limited; Reliance-Vision Express Private Limited.",
+            "rationale": "The question specifically asks for all entities listed as Joint Ventures. The provided chunks contain a clear heading 'List of Joint Ventures:' followed by a comprehensive list of all these entities. The gold answer is a direct extraction of every item from this list, thus requiring engagement with the entirety of the provided text.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-31",
+            "type": "single_hop",
+            "question": "What financial metrics are mentioned or defined in the provided text, and what are the reported values for \"Total Segment Profit before Interest, Tax and Depreciation, Amortisation and Depletion\"?",
+            "expected_chunk_ids": [
+                "ca00af95-8419-4bfc-8b27-f03ce43e8c98"
+            ],
+            "expected_content_hashes": [
+                "-4ce57a63d1629d0"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The financial metrics mentioned or defined are \"Inventory turnover\", defined as \"Cost of Goods Sold (Cost of Material Consumed + Purchases > fin crore)\", \"Total Segment Profit before Interest, Tax and Depreciation, Amortisation and Depletion\", and \"Segment Results (EBIT)\". The reported values for \"Total Segment Profit before Interest, Tax and Depreciation, Amortisation and Depletion\" are 16,151 and 48,706.",
+            "rationale": "Chunk 1 (ca00af95-8419-4bfc-8b27-f03ce43e8c98) is required to identify and define 'Inventory turnover'. Chunk 2 (38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf) is necessary to identify 'Total Segment Profit before Interest, Tax and Depreciation, Amortisation and Depletion' and 'Segment Results (EBIT)', and to provide the specific values (16,151 and 48,706) for the total segment profit. Both chunks are essential to fully answer the question.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-32",
+            "type": "single_hop",
+            "question": "According to Isha M. Ambani, Executive Director of Reliance Retail Ventures Limited, what were the key highlights for Reliance Retail in FY26, and what strategic areas will the company prioritize for FY27?",
+            "expected_chunk_ids": [
+                "862566ee-7121-4102-a2bc-0641e1778c69"
+            ],
+            "expected_content_hashes": [
+                "33be70500783aa37"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Isha M. Ambani stated that FY26 was a year of profitable growth at scale for Reliance Retail. The company's revenue crossed ₹ 3.70 lakh crore, EBITDA surpassed ₹ 27,000 crore, and they served 387 million registered customers through 1.93 billion transactions. A significant shift was the more than four-fold year-on-year growth in hyper-local commerce orders, powered by India's widest hyper-local delivery network across grocery, electronics, and fashion, comprising over 3,100 stores in more than 1,200 cities and 5,100+ pin codes. For FY27, Reliance Retail will focus on converting its unmatched reach into deeper customer value through AI-embedded merchandising, sharper pricing architecture, and disciplined execution, aiming for a decade of sustainable, profitable growth.",
+            "rationale": "The question requires information about both the past year's performance (FY26 highlights) and future strategic direction (FY27 focus), as articulated by a specific individual (Isha M. Ambani). The provided chunk uniquely contains all these details: Ambani's name and title, the financial and operational metrics for FY26 (revenue, EBITDA, customer numbers, transaction volume, hyper-local growth), and the strategic priorities for FY27 (AI-embedded merchandising, sharper pricing, disciplined execution). Therefore, the entire chunk is necessary to provide a comprehensive and accurate answer.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-33",
+            "type": "single_hop",
+            "question": "According to the table, what additional components, specified under 'Col 4', contribute to the Cost of Goods Sold alongside Cost of Material Consumed and Purchases?",
+            "expected_chunk_ids": [
+                "5a74ac73-c9bf-4c48-bde7-fa9563abd217"
+            ],
+            "expected_content_hashes": [
+                "-4cf7151cb5eef831"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Changes in Inventory and Manufacturing Expenses.",
+            "rationale": "The question asks for specific components listed under 'Col 4' that are part of the 'Cost of Goods Sold (Cost of Material Consumed + Purchases' definition. The chunk clearly states 'Col 4: + Changes in Inventory+ Manufacturing Expenses', directly providing the answer.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-34",
+            "type": "single_hop",
+            "question": "What led to the increase in depreciation and the growth in PAT?",
+            "expected_chunk_ids": [
+                "71d9e64b-d515-4f4c-8657-55245957b745"
+            ],
+            "expected_content_hashes": [
+                "62e965fe9314b150"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The increase in depreciation was led by higher network utilisation and addition to the gross block, and PAT growth was driven by the flow through of strong EBITDA growth.",
+            "rationale": "The question directly asks for the causes of both depreciation increase and PAT growth, which are explicitly stated in the two bullet points of the provided chunk. Both parts of the chunk are essential to form a complete answer.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-36",
+            "type": "single_hop",
+            "question": "What was the Revenue for 4Q FY26 and what was its year-over-year percentage change?",
+            "expected_chunk_ids": [
+                "acf5b26d-6caa-43fb-a7ec-c3b162b09f2d"
+            ],
+            "expected_content_hashes": [
+                "3c0bb878b5723137"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The Revenue for 4Q FY26 was 184,944 and the year-over-year percentage change was 12.4%.",
+            "rationale": "The question asks for two specific data points related to 'Revenue': its value for '4Q FY26' and its 'Y-o-Y' percentage change. Both pieces of information are directly available in the 'Revenue' row of the provided financial results table. The '4Q FY26' column shows '184,944' for Revenue, and the 'Y-o-Y' column shows '12.4' for the percentage change.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-37",
+            "type": "single_hop",
+            "question": "According to the Annual Performance Media Release, how many new stores did the business open, what is the total store count, and what is the total area in square feet?",
+            "expected_chunk_ids": [
+                "944aed58-43a1-4c15-a4d8-e74e160a230f"
+            ],
+            "expected_content_hashes": [
+                "-565ffa75717bac4d"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The business opened 1,564 stores, bringing the total store count to 20,160 with a total area of 78.3 million sq. ft.",
+            "rationale": "The question requires all three numerical details (stores opened, total store count, and total area) explicitly mentioned within the single provided chunk. The chunk is fully necessary and sufficient to answer the question comprehensively.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "single-39",
+            "type": "single_hop",
+            "question": "What are the amounts reported under column '45' for 'Items that will be reclassified to Profit or Loss' and for 'Income tax relating to items that will be reclassified to Profit or Loss'?",
+            "expected_chunk_ids": [
+                "f919fefa-1d0b-43c0-9ef9-51cd8ac2c280"
+            ],
+            "expected_content_hashes": [
+                "-97471dff86343d2"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The amount reported under column '45' for 'Items that will be reclassified to Profit or Loss' is (5,554). For 'Income tax relating to items that will be reclassified to Profit or Loss', the amount under column '45' is 1,384.",
+            "rationale": "The question requires extracting two specific numerical values from the provided table data. The first value, (5,554), is found under '45' for 'Items that will be reclassified to Profit or Loss'. The second value, 1,384, is found under '45' for 'Income tax relating to items that will be reclassified to Profit or Loss'. Both pieces of information are directly available in the given chunks and are necessary to fully answer the question.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-1",
+            "type": "multi_hop",
+            "question": "What components are included in the Debt Service Coverage Ratio, and what are the place and date associated with both Membership No.1029 and Membership No.047841?",
+            "expected_chunk_ids": [
+                "384d37ac-707c-482a-aae6-edbf85851465",
+                "1bd061e5-0485-495d-92d6-8da6b2f8ac9a"
+            ],
+            "expected_content_hashes": [
+                "3931310a1868955",
+                "-5ebababc38479b50"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The Debt Service Coverage Ratio includes Interest Expense + Principal Repayments made during the period. Both Membership No.1029 and Membership No.047841 are associated with Mumbai on 16th January, 2026.",
+            "rationale": "This question requires information from both provided chunks. The definition of the 'Debt Service Coverage Ratio' (Interest Expense + Principal Repayments made during the) is found in the first chunk. The place (Mumbai) and date (16th January, 2026) for Membership No.1029 and Membership No.047841 are found in the second chunk. Both chunks are essential to fully answer the question, requiring a multi-hop approach to synthesize distinct facts.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-2",
+            "type": "multi_hop",
+            "question": "What was the signing date and location for Membership No.1029 UDIN: 261029 l 2RVDREH934 l, and what were the listed crack values and reasons for Gasoline 92 RON?",
+            "expected_chunk_ids": [
+                "1ad56a97-53aa-493d-b087-62346d8de34c",
+                "1bd061e5-0485-495d-92d6-8da6b2f8ac9a"
+            ],
+            "expected_content_hashes": [
+                "-6426f23ef34204cf",
+                "-5ebababc38479b50"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The document for Membership No.1029 UDIN: 261029 l 2RVDREH934 l was signed on January 16th, 2026, in Mumbai. Regarding Gasoline 92 RON cracks, the values were $9.3 and $23.6, showing changes of +34% and +63% respectively. The reasons listed for these cracks are refinery closures in North America and Europe, lower Chinese gasoline exports, lower inventories in the US and Europe, and refinery disruptions in Russia and due to the ME conflict.",
+            "rationale": "The question requires information from both provided chunks. The first part of the question (signing date and location for the specific membership number) is found in Chunk 2. The second part (crack values and reasons for Gasoline 92 RON) is found in Chunk 1. Both chunks are essential to provide a complete and accurate answer.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-3",
+            "type": "multi_hop",
+            "question": "What is the highest 'Total Income' value reported in the first provided chunk, and what is the highest 'Net Profit attributable to Owners of the Company' reported in the second provided chunk?",
+            "expected_chunk_ids": [
+                "faef2360-d3c2-423b-982a-23b5e9d347c1",
+                "34980299-ed89-4fb6-bff1-70773d0713d3"
+            ],
+            "expected_content_hashes": [
+                "105ca5a303aefcbe",
+                "3fe04723cefe145e"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The highest Total Income value is 541,886. The highest Net Profit attributable to Owners of the Company is 80,775.",
+            "rationale": "To answer this question, information must be extracted from both provided chunks. The highest 'Total Income' (541,886) is found in the first chunk under 'Value of Sales & Services (Revenue)' > 'Total Income'. The highest 'Net Profit attributable to Owners of the Company' (80,775) is found in the second chunk under 'Net Profit attributable to' > 'Owners of the Company'. Both values need to be identified and combined.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-4",
+            "type": "multi_hop",
+            "question": "According to the provided information, what factors contributed to the robust EBITDA growth, and which components are included in the calculation of Cost of Goods Sold?",
+            "expected_chunk_ids": [
+                "5a74ac73-c9bf-4c48-bde7-fa9563abd217",
+                "d8d75afb-c424-435e-b0df-7e0fc8b4c7bc"
+            ],
+            "expected_content_hashes": [
+                "-4cf7151cb5eef831",
+                "-4d78e8643834931c"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Robust EBITDA growth was attributed to revenue increase and strong operating leverage, which collectively drove a 190 bps expansion in margins. The Cost of Goods Sold includes Cost of Material Consumed, Purchases, Changes in Inventory, and Manufacturing Expenses.",
+            "rationale": "This question is multi-hop because it requires information from both chunks. The first part of the question, regarding the factors contributing to robust EBITDA growth, is answered by the second chunk. The second part of the question, concerning the components of Cost of Goods Sold, is answered by the first chunk. Both chunks are essential to fully answer the question, making it a precise extraction from the provided context.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-5",
+            "type": "multi_hop",
+            "question": "According to the provided documents, what specific accounting standards and regulations are followed for preparing Reliance Industries Limited's interim financial statements, and what were the primary reasons for the significant increase in Jet/Kerosene cracks in Singapore?",
+            "expected_chunk_ids": [
+                "0c8f3490-1d6f-43f6-925c-be8c9f4afda7",
+                "c1bfc02f-5295-4fe1-9a44-48282adbb9c0"
+            ],
+            "expected_content_hashes": [
+                "-547ef6785dea0a7f",
+                "-1dd045658f48c8c7"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Reliance Industries Limited's interim financial statements are prepared in accordance with the Indian Accounting Standard 34 ('Interim Financial Reporting') prescribed under Section 133 of the Companies Act, 2013, read with relevant rules, and in compliance with Regulations 33 and 52 of the SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015. The significant increase in Jet/Kerosene cracks in Singapore was due to the disruption of jet fuel supply to Europe because of the SoH closure, coupled with limited alternative sources and the rationalisation of runs by Asian refiners.",
+            "rationale": "This question requires a multi-hop answer. The first part, concerning the accounting standards and regulations for Reliance Industries Limited's interim financial statements, is found in Chunk 1: 'This Statement... has been prepared in accordance with the recognition and measurement principles laid down in the Indian Accounting Standard 34, 'Interim Financial Reporting' ('' Ind AS 34\") prescribed under Section 133 of the Companies Act, 2013 as amended, read with relevant rules issued thereunder and other accounting principles generally accepted in India and in compliance with Regulations 33 and 52 of the Listing Regulations.' The second part, identifying the reasons for the increase in Jet/Kerosene cracks in Singapore, is found in Chunk 2 under 'Jet/Kerosene Singapore $36.3 + 175%': 'Disruption of jet fuel supply to Europe due to SoH closure', 'with limited alternative sources', and 'Rationalisation of runs by Asian refiners'. Both chunks are necessary to fully answer the question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-6",
+            "type": "multi_hop",
+            "question": "What is the role of Mr. Akash M Ambani, and what specific location details are provided in the documents, including the street, building number, city, and state?",
+            "expected_chunk_ids": [
+                "1fc1c60e-b080-43c1-af85-5ecbc6bb0556",
+                "2da2e2f2-725b-4dd2-8b2a-382923cbc1b4"
+            ],
+            "expected_content_hashes": [
+                "5be00c328c069d16",
+                "85b185e8fd399cd"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Mr. Akash M Ambani is the Chairman of Reliance Jio Infocomm. The specific location details provided are 212 Nariman Point, Senapati Bapat Marg, Elphinstone Road (West), Mumbai - 400021, Maharashtra, India.",
+            "rationale": "This question requires information from both provided chunks. The role of Mr. Akash M Ambani ('Chairman of Reliance Jio Infocomm') is extracted from the first chunk. The specific location details ('212 Nariman Point, Mumbai - 400021, Maharashtra, India', 'Senapati Bapat Marg', 'Elphinstone Road (West)') are extracted from the second chunk. Both pieces of information are essential for a complete answer, making it a multi-hop question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-7",
+            "type": "multi_hop",
+            "question": "Excluding specific components like 'Earnings before Interest and Tax Interest Expense' and 'Total Debt', identify the three main financial ratios or metrics discussed across the provided documents, and state the period for which the standalone segment information is reported.",
+            "expected_chunk_ids": [
+                "88867a80-9db9-459a-8604-1d56a63aa198",
+                "ebb95089-dfc2-42fa-a72c-5959b6cff36d"
+            ],
+            "expected_content_hashes": [
+                "2af6ef275f165d84",
+                "6018214a1ffd9389"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The three main financial ratios or metrics are the Interest Service Coverage Ratio, Debt Equity Ratio, and Inventory turnover. The standalone segment information is reported for the quarter or nine months ended December 31st, 2025.",
+            "rationale": "The question requires identifying financial ratios from Chunk 1 (Interest Service Coverage Ratio, Debt Equity Ratio) and a metric from Chunk 2 (Inventory turnover). It also asks for the reporting period for the standalone segment information, which is explicitly stated in Chunk 2 as 'FOR THE QUARTER I NINE MONTHS ENDED 31sr DECEMBER, 2025'. Both chunks are essential to fully answer the question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-8",
+            "type": "multi_hop",
+            "question": "What market share did RBML capture in the India aviation sector, and what specific values are reported for the Total Segment Profit before Interest, Tax, Depreciation, Amortisation, and Depletion?",
+            "expected_chunk_ids": [
+                "d44b295c-4850-4e04-9784-0b7530488022",
+                "ca00af95-8419-4bfc-8b27-f03ce43e8c98"
+            ],
+            "expected_content_hashes": [
+                "24e16c39a985faa4",
+                "-4ce57a63d1629d0"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "RBML captured a 5.9% market share in the India aviation story. The specific values reported for the Total Segment Profit before Interest, Tax, Depreciation, Amortisation, and Depletion are 16,151 and 48,706.",
+            "rationale": "The question requires information from two distinct chunks. The first part of the answer, RBML's market share in India aviation, is extracted from the first chunk. The second part, the Total Segment Profit values, is extracted from the second chunk. Both pieces of information are directly stated within their respective chunks and combined to form the complete answer.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-9",
+            "type": "multi_hop",
+            "question": "What product innovations were pioneered by JioHotstar, and what is the name of the Reliance Jio Infocomm entity listed in the provided documents?",
+            "expected_chunk_ids": [
+                "d034e412-16bb-4484-8e02-a33406616024",
+                "64a58c52-ab48-4f8c-927f-830289d7e0d1"
+            ],
+            "expected_content_hashes": [
+                "-51687179efaefbee",
+                "-616691ef21b54926"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "JioHotstar pioneered product innovations including in-app commerce integrations like in-app food ordering with Swiggy on the IPL and a 'Shop the Look' partnership with NewMe on Splitsvilla. The Reliance Jio Infocomm entity listed is Reliance Jio Infocomm Limited.",
+            "rationale": "This question is MULTI_HOP because it requires combining information from two distinct chunks. The first part of the answer, detailing JioHotstar's product innovations, is found in the second chunk (64a58c52-ab48-4f8c-927f-830289d7e0d1). The second part, identifying the specific 'Reliance Jio Infocomm' entity, requires consulting the list of companies in the first chunk (d034e412-16bb-4484-8e02-a33406616024). Both chunks are essential and contribute unique pieces of information to form the complete answer.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-10",
+            "type": "multi_hop",
+            "question": "According to the media release detailing the Margin Environment for Downstream Chemicals, which mentions US Ethane prices, what was the average US Ethane price, and what is the full phone number for the registered office of the company identified with CIN L17110MH1973PLC019786, as provided in its contact information for the period ending December 31, 2025?",
+            "expected_chunk_ids": [
+                "2112d5d3-5f17-4777-a613-acdf3be552ac",
+                "2d7f5622-f992-44ee-9c18-898815a4b7f4"
+            ],
+            "expected_content_hashes": [
+                "-586bf51be3528563",
+                "-1cff019ce762c823"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The average US Ethane price was 23.5 cpg, and the full phone number for the registered office is +91-22-3555 5000.",
+            "rationale": "This question requires information from both provided chunks to be answered completely. Chunk 2 ('2d7f5622-f992-44ee-9c18-898815a4b7f4') provides the specific detail about the 'US Ethane price averaged 23.5 cpg'. Chunk 1 ('2112d5d3-5f17-4777-a613-acdf3be552ac') provides the company's full phone number for its registered office ('+91-22-3555 5000') and contextual information like the CIN and reporting period, which helps link the company to the media release in Chunk 2.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-11",
+            "type": "multi_hop",
+            "question": "What was Reliance Retail's total store count in Q4 FY26, and how is the Interest Service Coverage Ratio defined?",
+            "expected_chunk_ids": [
+                "d5e91f85-3bce-477c-9043-9469fa1767d5",
+                "d4f0aba7-3151-489d-bdb1-3bb7324241ca"
+            ],
+            "expected_content_hashes": [
+                "-1539d0807675c120",
+                "12f0a911c5343466"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Reliance Retail's total store count reached 20,160 stores in Q4 FY26. The Interest Service Coverage Ratio is defined as the sum of Interest Expense and Principal Repayments made during the period for long-term loans, divided by Earnings before Interest and Tax.",
+            "rationale": "The question explicitly requires two distinct pieces of information, each sourced from a different chunk. The total store count for Reliance Retail in Q4 FY26 is found in the first chunk (d5e91f85-3bce-477c-9043-9469fa1767d5), and the definition of the Interest Service Coverage Ratio is located in the second chunk (d4f0aba7-3151-489d-bdb1-3bb7324241ca). Therefore, both chunks are essential and exactly required to formulate a complete and accurate answer.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-13",
+            "type": "multi_hop",
+            "question": "What was the reported value of Tax Expenses, and how much lower were these expenses compared to the Depreciation / Amortisation and Depletion Expense found in the column labeled '4,275'?",
+            "expected_chunk_ids": [
+                "2a497d0e-4fb1-41c9-bf95-37c94bdebe0f",
+                "6e880b55-43f8-445c-a6aa-583b47bd0bf2"
+            ],
+            "expected_content_hashes": [
+                "38ea74e5eac43294",
+                "-32b9a1b1c99582c7"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The reported Tax Expenses were 6,579 crore. Compared to the Depreciation / Amortisation and Depletion Expense of 14,416 (from the column '4,275'), the Tax Expenses were 7,837 crore lower (14,416 - 6,579 = 7,837).",
+            "rationale": "This question requires information from both provided chunks. Chunk 1 (2a497d0e-4fb1-41c9-bf95-32c74bdebe0f) explicitly states 'Tax Expenses decreased by 1.3% Y-o-Y to 6,579 crore'. Chunk 2 (6e880b55-43f8-445c-a6aa-583b47bd0bf2) provides the value for 'Depreciation / Amortisation and Depletion Expense' as 14,416 under the column '4,275'. Both specific values must be extracted from their respective chunks and then used to perform the requested comparison (subtraction), thus requiring both chunks.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-14",
+            "type": "multi_hop",
+            "question": "From the provided financial figures, identify one type of reserve listed in the equity details, and then describe what components are explicitly included within 'Non-Current Borrowings'.",
+            "expected_chunk_ids": [
+                "b702de04-8514-46d7-b91c-351901f6bd45",
+                "ddf28696-deac-4585-94c4-cd6c0e500e19"
+            ],
+            "expected_content_hashes": [
+                "5d0c7fedf6e359d4",
+                "-3854136ea509cdd2"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "One type of reserve listed is 'Capital Redemption Reserve / Debenture Redemption Reserve'. The components explicitly included within 'Non-Current Borrowings' are 'Current Maturities of Non-Current Borrowings'.",
+            "rationale": "This is a MULTI_HOP question because it requires extracting specific details from both provided chunks. The first part of the question, identifying a type of reserve, is answered by extracting 'Capital Redemption Reserve / Debenture Redemption Reserve' from Chunk 1. The second part, describing the components of 'Non-Current Borrowings', is answered by extracting the clarifying phrase '(Including Current Maturities of Non-Current Borrowings)' from Chunk 2. Both chunks are essential to formulate the complete answer.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-15",
+            "type": "multi_hop",
+            "question": "Regarding financial reporting, what specific items from 'Other Comprehensive Income' are described as not being reclassified to 'Profit or,' and what general action is stated as necessary for comparability, also identifying a specific type of debenture mentioned?",
+            "expected_chunk_ids": [
+                "7a325b5b-1ca5-400f-8c3f-0baf651b9d52",
+                "01daae7b-bbe5-4d8e-98f7-eeb9fd507256"
+            ],
+            "expected_content_hashes": [
+                "-3200830f246064fb",
+                "350b52e28c87450c"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Items from Other Comprehensive Income that will not be reclassified to Profit or. It is stated that it is necessary to make them comparable. Additionally, Total Non-Convertible Debentures are mentioned.",
+            "rationale": "The question is multi-hop because it requires extracting and synthesizing three distinct pieces of information from two fragmented chunks. The first piece (reclassification of OCI items) comes from Chunk 1. The second piece (the necessity of making items comparable) and the third piece (the mention of Total Non-Convertible Debentures) both come from Chunk 2. The multi-hop nature stems from integrating these separate points into a coherent answer, particularly connecting the general principle of comparability from Chunk 2 to the context of financial items like those from comprehensive income, and then extracting a distinct financial instrument.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-16",
+            "type": "multi_hop",
+            "question": "According to the provided information, what specific income component is included in segment results like EBITDA and EBIT, and how is Inventory turnover defined in terms of Cost of Goods Sold?",
+            "expected_chunk_ids": [
+                "8ba6e4df-fda4-4f5a-bd67-8ff38a89bf59",
+                "78799511-0966-4573-b702-de9199788088"
+            ],
+            "expected_content_hashes": [
+                "-404da85ed5b70924",
+                "9a906d89b61eb07"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Segment results such as EBITDA and EBIT include Interest Income pertaining to the respective segments. Inventory turnover is defined as Cost of Goods Sold (Cost of Material Consumed + Purchases > fin crore).",
+            "rationale": "The question requires combining two distinct pieces of information from separate chunks: the specific income included in segment results from the second chunk, and the definition/calculation of inventory turnover from the first chunk. This necessitates accessing and synthesizing information from both documents, making it a multi-hop query.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-17",
+            "type": "multi_hop",
+            "question": "Considering JioStar reported strong revenues of ₹ 9,784 crore and an EBITDA of ₹ 827 crore for 4Q FY26, what type of financial results are presented for the quarter and nine months ended December 31, 2025, and what currency are these general financial results typically reported in?",
+            "expected_chunk_ids": [
+                "e6404ee1-1ddd-49d2-be81-8a60154cfb96",
+                "c3c4a0b7-519c-4b6a-86ed-8ff667ba3022"
+            ],
+            "expected_content_hashes": [
+                "-2de94b96f949bab",
+                "434a144a3b30d6fa"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "JioStar reported strong revenues of ₹ 9,784 crore and an EBITDA of ₹ 827 crore for 4Q FY26. For the quarter and nine months ended December 31, 2025, the presented financial results are Unaudited Standalone Financial Results, and they are typically reported in crore.",
+            "rationale": "This is a MULTI-HOP question. The first part of the question's premise explicitly refers to JioStar's revenues and EBITDA for 4Q FY26, which is directly sourced from the second chunk (c3c4a0b7-519c-4b6a-86ed-8ff667ba3022). The second part of the question asks about the type of financial results and the reporting currency for the quarter and nine months ended December 31, 2025. This information ('UNAUDITED STANDALONE FINANCIAL RESULTS' and '~ in crore') is found exclusively in the first chunk (e6404ee1-1ddd-49d2-be81-8a60154cfb96). Both chunks are essential to answer the question fully and accurately, connecting specific company performance with the general financial reporting context.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-18",
+            "type": "multi_hop",
+            "question": "When examining a company's media release detailing its quarterly performance for 4Q FY26 versus 4Q FY25, what diverse types of information might be presented, specifically including operational achievements, financial proceeds, and the computation method for a key financial ratio?",
+            "expected_chunk_ids": [
+                "a1b4212d-ee48-4730-ad22-883027adf8c2",
+                "7f7996f5-e7a5-42c9-a997-88a8625db978"
+            ],
+            "expected_content_hashes": [
+                "-67ec8045379f69b6",
+                "2e8350f0f5236bc7"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "A media release on quarterly performance for 4Q FY26 versus 4Q FY25 could include details such as the operationalisation of 5G spectrum assets, proceeds of profit from sale of listed investments, and the formula for Debt Service Coverage Ratio, which is Earnings before Interest and Tax divided by (Interest Expense + Principal Repayments made during the period).",
+            "rationale": "The question requires combining information from all provided chunks. It uses the context of 'Media Release > Quarterly Performance (4Q FY26 vs 4Q FY25)' to frame the query. It then asks for diverse elements, which are directly answered by 'operationalisation of 5G spectrum assets', 'proceeds of profit from sale of listed investments', and the 'Formulae for computation of ratios' for Debt Service Coverage Ratio.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-19",
+            "type": "multi_hop",
+            "question": "What is the combined total of Employee Benefits Expense, Finance Costs, Depreciation / Amortisation and Depletion Expense, and Other Expenses for the column labeled '4,275' in the Excise Duty table? How does this total compare to the Net Profit Before Tax of 123,162?",
+            "expected_chunk_ids": [
+                "0f98c957-3f59-492b-99e5-4024a05dd4a9",
+                "4b463781-1921-41c2-9955-d2e246b3858d"
+            ],
+            "expected_content_hashes": [
+                "-701ee294730b0f50",
+                "-1223661e1fce02c8"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "From the Excise Duty table for column '4,275': Employee Benefits Expense is 2,321; Finance Costs is 1,770; Depreciation / Amortisation and Depletion Expense is 4,472; and Other Expenses is 14,963. The combined total of these expenses is 2,321 + 1,770 + 4,472 + 14,963 = 23,526. The Net Profit Before Tax is 123,162. Therefore, the combined expense total of 23,526 is 99,636 less than the Net Profit Before Tax of 123,162 (123,162 - 23,526 = 99,636).",
+            "rationale": "The question requires extracting four specific expense values (Employee Benefits Expense, Finance Costs, Depreciation / Amortisation and Depletion Expense, and Other Expenses) from the first chunk's table, specifically for the column '4,275', and summing them. Then, it requires retrieving the 'Net Profit Before Tax' value of 123,162 from the second chunk. Finally, a calculation and comparison are needed to state how the calculated sum relates to the Net Profit Before Tax. Both chunks are essential and fully utilized to answer the question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-20",
+            "type": "multi_hop",
+            "question": "What was the year-over-year growth in Average Bill Value for the Jewels business, and what were the stock-in-trade figures for Oil and Gas - Retail and Oil and Gas - Digital Services under the '30,513.' column?",
+            "expected_chunk_ids": [
+                "8c34a85f-11ac-49a8-af86-dd955159d81d",
+                "5bacdf51-1a1f-4bea-a97a-ecf63e3249d2"
+            ],
+            "expected_content_hashes": [
+                "-3392ea5b05f4735d",
+                "341d32c17187594e"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The Average Bill Value for the Jewels business grew 53% Y-o-Y. For the '30,513.' column, the stock-in-trade for Oil and Gas - Retail was 241,333, and for Oil and Gas - Digital Services, it was 627,509.",
+            "rationale": "This is a MULTI_HOP question because it requires extracting distinct pieces of information from two separate documents and combining them into a single answer. The growth percentage for the Jewels business (53% Y-o-Y) is found in chunk [5bacdf51-1a1f-4bea-a97a-ecf6e3249d2]. The stock-in-trade figures for Oil and Gas - Retail (241,333) and Oil and Gas - Digital Services (627,509) under the '30,513.' column are found within the table in chunk [8c34a85f-11ac-49a8-af86-dd955159d81d].",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-21",
+            "type": "multi_hop",
+            "question": "What was RIL's 'Other Income' for the nine months ended December 31, 2025, and what factors impacted its segment profitability?",
+            "expected_chunk_ids": [
+                "863c31e0-c2c3-4d33-b7e7-8a6fed4454be",
+                "71f0712a-1931-4b63-92ec-15308a43d7f2"
+            ],
+            "expected_content_hashes": [
+                "-15ca8ba79ae5930a",
+                "-709273971121680f"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "RIL's 'Other Income' for the nine months ended December 31, 2025, included 8,924 crore. Factors that impacted segment profitability include RIL diverting propane/butane to boost LPG output and KGD6 gas to priority sectors, holding fuel prices at retail outlets leading to under recoveries in fuel retailing, the reintroduction of SAED on exports of Diesel and ATF, and weak polymer deltas with a sharp increase in feedstock and energy cost.",
+            "rationale": "The question requires combining a specific financial figure ('Other Income') from the first chunk with a list of operational and market factors impacting profitability from the second chunk. Both chunks are necessary to construct a complete answer, making it a multi-hop query.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-22",
+            "type": "multi_hop",
+            "question": "What was the Gross Revenue for FY26 and where is the company publishing these financial results located in Maharashtra?",
+            "expected_chunk_ids": [
+                "b4eefc50-9da7-402d-9549-cc589f7622f8",
+                "9586ea70-f13c-4fca-80b4-b2ecc0024c34"
+            ],
+            "expected_content_hashes": [
+                "-d4b0994a5d7480e",
+                "d23d39c8aa8e97"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The Gross Revenue for FY26 was 9,784, and the company is located in Mumbai - 400013, Maharashtra, India.",
+            "rationale": "The question requires two pieces of information from separate chunks. The 'Gross Revenue for FY26' (9,784) is found in the financial table of the first chunk. The company's location in Maharashtra ('Mumbai - 400013 Maharashtra, India') is found in the second chunk. Both chunks are essential to answer the full question.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-23",
+            "type": "multi_hop",
+            "question": "What are the two listed values for 'Investments: Total Non-Current Assets' and what is the Firm's Registration No. for Deloitte Haskins & Sells LLP?",
+            "expected_chunk_ids": [
+                "887c2ee5-e221-46b3-ad63-fe491bc91f8b",
+                "62759697-1493-4837-9687-5a62c9f8fd76"
+            ],
+            "expected_content_hashes": [
+                "d96f51e9ca3e3a7",
+                "383d7d61efd21565"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The two listed values for 'Investments: Total Non-Current Assets' are 838,190 and 752,838. The Firm's Registration No. for Deloitte Haskins & Sells LLP is 117366W/W-100018.",
+            "rationale": "This question requires two distinct pieces of information from two separate chunks. The 'Investments: Total Non-Current Assets' values (838,190 and 752,838) are found in the first chunk, and the 'Firm's Registration No.' for Deloitte Haskins & Sells LLP (117366W/W-100018) is found in the second chunk. Both chunks are essential to fully answer the question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-24",
+            "type": "multi_hop",
+            "question": "What is the Total Segment Liabilities for Oil and Gas Retail reported under Col 3, and what are the specific financial figures listed below 'Depreciation, Amortisation and Depletion' and 'Share of Profit / (Loss) of Associates and Joint'?",
+            "expected_chunk_ids": [
+                "faf57670-8a6f-423f-aa48-cedec8e7b7c5",
+                "aacbee90-f172-4627-aa2b-04ccbab83162"
+            ],
+            "expected_content_hashes": [
+                "4ea4394a25e3bcad",
+                "6abcabcce4d9fcf0"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The Total Segment Liabilities for Oil and Gas Retail under Col 3 is 1,068,648. The specific financial figures listed are (27), 123, 177, 144, and 522.",
+            "rationale": "The question requires extracting the 'Total Segment Liabilities' value for 'Oil and Gas Retail' from 'Col 3' within the first chunk's table (1,068,648). Additionally, it demands identifying and listing the sequence of numbers associated with 'Depreciation, Amortisation and Depletion' and 'Share of Profit / (Loss) of Associates and Joint' from the second chunk ((27) 123 177 144 522). Both chunks are essential to provide a complete answer.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-26",
+            "type": "multi_hop",
+            "question": "According to the provided documents, what was the percentage change observed for the PE product that was attributed to lower Naphtha prices, and what was the specific Profit After Tax value reported as 9,129?",
+            "expected_chunk_ids": [
+                "7134c995-6c2c-43b8-a4a8-6e1b181c2776",
+                "96c18f19-4c35-4e19-84a8-85f949eaf97a"
+            ],
+            "expected_content_hashes": [
+                "1021d8a456cca82",
+                "-2524be4d6af47e35"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The PE product observed a +2% change due to lower Naphtha prices, and the specific Profit After Tax value reported was 9,129.",
+            "rationale": "The question requires two distinct pieces of information, each found in a different chunk. The percentage change for the PE product (+2% due to lower Naphtha prices) is extracted from Chunk 1. The specific Profit After Tax value (9,129) is extracted from Chunk 2. Both chunks are necessary to provide a complete answer, making it a multi-hop query.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-30",
+            "type": "multi_hop",
+            "question": "What was the Investment Income - Profit After Tax value (specifically, the first numerical value listed) reported in the financial statement for which procedures were performed by Deloitte Haskins & Sells LLP and Chaturvedi & Shah LLP in accordance with Circular No. CIR/CFD/CMD l/44/2019?",
+            "expected_chunk_ids": [
+                "7a71d698-6dad-4cc9-8e86-7e4ad6b65a77",
+                "dc5aa97c-290e-4a8c-9c65-ec62d250168c"
+            ],
+            "expected_content_hashes": [
+                "253ecc337ac596b2",
+                "-6749245e47cd7b9e"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "3,563",
+            "rationale": "To answer this question, a multi-hop reasoning process is required. First, Chunk 1 identifies the entities (Deloitte Haskins & Sells LLP and Chaturvedi & Shah LLP) and the regulatory framework (Circular No. CIR/CFD/CMD l/44/2019 under Regulation 33(8)) associated with 'The Statement includes the results'. This establishes that the financial results presented in Chunk 2 are from this statement. Second, Chunk 2 is then consulted to find the 'Investment Income: Profit After Tax' row. From this row, the first numerical value listed, which is '3,563', is extracted as the answer.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-31",
+            "type": "multi_hop",
+            "question": "According to the provided documents, what is one operational activity mentioned in the quarterly performance update and what is one financial ratio listed under 'Ratios'?",
+            "expected_chunk_ids": [
+                "7f7996f5-e7a5-42c9-a997-88a8625db978",
+                "bdc8e416-dde1-47d9-838d-2988596a828c"
+            ],
+            "expected_content_hashes": [
+                "2e8350f0f5236bc7",
+                "-43a0d1d8c0f6df5d"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "One operational activity mentioned is the operationalisation of 5G spectrum assets. One financial ratio listed is the Bad debts to Account receivable ratio.",
+            "rationale": "This is a MULTI_HOP question because it requires retrieving two distinct pieces of information from two separate chunks to form a complete answer. The first chunk provides an operational activity ('operationalisation of 5G spectrum assets') within the context of a quarterly performance update. The second chunk provides a financial ratio ('Bad debts to Account receivable ratio') within a section on 'Ratios'. Both chunks are essential as each contributes a unique, necessary component to the answer.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-32",
+            "type": "multi_hop",
+            "question": "According to the documents, how would ratios calculated for a quarter or nine months, such as those that might be derived from the 'Operating Profit before Working Capital Changes' figure, be presented?",
+            "expected_chunk_ids": [
+                "f71c9378-2f22-4357-abf2-a43b328271bf",
+                "ba43db0e-daec-4c60-96ca-79f591f5eed2"
+            ],
+            "expected_content_hashes": [
+                "-316abe5e2746af18",
+                "5c55badea337c967"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Ratios calculated for a quarter or nine months, including those potentially derived from the 'Operating Profit before Working Capital Changes', have been annualised.",
+            "rationale": "This is a multi-hop question as it requires information from both provided chunks. The first chunk specifies that 'Ratios for quarter/nine months have been annualised'. The second chunk provides a table of financial data, including 'Operating Profit before Working Capital Changes', which represents the type of figures from which such ratios would be derived. The question connects these two pieces, requiring the user to understand that the financial data in the second chunk is relevant to the ratio presentation rule in the first chunk.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-33",
+            "type": "multi_hop",
+            "question": "According to the provided documents, what kind of financial results did Reliance Industries Limited publish for the quarter/nine months ending December 31, 2025, and what categories of capital-related financial figures, reported in crore, are detailed in their media release, exemplified by a Capital Expenditure value of 40,560?",
+            "expected_chunk_ids": [
+                "310140ff-a734-4df7-957f-a99ce6927011",
+                "aa8271c7-66ae-4d7f-91c2-715b12958dad"
+            ],
+            "expected_content_hashes": [
+                "711a24be7b2be65",
+                "150794a70bf416f7"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Reliance Industries Limited published \"UNAUDITED CONSOLIDATED FINANCIAL RESULTS FOR THE QUARTER/ NINE MONTHS ENDED 31ST DECEMBER, 2025\". Their media release details categories such as Capital Expenditure#, Outstanding Debt, Cash & Cash Equivalents, Net Debt, and Net Debt to EBITDA*, all reported in crore, with one Capital Expenditure value being 40,560.",
+            "rationale": "Chunk 1 identifies Reliance Industries Limited, the type of results (UNAUDITED CONSOLIDATED FINANCIAL RESULTS), the reporting period (FOR THE QUARTER/ NINE MONTHS ENDED 31ST DECEMBER, 2025), and the unit of currency (in crore). Chunk 2, identified as a Media Release, provides the specific categories of capital-related figures (Capital Expenditure#, Outstanding Debt, Cash & Cash Equivalents, Net Debt, Net Debt to EBITDA*) and an example value for Capital Expenditure (40,560). The question is designed to integrate these distinct pieces of information from both documents, requiring information about the report's nature, its author and date, the units, and the specific financial metrics and an example value from the separate table.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-34",
+            "type": "multi_hop",
+            "question": "According to the provided documents, what specific type of inventory changes are mentioned in the expenses section, and what operational advancements has RBML made under the Clean N Green initiative for its CBG network?",
+            "expected_chunk_ids": [
+                "d52bb4eb-77a4-481c-aada-ba5d726f95b4",
+                "da4b5128-7811-4227-a710-740a2d94c6a2"
+            ],
+            "expected_content_hashes": [
+                "-1c59c000cea999f5",
+                "-1d278c73d97d2e2a"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The expenses section mentions 'Changes in Inventories of Finished Goods, Work-in­'. Operationally, under the Clean N Green initiative, RBML has expanded its CBG network to 112 sites for retailing Bio-CNG produced at RIL’s Bio-gas plants and is also ramping up its network of CNG outlets.",
+            "rationale": "The question requires combining information from two distinct chunks. The first part of the answer, concerning 'Changes in Inventories of Finished Goods, Work-in­', comes directly from the 'Expenses' section of the first document. The second part, detailing RBML's expansion of its CBG network to 112 sites and the ramping up of CNG outlets under the Clean N Green initiative, is extracted from the 'Jio-bp update' section of the second document. Both chunks are essential to fully answer the multi-faceted question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-35",
+            "type": "multi_hop",
+            "question": "What was the depreciation for FY26, and what amount of total expenses corresponded to a profit before tax of 11,592?",
+            "expected_chunk_ids": [
+                "08c33600-543d-4c77-b352-31b79cbf8c6b",
+                "99a5ed24-dc98-4e36-a222-79947fab34da"
+            ],
+            "expected_content_hashes": [
+                "-2cf1d6c2bb5059b1",
+                "5cb887d6f211cf16"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The depreciation for FY26 was ₹ 6,219 crore. The total expenses that corresponded to a profit before tax of 11,592 was 122,463.",
+            "rationale": "This is a MULTI_HOP question because it requires extracting information from both provided chunks. The depreciation for FY26 (₹ 6,219 crore) is found in chunk [99a5ed24-dc98-4e36-a222-79947fab34da]. The total expenses of 122,463 corresponding to a profit before tax of 11,592 is found in the table within chunk [08c33600-543d-4c77-b352-31b79cbf8c6b]. Both pieces of information are necessary to answer the question completely.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-36",
+            "type": "multi_hop",
+            "question": "According to the Media Release, what was the EBITDA decline value and percentage on a Y-o-Y basis, and which financial ratio listed in the table uses 'Earnings before Interest and Tax' as a component?",
+            "expected_chunk_ids": [
+                "1212a6e4-1f36-48a4-9525-d54e448aa6c2",
+                "5eedee13-22cb-4f1b-a740-5a3fa67d1c59"
+            ],
+            "expected_content_hashes": [
+                "6c2427406f560e4b",
+                "-2db9c33ad259c288"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The Media Release reported that EBITDA declined by 18.1% to ₹ 4,195 crore on a Y-o-Y basis. The financial ratio that uses 'Earnings before Interest and Tax' as a component is 'Debt Service Coverage'.",
+            "rationale": "This is a MULTI_HOP question. To answer, information must be extracted from both provided chunks. The first part of the question, regarding the EBITDA decline value and percentage, requires consulting the '24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf' chunk, which states 'EBITDA declined by 18.1% to ₹ 4,195 crore on Y-o-Y basis'. The second part of the question, identifying the financial ratio that uses 'Earnings before Interest and Tax', requires consulting the table in the '38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf' chunk, which lists 'Debt Service Coverage' next to 'Earnings before Interest and Tax'. Both chunks are essential to fully answer the question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-37",
+            "type": "multi_hop",
+            "question": "According to the review of unaudited consolidated financial results for Reliance Industries Limited, what were the reported increases in depreciation and finance costs for Q4 FY2025-26?",
+            "expected_chunk_ids": [
+                "12e04f62-cd3b-4f66-a6e1-87a6156adb8b",
+                "ed963230-37f4-4e94-9302-e92fa803bc98"
+            ],
+            "expected_content_hashes": [
+                "58f71912e181513a",
+                "-1544e38b1cdab2bd"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Depreciation increased by 9.9% Y-o-Y to ₹ 14,808 crore ($ 1.6 billion), and Finance Costs increased by 7.0% Y-o-Y to ₹ 6,585 crore ($ 694 million).",
+            "rationale": "The question requires combining information from both chunks. The first chunk identifies the company as 'Reliance Industries Limited' and specifies the document as 'unaudited consolidated financial results' that have been 'reviewed'. The second chunk provides the specific financial figures for 'Depreciation' and 'Finance Costs' and their increases for 'Q4 FY2025-26'. Both chunks are necessary to provide a complete and contextualized answer.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-38",
+            "type": "multi_hop",
+            "question": "What is the sum of the 'Value of Sales & Services' reported for 31st March 2026 and the 'Other Comprehensive Income attributable to Owners of the Company' identified as (4,185)?",
+            "expected_chunk_ids": [
+                "fc261b10-5337-49d9-a488-5e12b62dfdc2",
+                "27bab080-cf33-4001-9fc7-aa65b939287f"
+            ],
+            "expected_content_hashes": [
+                "677c460f2a992175",
+                "-2a56a73df20e6b35"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "148,140",
+            "rationale": "To answer this question, first, locate the 'Value of Sales & Services' for '31st Mar’26' in the first provided chunk, which is 152,325. Next, locate the 'Other Comprehensive Income attributable to Owners of the Company' specifically identified as (4,185) in the second provided chunk. Finally, perform the addition: 152,325 + (-4,185) = 148,140.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-39",
+            "type": "multi_hop",
+            "question": "According to the provided documents, what is the definition of Cost of Goods Sold, and what was the Revenue from Operations for the period identified by '184,944'?",
+            "expected_chunk_ids": [
+                "5f80f655-9448-4cb3-9651-4c2575e7ff5c",
+                "be9238e4-cb89-40bd-bbcd-65a14a06e079"
+            ],
+            "expected_content_hashes": [
+                "44178acc3e056db3",
+                "-7abb541a84a6d491"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The Cost of Goods Sold is defined as Cost of Material Consumed + Purchases. The Revenue from Operations for the period indicated by '184,944' was 298,621.",
+            "rationale": "The question requires two distinct pieces of information from separate chunks. The definition of 'Cost of Goods Sold' (Cost of Material Consumed + Purchases) is found in chunk [be9238e4-cb89-40bd-bbcd-65a14a06e079]. The 'Revenue from Operations' for the '184,944' period (298,621) is extracted from the table in chunk [5f80f655-9448-4cb3-9651-4c2575e7ff5c]. Both chunks are essential to fully answer the question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-41",
+            "type": "multi_hop",
+            "question": "What are the three specific values listed for income tax relating to items that will be reclassified to Profit or Loss, and on what date did the Board of Directors approve the overall results that would include such financial details?",
+            "expected_chunk_ids": [
+                "ac84a17e-1358-4558-b0c5-5307d6e18273",
+                "f919fefa-1d0b-43c0-9ef9-51cd8ac2c280"
+            ],
+            "expected_content_hashes": [
+                "29b946d428bcbf30",
+                "-97471dff86343d2"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The three values listed for income tax relating to items that will be reclassified to Profit or Loss are 1,384, 767, and 573. The Board of Directors approved the overall results on April 24, 2026.",
+            "rationale": "This is a MULTI_HOP question because it requires extracting information from two distinct chunks. The first part of the question, 'What are the three specific values listed for income tax relating to items that will be reclassified to Profit or Loss?', requires referencing the table in Chunk 2 to identify the values 1,384, 767, and 573. The second part, 'on what date did the Board of Directors approve the overall results that would include such financial details?', requires locating the approval date of April 24, 2026, from Chunk 1. Both chunks are essential to fully answer the question, and the answer logically connects the financial figures to the approved results.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-42",
+            "type": "multi_hop",
+            "question": "Given that ratios for the quarter/nine months have been annualised, what were the year-on-year quarterly sales growth rates for HSD and MS reported by Reliance BP Mobility Limited (RBML)?",
+            "expected_chunk_ids": [
+                "f71c9378-2f22-4357-abf2-a43b328271bf",
+                "4f97ce98-77f9-453b-95db-0c160b50ea2c"
+            ],
+            "expected_content_hashes": [
+                "-316abe5e2746af18",
+                "388d053b763e6472"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Considering that ratios for the quarter/nine months have been annualised, RBML reported year-on-year quarterly sales growth rates of 24% for HSD and 37% for MS.",
+            "rationale": "The question requires combining information from two distinct chunks. The first chunk establishes the context that 'Ratios for quarter/nine months have been annualised' (interpreting OCR errors 's Ffatlcs fonM' as 'Ratios for' and 'beell' as 'been'). The second chunk provides the specific quarterly sales growth rates for HSD and MS for RBML. Both pieces of information are essential to fully answer the question as posed.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-43",
+            "type": "multi_hop",
+            "question": "According to the provided documents, what amount of Listed Secured Redeemable Non-Convertible Debentures is mentioned, and what operational strategies were used to minimize the Jamnagar Complex fuel cost and supply higher LPG to PSUs?",
+            "expected_chunk_ids": [
+                "af5215ab-8be4-480a-a38f-8fe42b394db2",
+                "abb571fa-ec6e-4fca-82a0-4f6288f96c7c"
+            ],
+            "expected_content_hashes": [
+                "4f6071567520694f",
+                "-36a8d3613b764b80"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The documents mention Listed Secured Redeemable Non-Convertible Debentures amounting to ;!: 1,000 crore (PPD 8). Operational strategies to minimize Jamnagar Complex fuel cost included sustaining higher gasifier availability. Higher LPG was supplied to PSUs by reducing transport fuel and downstream production, aiming to offset disruptions caused by SoH closure.",
+            "rationale": "This question requires information from both chunks. The first part of the question about the debentures is answered by retrieving the specific amount from the second chunk. The second part, detailing operational strategies for fuel cost and LPG supply, is answered by extracting information from the first chunk. Both chunks are essential to fully answer the composite question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-44",
+            "type": "multi_hop",
+            "question": "What was the total income reported in the final column of the financial statement, and what was Jio's total 5G subscriber base as of March 2026?",
+            "expected_chunk_ids": [
+                "fb94f29e-5cb6-484e-9c50-4f8111093657",
+                "faef2360-d3c2-423b-982a-23b5e9d347c1"
+            ],
+            "expected_content_hashes": [
+                "-497a1b9dabec1bca",
+                "105ca5a303aefcbe"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The total income reported in the final column of the financial statement was 541,886. As of March 2026, Jio's total 5G subscriber base reached 268 million.",
+            "rationale": "This question requires retrieving two distinct pieces of information from separate documents. The total income figure (541,886) must be extracted from the 'Total Income' row in the final column of the financial table in chunk 'faef2360-d3c2-423b-982a-23b5e9d347c1'. The 5G subscriber base (268 million as of March 2026) must be retrieved from the 'Strategic Progress' section detailing Jio's network leadership in chunk 'fb94f29e-5cb6-484e-9c50-4f8111093657'. Both chunks are necessary to fully answer the question, making it a multi-hop retrieval task.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-45",
+            "type": "multi_hop",
+            "question": "What was the year-over-year decline in EBITDA, what factors contributed to this decline, and what specific type of income is included in segment results such as EBITDA?",
+            "expected_chunk_ids": [
+                "5eedee13-22cb-4f1b-a740-5a3fa67d1c59",
+                "744594b8-8f8a-4a6e-8955-066f49a57d15"
+            ],
+            "expected_content_hashes": [
+                "-2db9c33ad259c288",
+                "-ecdbc8fe4146152"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "EBITDA declined by 18.1% to ₹ 4,195 crore on a Y-o-Y basis. This decline was due to lower revenue coupled with higher operating cost caused by maintenance activity and Government levies. Segment results (EBITDA and EBIT) also include Interest Income pertaining to the respective segments.",
+            "rationale": "The question requires combining information from both chunks. The first chunk provides the percentage and amount of EBITDA decline and the reasons (lower revenue, higher operating cost due to maintenance and government levies). The second chunk specifies that segment results like EBITDA include Interest Income. Both pieces of information are essential to answer the question comprehensively.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-47",
+            "type": "multi_hop",
+            "question": "Based on the provided documents, what are the stock-in-trade figures for Digital Services, and what factor is identified as influencing 10-ppm diesel cracks related to Russian crude?",
+            "expected_chunk_ids": [
+                "90671d12-17bd-47c4-9d13-a8bf68339454",
+                "16eab84b-34e3-4b0f-bbee-af5305e5a350"
+            ],
+            "expected_content_hashes": [
+                "-3b807f8919f42117",
+                "72d781dec682fe87"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The stock-in-trade for Digital Services is reported as 84,101 I and 87;867C (in crore). Separately, the EU restriction on diesel imports from Russian crude is identified as a factor influencing 10-ppm diesel cracks (/bbl).",
+            "rationale": "This is a MULTI_HOP question because it requires combining specific pieces of information from two distinct and unrelated chunks. The first part of the answer, concerning 'Digital Services' stock-in-trade figures, comes from the document `38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf`. The second part of the answer, detailing the factor influencing 10-ppm diesel cracks related to Russian crude, comes from the document `24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf`. Both chunks are essential to construct the complete answer.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-48",
+            "type": "multi_hop",
+            "question": "What are the reported figures for 'Total Other Comprehensive Income I (Loss) (Net of Tax)' from the first document and 'Current Tax' from the second document?",
+            "expected_chunk_ids": [
+                "e68808c3-1c49-498e-95c6-32f57a57c0a8",
+                "1c931ed9-bedb-4af6-9afc-f902c5a40890"
+            ],
+            "expected_content_hashes": [
+                "-6758e4f5f5d8501a",
+                "1b1e0ce91d628d5d"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "From the first document, the 'Total Other Comprehensive Income I (Loss) (Net of Tax)' figures are (4,140), (1,920), (1,ass), and (3,129). From the second document, the 'Current Tax' figures are 1,028, 2,895, 2,346, 7,872, and 9,399.",
+            "rationale": "This is a MULTI_HOP question because it requires extracting specific numerical data points for two different financial metrics from two distinct source documents. The 'Total Other Comprehensive Income I (Loss) (Net of Tax)' figures are located in the first chunk (e68808c3-1c49-498e-95c6-32f57a57c0a8), and the 'Current Tax' figures are located in the second chunk (1c931ed9-bedb-4af6-9afc-f902c5a40890). The answer combines these two sets of extracted data.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "multi-49",
+            "type": "multi_hop",
+            "question": "What is the formula for the Debt Service Coverage Ratio, and what are the specific 'Particulars' listed under the operational update, along with their Unit of Measurement (UoM)?",
+            "expected_chunk_ids": [
+                "a1b4212d-ee48-4730-ad22-883027adf8c2",
+                "ae883559-a345-4ca2-aa8e-02fe83b91427"
+            ],
+            "expected_content_hashes": [
+                "-67ec8045379f69b6",
+                "-20876a2bb32967e7"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The formula for the Debt Service Coverage Ratio is Earnings before Interest and Tax divided by the sum of Interest Expense and Principal Repayments made during the period. The specific 'Particulars' listed under the operational update are 'Total Throughput' and 'Production meant for', both with a Unit of Measurement (UoM) of MMT.",
+            "rationale": "This multi-hop question requires combining information from two distinct chunks. The first part of the answer, the Debt Service Coverage Ratio formula, is extracted from the first chunk (`a1b4212d-ee48-4730-ad22-883027adf8c2`). The second part, identifying the operational performance 'Particulars' and their 'UoM', is extracted from the table within the second chunk (`ae883559-a345-4ca2-aa8e-02fe83b91427`). The question necessitates accessing and synthesizing specific data points from both provided sources.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-0",
+            "type": "table_lookup",
+            "question": "According to the expenses table, what is the value for 'Progress and Stock-in-Trade' under Col 3?",
+            "expected_chunk_ids": [
+                "a2023137-6e23-450e-a951-457a4ec3245b"
+            ],
+            "expected_content_hashes": [
+                "-7571bdacb830b723"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "(8,421)",
+            "rationale": "The question directly asks for a specific value ('(8,421)') for 'Progress and Stock-in-Trade' from 'Col 3' within the 'Expenses' section, which is precisely what the provided chunk contains. No other information or inference is needed beyond looking up the specified row and column in the given table data.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-1",
+            "type": "table_lookup",
+            "question": "Based on the provided non-current assets information, what is the combined value of Investments in Loans, Others Financial Assets, and Other Non-Current Assets for the period labeled 364,073?",
+            "expected_chunk_ids": [
+                "887c2ee5-e221-46b3-ad63-fe491bc91f8b"
+            ],
+            "expected_content_hashes": [
+                "d96f51e9ca3e3a7"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "29,439",
+            "rationale": "The question requires extracting specific values from the '364,073' column for 'Investments: Loans' (8,789), 'Investments: Others Financial Assets' (13,725), and 'Investments: Other Non-Current Assets' (6,925), and then summing them up (8,789 + 13,725 + 6,925 = 29,439). All necessary data points are contained within the provided single chunk.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-2",
+            "type": "table_lookup",
+            "question": "According to the Stock-in-Trade table, what was the value for 'Oil and Gas: - Digital Services' in the column labeled '31,024' (in crore)?",
+            "expected_chunk_ids": [
+                "8c34a85f-11ac-49a8-af86-dd955159d81d"
+            ],
+            "expected_content_hashes": [
+                "-3392ea5b05f4735d"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "619,788 crore",
+            "rationale": "The question asks for a specific value from the 'Stock-in-Trade' table. The category is 'Oil and Gas: - Digital Services' and the column is '31,024'. Locating the intersection of this row and column in the provided table yields the value '619,788'. The unit 'in crore' is specified in the document header 'ff in crore)'.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-3",
+            "type": "table_lookup",
+            "question": "What were the KGD6 and CBM production figures in 4Q FY26?",
+            "expected_chunk_ids": [
+                "e316a5e2-c9bf-4e80-b3c5-25830bed2c71"
+            ],
+            "expected_content_hashes": [
+                "6752eea9088a399"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "In 4Q FY26, KGD6 production was 59.6 BCFe and CBM production was 2.9 BCFe.",
+            "rationale": "The question requires extracting the KGD6 Production and CBM Production values from the '4Q FY26' column in the provided table. Both figures are directly present in the respective rows and column.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-4",
+            "type": "table_lookup",
+            "question": "According to the Cash Flow from Operating Activities section, what are the two values consistently represented as 'Trade and Other Receivables' when detailed alongside 'Inventories', 'Trade and Other Payables', 'Cash Generated from Operations', 'Taxes Paid (Net)', and 'Net Cash Flow from Operating Activities'?",
+            "expected_chunk_ids": [
+                "366bc9c4-5057-4c92-9b95-57cbd3d5b140"
+            ],
+            "expected_content_hashes": [
+                "285ab2d489c86075"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The two consistent values represented as 'Trade and Other Receivables' are (28,196) and 3,209.",
+            "rationale": "The question specifically asks for the two consistent values for 'Trade and Other Receivables' in the context of their relationship with 'Inventories', 'Trade and Other Payables', 'Cash Generated from Operations', 'Taxes Paid (Net)', and 'Net Cash Flow from Operating Activities'. To answer this, one must examine each line within the provided chunk to observe that '(28,196)' and '3,209' are the recurring values paired with 'Trade and Other Receivables' across all listed categories. The initial line 'Table: Trade and Other Receivables, (28,196), 3,209' introduces these primary values, and the subsequent detailed lines confirm their consistent application throughout this segment of the table. Therefore, the entire provided chunk is necessary to establish the consistency requested by the question.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-6",
+            "type": "table_lookup",
+            "question": "What are the complete addresses for the Luxembourg Stock Exchange and the Singapore Exchange Limited, as presented in the document?",
+            "expected_chunk_ids": [
+                "340bf90d-fcb0-42ff-a97f-e58e45985e75"
+            ],
+            "expected_content_hashes": [
+                "28bb5f10365d74d3"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The complete address for the Luxembourg Stock Exchange is 35A Boulevard Joseph II, L-1840 Luxembourg. The complete address for the Singapore Exchange Limited is 4 Shenton Way, #02-01 SGX Centre 2, Singapore 068807.",
+            "rationale": "The question requires retrieving and concatenating the full address details for both stock exchanges from the provided table. For the Luxembourg Stock Exchange, '35A Boulevard Joseph II,' and 'L-1840 Luxembourg' must be combined. For the Singapore Exchange Limited, '4 Shenton', 'Way,', '#02-01', 'SGX', 'Centre', '2,' and 'Singapore 068807' must all be extracted and combined to form the complete address. All provided chunks, especially the detailed table rows, are necessary to construct the accurate and full addresses for both entities.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-8",
+            "type": "table_lookup",
+            "question": "According to the Jio-bp update, what is RBML's market share in the India aviation story, and what is the extent of its Jio-bp Pulse charging network?",
+            "expected_chunk_ids": [
+                "d44b295c-4850-4e04-9784-0b7530488022"
+            ],
+            "expected_content_hashes": [
+                "24e16c39a985faa4"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "RBML has captured 5.9% market share in the India aviation story. Under Jio-bp Pulse, RBML has grown network of over 6,281 live charging points at 1,071 unique sites.",
+            "rationale": "The gold answer synthesizes information from both provided chunks. The first chunk states that 'RBML continued supporting the India aviation story, capturing 5.9% market share.' The second chunk, under the context of 'RBML continued supporting the India aviation story, capturing 5.9% market share.', provides the details for the Jio-bp Pulse network: 'Under Jio-bp Pulse, RBML has grown network of over 6,281 live charging points at 1,071 unique sites.' Both chunks are necessary to fully address the two-part question.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-9",
+            "type": "table_lookup",
+            "question": "According to the table, what was the Inventory turnover for the period labeled '0.52'?",
+            "expected_chunk_ids": [
+                "98ce8c9e-72bc-44e9-9c10-b3e5853808a3"
+            ],
+            "expected_content_hashes": [
+                "8ba81203f5a6e06"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "6.12",
+            "rationale": "The question asks for the 'Inventory turnover' for the period '0.52'. The provided chunk contains a table with the row 'g) Current liability ratio: j) Inventory turnover•' and a column for '0.52'. The intersecting value in this cell is '6.12'.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-10",
+            "type": "table_lookup",
+            "question": "What was the Payment of Lease Liabilities in the period represented by 'Col 4'?",
+            "expected_chunk_ids": [
+                "eea638aa-a702-42a2-a8d5-28e3c41f4de2"
+            ],
+            "expected_content_hashes": [
+                "-18d740478c7a7a0e"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "(2,956)",
+            "rationale": "The answer is found by locating the 'Payment of Lease Liabilities' row and extracting the corresponding value from the 'Col 4' column in the provided table section under 'C. CASH FLOW FROM FINANCING ACTIVITIES'.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-11",
+            "type": "table_lookup",
+            "question": "What was the Profit Before Tax for column (684) and Profit After Tax for column (Col 5), and according to the document, what is the unit used for financial metrics like Cost of Goods Sold?",
+            "expected_chunk_ids": [
+                "867108e3-33d8-452a-9067-5c14f7b9ebf9"
+            ],
+            "expected_content_hashes": [
+                "-1c0f508b49e7de96"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The Profit Before Tax for column (684) was 11,592 and the Profit After Tax for column (Col 5) was 8,721. According to the document, the unit used for financial metrics like Cost of Goods Sold is 'fin crore'.",
+            "rationale": "The question requires extracting two specific profit values from different cells in the provided table: 'Profit Before Tax' for column (684) (11,592) and 'Profit After Tax' for column (Col 5) (8,721). It also necessitates identifying the financial unit 'fin crore' from the first textual chunk, which describes Inventory turnover in terms of Cost of Goods Sold, ensuring both provided chunks are utilized.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-12",
+            "type": "table_lookup",
+            "question": "Within the 'Notes to Segment Information (Consolidated) for the Quarter and Year Ended 31st March 2026' section of the document, and considering the information presented across items 'c)', 'd)', and 'e)' in the table, what is the full description provided for the Retail segment?",
+            "expected_chunk_ids": [
+                "c6216651-223f-48ec-b82e-45fb9b97d792"
+            ],
+            "expected_content_hashes": [
+                "-4cd8d9e7d5a5c812"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The Retail segment includes consumer retail and a range of related services.",
+            "rationale": "The question explicitly references the full document context ('Notes to Segment Information (Consolidated) for the Quarter and Year Ended 31st March 2026') and requires the model to consider information presented across items 'c)', 'd)', and 'e)' in the table. The complete definition for the Retail segment is directly stated in item 'c)' and is also consistently repeated within items 'd)' and 'e)' as a contextual or descriptive element. Therefore, all three provided chunks are essential for understanding the scope of the question and extracting the specific, fully defined piece of information requested.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-14",
+            "type": "table_lookup",
+            "question": "What is the definition of Inventory turnover, and what was the Value of Sales & Services for Oil to Chemicals (02C) in column 125,726?",
+            "expected_chunk_ids": [
+                "7e71921b-67c9-4294-a3e6-03ef6d1339cb"
+            ],
+            "expected_content_hashes": [
+                "76005871b44730e"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Inventory turnover is defined as Cost of Goods Sold (Cost of Material Consumed + Purchases > fin crore). The Value of Sales & Services for Oil to Chemicals (02C) in column 125,726 was 136,350.",
+            "rationale": "The definition of Inventory turnover is directly extracted from the first chunk: 'Inventory turnover Cost of Goods Sold (Cost of Material Consumed + Purchases > fin crore)'. The Value of Sales & Services for Oil to Chemicals (02C) in column 125,726 is found in the table data: '• Oil to Chemicals (02C): Value of Sales & Services | 125,726: 136,350'. Both parts of the question require specific information from the provided chunks, ensuring all chunks are necessary to formulate the complete answer.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-16",
+            "type": "table_lookup",
+            "question": "According to the 'Ratios' table, what is the Interest Service Coverage Ratio and the Current Ratio when the Debt Service Coverage Ratio is 3.79?",
+            "expected_chunk_ids": [
+                "0905060d-7464-4ee9-bd80-61e3b0f43142"
+            ],
+            "expected_content_hashes": [
+                "5e0714083f601693"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "When the Debt Service Coverage Ratio is 3.79, the Interest Service Coverage Ratio is 7,55 and the Current Ratio is 1.04.",
+            "rationale": "The question requires looking up two specific values within the provided table. The 'a): b)' line contains the Debt Service Coverage Ratio (3,79) and its corresponding Interest Service Coverage Ratio (7,55). The 'a): d)' line contains the same Debt Service Coverage Ratio (3,79) and its corresponding Current Ratio (1.04). Both specific lines are necessary to extract the full answer, referencing the common Debt Service Coverage Ratio.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-17",
+            "type": "table_lookup",
+            "question": "According to the Segment Results (EBIT) table, what was the EBIT for Digital Services in Col 6?",
+            "expected_chunk_ids": [
+                "dbf456a7-ee07-4313-981b-ee117fd59093"
+            ],
+            "expected_content_hashes": [
+                "3be091636dda0000"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "42",
+            "rationale": "The table 'Segment Results (EBIT)' lists 'Digital Services' as a segment. In the row corresponding to 'Digital Services', the value under 'Col 6' is 42.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-18",
+            "type": "table_lookup",
+            "question": "List all distinct financial concepts and categories explicitly mentioned across the provided document snippets, ensuring to include details from the structured table.",
+            "expected_chunk_ids": [
+                "5390780c-09d9-45f5-b91c-418255d03099"
+            ],
+            "expected_content_hashes": [
+                "315bff0b5c27728b"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The provided snippets mention 'proceeds of profit from sale of listed investments.' From the structured table, under row 'e)', the financial concepts include 'Long term debt to working capital' and 'Non-Current Borrowings (Including Current Maturities of Non-Current Borrowings)'.",
+            "rationale": "The question requires the extraction and listing of all distinct financial concepts from both the plain text snippet ('proceeds of profit from sale of listed investments') and the structured table snippet. The gold answer combines these elements, explicitly referencing their source within the provided chunks. It accurately interprets the fragmented table structure to identify the complete labels for 'Long term debt to working capital' and 'Non-Current Borrowings (Including Current Maturities of Non-Current Borrowings)', ensuring all relevant information from both chunks is used.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-19",
+            "type": "table_lookup",
+            "question": "Referring to the section on 'Income tax relating to items that will be reclassified to Profit or Loss', what is the specific amount associated with the value of (5,340)?",
+            "expected_chunk_ids": [
+                "fdd12dc6-46ef-42b0-a16a-e6f87a4312b5"
+            ],
+            "expected_content_hashes": [
+                "-3cb53bcf3d197c38"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "1,387",
+            "rationale": "Chunk 1 identifies the table item 'Income tax relating to items that will be reclassified to Profit or Loss' and lists (5,340) as one of the primary figures. Chunk 2 then provides a more detailed breakdown for this item, explicitly associating '(5,340)' with '1,387'. Both chunks are necessary to understand the context of the line item and to find the precise associated value.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-20",
+            "type": "table_lookup",
+            "question": "Among the distinct expense categories listed (excluding 'Total Expenses' and 'Profit Before Tax'), which category recorded the highest value in the column corresponding to `4,591`?",
+            "expected_chunk_ids": [
+                "eaeb368b-22a6-48ac-aab5-528837fc1c12"
+            ],
+            "expected_content_hashes": [
+                "3f80e061ea9efad"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Other Expenses",
+            "rationale": "The question requires identifying and comparing the values for specific expense categories within the column labeled `4,591`. The relevant values are: Employee Benefits Expense (7,912), Finance Costs (6,613), Depreciation / Amortisation and Depletion Expense (14,622), and Other Expenses (39,347). Comparing these figures, Other Expenses has the highest value of 39,347. The 'Total Expenses' and 'Profit Before Tax' rows are explicitly excluded from this comparison per the question's criteria.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-21",
+            "type": "table_lookup",
+            "question": "Identify the 'Regi~tcrcd Office:', 'Coq>0ratc Communications:', '·rckpho11c' type, and all associated telephone numbers for the location explicitly identified as 'Mumbai' in the table data.",
+            "expected_chunk_ids": [
+                "e5fc051d-ab0a-44c7-a071-b509ea9a0aa8"
+            ],
+            "expected_content_hashes": [
+                "4783f76cb0a9e33a"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Regi~tcrcd Office:: \\-lumhai .-t()I) 021. India\nCoq>0ratc Communications:: \\h1111hai ~<Hl 021. India\n·rckpho11c: Cl:'\\\nAssociated telephone numbers: ( 191 22) .1555 5000, L 171 I 0/1.ll I I 'n:ll'LCO I 978fi",
+            "rationale": "The question requires the extraction of specific attribute values (registered office, corporate communications, telephone type, and all associated phone numbers) from a particular record within the provided tabular data. The prompt explicitly mentions 'Mumbai' as the key to identify the correct record. The answer compiles these distinct pieces of information directly from the relevant row in the table, demonstrating a straightforward table lookup operation. The initial non-tabular line of the chunk is ignored as it is not relevant to the table lookup task, but all relevant parts of the tabular chunk are utilized.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-23",
+            "type": "table_lookup",
+            "question": "According to the table row, which column headers are associated with 'working capital' and 'Current Borrowings)'?",
+            "expected_chunk_ids": [
+                "b34d27e6-2810-44be-9582-fd1a7fda1237"
+            ],
+            "expected_content_hashes": [
+                "-3b47233da130ad43"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Long term debt to and Col 4",
+            "rationale": "The provided chunk explicitly defines a table row. It shows 'Long term debt to: working capital' and 'Col 4: Current Borrowings)'. To answer the question, one must directly look up these associations in the provided row, identifying the correct headers for the given values.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "table-24",
+            "type": "table_lookup",
+            "question": "What value is listed under 'Col 5' in the provided table row?",
+            "expected_chunk_ids": [
+                "96214a0d-0809-4d0e-941e-12f60c34437b"
+            ],
+            "expected_content_hashes": [
+                "60c5c3bc520531e3"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "MUMBAI",
+            "rationale": "The question asks for the specific value associated with 'Col 5'. The provided chunk explicitly states 'Col 5: MUMBAI', making the answer a direct lookup from the given information.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {}
+        },
+        {
+            "id": "adv-0",
+            "type": "adversarial",
+            "question": "What is the optimal synergy multiplier that will quantifiably enhance our future-proofed operational agility across all emergent market paradigms?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-1",
+            "type": "adversarial",
+            "question": "What is the optimal long-term strategic alignment given emergent global economic shifts and their anticipated, yet undefined, impact on stakeholder sentiment?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-2",
+            "type": "adversarial",
+            "question": "What will be the ultimate, unforeseen cultural impact of integrating the new acquisition's decentralized work model into our historically centralized operational structure?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-3",
+            "type": "adversarial",
+            "question": "What is the precise, quantifiable impact of our proposed Q4 strategic shift on long-term market sentiment and competitor innovation initiatives?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-4",
+            "type": "adversarial",
+            "question": "What unforeseen ripple effects might this strategic pivot inadvertently trigger across our tangential market segments in the next five years?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-5",
+            "type": "adversarial",
+            "question": "What was the *unspoken rationale* behind the board's decision to pivot on the Q4 product roadmap?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-6",
+            "type": "adversarial",
+            "question": "What is the optimal staffing configuration for the new product development team to maximize ROI within the next two fiscal years, considering all potential supply chain disruptions?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-7",
+            "type": "adversarial",
+            "question": "How will the qualitative improvement in employee engagement, stemming from our new wellness program, precisely translate into a quantifiable increase in long-term market share, and what is the optimal point in time for its complete and definitive financial realization?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-8",
+            "type": "adversarial",
+            "question": "Considering the current market volatility and internal resource constraints, what is the optimal long-term product roadmap that will guarantee market leadership and sustainable profitability for the next decade?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-9",
+            "type": "adversarial",
+            "question": "What is the optimal strategic imperative for leveraging our synergistic core competencies to proactively future-proof our market positioning in the face of emergent disruptive paradigms?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-10",
+            "type": "adversarial",
+            "question": "What is the precise, quantifiable impact of yet-to-emerge disruptive technologies on our long-term market share, factoring in all potential regulatory changes and unforeseen competitive responses?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-11",
+            "type": "adversarial",
+            "question": "What was the decisive factor that ultimately swayed the board's vote in favor of the Project Nightingale investment, given the highly contested debate and initial split opinions documented in the pre-meeting briefs?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-12",
+            "type": "adversarial",
+            "question": "To what extent will the projected efficiencies from our departmental restructuring truly translate into enhanced stakeholder value, factoring in unquantifiable human capital dynamics?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-13",
+            "type": "adversarial",
+            "question": "What is the exact financial ROI of our company's entire corporate social responsibility initiatives over the past five years, isolated from all other marketing and operational activities?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-14",
+            "type": "adversarial",
+            "question": "Based on the current Q3 market analysis and projected internal resource allocation, what *precisely* is the optimal long-term strategic pivot guaranteed to ensure sustained exponential EBITDA growth while simultaneously mitigating all emerging global supply chain disruptions by year-end?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-15",
+            "type": "adversarial",
+            "question": "Considering the detailed market analysis and budget constraints, what is the optimal balance between aggressive market expansion and conservative risk management for the upcoming fiscal year?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-16",
+            "type": "adversarial",
+            "question": "Based on the comprehensive risk assessment, what is the *optimal* long-term balance between aggressive market expansion and conservative capital preservation for the company's Q4 strategy?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-17",
+            "type": "adversarial",
+            "question": "What is the optimal strategic balance between short-term financial performance and long-term sustainable growth that will maximize shareholder value across all future economic cycles?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-18",
+            "type": "adversarial",
+            "question": "What is the optimal strategic balance between aggressive market disruption and cautious incremental growth that will best secure our unforeseen competitive advantage in a perpetually evolving global economy?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        },
+        {
+            "id": "adv-19",
+            "type": "adversarial",
+            "question": "Considering all the outlined risks, opportunities, and strategic considerations, what is the single most critical variable that will ultimately determine the long-term success or failure of this initiative?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {}
+        }
+    ]
+}

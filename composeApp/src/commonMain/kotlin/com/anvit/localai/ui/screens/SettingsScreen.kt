@@ -22,6 +22,8 @@ import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
@@ -79,6 +81,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                     download = download,
                     onSelect = { viewModel.selectModel(model.id) },
                     onDownload = { viewModel.downloadGemmaModel(model) },
+                    onPause = { viewModel.pauseDownload(model.id) },
                     onCancel = { viewModel.cancelDownload(model.id) },
                     onDelete = { viewModel.deleteModel(model.fileName, model.id) },
                     formatBytes = viewModel::formatBytes
@@ -141,6 +144,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                     filePresent = filePresent,
                     download = download,
                     onDownload = { viewModel.downloadEmbeddingModel(model) },
+                    onPause = { viewModel.pauseDownload(model.id) },
                     onCancel = { viewModel.cancelDownload(model.id) },
                     onDelete = { viewModel.deleteModel(model.fileName, model.id) },
                     formatBytes = viewModel::formatBytes
@@ -300,13 +304,26 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                 valueRange = 1f..100f
             )
 
+            val selectedContextMax = viewModel.availableModels
+                .find { it.id == uiState.selectedModelId }
+                ?.contextWindowSize
+                ?: 128000
+            LabeledSlider(
+                label = "Context Window",
+                value = uiState.contextWindow.coerceAtMost(selectedContextMax).toFloat(),
+                displayValue = "${uiState.contextWindow.coerceAtMost(selectedContextMax)}",
+                onValueChange = { viewModel.setContextWindow(it.toInt()) },
+                valueRange = 1024f..selectedContextMax.toFloat(),
+                steps = 30
+            )
+
             LabeledSlider(
                 label = "Max Output Tokens",
                 value = uiState.maxOutputTokens.toFloat(),
                 displayValue = "${uiState.maxOutputTokens}",
                 onValueChange = { viewModel.setMaxOutputTokens(it.toInt()) },
-                valueRange = 100f..32000f,
-                steps = 31
+                valueRange = 100f..8192f,
+                steps = 30
             )
 
             HorizontalDivider(color = BorderSubtle, thickness = 0.5.dp)
@@ -359,6 +376,7 @@ private fun GemmaModelRow(
     download: DownloadProgress?,
     onSelect: () -> Unit,
     onDownload: () -> Unit,
+    onPause: () -> Unit,
     onCancel: () -> Unit,
     onDelete: () -> Unit,
     formatBytes: (Long) -> String
@@ -411,6 +429,7 @@ private fun GemmaModelRow(
             download = download,
             sizeBytes = model.sizeBytes,
             onDownload = onDownload,
+            onPause = onPause,
             onCancel = onCancel,
             onDelete = onDelete,
             formatBytes = formatBytes,
@@ -427,6 +446,7 @@ private fun EmbeddingModelRow(
     filePresent: Boolean,
     download: DownloadProgress?,
     onDownload: () -> Unit,
+    onPause: () -> Unit,
     onCancel: () -> Unit,
     onDelete: () -> Unit,
     formatBytes: (Long) -> String
@@ -467,6 +487,7 @@ private fun EmbeddingModelRow(
             download = download,
             sizeBytes = model.sizeBytes,
             onDownload = onDownload,
+            onPause = onPause,
             onCancel = onCancel,
             onDelete = onDelete,
             formatBytes = formatBytes,
@@ -477,10 +498,11 @@ private fun EmbeddingModelRow(
 
 // ── Shared download row ───────────────────────────────────────────────────────
 
-/** Three-state sealed class used as AnimatedContent target to smooth transitions. */
+/** Four-state sealed class used as AnimatedContent target to smooth transitions. */
 private sealed interface DownloadUiState {
     data object Downloaded : DownloadUiState
     data class InProgress(val progress: DownloadProgress) : DownloadUiState
+    data class Paused(val progress: DownloadProgress) : DownloadUiState
     data class Idle(val hasFailed: Boolean, val errorMessage: String?) : DownloadUiState
 }
 
@@ -490,19 +512,21 @@ private fun DownloadRow(
     download: DownloadProgress?,
     sizeBytes: Long,
     onDownload: () -> Unit,
+    onPause: () -> Unit,
     onCancel: () -> Unit,
     onDelete: () -> Unit,
     formatBytes: (Long) -> String,
     modifier: Modifier = Modifier
 ) {
-    val isDownloading = download?.state == DownloadState.DOWNLOADING
-    val hasFailed     = download?.state == DownloadState.FAILED
+    val isDownloading  = download?.state == DownloadState.DOWNLOADING
+    val isPaused       = download?.state == DownloadState.PAUSED
+    val hasFailed      = download?.state == DownloadState.FAILED
     val showDownloaded = filePresent || download?.state == DownloadState.COMPLETED
 
-    // Map to our sealed target so AnimatedContent can distinguish each state
     val downloadUiState: DownloadUiState = when {
         showDownloaded -> DownloadUiState.Downloaded
         isDownloading  -> DownloadUiState.InProgress(download!!)
+        isPaused       -> DownloadUiState.Paused(download!!)
         else           -> DownloadUiState.Idle(hasFailed, download?.errorMessage)
     }
 
@@ -536,7 +560,7 @@ private fun DownloadRow(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Column {
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 "${state.progress.progressPercent}%  ${formatBytes(state.progress.bytesDownloaded)} / ${formatBytes(state.progress.totalBytes.takeIf { it > 0 } ?: sizeBytes)}",
                                 color = TextSecondary, fontSize = 11.sp
@@ -545,14 +569,50 @@ private fun DownloadRow(
                                 Text(speed, color = TealLight, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                             }
                         }
-                        IconButton(onClick = onCancel, modifier = Modifier.size(28.dp)) {
-                            Icon(Icons.Default.Cancel, "Cancel", tint = ErrorRed.copy(alpha = 0.7f), modifier = Modifier.size(14.dp))
+                        Row {
+                            IconButton(onClick = onPause, modifier = Modifier.size(32.dp)) {
+                                Icon(Icons.Default.Pause, "Pause", tint = TealPrimary, modifier = Modifier.size(18.dp))
+                            }
+                            IconButton(onClick = onCancel, modifier = Modifier.size(32.dp)) {
+                                Icon(Icons.Default.Cancel, "Cancel", tint = ErrorRed.copy(alpha = 0.7f), modifier = Modifier.size(16.dp))
+                            }
                         }
                     }
                     LinearProgressIndicator(
                         progress = { state.progress.progressFraction },
                         modifier = Modifier.fillMaxWidth().height(3.dp),
                         color = TealPrimary,
+                        trackColor = Surface2
+                    )
+                }
+            }
+
+            is DownloadUiState.Paused -> {
+                Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                "Paused · ${state.progress.progressPercent}%  ${formatBytes(state.progress.bytesDownloaded)} / ${formatBytes(state.progress.totalBytes.takeIf { it > 0 } ?: sizeBytes)}",
+                                color = TextSecondary, fontSize = 11.sp
+                            )
+                        }
+                        Row {
+                            IconButton(onClick = onDownload, modifier = Modifier.size(32.dp)) {
+                                Icon(Icons.Default.PlayArrow, "Resume", tint = TealPrimary, modifier = Modifier.size(20.dp))
+                            }
+                            IconButton(onClick = onCancel, modifier = Modifier.size(32.dp)) {
+                                Icon(Icons.Default.Cancel, "Cancel", tint = ErrorRed.copy(alpha = 0.7f), modifier = Modifier.size(16.dp))
+                            }
+                        }
+                    }
+                    LinearProgressIndicator(
+                        progress = { state.progress.progressFraction },
+                        modifier = Modifier.fillMaxWidth().height(3.dp),
+                        color = TealPrimary.copy(alpha = 0.5f),
                         trackColor = Surface2
                     )
                 }

@@ -56,6 +56,7 @@ interface InferenceService {
     fun isLoaded(): Boolean
 
     fun getEffectiveMaxTokens(model: GemmaModel): Int
+    fun getMaxOutputTokens(): Int = 4000
 
     fun recordSessionReset(chatId: String)
     fun wasSessionRecentlyReset(chatId: String): Boolean

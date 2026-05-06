@@ -46,11 +46,13 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
     private var enableThinking: Boolean = true
     private var accelerator: String = "cpu"
     private var loadedAccelerator: String = "cpu"
+    private var loadedContextWindow: Int? = null
 
     private var ragTools: RagAgentTools? = null
 
     companion object {
         private const val TAG = "GemmaInference"
+        private const val DEFAULT_CONTEXT_WINDOW = 8192
     }
 
     fun setRagTools(tools: RagAgentTools?) {
@@ -79,13 +81,14 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
         this.contextWindow = contextWindow
         this.accelerator = accelerator
         Log.d(TAG, "Generation params: topK=$topK topP=$topP temp=$temperature " +
-                "thinking=$enableThinking maxTokens=$maxTokens contextWindow=$contextWindow accelerator=$accelerator")
+                "thinking=$enableThinking maxOutputTokens=$maxTokens contextWindow=$contextWindow accelerator=$accelerator")
     }
 
     override fun getEffectiveMaxTokens(model: GemmaModel): Int {
-        val window = contextWindow?.coerceIn(1, model.contextWindowSize) ?: model.contextWindowSize
-        return maxTokens.coerceIn(1, window)
+        return (contextWindow ?: DEFAULT_CONTEXT_WINDOW).coerceIn(1, model.contextWindowSize)
     }
+
+    override fun getMaxOutputTokens(): Int = maxTokens
 
     override fun getCurrentModel(): GemmaModel? = currentModel
     override fun isLoaded(): Boolean = engine != null && currentModel != null
@@ -109,6 +112,9 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
         }
     }
 
+    /** Like [loadModel] but throws the underlying exception instead of returning false. */
+    suspend fun loadModelOrThrow(model: GemmaModel) = ensureEngineLoaded(model)
+
     override suspend fun unloadModel() {
         engineMutex.withLock {
             engine?.let {
@@ -116,13 +122,20 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
             }
             engine = null
             currentModel = null
+            loadedContextWindow = null
             Log.d(TAG, "Engine unloaded")
         }
     }
 
     private suspend fun ensureEngineLoaded(model: GemmaModel) {
         engineMutex.withLock {
-            if (currentModel?.id == model.id && engine != null && loadedAccelerator == accelerator) return@withLock
+            val requestedContextWindow = getEffectiveMaxTokens(model)
+            if (
+                currentModel?.id == model.id &&
+                engine != null &&
+                loadedAccelerator == accelerator &&
+                loadedContextWindow == requestedContextWindow
+            ) return@withLock
             engine?.let {
                 try { it.close() } catch (e: Exception) { Log.w(TAG, "Error closing old engine") }
             }
@@ -137,25 +150,24 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
             }
 
             val mainBackend = if (accelerator == "gpu") Backend.GPU() else Backend.CPU()
-            val effectiveMaxTokens = getEffectiveMaxTokens(model)
-
             val engineConfig = EngineConfig(
                 modelPath = modelFile.absolutePath,
                 backend = mainBackend,
                 visionBackend = if (model.supportsVision) Backend.CPU() else null,
                 audioBackend = if (model.supportsAudio) Backend.CPU() else null,
-                maxNumTokens = effectiveMaxTokens,
+                maxNumTokens = requestedContextWindow,
                 cacheDir = context.cacheDir.path
             )
 
             Log.d(TAG, "Loading engine for ${model.displayName} | " +
                     "vision=${model.supportsVision} audio=${model.supportsAudio} " +
-                    "accelerator=$accelerator maxTokens=$effectiveMaxTokens")
+                    "accelerator=$accelerator contextWindow=$requestedContextWindow maxOutputTokens=$maxTokens")
             val newEngine = Engine(engineConfig)
             withContext(Dispatchers.IO) { newEngine.initialize() }
             engine = newEngine
             currentModel = model
             loadedAccelerator = accelerator
+            loadedContextWindow = requestedContextWindow
             Log.d(TAG, "Engine ready for ${model.displayName}")
         }
     }
@@ -233,7 +245,7 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
             val sb = StringBuilder()
             val config = buildConversationConfig(systemPrompt)
             val contents = buildContents(prompt, imagePath, audioBytes)
-            val effectiveMaxTokens = currentModel?.let { getEffectiveMaxTokens(it) } ?: maxTokens
+            val effectiveMaxTokens = currentModel?.let { maxTokens.coerceIn(1, getEffectiveMaxTokens(it)) } ?: maxTokens
             eng.createConversation(config).also { activeConversation = it }.use { conv ->
                 try {
                     conv.sendMessageAsync(contents)
@@ -262,7 +274,7 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
     ): Flow<String> = channelFlow {
         val eng = engine ?: throw IllegalStateException("No engine loaded.")
         val localTools = if (useAgentTools) ragTools else null
-        val effectiveMaxTokens = currentModel?.let { getEffectiveMaxTokens(it) } ?: maxTokens
+        val effectiveMaxTokens = currentModel?.let { maxTokens.coerceIn(1, getEffectiveMaxTokens(it)) } ?: maxTokens
 
         var thinkOpen  = false
         var thinkClose = false

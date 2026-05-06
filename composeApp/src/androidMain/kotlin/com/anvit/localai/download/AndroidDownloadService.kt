@@ -18,6 +18,8 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
     override val downloads: StateFlow<Map<String, DownloadProgress>> = _downloads.asStateFlow()
 
     private val activeJobs = mutableMapOf<String, Job>()
+    private val activeFileNames = mutableMapOf<String, String>()
+    private val pausingModels = mutableSetOf<String>()
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private val modelsDir: File
@@ -34,6 +36,7 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
         authToken: String
     ) {
         activeJobs[modelId]?.cancel()
+        activeFileNames[modelId] = fileName
 
         val job = scope.launch {
             updateProgress(modelId, DownloadProgress(modelId, DownloadState.DOWNLOADING, totalBytes = totalSizeBytes))
@@ -122,6 +125,15 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
                                 totalBytes       = effectiveTotalBytes,
                                 downloadSpeed    = speedStr
                             ))
+                            val fraction = if (effectiveTotalBytes > 0)
+                                (totalDownloaded.toFloat() / effectiveTotalBytes).coerceIn(0f, 1f)
+                            else 0f
+                            val percent = (fraction * 100).toInt()
+                            DownloadForegroundService.update(
+                                context,
+                                fraction,
+                                "$fileName · $percent% · $speedStr"
+                            )
                             lastProgressUpdate = now
                             lastBytesDownloaded = totalDownloaded
                         }
@@ -133,6 +145,7 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
                 }
 
                 destFile.renameTo(finalFile)
+                activeFileNames.remove(modelId)
                 updateProgress(modelId, DownloadProgress(
                     modelId         = modelId,
                     state           = DownloadState.COMPLETED,
@@ -141,7 +154,17 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
                 ))
 
             } catch (e: CancellationException) {
-                updateProgress(modelId, DownloadProgress(modelId, DownloadState.CANCELLED))
+                if (pausingModels.remove(modelId)) {
+                    val saved = _downloads.value[modelId]
+                    updateProgress(modelId, DownloadProgress(
+                        modelId         = modelId,
+                        state           = DownloadState.PAUSED,
+                        bytesDownloaded = saved?.bytesDownloaded ?: 0L,
+                        totalBytes      = saved?.totalBytes ?: totalSizeBytes
+                    ))
+                } else {
+                    updateProgress(modelId, DownloadProgress(modelId, DownloadState.CANCELLED))
+                }
                 // Keep .part file for resuming later
             } catch (e: Exception) {
                 destFile.delete()
@@ -153,15 +176,38 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
             } finally {
                 connection?.disconnect()
                 activeJobs.remove(modelId)
+                if (activeJobs.isEmpty()) {
+                    DownloadForegroundService.stop(context)
+                }
             }
         }
 
         activeJobs[modelId] = job
+        if (activeJobs.size == 1) {
+            DownloadForegroundService.start(context)
+        }
+    }
+
+    override fun pauseDownload(modelId: String) {
+        pausingModels.add(modelId)
+        activeJobs[modelId]?.cancel()
+        activeJobs.remove(modelId)
+        if (activeJobs.isEmpty()) {
+            DownloadForegroundService.stop(context)
+        }
     }
 
     override fun cancelDownload(modelId: String) {
+        pausingModels.remove(modelId)
         activeJobs[modelId]?.cancel()
         activeJobs.remove(modelId)
+        val fileName = activeFileNames.remove(modelId)
+        if (fileName != null) {
+            File(modelsDir, "$fileName.part").delete()
+        }
+        if (activeJobs.isEmpty()) {
+            DownloadForegroundService.stop(context)
+        }
         updateProgress(modelId, DownloadProgress(modelId, DownloadState.CANCELLED))
     }
 

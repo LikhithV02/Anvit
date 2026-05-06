@@ -1,0 +1,9 @@
+{
+    "sampleCount": 49,
+    "recallAt5": 0.7142857142857143,
+    "perDocRecall": 0.20408163265306123,
+    "mrr": 0.58843537414966,
+    "faithfulness": 0.7244897959183674,
+    "correctness": 0.46938775510204084,
+    "latencyP95Ms": 27033
+}

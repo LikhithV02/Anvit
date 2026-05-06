@@ -34,7 +34,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class SourceChunk(val title: String, val snippet: String)
+data class SourceChunk(val title: String, val snippet: String, val score: Float = 0f)
 
 data class ChatMessage(
     val id: String,
@@ -327,6 +327,7 @@ class ChatViewModel(
             temperature = prefs.temperature.first(),
             enableThinking = prefs.enableThinking.first(),
             maxTokens = prefs.maxOutputTokens.first(),
+            contextWindow = prefs.contextWindow.first(),
             accelerator = prefs.accelerator.first()
         )
         val ok = inferenceService.loadModel(model)
@@ -395,7 +396,9 @@ class ChatViewModel(
                 val collectionId = _uiState.value.chatCollectionId
                 inferenceService.setGenerationParams(
                     topK = topK, temperature = temperature, enableThinking = enableThinking,
-                    maxTokens = preferences.maxOutputTokens.first(), accelerator = accelerator
+                    maxTokens = preferences.maxOutputTokens.first(),
+                    contextWindow = preferences.contextWindow.first(),
+                    accelerator = accelerator
                 )
 
                 val answerFlow = if (collectionId == null) {
@@ -411,7 +414,7 @@ class ChatViewModel(
                             _uiState.update { s -> s.copy(streamingMessage = (s.streamingMessage ?: ChatMessage(assistantMsgId, "assistant", "", isStreaming = true)).copy(agentSteps = agentStepsList)) }
                         },
                         onSources = { chunks ->
-                            sourcesList = chunks.map { SourceChunk(it.fileName, it.content) }
+                            sourcesList = chunks.sortedByDescending { it.score }.map { SourceChunk(it.fileName, it.content, it.score) }
                             _uiState.update { s -> s.copy(streamingMessage = (s.streamingMessage ?: ChatMessage(assistantMsgId, "assistant", "", isStreaming = true)).copy(usedSources = sourcesList)) }
                         }
                     )

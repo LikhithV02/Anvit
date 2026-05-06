@@ -18,9 +18,10 @@
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"
         tools:node="remove" />
 
-    <!-- Required to keep on-device LLM inference alive when the user switches to another app -->
+    <!-- Required to keep on-device LLM inference, model downloads, and document indexing alive when the user switches to another app -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <!-- Required on Android 13+ to show the foreground service notification -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Prevents CPU from throttling mid-inference when screen turns off -->
@@ -55,6 +56,22 @@
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="On-device large language model inference that must continue running while the user interacts with other apps to avoid losing in-progress AI responses." />
+        </service>
+
+        <!-- Foreground service that keeps multi-GB model downloads (Gemma 4, embedding models) running when the user switches apps -->
+        <service
+            android:name=".download.DownloadForegroundService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+
+        <!-- Foreground service that keeps PDF ingestion (extract, chunk, embed, index) running when the user switches apps -->
+        <service
+            android:name=".document.IngestionForegroundService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="On-device document indexing that runs hundreds of embedding-model inference calls per document and must continue when the user interacts with other apps to avoid leaving documents half-indexed." />
         </service>
 
     </application>

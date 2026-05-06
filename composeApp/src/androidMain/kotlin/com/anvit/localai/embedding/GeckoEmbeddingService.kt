@@ -2,10 +2,12 @@ package com.anvit.localai.embedding
 
 import android.content.Context
 import android.util.Log
+import com.anvit.localai.data.preferences.AnvitPreferences
 import com.google.ai.edge.localagents.rag.models.EmbedData
 import com.google.ai.edge.localagents.rag.models.EmbeddingRequest
 import com.google.ai.edge.localagents.rag.models.GeckoEmbeddingModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -16,12 +18,16 @@ import java.util.Optional
  * Android implementation of [EmbeddingService] backed by the GeckoEmbeddingModel
  * from the Google AI Edge localagents-rag library.
  */
-class GeckoEmbeddingService(private val context: Context) : EmbeddingService {
+class GeckoEmbeddingService(
+    private val context: Context,
+    private val preferences: AnvitPreferences
+) : EmbeddingService {
 
     private var geckoEmbedder: GeckoEmbeddingModel? = null
     private var initialized = false
     private val mutex = Mutex()
     private var modelName = "Unknown"
+    private var initializedWithGpu = false
 
     companion object {
         private const val TAG = "GeckoEmbedding"
@@ -38,7 +44,13 @@ class GeckoEmbeddingService(private val context: Context) : EmbeddingService {
     }
 
     override suspend fun initialize(): Boolean = mutex.withLock {
-        if (initialized) return@withLock true
+        val useGpu = preferences.accelerator.first() == "gpu"
+        if (initialized && initializedWithGpu == useGpu) return@withLock true
+        // Re-initialize if accelerator setting changed
+        if (initialized) {
+            geckoEmbedder = null
+            initialized = false
+        }
         withContext(Dispatchers.IO) {
             try {
                 val modelsDir = File(context.filesDir, "models")
@@ -50,11 +62,11 @@ class GeckoEmbeddingService(private val context: Context) : EmbeddingService {
                     }
                 val tokenizerFile = TOKENIZER_NAMES.map { File(modelsDir, it) }.firstOrNull { it.exists() }
 
-                Log.d(TAG, "Initializing embedding model: ${modelFile.name}")
+                Log.d(TAG, "Initializing embedding model: ${modelFile.name} (GPU=$useGpu)")
                 geckoEmbedder = GeckoEmbeddingModel(
                     modelFile.absolutePath,
                     if (tokenizerFile != null) Optional.of(tokenizerFile.absolutePath) else Optional.empty(),
-                    true // GPU
+                    useGpu
                 )
                 // Warm-up check
                 val req = EmbeddingRequest.create(
@@ -67,7 +79,8 @@ class GeckoEmbeddingService(private val context: Context) : EmbeddingService {
                 }
                 modelName = modelFile.name
                 initialized = true
-                Log.d(TAG, "Embedding model ready. Dim=${result.size}, model=$modelName")
+                initializedWithGpu = useGpu
+                Log.d(TAG, "Embedding model ready. Dim=${result.size}, model=$modelName, GPU=$useGpu")
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "Embedding model init failed: ${e.message}", e)
@@ -98,5 +111,6 @@ class GeckoEmbeddingService(private val context: Context) : EmbeddingService {
     override fun cleanup() {
         geckoEmbedder = null
         initialized = false
+        initializedWithGpu = false
     }
 }

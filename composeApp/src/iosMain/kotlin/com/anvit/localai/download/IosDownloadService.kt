@@ -34,6 +34,16 @@ import platform.Foundation.NSUserDomainMask
 import platform.posix.fclose
 import platform.posix.fopen
 import platform.posix.fwrite
+import platform.UIKit.UIApplication
+import platform.UIKit.UIBackgroundTaskIdentifier
+import platform.UIKit.UIBackgroundTaskInvalid
+import platform.UserNotifications.UNAuthorizationOptionAlert
+import platform.UserNotifications.UNAuthorizationOptionBadge
+import platform.UserNotifications.UNAuthorizationOptionSound
+import platform.UserNotifications.UNMutableNotificationContent
+import platform.UserNotifications.UNNotificationRequest
+import platform.UserNotifications.UNNotificationSound
+import platform.UserNotifications.UNUserNotificationCenter
 
 class IosDownloadService : DownloadService {
 
@@ -41,7 +51,52 @@ class IosDownloadService : DownloadService {
     override val downloads: StateFlow<Map<String, DownloadProgress>> = _downloads.asStateFlow()
 
     private val activeJobs = mutableMapOf<String, Job>()
+    private val activeFileNames = mutableMapOf<String, String>()
+    private val pausingModels = mutableSetOf<String>()
+    private val lastNotifiedPercent = mutableMapOf<String, Int>()
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+
+    private var bgTaskId: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+
+    init {
+        requestNotificationPermission()
+    }
+
+    private fun requestNotificationPermission() {
+        val center = UNUserNotificationCenter.currentNotificationCenter()
+        center.requestAuthorizationWithOptions(
+            UNAuthorizationOptionAlert or UNAuthorizationOptionSound or UNAuthorizationOptionBadge
+        ) { _, _ -> }
+    }
+
+    private fun showNotification(title: String, body: String, identifier: String) {
+        val center = UNUserNotificationCenter.currentNotificationCenter()
+        center.getNotificationSettingsWithCompletionHandler { settings ->
+            if (settings?.authorizationStatus == platform.UserNotifications.UNAuthorizationStatusAuthorized) {
+                val content = UNMutableNotificationContent()
+                content.setTitle(title)
+                content.setBody(body)
+                content.setSound(UNNotificationSound.defaultSound())
+                val request = UNNotificationRequest.requestWithIdentifier(identifier, content, null)
+                center.addNotificationRequest(request) { _ -> }
+            }
+        }
+    }
+
+    private fun beginBackgroundTask() {
+        if (bgTaskId == UIBackgroundTaskInvalid) {
+            bgTaskId = UIApplication.sharedApplication.beginBackgroundTaskWithExpirationHandler {
+                endBackgroundTask()
+            }
+        }
+    }
+
+    private fun endBackgroundTask() {
+        if (bgTaskId != UIBackgroundTaskInvalid) {
+            UIApplication.sharedApplication.endBackgroundTask(bgTaskId)
+            bgTaskId = UIBackgroundTaskInvalid
+        }
+    }
 
     // Ktor Darwin engine buffers the entire response body in memory before exposing it.
     // Large files must be downloaded as multiple 100 MB Range requests to stay within limits.
@@ -99,8 +154,13 @@ class IosDownloadService : DownloadService {
         authToken: String
     ) {
         activeJobs[modelId]?.cancel()
+        activeFileNames[modelId] = fileName
+
+        lastNotifiedPercent[modelId] = 0
 
         val job = scope.launch {
+            beginBackgroundTask()
+            showNotification("Downloading Model", "Started downloading $fileName", "dl_$modelId")
             updateProgress(modelId, DownloadProgress(modelId, DownloadState.DOWNLOADING, totalBytes = totalSizeBytes))
             try {
                 if (downloadUrl.startsWith("hf://")) {
@@ -109,17 +169,34 @@ class IosDownloadService : DownloadService {
                 } else {
                     downloadSingleFile(modelId, downloadUrl, fileName, totalSizeBytes, authToken)
                 }
+                activeFileNames.remove(modelId)
+                showNotification("Download Complete", "$fileName is ready to use", "dl_$modelId")
             } catch (e: CancellationException) {
-                // Keep partial files on disk so downloads can resume next time
-                updateProgress(modelId, DownloadProgress(modelId, DownloadState.CANCELLED))
+                if (pausingModels.remove(modelId)) {
+                    val saved = _downloads.value[modelId]
+                    showNotification("Download Paused", "Download of $fileName paused", "dl_$modelId")
+                    updateProgress(modelId, DownloadProgress(
+                        modelId         = modelId,
+                        state           = DownloadState.PAUSED,
+                        bytesDownloaded = saved?.bytesDownloaded ?: 0L,
+                        totalBytes      = saved?.totalBytes ?: totalSizeBytes
+                    ))
+                } else {
+                    updateProgress(modelId, DownloadProgress(modelId, DownloadState.CANCELLED))
+                }
             } catch (e: Exception) {
+                showNotification("Download Failed", "Failed to download $fileName: ${e.message}", "dl_$modelId")
                 updateProgress(modelId, DownloadProgress(
                     modelId      = modelId,
                     state        = DownloadState.FAILED,
                     errorMessage = e.message ?: "Download failed"
                 ))
             } finally {
+                lastNotifiedPercent.remove(modelId)
                 activeJobs.remove(modelId)
+                if (activeJobs.isEmpty()) {
+                    endBackgroundTask()
+                }
             }
         }
 
@@ -409,9 +486,27 @@ class IosDownloadService : DownloadService {
         }
     }.getOrDefault(emptyList())
 
-    override fun cancelDownload(modelId: String) {
+    override fun pauseDownload(modelId: String) {
+        pausingModels.add(modelId)
         activeJobs[modelId]?.cancel()
         activeJobs.remove(modelId)
+        if (activeJobs.isEmpty()) {
+            endBackgroundTask()
+        }
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    override fun cancelDownload(modelId: String) {
+        pausingModels.remove(modelId)
+        activeJobs[modelId]?.cancel()
+        activeJobs.remove(modelId)
+        val fileName = activeFileNames.remove(modelId)
+        if (fileName != null) {
+            NSFileManager.defaultManager.removeItemAtPath("$modelsDir/$fileName.part", error = null)
+        }
+        if (activeJobs.isEmpty()) {
+            endBackgroundTask()
+        }
         updateProgress(modelId, DownloadProgress(modelId, DownloadState.CANCELLED))
     }
 
@@ -443,6 +538,20 @@ class IosDownloadService : DownloadService {
 
     private fun updateProgress(modelId: String, progress: DownloadProgress) {
         _downloads.update { current -> current + (modelId to progress) }
+        if (progress.state == DownloadState.DOWNLOADING && progress.totalBytes > 0) {
+            val percent = ((progress.bytesDownloaded * 100) / progress.totalBytes).toInt()
+            val last = lastNotifiedPercent[modelId] ?: 0
+            // Notify at 25%, 50%, 75% milestones
+            val milestone = (percent / 25) * 25
+            if (milestone > last && milestone < 100) {
+                lastNotifiedPercent[modelId] = milestone
+                showNotification(
+                    "Downloading — $milestone%",
+                    "${formatBytes(progress.bytesDownloaded)} of ${formatBytes(progress.totalBytes)}",
+                    "dl_progress_$modelId"
+                )
+            }
+        }
     }
 
     companion object {

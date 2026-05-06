@@ -57,7 +57,9 @@ class IosInferenceService : InferenceService {
 
     override fun setActiveCollection(collectionId: String?) { /* no-op */ }
 
-    override fun getEffectiveMaxTokens(model: GemmaModel): Int = 4000
+    override fun getEffectiveMaxTokens(model: GemmaModel): Int = 8192
+
+    override fun getMaxOutputTokens(): Int = 4000
 
     override fun recordSessionReset(chatId: String) { /* no-op */ }
 

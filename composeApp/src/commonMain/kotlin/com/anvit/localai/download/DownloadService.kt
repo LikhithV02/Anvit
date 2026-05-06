@@ -15,11 +15,12 @@ data class DownloadProgress(
     val isActive: Boolean       get() = state == DownloadState.DOWNLOADING
 }
 
-enum class DownloadState { IDLE, DOWNLOADING, COMPLETED, FAILED, CANCELLED }
+enum class DownloadState { IDLE, DOWNLOADING, PAUSED, COMPLETED, FAILED, CANCELLED }
 
 interface DownloadService {
     val downloads: StateFlow<Map<String, DownloadProgress>>
     fun startDownload(modelId: String, fileName: String, downloadUrl: String, totalSizeBytes: Long, authToken: String = "")
+    fun pauseDownload(modelId: String)
     fun cancelDownload(modelId: String)
     fun isModelPresent(fileName: String): Boolean
     fun deleteModel(fileName: String)
