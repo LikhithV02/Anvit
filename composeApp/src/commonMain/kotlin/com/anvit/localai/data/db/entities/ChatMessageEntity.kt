@@ -16,5 +16,6 @@ data class ChatMessageEntity(
     val imagePath: String? = null,
     val audioPath: String? = null,
     val usedSources: String = "",
-    val isTranscribed: Boolean = false
+    val isTranscribed: Boolean = false,
+    val wasStopped: Boolean = false
 )

@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChatSessionDao {
-    @Query("SELECT * FROM chat_sessions ORDER BY updatedAt DESC")
+    @Query("SELECT * FROM chat_sessions ORDER BY isPinned DESC, updatedAt DESC")
     fun getAllSessions(): Flow<List<ChatSessionEntity>>
 
-    @Query("SELECT * FROM chat_sessions ORDER BY updatedAt DESC")
+    @Query("SELECT * FROM chat_sessions ORDER BY isPinned DESC, updatedAt DESC")
     suspend fun getAllSessionsList(): List<ChatSessionEntity>
 
     @Query("SELECT * FROM chat_sessions WHERE id = :id")
@@ -23,4 +23,7 @@ interface ChatSessionDao {
 
     @Query("DELETE FROM chat_sessions WHERE id = :id")
     suspend fun deleteSession(id: String)
+
+    @Query("SELECT COALESCE(SUM(messageCount), 0) FROM chat_sessions")
+    fun getTotalMessageCount(): Flow<Long>
 }

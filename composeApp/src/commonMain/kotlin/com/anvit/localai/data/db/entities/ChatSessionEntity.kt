@@ -10,5 +10,6 @@ data class ChatSessionEntity(
     val title: String,
     val createdAt: Long = currentTimeMillis(),
     val updatedAt: Long = currentTimeMillis(),
-    val messageCount: Int = 0
+    val messageCount: Int = 0,
+    val isPinned: Boolean = false,
 )

@@ -9,28 +9,33 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.CloudDownload
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.SettingsBrightness
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -38,6 +43,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Policy
+import androidx.navigation.NavController
 import com.anvit.localai.data.models.EmbeddingModelInfo
 import com.anvit.localai.data.models.EmbeddingModels
 import com.anvit.localai.data.models.GemmaModel
@@ -49,26 +58,58 @@ import com.anvit.localai.utils.isIosPlatform
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
+fun SettingsScreen(navController: NavController, viewModel: SettingsViewModel = koinViewModel()) {
+    val c = LocalAnvitColors.current
     val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Surface0)
+            .background(c.bg)
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         Text(
-            "Settings", color = TealPrimary, fontSize = 22.sp, fontWeight = FontWeight.Bold,
+            "Settings", color = c.accent, fontSize = 22.sp, fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top = 8.dp)
         )
+
+        // ── Appearance ────────────────────────────────────────────────────────
+        SettingsSection(title = "Appearance") {
+            Text("Theme", color = c.txt1, fontSize = 12.sp)
+            Spacer(Modifier.height(6.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                AppearanceChip(
+                    label = "System",
+                    icon = Icons.Outlined.SettingsBrightness,
+                    selected = uiState.themeMode == "system",
+                    onClick = { viewModel.setThemeMode("system") },
+                    modifier = Modifier.weight(1f)
+                )
+                AppearanceChip(
+                    label = "Light",
+                    icon = Icons.Outlined.LightMode,
+                    selected = uiState.themeMode == "light",
+                    onClick = { viewModel.setThemeMode("light") },
+                    modifier = Modifier.weight(1f)
+                )
+                AppearanceChip(
+                    label = "Dark",
+                    icon = Icons.Outlined.DarkMode,
+                    selected = uiState.themeMode == "dark",
+                    onClick = { viewModel.setThemeMode("dark") },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
 
         // ── Gemma Model Selection ──────────────────────────────────────────────
         SettingsSection(title = "Gemma Model") {
             viewModel.availableModels.forEachIndexed { index, model ->
-                val selected = uiState.selectedModelId == model.id
                 val download = uiState.downloads[model.id]
                 val filePresent = remember(uiState.downloads, uiState.deletionTick) {
                     viewModel.isModelFilePresent(model.fileName)
@@ -76,10 +117,8 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
 
                 GemmaModelRow(
                     model = model,
-                    selected = selected,
                     filePresent = filePresent,
                     download = download,
-                    onSelect = { viewModel.selectModel(model.id) },
                     onDownload = { viewModel.downloadGemmaModel(model) },
                     onPause = { viewModel.pauseDownload(model.id) },
                     onCancel = { viewModel.cancelDownload(model.id) },
@@ -87,58 +126,25 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                     formatBytes = viewModel::formatBytes
                 )
                 if (index < viewModel.availableModels.lastIndex) {
-                    HorizontalDivider(color = BorderSubtle, thickness = 0.5.dp)
+                    HorizontalDivider(color = c.border, thickness = 0.5.dp)
                 }
             }
 
             Spacer(Modifier.height(4.dp))
-
-            val selectedModelFilePresent = remember(uiState.selectedModelId, uiState.downloads, uiState.deletionTick) {
-                viewModel.availableModels
-                    .find { it.id == uiState.selectedModelId }
-                    ?.let { viewModel.isModelFilePresent(it.fileName) } ?: false
-            }
-
-            Button(
-                onClick = { viewModel.loadSelectedModel() },
-                enabled = !uiState.isLoadingModel && selectedModelFilePresent,
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = TealPrimary,
-                    contentColor = Surface0,
-                    disabledContainerColor = TealPrimary.copy(alpha = 0.3f),
-                    disabledContentColor = Surface0.copy(alpha = 0.5f)
-                )
-            ) {
-                if (uiState.isLoadingModel) {
-                    CircularProgressIndicator(modifier = Modifier.size(16.dp), color = Surface0, strokeWidth = 2.dp)
-                    Spacer(Modifier.width(8.dp))
-                    Text("Loading model...")
-                } else {
-                    Text(
-                        if (selectedModelFilePresent) "Load Selected Model" else "Download model first",
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            }
-
-            uiState.modelLoadSuccess?.let { msg ->
-                Text(msg, color = SuccessGreen, fontSize = 12.sp)
-                LaunchedEffect(msg) { kotlinx.coroutines.delay(3000); viewModel.clearMessages() }
-            }
-            uiState.modelLoadError?.let { msg ->
-                Text(msg, color = ErrorRed, fontSize = 12.sp)
-            }
         }
 
         // ── Embedding Model ────────────────────────────────────────────────────
         SettingsSection(title = "Embedding Model") {
+            Text(
+                "Used for document search. Download one to enable Agentic RAG.",
+                color = c.txt1, fontSize = 11.sp, lineHeight = 16.sp
+            )
             EmbeddingModels.all.forEachIndexed { index, model ->
                 val download = uiState.downloads[model.id]
                 val filePresent = remember(uiState.downloads, uiState.deletionTick) {
                     viewModel.isModelFilePresent(model.fileName)
                 }
-
+                if (index > 0) HorizontalDivider(color = c.border, thickness = 0.5.dp)
                 EmbeddingModelRow(
                     model = model,
                     filePresent = filePresent,
@@ -149,30 +155,34 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                     onDelete = { viewModel.deleteModel(model.fileName, model.id) },
                     formatBytes = viewModel::formatBytes
                 )
-                if (index < EmbeddingModels.all.lastIndex) {
-                    HorizontalDivider(color = BorderSubtle, thickness = 0.5.dp)
-                }
             }
 
-            HorizontalDivider(color = BorderSubtle, thickness = 0.5.dp)
+            HorizontalDivider(color = c.border, thickness = 0.5.dp)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val isActive = uiState.embeddingModelStatus == "Active"
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Status", color = TextSecondary, fontSize = 12.sp)
-                    Text(uiState.embeddingModelStatus, color = TextPrimary, fontSize = 13.sp)
+                    Text(
+                        uiState.embeddingModelStatus,
+                        color = if (isActive) c.green else c.txt1,
+                        fontSize = 12.sp
+                    )
                 }
                 Button(
                     onClick = { viewModel.initializeEmbedding() },
+                    enabled = uiState.embeddingModelStatus != "Active" && uiState.embeddingModelStatus != "Activating…",
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = TealPrimary.copy(alpha = 0.2f),
-                        contentColor = TealPrimary
+                        containerColor = c.accentDim,
+                        contentColor = c.accent,
+                        disabledContainerColor = c.accentDim.copy(alpha = 0.4f),
+                        disabledContentColor = c.accent.copy(alpha = 0.4f)
                     )
                 ) {
-                    Text("Initialize", fontSize = 12.sp)
+                    Text("Activate", fontSize = 12.sp)
                 }
             }
         }
@@ -181,24 +191,25 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
         SettingsSection(title = "User Information") {
             Text(
                 "Your email is used only for reporting issues.",
-                color = TextSecondary, fontSize = 11.sp
+                color = c.txt1, fontSize = 11.sp
             )
             OutlinedTextField(
                 value = uiState.userEmail,
                 onValueChange = { viewModel.setUserEmail(it) },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("email@example.com", color = TextHint, fontSize = 13.sp) },
+                shape = CircleShape,
+                placeholder = { Text("email@example.com", color = c.txt2, fontSize = 13.sp) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = androidx.compose.ui.text.input.KeyboardType.Email),
                 leadingIcon = {
-                    Icon(Icons.Default.Email, null, tint = TealPrimary.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
+                    Icon(Icons.Default.Email, null, tint = c.accent.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
                 },
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = TealPrimary,
-                    unfocusedBorderColor = BorderDefault,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
-                    cursorColor = TealPrimary
+                    focusedBorderColor = c.accent,
+                    unfocusedBorderColor = c.border2,
+                    focusedTextColor = c.txt0,
+                    unfocusedTextColor = c.txt0,
+                    cursorColor = c.accent
                 ),
                 textStyle = LocalTextStyle.current.copy(fontSize = 13.sp)
             )
@@ -224,7 +235,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
             ) { viewModel.setEnableSelfCritique(it) }
 
             Spacer(Modifier.height(2.dp))
-            Text("Retrieval Mode", color = TextSecondary, fontSize = 12.sp)
+            Text("Retrieval Mode", color = c.txt1, fontSize = 12.sp)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("vector", "bm25", "hybrid").forEach { mode ->
                     FilterChip(
@@ -232,9 +243,9 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                         onClick = { viewModel.setRetrievalMode(mode) },
                         label = { Text(mode.replaceFirstChar { it.uppercase() }, fontSize = 12.sp) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = TealPrimary.copy(alpha = 0.2f),
-                            selectedLabelColor = TealPrimary,
-                            labelColor = TextSecondary
+                            selectedContainerColor = c.accentDim,
+                            selectedLabelColor = c.accent,
+                            labelColor = c.txt1
                         )
                     )
                 }
@@ -252,9 +263,8 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
 
         // ── Generation Parameters ─────────────────────────────────────────────
         SettingsSection(title = "Generation Parameters") {
-            // Accelerator selection — Android only; MLX always uses Metal GPU on iOS
             if (!isIosPlatform()) {
-                Text("Accelerator", color = TextSecondary, fontSize = 12.sp)
+                Text("Accelerator", color = c.txt1, fontSize = 12.sp)
                 Spacer(Modifier.height(4.dp))
                 SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                     listOf("cpu", "gpu").forEachIndexed { index, option ->
@@ -263,9 +273,9 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                             onClick = { viewModel.setAccelerator(option) },
                             shape = SegmentedButtonDefaults.itemShape(index = index, count = 2),
                             colors = SegmentedButtonDefaults.colors(
-                                activeContainerColor = TealPrimary.copy(alpha = 0.2f),
-                                activeContentColor = TealPrimary,
-                                inactiveContentColor = TextSecondary
+                                activeContainerColor = c.accentDim,
+                                activeContentColor = c.accent,
+                                inactiveContentColor = c.txt1
                             )
                         ) {
                             Text(option.uppercase(), fontSize = 13.sp, fontWeight = FontWeight.Medium)
@@ -276,7 +286,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                     Spacer(Modifier.height(4.dp))
                     Text(
                         "GPU is experimental — may crash on some devices. Reload model after switching.",
-                        color = Color(0xFFFFA726),
+                        color = WarningAmber,
                         fontSize = 11.sp,
                         lineHeight = 15.sp
                     )
@@ -326,11 +336,11 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                 steps = 30
             )
 
-            HorizontalDivider(color = BorderSubtle, thickness = 0.5.dp)
+            HorizontalDivider(color = c.border, thickness = 0.5.dp)
             TextButton(
                 onClick = { viewModel.resetGenerationDefaults() },
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.textButtonColors(contentColor = TextSecondary)
+                colors = ButtonDefaults.textButtonColors(contentColor = c.txt1)
             ) {
                 Text("Reset to defaults", fontSize = 12.sp)
             }
@@ -343,26 +353,77 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Anvit Local AI", color = TextPrimary, fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                Surface(shape = RoundedCornerShape(6.dp), color = TealPrimary.copy(alpha = 0.15f)) {
-                    Text(
-                        "v1.0.0",
-                        color = TealLight,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
-                    )
-                }
+                Text("Anvit Local AI", color = c.txt0, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                Text("v1.0.0", color = c.txt2, fontSize = 12.sp)
             }
-            Text(
-                "On-device AI powered by Gemma with Retrieval-Augmented Generation. All processing happens locally — your data never leaves your device.",
-                color = TextSecondary,
-                fontSize = 12.sp,
-                lineHeight = 18.sp
-            )
+            HorizontalDivider(color = c.border, thickness = 0.5.dp)
+            // About Anvit row
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { navController.navigate("about") }
+                    .padding(vertical = 6.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Icon(Icons.Default.Info, null, tint = c.accent, modifier = Modifier.size(18.dp))
+                    Text("About Anvit", color = c.txt0, fontSize = 14.sp)
+                }
+                Icon(Icons.Default.ChevronRight, null, tint = c.txt2, modifier = Modifier.size(18.dp))
+            }
+            HorizontalDivider(color = c.border, thickness = 0.5.dp)
+            // Privacy Policy row
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { navController.navigate("privacy") }
+                    .padding(vertical = 6.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Icon(Icons.Default.Policy, null, tint = c.accent, modifier = Modifier.size(18.dp))
+                    Text("Privacy Policy", color = c.txt0, fontSize = 14.sp)
+                }
+                Icon(Icons.Default.ChevronRight, null, tint = c.txt2, modifier = Modifier.size(18.dp))
+            }
         }
 
         Spacer(Modifier.height(16.dp))
+    }
+}
+
+// ── Appearance chip ───────────────────────────────────────────────────────────
+
+@Composable
+private fun AppearanceChip(
+    label: String,
+    icon: ImageVector,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val c = LocalAnvitColors.current
+    val bgColor     = if (selected) c.accentDim else c.surf2
+    val borderColor = if (selected) c.border2   else c.border
+    val textColor   = if (selected) c.accent     else c.txt1
+
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(bgColor)
+            .border(1.dp, borderColor, RoundedCornerShape(10.dp))
+            .clickable(onClick = onClick)
+            .padding(vertical = 10.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Icon(icon, null, tint = textColor, modifier = Modifier.size(18.dp))
+            Text(label, color = textColor, fontSize = 11.sp, fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal)
+        }
     }
 }
 
@@ -371,59 +432,36 @@ fun SettingsScreen(viewModel: SettingsViewModel = koinViewModel()) {
 @Composable
 private fun GemmaModelRow(
     model: GemmaModel,
-    selected: Boolean,
     filePresent: Boolean,
     download: DownloadProgress?,
-    onSelect: () -> Unit,
     onDownload: () -> Unit,
     onPause: () -> Unit,
     onCancel: () -> Unit,
     onDelete: () -> Unit,
     formatBytes: (Long) -> String
 ) {
-    val rowModifier = if (selected) {
-        Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
-            .background(TealPrimary.copy(alpha = 0.06f))
-            .border(1.5.dp, TealPrimary.copy(alpha = 0.5f), RoundedCornerShape(10.dp))
-            .padding(6.dp)
-    } else {
-        Modifier.fillMaxWidth()
-    }
-    Column(modifier = rowModifier) {
-        // Line 1: radio + name + size chip
+    val c = LocalAnvitColors.current
+    Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            RadioButton(
-                selected = selected, onClick = onSelect,
-                modifier = Modifier.size(24.dp),
-                colors = RadioButtonDefaults.colors(selectedColor = TealPrimary, unselectedColor = TextSecondary)
-            )
-            Spacer(Modifier.width(8.dp))
             Text(
                 model.displayName,
-                modifier = Modifier.weight(1f),
-                color = TextPrimary, fontSize = 14.sp, fontWeight = FontWeight.Medium
+                modifier = Modifier.weight(1f).padding(start = 4.dp),
+                color = c.txt0, fontSize = 14.sp, fontWeight = FontWeight.Medium
             )
-            Spacer(Modifier.width(8.dp))
-            Surface(shape = RoundedCornerShape(6.dp), color = TealPrimary.copy(alpha = 0.2f)) {
-                Text(
-                    model.sizeLabel, color = TealPrimary, fontSize = 11.sp, fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
-                )
-            }
+            Text(
+                model.sizeLabel,
+                color = c.txt2, fontSize = 12.sp, fontWeight = FontWeight.Medium
+            )
         }
-        // Line 2: RAM info (indented under name)
         Text(
             model.ramRequired,
-            modifier = Modifier.padding(start = 40.dp),
-            color = TextSecondary, fontSize = 11.sp
+            modifier = Modifier.padding(start = 4.dp),
+            color = c.txt1, fontSize = 11.sp
         )
         Spacer(Modifier.height(4.dp))
-        // Line 3: download status (indented)
         DownloadRow(
             filePresent = filePresent,
             download = download,
@@ -433,7 +471,7 @@ private fun GemmaModelRow(
             onCancel = onCancel,
             onDelete = onDelete,
             formatBytes = formatBytes,
-            modifier = Modifier.padding(start = 40.dp, bottom = 8.dp)
+            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp)
         )
     }
 }
@@ -451,37 +489,33 @@ private fun EmbeddingModelRow(
     onDelete: () -> Unit,
     formatBytes: (Long) -> String
 ) {
+    val c = LocalAnvitColors.current
     Column(modifier = Modifier.fillMaxWidth()) {
-        // Line 1: name + optional badge + size chip
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                model.displayName,
-                modifier = Modifier.weight(1f),
-                color = TextPrimary, fontSize = 14.sp, fontWeight = FontWeight.Medium
-            )
-            if (model.isRecommended) {
-                Surface(shape = RoundedCornerShape(4.dp), color = SuccessGreen.copy(alpha = 0.2f)) {
+            Column(modifier = Modifier.weight(1f)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
                     Text(
-                        "Rec.", color = SuccessGreen, fontSize = 10.sp,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                        model.displayName,
+                        color = c.txt0, fontSize = 14.sp, fontWeight = FontWeight.Medium
                     )
+                    if (model.isRecommended) {
+                        Text("Recommended", color = c.green, fontSize = 10.sp, fontWeight = FontWeight.Medium)
+                    }
                 }
-                Spacer(Modifier.width(6.dp))
+                Text(model.description, color = c.txt1, fontSize = 11.sp)
             }
-            Surface(shape = RoundedCornerShape(6.dp), color = TealPrimary.copy(alpha = 0.15f)) {
-                Text(
-                    formatBytes(model.sizeBytes), color = TealLight, fontSize = 11.sp,
-                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                )
-            }
+            Text(
+                formatBytes(model.sizeBytes),
+                color = c.txt2, fontSize = 12.sp
+            )
         }
-        // Line 2: description
-        Text(model.description, color = TextSecondary, fontSize = 11.sp)
         Spacer(Modifier.height(4.dp))
-        // Line 3: download status
         DownloadRow(
             filePresent = filePresent,
             download = download,
@@ -498,7 +532,6 @@ private fun EmbeddingModelRow(
 
 // ── Shared download row ───────────────────────────────────────────────────────
 
-/** Four-state sealed class used as AnimatedContent target to smooth transitions. */
 private sealed interface DownloadUiState {
     data object Downloaded : DownloadUiState
     data class InProgress(val progress: DownloadProgress) : DownloadUiState
@@ -518,6 +551,7 @@ private fun DownloadRow(
     formatBytes: (Long) -> String,
     modifier: Modifier = Modifier
 ) {
+    val c = LocalAnvitColors.current
     val isDownloading  = download?.state == DownloadState.DOWNLOADING
     val isPaused       = download?.state == DownloadState.PAUSED
     val hasFailed      = download?.state == DownloadState.FAILED
@@ -548,7 +582,7 @@ private fun DownloadRow(
                         Text("Downloaded", color = SuccessGreen, fontSize = 11.sp)
                     }
                     IconButton(onClick = onDelete, modifier = Modifier.size(36.dp)) {
-                        Icon(Icons.Default.Delete, "Delete model", tint = ErrorRed.copy(alpha = 0.7f), modifier = Modifier.size(20.dp))
+                        Icon(Icons.Outlined.Delete, "Delete model", tint = ErrorRed.copy(alpha = 0.7f), modifier = Modifier.size(20.dp))
                     }
                 }
             }
@@ -563,15 +597,15 @@ private fun DownloadRow(
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 "${state.progress.progressPercent}%  ${formatBytes(state.progress.bytesDownloaded)} / ${formatBytes(state.progress.totalBytes.takeIf { it > 0 } ?: sizeBytes)}",
-                                color = TextSecondary, fontSize = 11.sp
+                                color = c.txt1, fontSize = 11.sp
                             )
                             state.progress.downloadSpeed?.let { speed ->
-                                Text(speed, color = TealLight, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                                Text(speed, color = c.accent, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                             }
                         }
                         Row {
                             IconButton(onClick = onPause, modifier = Modifier.size(32.dp)) {
-                                Icon(Icons.Default.Pause, "Pause", tint = TealPrimary, modifier = Modifier.size(18.dp))
+                                Icon(Icons.Default.Pause, "Pause", tint = c.accent, modifier = Modifier.size(18.dp))
                             }
                             IconButton(onClick = onCancel, modifier = Modifier.size(32.dp)) {
                                 Icon(Icons.Default.Cancel, "Cancel", tint = ErrorRed.copy(alpha = 0.7f), modifier = Modifier.size(16.dp))
@@ -581,8 +615,8 @@ private fun DownloadRow(
                     LinearProgressIndicator(
                         progress = { state.progress.progressFraction },
                         modifier = Modifier.fillMaxWidth().height(3.dp),
-                        color = TealPrimary,
-                        trackColor = Surface2
+                        color = c.accent,
+                        trackColor = c.surf3
                     )
                 }
             }
@@ -597,12 +631,12 @@ private fun DownloadRow(
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 "Paused · ${state.progress.progressPercent}%  ${formatBytes(state.progress.bytesDownloaded)} / ${formatBytes(state.progress.totalBytes.takeIf { it > 0 } ?: sizeBytes)}",
-                                color = TextSecondary, fontSize = 11.sp
+                                color = c.txt1, fontSize = 11.sp
                             )
                         }
                         Row {
                             IconButton(onClick = onDownload, modifier = Modifier.size(32.dp)) {
-                                Icon(Icons.Default.PlayArrow, "Resume", tint = TealPrimary, modifier = Modifier.size(20.dp))
+                                Icon(Icons.Default.PlayArrow, "Resume", tint = c.accent, modifier = Modifier.size(20.dp))
                             }
                             IconButton(onClick = onCancel, modifier = Modifier.size(32.dp)) {
                                 Icon(Icons.Default.Cancel, "Cancel", tint = ErrorRed.copy(alpha = 0.7f), modifier = Modifier.size(16.dp))
@@ -612,8 +646,8 @@ private fun DownloadRow(
                     LinearProgressIndicator(
                         progress = { state.progress.progressFraction },
                         modifier = Modifier.fillMaxWidth().height(3.dp),
-                        color = TealPrimary.copy(alpha = 0.5f),
-                        trackColor = Surface2
+                        color = c.accent.copy(alpha = 0.5f),
+                        trackColor = c.surf3
                     )
                 }
             }
@@ -622,7 +656,7 @@ private fun DownloadRow(
                 Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     if (state.hasFailed) {
                         Text(
-                            "Failed: ${state.errorMessage ?: "Unknown error"}",
+                            state.errorMessage ?: "Download failed. Please try again.",
                             color = ErrorRed, fontSize = 11.sp
                         )
                     }
@@ -631,8 +665,8 @@ private fun DownloadRow(
                         modifier = Modifier.fillMaxWidth().height(32.dp),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = TealPrimary.copy(alpha = if (state.hasFailed) 0.15f else 0.2f),
-                            contentColor = TealPrimary
+                            containerColor = c.accentDim,
+                            contentColor = c.accent
                         )
                     ) {
                         Icon(Icons.Default.CloudDownload, null, modifier = Modifier.size(13.dp))
@@ -658,19 +692,20 @@ private fun HuggingFaceTokenSection(
     onTokenChange: (String) -> Unit,
     onSave: () -> Unit
 ) {
+    val c = LocalAnvitColors.current
     var showToken by remember { mutableStateOf(false) }
 
     SettingsSection(title = "HuggingFace Token") {
         Text(
-            "Required only for EmbeddingGemma. " +
-            "Get a read token at huggingface.co/settings/tokens after accepting the model license.",
-            color = TextSecondary, fontSize = 11.sp
+            "Required to download the embedding model. Get a free read token from huggingface.co after accepting the model license.",
+            color = c.txt1, fontSize = 11.sp, lineHeight = 16.sp
         )
         OutlinedTextField(
             value = token,
             onValueChange = onTokenChange,
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("hf_...", color = TextHint, fontSize = 13.sp, fontFamily = FontFamily.Monospace) },
+            shape = CircleShape,
+            placeholder = { Text("hf_...", color = c.txt2, fontSize = 13.sp, fontFamily = FontFamily.Monospace) },
             singleLine = true,
             visualTransformation = if (showToken) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -680,19 +715,19 @@ private fun HuggingFaceTokenSection(
                     Icon(
                         if (showToken) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                         contentDescription = if (showToken) "Hide" else "Show",
-                        tint = TextSecondary, modifier = Modifier.size(18.dp)
+                        tint = c.txt1, modifier = Modifier.size(18.dp)
                     )
                 }
             },
             leadingIcon = {
-                Icon(Icons.Default.Key, null, tint = TealPrimary.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
+                Icon(Icons.Default.Key, null, tint = c.accent.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = TealPrimary,
-                unfocusedBorderColor = BorderDefault,
-                focusedTextColor = TextPrimary,
-                unfocusedTextColor = TextPrimary,
-                cursorColor = TealPrimary
+                focusedBorderColor = c.accent,
+                unfocusedBorderColor = c.border2,
+                focusedTextColor = c.txt0,
+                unfocusedTextColor = c.txt0,
+                cursorColor = c.accent
             ),
             textStyle = LocalTextStyle.current.copy(fontFamily = FontFamily.Monospace, fontSize = 13.sp)
         )
@@ -701,8 +736,8 @@ private fun HuggingFaceTokenSection(
             modifier = Modifier.fillMaxWidth().height(36.dp),
             contentPadding = PaddingValues(0.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (isSaved) SuccessGreen.copy(alpha = 0.2f) else TealPrimary.copy(alpha = 0.2f),
-                contentColor = if (isSaved) SuccessGreen else TealPrimary
+                containerColor = if (isSaved) SuccessGreen.copy(alpha = 0.2f) else c.accentDim,
+                contentColor = if (isSaved) SuccessGreen else c.accent
             )
         ) {
             if (isSaved) {
@@ -720,21 +755,20 @@ private fun HuggingFaceTokenSection(
 
 @Composable
 private fun SettingsSection(title: String, content: @Composable ColumnScope.() -> Unit) {
+    val c = LocalAnvitColors.current
     Column {
-        Row(
-            modifier = Modifier.padding(bottom = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(title, color = TealPrimary, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
-            Box(modifier = Modifier.weight(1f).height(1.dp).background(
-                Brush.horizontalGradient(listOf(TealPrimary.copy(0.4f), TealPrimary.copy(0f)))
-            ))
-        }
+        Text(
+            title.uppercase(),
+            color         = c.txt2,
+            fontSize      = 11.sp,
+            fontWeight    = FontWeight.Bold,
+            letterSpacing = 1.2.sp,
+            modifier      = Modifier.padding(start = 4.dp, bottom = 8.dp),
+        )
         Card(
             shape = RoundedCornerShape(14.dp),
-            colors = CardDefaults.cardColors(containerColor = Surface2),
-            border = BorderStroke(0.5.dp, BorderSubtle)
+            colors = CardDefaults.cardColors(containerColor = c.surf2),
+            border = BorderStroke(0.5.dp, c.border)
         ) {
             Column(
                 modifier = Modifier.padding(12.dp),
@@ -757,25 +791,20 @@ private fun LabeledSlider(
     valueRange: ClosedFloatingPointRange<Float>,
     steps: Int = 0
 ) {
+    val c = LocalAnvitColors.current
     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(label, color = TextSecondary, fontSize = 12.sp)
-            Surface(
-                shape = RoundedCornerShape(6.dp),
-                color = TealPrimary.copy(alpha = 0.12f)
-            ) {
-                Text(
-                    displayValue,
-                    color = TealPrimary,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
-                )
-            }
+            Text(label, color = c.txt1, fontSize = 12.sp)
+            Text(
+                displayValue,
+                color = c.accent,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold,
+            )
         }
         Slider(
             value = value,
@@ -784,9 +813,9 @@ private fun LabeledSlider(
             steps = steps,
             modifier = Modifier.fillMaxWidth(),
             colors = SliderDefaults.colors(
-                thumbColor = TealPrimary,
-                activeTrackColor = TealPrimary,
-                inactiveTrackColor = Surface3
+                thumbColor = c.accent,
+                activeTrackColor = c.accent,
+                inactiveTrackColor = c.surf3
             )
         )
     }
@@ -797,15 +826,18 @@ private fun SwitchRow(
     title: String, subtitle: String,
     checked: Boolean, onCheckedChange: (Boolean) -> Unit
 ) {
+    val c = LocalAnvitColors.current
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(title, color = TextPrimary, fontSize = 14.sp)
-            Text(subtitle, color = TextSecondary, fontSize = 11.sp)
+            Text(title, color = c.txt0, fontSize = 14.sp)
+            Text(subtitle, color = c.txt1, fontSize = 11.sp)
         }
         Switch(
             checked = checked, onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = Surface0, checkedTrackColor = TealPrimary, uncheckedTrackColor = Surface3
+                checkedThumbColor = if (c.isDark) Color(0xFF060A0F) else Color.White,
+                checkedTrackColor = c.accent,
+                uncheckedTrackColor = c.surf3
             )
         )
     }

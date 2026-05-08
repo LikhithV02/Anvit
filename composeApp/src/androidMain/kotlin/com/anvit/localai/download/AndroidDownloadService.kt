@@ -82,10 +82,14 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
 
                 if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED ||
                     responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
-                    throw Exception("HTTP $responseCode: This model is gated — enter a HuggingFace token in Settings")
+                    if (authToken.isBlank()) {
+                        throw Exception("A HuggingFace token is required to download this model. Add your token in Settings → About.")
+                    } else {
+                        throw Exception("Your HuggingFace token was rejected. Check that it's correct in Settings → About.")
+                    }
                 }
                 if (responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_PARTIAL) {
-                    throw Exception("HTTP $responseCode: ${connection.responseMessage}")
+                    throw Exception("Download failed (server returned ${responseCode}). Check your connection and try again.")
                 }
 
                 val isPartialContent  = responseCode == HttpURLConnection.HTTP_PARTIAL

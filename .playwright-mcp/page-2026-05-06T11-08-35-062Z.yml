@@ -1,0 +1,642 @@
+- generic [ref=e6]:
+  - generic [ref=e8]: Anvit — Visual Directions (tap any screen to navigate)
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic "Drag to reorder" [ref=e12]:
+          - img [ref=e13]
+        - generic "Click to focus" [ref=e20] [cursor=pointer]:
+          - generic [ref=e21]: Midnight — On-brand · Neon cyan on black
+      - button "Focus" [ref=e22] [cursor=pointer]:
+        - img [ref=e23]
+      - generic [ref=e26]:
+        - generic [ref=e30]:
+          - generic [ref=e31]: 9:41
+          - img [ref=e37]
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - button [ref=e47] [cursor=pointer]:
+              - img [ref=e49]
+            - generic [ref=e50]:
+              - generic [ref=e51]: Based on my skills…
+              - generic [ref=e54]: Gemma 4 E2B · Ready
+            - button [ref=e55] [cursor=pointer]:
+              - img [ref=e57]
+          - generic [ref=e60]:
+            - paragraph [ref=e63]: Based on my skills, what should be my salary?
+            - generic [ref=e64]:
+              - button "Restart" [ref=e65] [cursor=pointer]:
+                - img [ref=e67]
+                - text: Restart
+              - button "Edit" [ref=e70] [cursor=pointer]:
+                - img [ref=e72]
+                - text: Edit
+              - button "Copy" [ref=e75] [cursor=pointer]:
+                - img [ref=e77]
+                - text: Copy
+            - generic [ref=e80]:
+              - button "Agentic Reasoning 8 steps" [ref=e81] [cursor=pointer]:
+                - generic [ref=e82]:
+                  - img [ref=e85]
+                  - generic [ref=e87]: Agentic Reasoning
+                - generic [ref=e88]:
+                  - generic [ref=e89]: 8 steps
+                  - img [ref=e91]
+              - generic [ref=e93]:
+                - generic [ref=e95]:
+                  - img [ref=e99]
+                  - generic [ref=e102]:
+                    - generic [ref=e103]: Planning
+                    - generic [ref=e104]: Complex query detected — will search in multiple steps for accuracy
+                - generic [ref=e105]:
+                  - img [ref=e109]
+                  - generic [ref=e114]:
+                    - generic [ref=e115]: Breaking down
+                    - generic [ref=e116]: "Breaking into focused sub-queries: salary benchmarks, skill valuation, market rates"
+                - generic [ref=e117]:
+                  - img [ref=e121]
+                  - generic [ref=e125]:
+                    - generic [ref=e126]: Searching
+                    - generic [ref=e127]: "Searching: \"senior AI engineer salary India 2024\""
+                - generic [ref=e128]:
+                  - img [ref=e132]
+                  - generic [ref=e136]:
+                    - generic [ref=e137]: Searching
+                    - generic [ref=e138]: "Searching: \"LangGraph Neo4j engineer compensation\""
+                - generic [ref=e139]:
+                  - img [ref=e143]
+                  - generic [ref=e147]:
+                    - generic [ref=e148]: Searching
+                    - generic [ref=e149]: "Searching: \"production RAG engineer market rate\""
+                - generic [ref=e150]:
+                  - img [ref=e154]
+                  - generic [ref=e156]:
+                    - generic [ref=e157]: Supplementing
+                    - generic [ref=e158]: Supplementing with additional passages to cover experience level signals
+                - generic [ref=e159]:
+                  - img [ref=e163]
+                  - generic [ref=e166]:
+                    - generic [ref=e167]: Filtering
+                    - generic [ref=e168]: Ranking and selecting the 5 most relevant passages
+                - generic [ref=e169]:
+                  - img [ref=e173]
+                  - generic [ref=e175]:
+                    - generic [ref=e176]: Generating
+                    - generic [ref=e177]: Composing your answer with full context
+            - button "Thought" [ref=e179] [cursor=pointer]:
+              - generic [ref=e180]:
+                - img [ref=e182]
+                - generic [ref=e185]: Thought
+              - img [ref=e187]
+            - generic [ref=e189]:
+              - paragraph [ref=e190]:
+                - text: Your profile is well-positioned for
+                - strong [ref=e191]: Senior AI / ML Engineer
+                - text: roles. The combination of LangGraph-based agentic systems, GraphRAG (Neo4j), and a measurable production track record places you above the mid-level bracket.
+              - generic [ref=e192]:
+                - generic [ref=e193]: Salary Estimate · India (2024)
+                - generic [ref=e194]:
+                  - generic [ref=e195]:
+                    - generic [ref=e196]: Senior AI / ML Engineer
+                    - generic [ref=e197]: Your baseline
+                  - generic [ref=e198]: ₹25–45 LPA
+                - generic [ref=e199]:
+                  - generic [ref=e200]:
+                    - generic [ref=e201]: Staff AI Engineer / Tech Lead
+                    - generic [ref=e202]: With leadership
+                  - generic [ref=e203]: ₹45–75 LPA
+                - generic [ref=e204]:
+                  - generic [ref=e205]:
+                    - generic [ref=e206]: AI Architect / Principal
+                    - generic [ref=e207]: At scale / product cos.
+                  - generic [ref=e208]: ₹70–100+ LPA
+              - paragraph [ref=e209]:
+                - text: "To maximise your offer: anchor to companies using"
+                - strong [ref=e210]: LangGraph, Neo4j, or MCP
+                - text: — your niche expertise commands a significant premium. Startups with Series B+ funding typically out-pay established firms for this skill set.
+              - generic [ref=e211]:
+                - img [ref=e213]
+                - paragraph [ref=e215]: These figures are inferred from your resume data. Cross-reference with current job listings on LinkedIn and Glassdoor for the most accurate benchmark for your specific city and target company stage.
+            - generic [ref=e216]:
+              - button "Copy" [ref=e217] [cursor=pointer]:
+                - img [ref=e219]
+                - text: Copy
+              - button "Report" [ref=e222] [cursor=pointer]:
+                - img [ref=e224]
+                - text: Report
+            - generic [ref=e227]: "00:12 · ✦ Anvit AI · Hybrid retrieval · Ref: A3F9B2"
+            - generic [ref=e228]:
+              - generic [ref=e229]: Sources — tap to read
+              - generic [ref=e230]:
+                - button "RESUME.pdf p.1 · chunk 1 Profile & Contact" [ref=e231] [cursor=pointer]:
+                  - generic [ref=e232]:
+                    - img [ref=e235]
+                    - generic [ref=e238]: RESUME.pdf
+                    - img [ref=e240]
+                  - generic [ref=e244]: p.1 · chunk 1
+                  - generic [ref=e245]: Profile & Contact
+                - button "RESUME.pdf p.1 · chunk 2 Skills" [ref=e246] [cursor=pointer]:
+                  - generic [ref=e247]:
+                    - img [ref=e250]
+                    - generic [ref=e253]: RESUME.pdf
+                    - img [ref=e255]
+                  - generic [ref=e259]: p.1 · chunk 2
+                  - generic [ref=e260]: Skills
+                - button "RESUME.pdf p.1 · chunk 3 Experience" [ref=e261] [cursor=pointer]:
+                  - generic [ref=e262]:
+                    - img [ref=e265]
+                    - generic [ref=e268]: RESUME.pdf
+                    - img [ref=e270]
+                  - generic [ref=e274]: p.1 · chunk 3
+                  - generic [ref=e275]: Experience
+          - generic [ref=e276]:
+            - generic [ref=e277]:
+              - generic [ref=e278]: Searching in
+              - generic [ref=e279] [cursor=pointer]:
+                - img [ref=e281]
+                - generic [ref=e283]: Job
+                - img [ref=e285]
+            - generic [ref=e287]:
+              - textbox "Ask anything about your documents…" [ref=e288]
+              - generic [ref=e289]:
+                - generic [ref=e290]:
+                  - button "Think" [ref=e291] [cursor=pointer]:
+                    - img [ref=e293]
+                    - text: Think
+                  - button [ref=e296] [cursor=pointer]:
+                    - img [ref=e298]
+                - button [ref=e301]:
+                  - img [ref=e303]
+        - generic [ref=e307]:
+          - button "Chat" [ref=e308] [cursor=pointer]:
+            - img [ref=e310]
+            - generic [ref=e312]: Chat
+          - button [ref=e313] [cursor=pointer]:
+            - img [ref=e315]
+          - button [ref=e318] [cursor=pointer]:
+            - img [ref=e320]
+    - generic [ref=e325]:
+      - generic [ref=e326]:
+        - generic "Drag to reorder" [ref=e327]:
+          - img [ref=e328]
+        - generic "Click to focus" [ref=e335] [cursor=pointer]:
+          - generic [ref=e336]: Nebula — Glass morphism · Deep space
+      - button "Focus" [ref=e337] [cursor=pointer]:
+        - img [ref=e338]
+      - generic [ref=e341]:
+        - generic [ref=e345]:
+          - generic [ref=e346]: 9:41
+          - img [ref=e352]
+        - generic [ref=e360]:
+          - generic [ref=e361]:
+            - button [ref=e362] [cursor=pointer]:
+              - img [ref=e364]
+            - generic [ref=e365]:
+              - generic [ref=e366]: Based on my skills…
+              - generic [ref=e369]: Gemma 4 E2B · Ready
+            - button [ref=e370] [cursor=pointer]:
+              - img [ref=e372]
+          - generic [ref=e375]:
+            - paragraph [ref=e378]: Based on my skills, what should be my salary?
+            - generic [ref=e379]:
+              - button "Restart" [ref=e380] [cursor=pointer]:
+                - img [ref=e382]
+                - text: Restart
+              - button "Edit" [ref=e385] [cursor=pointer]:
+                - img [ref=e387]
+                - text: Edit
+              - button "Copy" [ref=e390] [cursor=pointer]:
+                - img [ref=e392]
+                - text: Copy
+            - generic [ref=e395]:
+              - button "Agentic Reasoning 8 steps" [ref=e396] [cursor=pointer]:
+                - generic [ref=e397]:
+                  - img [ref=e400]
+                  - generic [ref=e402]: Agentic Reasoning
+                - generic [ref=e403]:
+                  - generic [ref=e404]: 8 steps
+                  - img [ref=e406]
+              - generic [ref=e408]:
+                - generic [ref=e410]:
+                  - img [ref=e414]
+                  - generic [ref=e417]:
+                    - generic [ref=e418]: Planning
+                    - generic [ref=e419]: Complex query detected — will search in multiple steps for accuracy
+                - generic [ref=e420]:
+                  - img [ref=e424]
+                  - generic [ref=e429]:
+                    - generic [ref=e430]: Breaking down
+                    - generic [ref=e431]: "Breaking into focused sub-queries: salary benchmarks, skill valuation, market rates"
+                - generic [ref=e432]:
+                  - img [ref=e436]
+                  - generic [ref=e440]:
+                    - generic [ref=e441]: Searching
+                    - generic [ref=e442]: "Searching: \"senior AI engineer salary India 2024\""
+                - generic [ref=e443]:
+                  - img [ref=e447]
+                  - generic [ref=e451]:
+                    - generic [ref=e452]: Searching
+                    - generic [ref=e453]: "Searching: \"LangGraph Neo4j engineer compensation\""
+                - generic [ref=e454]:
+                  - img [ref=e458]
+                  - generic [ref=e462]:
+                    - generic [ref=e463]: Searching
+                    - generic [ref=e464]: "Searching: \"production RAG engineer market rate\""
+                - generic [ref=e465]:
+                  - img [ref=e469]
+                  - generic [ref=e471]:
+                    - generic [ref=e472]: Supplementing
+                    - generic [ref=e473]: Supplementing with additional passages to cover experience level signals
+                - generic [ref=e474]:
+                  - img [ref=e478]
+                  - generic [ref=e481]:
+                    - generic [ref=e482]: Filtering
+                    - generic [ref=e483]: Ranking and selecting the 5 most relevant passages
+                - generic [ref=e484]:
+                  - img [ref=e488]
+                  - generic [ref=e490]:
+                    - generic [ref=e491]: Generating
+                    - generic [ref=e492]: Composing your answer with full context
+            - button "Thought" [ref=e494] [cursor=pointer]:
+              - generic [ref=e495]:
+                - img [ref=e497]
+                - generic [ref=e500]: Thought
+              - img [ref=e502]
+            - generic [ref=e504]:
+              - paragraph [ref=e505]:
+                - text: Your profile is well-positioned for
+                - strong [ref=e506]: Senior AI / ML Engineer
+                - text: roles. The combination of LangGraph-based agentic systems, GraphRAG (Neo4j), and a measurable production track record places you above the mid-level bracket.
+              - generic [ref=e507]:
+                - generic [ref=e508]: Salary Estimate · India (2024)
+                - generic [ref=e509]:
+                  - generic [ref=e510]:
+                    - generic [ref=e511]: Senior AI / ML Engineer
+                    - generic [ref=e512]: Your baseline
+                  - generic [ref=e513]: ₹25–45 LPA
+                - generic [ref=e514]:
+                  - generic [ref=e515]:
+                    - generic [ref=e516]: Staff AI Engineer / Tech Lead
+                    - generic [ref=e517]: With leadership
+                  - generic [ref=e518]: ₹45–75 LPA
+                - generic [ref=e519]:
+                  - generic [ref=e520]:
+                    - generic [ref=e521]: AI Architect / Principal
+                    - generic [ref=e522]: At scale / product cos.
+                  - generic [ref=e523]: ₹70–100+ LPA
+              - paragraph [ref=e524]:
+                - text: "To maximise your offer: anchor to companies using"
+                - strong [ref=e525]: LangGraph, Neo4j, or MCP
+                - text: — your niche expertise commands a significant premium. Startups with Series B+ funding typically out-pay established firms for this skill set.
+              - generic [ref=e526]:
+                - img [ref=e528]
+                - paragraph [ref=e530]: These figures are inferred from your resume data. Cross-reference with current job listings on LinkedIn and Glassdoor for the most accurate benchmark for your specific city and target company stage.
+            - generic [ref=e531]:
+              - button "Copy" [ref=e532] [cursor=pointer]:
+                - img [ref=e534]
+                - text: Copy
+              - button "Report" [ref=e537] [cursor=pointer]:
+                - img [ref=e539]
+                - text: Report
+            - generic [ref=e542]: "00:12 · ✦ Anvit AI · Hybrid retrieval · Ref: A3F9B2"
+            - generic [ref=e543]:
+              - generic [ref=e544]: Sources — tap to read
+              - generic [ref=e545]:
+                - button "RESUME.pdf p.1 · chunk 1 Profile & Contact" [ref=e546] [cursor=pointer]:
+                  - generic [ref=e547]:
+                    - img [ref=e550]
+                    - generic [ref=e553]: RESUME.pdf
+                    - img [ref=e555]
+                  - generic [ref=e559]: p.1 · chunk 1
+                  - generic [ref=e560]: Profile & Contact
+                - button "RESUME.pdf p.1 · chunk 2 Skills" [ref=e561] [cursor=pointer]:
+                  - generic [ref=e562]:
+                    - img [ref=e565]
+                    - generic [ref=e568]: RESUME.pdf
+                    - img [ref=e570]
+                  - generic [ref=e574]: p.1 · chunk 2
+                  - generic [ref=e575]: Skills
+                - button "RESUME.pdf p.1 · chunk 3 Experience" [ref=e576] [cursor=pointer]:
+                  - generic [ref=e577]:
+                    - img [ref=e580]
+                    - generic [ref=e583]: RESUME.pdf
+                    - img [ref=e585]
+                  - generic [ref=e589]: p.1 · chunk 3
+                  - generic [ref=e590]: Experience
+          - generic [ref=e591]:
+            - generic [ref=e592]:
+              - generic [ref=e593]: Searching in
+              - generic [ref=e594] [cursor=pointer]:
+                - img [ref=e596]
+                - generic [ref=e598]: Job
+                - img [ref=e600]
+            - generic [ref=e602]:
+              - textbox "Ask anything about your documents…" [ref=e603]
+              - generic [ref=e604]:
+                - generic [ref=e605]:
+                  - button "Think" [ref=e606] [cursor=pointer]:
+                    - img [ref=e608]
+                    - text: Think
+                  - button [ref=e611] [cursor=pointer]:
+                    - img [ref=e613]
+                - button [ref=e616]:
+                  - img [ref=e618]
+        - generic [ref=e622]:
+          - button "Chat" [ref=e623] [cursor=pointer]:
+            - img [ref=e625]
+            - generic [ref=e627]: Chat
+          - button [ref=e628] [cursor=pointer]:
+            - img [ref=e630]
+          - button [ref=e633] [cursor=pointer]:
+            - img [ref=e635]
+    - generic [ref=e640]:
+      - generic [ref=e641]:
+        - generic "Drag to reorder" [ref=e642]:
+          - img [ref=e643]
+        - generic "Click to focus" [ref=e650] [cursor=pointer]:
+          - generic [ref=e651]: Dawn — Light mode · Clean & minimal
+      - button "Focus" [ref=e652] [cursor=pointer]:
+        - img [ref=e653]
+      - generic [ref=e656]:
+        - generic [ref=e660]:
+          - generic [ref=e661]: 9:41
+          - img [ref=e667]
+        - generic [ref=e675]:
+          - generic [ref=e676]:
+            - button [ref=e677] [cursor=pointer]:
+              - img [ref=e679]
+            - generic [ref=e680]:
+              - generic [ref=e681]: Based on my skills…
+              - generic [ref=e684]: Gemma 4 E2B · Ready
+            - button [ref=e685] [cursor=pointer]:
+              - img [ref=e687]
+          - generic [ref=e690]:
+            - paragraph [ref=e693]: Based on my skills, what should be my salary?
+            - generic [ref=e694]:
+              - button "Restart" [ref=e695] [cursor=pointer]:
+                - img [ref=e697]
+                - text: Restart
+              - button "Edit" [ref=e700] [cursor=pointer]:
+                - img [ref=e702]
+                - text: Edit
+              - button "Copy" [ref=e705] [cursor=pointer]:
+                - img [ref=e707]
+                - text: Copy
+            - generic [ref=e710]:
+              - button "Agentic Reasoning 8 steps" [ref=e711] [cursor=pointer]:
+                - generic [ref=e712]:
+                  - img [ref=e715]
+                  - generic [ref=e717]: Agentic Reasoning
+                - generic [ref=e718]:
+                  - generic [ref=e719]: 8 steps
+                  - img [ref=e721]
+              - generic [ref=e723]:
+                - generic [ref=e725]:
+                  - img [ref=e729]
+                  - generic [ref=e732]:
+                    - generic [ref=e733]: Planning
+                    - generic [ref=e734]: Complex query detected — will search in multiple steps for accuracy
+                - generic [ref=e735]:
+                  - img [ref=e739]
+                  - generic [ref=e744]:
+                    - generic [ref=e745]: Breaking down
+                    - generic [ref=e746]: "Breaking into focused sub-queries: salary benchmarks, skill valuation, market rates"
+                - generic [ref=e747]:
+                  - img [ref=e751]
+                  - generic [ref=e755]:
+                    - generic [ref=e756]: Searching
+                    - generic [ref=e757]: "Searching: \"senior AI engineer salary India 2024\""
+                - generic [ref=e758]:
+                  - img [ref=e762]
+                  - generic [ref=e766]:
+                    - generic [ref=e767]: Searching
+                    - generic [ref=e768]: "Searching: \"LangGraph Neo4j engineer compensation\""
+                - generic [ref=e769]:
+                  - img [ref=e773]
+                  - generic [ref=e777]:
+                    - generic [ref=e778]: Searching
+                    - generic [ref=e779]: "Searching: \"production RAG engineer market rate\""
+                - generic [ref=e780]:
+                  - img [ref=e784]
+                  - generic [ref=e786]:
+                    - generic [ref=e787]: Supplementing
+                    - generic [ref=e788]: Supplementing with additional passages to cover experience level signals
+                - generic [ref=e789]:
+                  - img [ref=e793]
+                  - generic [ref=e796]:
+                    - generic [ref=e797]: Filtering
+                    - generic [ref=e798]: Ranking and selecting the 5 most relevant passages
+                - generic [ref=e799]:
+                  - img [ref=e803]
+                  - generic [ref=e805]:
+                    - generic [ref=e806]: Generating
+                    - generic [ref=e807]: Composing your answer with full context
+            - button "Thought" [ref=e809] [cursor=pointer]:
+              - generic [ref=e810]:
+                - img [ref=e812]
+                - generic [ref=e815]: Thought
+              - img [ref=e817]
+            - generic [ref=e819]:
+              - paragraph [ref=e820]:
+                - text: Your profile is well-positioned for
+                - strong [ref=e821]: Senior AI / ML Engineer
+                - text: roles. The combination of LangGraph-based agentic systems, GraphRAG (Neo4j), and a measurable production track record places you above the mid-level bracket.
+              - generic [ref=e822]:
+                - generic [ref=e823]: Salary Estimate · India (2024)
+                - generic [ref=e824]:
+                  - generic [ref=e825]:
+                    - generic [ref=e826]: Senior AI / ML Engineer
+                    - generic [ref=e827]: Your baseline
+                  - generic [ref=e828]: ₹25–45 LPA
+                - generic [ref=e829]:
+                  - generic [ref=e830]:
+                    - generic [ref=e831]: Staff AI Engineer / Tech Lead
+                    - generic [ref=e832]: With leadership
+                  - generic [ref=e833]: ₹45–75 LPA
+                - generic [ref=e834]:
+                  - generic [ref=e835]:
+                    - generic [ref=e836]: AI Architect / Principal
+                    - generic [ref=e837]: At scale / product cos.
+                  - generic [ref=e838]: ₹70–100+ LPA
+              - paragraph [ref=e839]:
+                - text: "To maximise your offer: anchor to companies using"
+                - strong [ref=e840]: LangGraph, Neo4j, or MCP
+                - text: — your niche expertise commands a significant premium. Startups with Series B+ funding typically out-pay established firms for this skill set.
+              - generic [ref=e841]:
+                - img [ref=e843]
+                - paragraph [ref=e845]: These figures are inferred from your resume data. Cross-reference with current job listings on LinkedIn and Glassdoor for the most accurate benchmark for your specific city and target company stage.
+            - generic [ref=e846]:
+              - button "Copy" [ref=e847] [cursor=pointer]:
+                - img [ref=e849]
+                - text: Copy
+              - button "Report" [ref=e852] [cursor=pointer]:
+                - img [ref=e854]
+                - text: Report
+            - generic [ref=e857]: "00:12 · ✦ Anvit AI · Hybrid retrieval · Ref: A3F9B2"
+            - generic [ref=e858]:
+              - generic [ref=e859]: Sources — tap to read
+              - generic [ref=e860]:
+                - button "RESUME.pdf p.1 · chunk 1 Profile & Contact" [ref=e861] [cursor=pointer]:
+                  - generic [ref=e862]:
+                    - img [ref=e865]
+                    - generic [ref=e868]: RESUME.pdf
+                    - img [ref=e870]
+                  - generic [ref=e874]: p.1 · chunk 1
+                  - generic [ref=e875]: Profile & Contact
+                - button "RESUME.pdf p.1 · chunk 2 Skills" [ref=e876] [cursor=pointer]:
+                  - generic [ref=e877]:
+                    - img [ref=e880]
+                    - generic [ref=e883]: RESUME.pdf
+                    - img [ref=e885]
+                  - generic [ref=e889]: p.1 · chunk 2
+                  - generic [ref=e890]: Skills
+                - button "RESUME.pdf p.1 · chunk 3 Experience" [ref=e891] [cursor=pointer]:
+                  - generic [ref=e892]:
+                    - img [ref=e895]
+                    - generic [ref=e898]: RESUME.pdf
+                    - img [ref=e900]
+                  - generic [ref=e904]: p.1 · chunk 3
+                  - generic [ref=e905]: Experience
+          - generic [ref=e906]:
+            - generic [ref=e907]:
+              - generic [ref=e908]: Searching in
+              - generic [ref=e909] [cursor=pointer]:
+                - img [ref=e911]
+                - generic [ref=e913]: Job
+                - img [ref=e915]
+            - generic [ref=e917]:
+              - textbox "Ask anything about your documents…" [ref=e918]
+              - generic [ref=e919]:
+                - generic [ref=e920]:
+                  - button "Think" [ref=e921] [cursor=pointer]:
+                    - img [ref=e923]
+                    - text: Think
+                  - button [ref=e926] [cursor=pointer]:
+                    - img [ref=e928]
+                - button [ref=e931]:
+                  - img [ref=e933]
+        - generic [ref=e937]:
+          - button "Chat" [ref=e938] [cursor=pointer]:
+            - img [ref=e940]
+            - generic [ref=e942]: Chat
+          - button [ref=e943] [cursor=pointer]:
+            - img [ref=e945]
+          - button [ref=e948] [cursor=pointer]:
+            - img [ref=e950]
+    - generic [ref=e955]:
+      - generic [ref=e956]:
+        - generic "Drag to reorder" [ref=e957]:
+          - img [ref=e958]
+        - generic "Click to focus" [ref=e965] [cursor=pointer]:
+          - generic [ref=e966]: Hypernova — Cyberpunk maximalist · Animated
+      - button "Focus" [ref=e967] [cursor=pointer]:
+        - img [ref=e968]
+      - generic [ref=e971]:
+        - img
+        - generic [ref=e977]: 9:41
+        - generic [ref=e986]:
+          - generic [ref=e987]:
+            - button [ref=e988] [cursor=pointer]:
+              - img [ref=e990]
+            - generic [ref=e991]:
+              - text: Based on my skills…
+              - generic [ref=e994]: Gemma 4 E2B · Live
+            - button [ref=e995] [cursor=pointer]:
+              - img [ref=e997]
+          - generic [ref=e1000]:
+            - paragraph [ref=e1004]: Based on my skills, what should be my salary?
+            - generic [ref=e1005]:
+              - generic [ref=e1006]:
+                - img [ref=e1009]
+                - generic [ref=e1011]: Agentic Reasoning
+                - generic [ref=e1012]: 6 / 6
+              - generic [ref=e1013]:
+                - generic [ref=e1014]:
+                  - generic [ref=e1016]: Planning
+                  - img [ref=e1018]
+                - generic [ref=e1020]:
+                  - generic [ref=e1022]: Breaking down query
+                  - img [ref=e1024]
+                - generic [ref=e1026]:
+                  - generic [ref=e1028]: Vector search ×3
+                  - img [ref=e1030]
+                - generic [ref=e1032]:
+                  - generic [ref=e1034]: BM25 retrieval
+                  - img [ref=e1036]
+                - generic [ref=e1038]:
+                  - generic [ref=e1040]: Re-ranking passages
+                  - img [ref=e1042]
+                - generic [ref=e1044]:
+                  - generic [ref=e1046]: Generating
+                  - img [ref=e1048]
+            - generic [ref=e1050]:
+              - paragraph [ref=e1054]: Based on your LangGraph + GraphRAG stack, you're commanding Senior-to-Staff territory. With production systems at scale — we're looking at ₹45–80 LPA at well-funded AI startups. Your Neo4j expertise alone is a rare signal.
+              - generic [ref=e1055]:
+                - generic [ref=e1056]: Salary Estimate · India 2024
+                - generic [ref=e1057]:
+                  - generic [ref=e1060]: Senior AI Engineer
+                  - generic [ref=e1061]: ₹25–45 LPA
+                - generic [ref=e1062]:
+                  - generic [ref=e1065]: Staff / Tech Lead
+                  - generic [ref=e1066]: ₹45–80 LPA
+                - generic [ref=e1067]:
+                  - generic [ref=e1070]: AI Architect
+                  - generic [ref=e1071]: ₹80–120 LPA
+              - generic [ref=e1072]:
+                - generic [ref=e1073]: Sources — tap to read
+                - generic [ref=e1074]:
+                  - button "RESUME.pdf Profile & Contact Chunk 1 · p.1" [ref=e1075] [cursor=pointer]:
+                    - generic [ref=e1076]:
+                      - img [ref=e1079]
+                      - generic [ref=e1082]: RESUME.pdf
+                    - generic [ref=e1083]: Profile & Contact
+                    - generic [ref=e1084]: Chunk 1 · p.1
+                  - button "RESUME.pdf Skills Chunk 2 · p.1" [ref=e1085] [cursor=pointer]:
+                    - generic [ref=e1086]:
+                      - img [ref=e1089]
+                      - generic [ref=e1092]: RESUME.pdf
+                    - generic [ref=e1093]: Skills
+                    - generic [ref=e1094]: Chunk 2 · p.1
+                  - button "RESUME.pdf Experience Chunk 3 · p.1" [ref=e1095] [cursor=pointer]:
+                    - generic [ref=e1096]:
+                      - img [ref=e1099]
+                      - generic [ref=e1102]: RESUME.pdf
+                    - generic [ref=e1103]: Experience
+                    - generic [ref=e1104]: Chunk 3 · p.1
+              - generic [ref=e1105]:
+                - button "Copy" [ref=e1106] [cursor=pointer]:
+                  - img [ref=e1108]
+                  - text: Copy
+                - button "Report" [ref=e1111] [cursor=pointer]:
+                  - img [ref=e1113]
+                  - text: Report
+                - button "Regen" [ref=e1116] [cursor=pointer]:
+                  - img [ref=e1118]
+                  - text: Regen
+                - generic [ref=e1121]: 00:12 · ✦ A3F9B2
+          - generic [ref=e1122]:
+            - generic [ref=e1123]:
+              - generic [ref=e1124]: Searching in
+              - generic [ref=e1125]:
+                - img [ref=e1127]
+                - generic [ref=e1129]: Job
+                - img [ref=e1131]
+            - generic [ref=e1135]:
+              - textbox "Ask anything about your documents…" [ref=e1136]
+              - generic [ref=e1137]:
+                - generic [ref=e1138]:
+                  - button "Think" [ref=e1139] [cursor=pointer]:
+                    - img [ref=e1141]
+                    - text: Think
+                  - button [ref=e1144] [cursor=pointer]:
+                    - img [ref=e1146]
+                - button [ref=e1149] [cursor=pointer]:
+                  - img [ref=e1151]
+        - generic [ref=e1155]:
+          - button "Chat" [ref=e1158] [cursor=pointer]:
+            - img [ref=e1160]
+            - generic [ref=e1162]: Chat
+          - button [ref=e1163] [cursor=pointer]:
+            - img [ref=e1165]
+          - button [ref=e1168] [cursor=pointer]:
+            - img [ref=e1170]

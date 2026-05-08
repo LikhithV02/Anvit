@@ -37,8 +37,11 @@ import com.anvit.localai.ui.theme.*
 fun MarkdownText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = TextPrimary
+    color: Color = Color.Unspecified,
 ) {
+    val c = LocalAnvitColors.current
+    val resolvedColor = if (color == Color.Unspecified) c.txt0 else color
+    val monoFamily = rememberJetBrainsMono()
     val blocks = remember(text) { parseMarkdownBlocks(text) }
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -51,72 +54,72 @@ fun MarkdownText(
                         else -> 18.sp to FontWeight.SemiBold
                     }
                     Text(
-                        text = buildInlineAnnotated(block.content, color),
+                        text = buildInlineAnnotated(block.content, resolvedColor, c, monoFamily),
                         fontSize = size,
                         fontWeight = weight,
-                        color = color,
-                        modifier = Modifier.padding(top = if (block.level == 1) 4.dp else 2.dp)
+                        color = resolvedColor,
+                        modifier = Modifier.padding(top = if (block.level == 1) 4.dp else 2.dp),
                     )
                 }
                 is MarkdownBlock.Paragraph -> {
                     Text(
-                        text = buildInlineAnnotated(block.content, color),
+                        text = buildInlineAnnotated(block.content, resolvedColor, c, monoFamily),
                         style = LocalTextStyle.current,
                         fontSize = 15.sp,
-                        color = color,
-                        lineHeight = 24.sp
+                        color = resolvedColor,
+                        lineHeight = 24.sp,
                     )
                 }
                 is MarkdownBlock.CodeBlock -> {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(Surface3)
-                            .padding(12.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(c.surf2)
+                            .padding(12.dp),
                     ) {
                         Text(
-                            text = block.code,
-                            fontFamily = FontFamily.Monospace,
-                            fontSize = 14.sp,
-                            color = TealLight,
-                            modifier = Modifier.horizontalScroll(rememberScrollState())
+                            text       = block.code,
+                            fontFamily = monoFamily,
+                            fontSize   = 13.sp,
+                            color      = c.txt0,
+                            modifier   = Modifier.horizontalScroll(rememberScrollState()),
                         )
                     }
                 }
                 is MarkdownBlock.BulletItem -> {
                     Row(modifier = Modifier.padding(start = (block.indent * 12).dp)) {
                         Text(
-                            text = "•",
-                            color = TealPrimary,
-                            fontSize = 15.sp,
+                            text       = "•",
+                            color      = c.accent,
+                            fontSize   = 15.sp,
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.width(16.dp)
+                            modifier   = Modifier.width(16.dp),
                         )
                         Text(
-                            text = buildInlineAnnotated(block.content, color),
-                            fontSize = 15.sp,
-                            color = color,
+                            text       = buildInlineAnnotated(block.content, resolvedColor, c, monoFamily),
+                            fontSize   = 15.sp,
+                            color      = resolvedColor,
                             lineHeight = 24.sp,
-                            modifier = Modifier.weight(1f)
+                            modifier   = Modifier.weight(1f),
                         )
                     }
                 }
                 is MarkdownBlock.OrderedItem -> {
                     Row(modifier = Modifier.padding(start = (block.indent * 12).dp)) {
                         Text(
-                            text = "${block.number}.",
-                            color = TealPrimary,
-                            fontSize = 15.sp,
+                            text       = "${block.number}.",
+                            color      = c.accent,
+                            fontSize   = 15.sp,
                             fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.widthIn(min = 24.dp)
+                            modifier   = Modifier.widthIn(min = 24.dp),
                         )
                         Text(
-                            text = buildInlineAnnotated(block.content, color),
-                            fontSize = 15.sp,
-                            color = color,
+                            text       = buildInlineAnnotated(block.content, resolvedColor, c, monoFamily),
+                            fontSize   = 15.sp,
+                            color      = resolvedColor,
                             lineHeight = 24.sp,
-                            modifier = Modifier.weight(1f)
+                            modifier   = Modifier.weight(1f),
                         )
                     }
                 }
@@ -125,7 +128,7 @@ fun MarkdownText(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(1.dp)
-                            .background(BorderSubtle)
+                            .background(c.border),
                     )
                 }
             }
@@ -210,7 +213,12 @@ private fun parseMarkdownBlocks(raw: String): List<MarkdownBlock> {
 
 // ─── Inline formatter ─────────────────────────────────────────────────────────
 
-private fun buildInlineAnnotated(text: String, baseColor: Color): AnnotatedString {
+private fun buildInlineAnnotated(
+    text: String,
+    baseColor: Color,
+    c: AnvitColors,
+    monoFamily: FontFamily,
+): AnnotatedString {
     return buildAnnotatedString {
         var i = 0
         while (i < text.length) {
@@ -218,7 +226,7 @@ private fun buildInlineAnnotated(text: String, baseColor: Color): AnnotatedStrin
                 text[i] == '`' -> {
                     val end = text.indexOf('`', i + 1)
                     if (end > i) {
-                        withStyle(SpanStyle(fontFamily = FontFamily.Monospace, background = Surface3, color = TealLight, fontSize = 13.sp)) {
+                        withStyle(SpanStyle(fontFamily = monoFamily, background = c.surf2, color = c.txt0, fontSize = 13.sp)) {
                             append(text.substring(i + 1, end))
                         }
                         i = end + 1

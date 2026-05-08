@@ -44,7 +44,7 @@ val commonModule = module {
     single { ReportingService() }
 
     // ViewModels
-    viewModel { ChatViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { ChatViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { DocumentsViewModel(get(), get(), get(), get(), get()) }
     viewModel { CollectionsViewModel(get(), get(), get()) }

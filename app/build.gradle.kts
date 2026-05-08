@@ -48,8 +48,8 @@ android {
         applicationId = "com.likhith.anvit"
         minSdk        = 27
         targetSdk     = 35
-        versionCode   = 8
-        versionName   = "1.0.7"
+        versionCode   = 10
+        versionName   = "1.0.9"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         if (connectedDeviceEvalRequested) {
             testInstrumentationRunnerArguments["class"] = deviceEvalInstrumentationClass

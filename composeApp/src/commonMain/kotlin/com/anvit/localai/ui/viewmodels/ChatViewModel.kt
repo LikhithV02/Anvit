@@ -12,9 +12,11 @@ import com.anvit.localai.data.db.CollectionDao
 import com.anvit.localai.data.db.entities.ChatMessageEntity
 import com.anvit.localai.data.db.entities.ChatSessionEntity
 import com.anvit.localai.data.db.entities.CollectionEntity
+import com.anvit.localai.data.models.GemmaModel
 import com.anvit.localai.data.models.GemmaModels
 import com.anvit.localai.data.preferences.AnvitPreferences
 import com.anvit.localai.data.reporting.ReportingService
+import com.anvit.localai.download.DownloadService
 import com.anvit.localai.inference.InferenceService
 import com.anvit.localai.retrieval.HybridRetriever
 import com.anvit.localai.utils.currentTimeMillis
@@ -72,8 +74,10 @@ data class ChatUiState(
     val pendingImagePath: String? = null,
     val pendingAudioPath: String? = null,
     val loadedModelName: String = "",
+    val isSwitchingModel: Boolean = false,
     val enableThinking: Boolean = true,
     val showComplianceReminder: Boolean = false,
+    val showRatingDialog: Boolean = false,
     val userEmail: String = ""
 ) {
     val allMessages: List<ChatMessage> get() =
@@ -87,18 +91,24 @@ class ChatViewModel(
     private val chatSessionDao: ChatSessionDao,
     private val orchestrator: AgenticRagOrchestrator,
     private val collectionDao: CollectionDao,
-    private val reportingService: ReportingService
+    private val reportingService: ReportingService,
+    private val downloadService: DownloadService
 ) : ViewModel() {
+
+    val availableModels: List<GemmaModel> = GemmaModels.forPlatform(isIosPlatform())
+    fun isModelFilePresent(fileName: String): Boolean = downloadService.isModelPresent(fileName)
 
     private val _uiState = MutableStateFlow(ChatUiState())
     val uiState: StateFlow<ChatUiState> = _uiState.asStateFlow()
 
     private var currentSessionId: String = ""
     private var generationJob: Job? = null
+    private var totalMessagesCount: Long = 0L
 
 
     companion object {
         private const val MAX_HISTORY_MESSAGES = 10
+        const val STOPPED_MESSAGE_SENTINEL = "⚠️ Generation stopped by user."
     }
 
     init {
@@ -117,14 +127,15 @@ class ChatViewModel(
                     chatDao.getMessagesForSession(sessionId)
                 }
             }.collect { entities ->
-                val newMessages = entities.map { e ->
-                    ChatMessage(e.id, e.role, e.content, parseAgentSteps(e.agentSteps),
-                        thinkingContent = e.thinkingContent, imagePath = e.imagePath,
-                        audioPath = e.audioPath, isTranscribed = e.isTranscribed,
-                        usedSources = parseSources(e.usedSources))
-                }
-                val dbIds = newMessages.map { it.id }.toSet()
+                val dbIds = entities.map { it.id }.toSet()
                 _uiState.update { s ->
+                    val newMessages = entities.map { e ->
+                        ChatMessage(e.id, e.role, e.content, parseAgentSteps(e.agentSteps),
+                            thinkingContent = e.thinkingContent, imagePath = e.imagePath,
+                            audioPath = e.audioPath, isTranscribed = e.isTranscribed,
+                            usedSources = parseSources(e.usedSources),
+                            wasStopped = e.wasStopped || (e.role == "assistant" && e.content == STOPPED_MESSAGE_SENTINEL))
+                    }
                     // Clear streamingMessage if the DB already contains a message with the same id
                     // to avoid duplicate LazyColumn keys (crashes Compose).
                     val clearedStreaming = if (s.streamingMessage != null && s.streamingMessage.id in dbIds) null else s.streamingMessage
@@ -158,6 +169,11 @@ class ChatViewModel(
                 _uiState.update { it.copy(userEmail = email) }
             }
         }
+        viewModelScope.launch {
+            chatSessionDao.getTotalMessageCount().collect { count ->
+                totalMessagesCount = count
+            }
+        }
         viewModelScope.launch { ensureDefaultSession() }
         viewModelScope.launch { checkCompliance() }
         checkModelLoaded()
@@ -178,6 +194,26 @@ class ChatViewModel(
         viewModelScope.launch {
             preferences.setComplianceLastSeen(currentTimeMillis())
             _uiState.update { it.copy(showComplianceReminder = false) }
+        }
+    }
+
+    fun dismissRatingPrompt(permanent: Boolean) {
+        viewModelScope.launch {
+            if (permanent) preferences.dismissRatingPromptPermanently()
+            preferences.setRatingPromptShown(totalMessagesCount)
+            _uiState.update { it.copy(showRatingDialog = false) }
+        }
+    }
+
+    private suspend fun checkAndTriggerRatingPrompt() {
+        val permanentlyDismissed = preferences.ratingPromptPermanentlyDismissed.first()
+        if (permanentlyDismissed) return
+        val total = totalMessagesCount
+        if (total < 10) return
+        val lastShownAt = preferences.ratingPromptMsgsAtLastShown.first()
+        val neverShown = lastShownAt == -1L
+        if (neverShown || (total - lastShownAt >= 10)) {
+            _uiState.update { it.copy(showRatingDialog = true) }
         }
     }
 
@@ -226,10 +262,18 @@ class ChatViewModel(
 
     fun switchToSession(sessionId: String) {
         viewModelScope.launch {
+            deleteIfEmpty(currentSessionId)
             _uiState.update { it.copy(messages = emptyList(), inputText = "") }
             preferences.setActiveSessionId(sessionId)
             val title = chatSessionDao.getSession(sessionId)?.title ?: "Chat"
             _uiState.update { it.copy(activeSessionId = sessionId, activeSessionTitle = title) }
+        }
+    }
+
+    private suspend fun deleteIfEmpty(sessionId: String) {
+        if (sessionId.isEmpty()) return
+        if (chatDao.getMessagesForSessionList(sessionId).isEmpty()) {
+            chatSessionDao.deleteSession(sessionId)
         }
     }
 
@@ -249,6 +293,13 @@ class ChatViewModel(
             val s = chatSessionDao.getSession(sessionId) ?: return@launch
             chatSessionDao.updateSession(s.copy(title = newTitle.trim().take(60)))
             if (sessionId == currentSessionId) _uiState.update { it.copy(activeSessionTitle = newTitle.trim().take(60)) }
+        }
+    }
+
+    fun pinSession(sessionId: String, isPinned: Boolean) {
+        viewModelScope.launch {
+            val s = chatSessionDao.getSession(sessionId) ?: return@launch
+            chatSessionDao.updateSession(s.copy(isPinned = isPinned))
         }
     }
 
@@ -291,6 +342,14 @@ class ChatViewModel(
         editAndResendMessage(userMessageId, msg.content)
     }
 
+    fun restartStoppedResponse(stoppedAssistantMsgId: String) {
+        val messages = _uiState.value.messages
+        val idx = messages.indexOfFirst { it.id == stoppedAssistantMsgId }
+        if (idx <= 0) return
+        val userMsg = messages.subList(0, idx).lastOrNull { it.role == "user" } ?: return
+        editAndResendMessage(userMsg.id, userMsg.content)
+    }
+
     fun selectChatCollection(id: String?) {
         viewModelScope.launch {
             val name = if (id == null) "No docs" else collectionDao.getCollection(id)?.name ?: "General"
@@ -304,8 +363,8 @@ class ChatViewModel(
 
     fun setInputText(text: String) { _uiState.update { it.copy(inputText = text) } }
     fun stopGeneration() {
-        generationJob?.cancel()
         inferenceService.stopGeneration()
+        generationJob?.cancel()
     }
     fun toggleThinking() { viewModelScope.launch { preferences.setEnableThinking(!_uiState.value.enableThinking) } }
 
@@ -337,6 +396,43 @@ class ChatViewModel(
                 errorMessage = "Could not load ${model.displayName}. Make sure ${model.fileName} has been downloaded in Settings.")
         }
         return ok
+    }
+
+    fun loadModelFromPicker(model: GemmaModel) {
+        viewModelScope.launch {
+            preferences.setSelectedModelId(model.id)
+            _uiState.update {
+                it.copy(
+                    isSwitchingModel = true,
+                    isAutoLoadingModel = true,
+                    autoLoadStatus = "Loading ${model.displayName}…"
+                )
+            }
+            inferenceService.setGenerationParams(
+                topK = preferences.topK.first(),
+                temperature = preferences.temperature.first(),
+                enableThinking = preferences.enableThinking.first(),
+                maxTokens = preferences.maxOutputTokens.first(),
+                contextWindow = preferences.contextWindow.first(),
+                accelerator = preferences.accelerator.first()
+            )
+            val ok = inferenceService.loadModel(model)
+            _uiState.update {
+                if (ok) it.copy(
+                    isSwitchingModel = false,
+                    isAutoLoadingModel = false,
+                    autoLoadStatus = "",
+                    isModelLoaded = true,
+                    loadedModelName = model.displayName
+                )
+                else it.copy(
+                    isSwitchingModel = false,
+                    isAutoLoadingModel = false,
+                    autoLoadStatus = "",
+                    errorMessage = "Could not load ${model.displayName}. Make sure it is downloaded in Settings."
+                )
+            }
+        }
     }
 
     fun sendMessage(userText: String) {
@@ -453,6 +549,7 @@ class ChatViewModel(
                 chatSessionDao.getSession(sessionId)?.let { s ->
                     chatSessionDao.updateSession(s.copy(updatedAt = currentTimeMillis(), messageCount = msgCount))
                 }
+                checkAndTriggerRatingPrompt()
                 val finalMsg = ChatMessage(
                     assistantMsgId, "assistant", finalContent, agentStepsList,
                     false, finalThinking, false, usedDirectMode, usedSources = sourcesList
@@ -496,7 +593,8 @@ class ChatViewModel(
                                     ChatMessageEntity(
                                         assistantMsgId, sessionId, "assistant", partialContent,
                                         serializeAgentSteps(agentStepsList), partialThinking,
-                                        usedSources = serializeSources(sourcesList)
+                                        usedSources = serializeSources(sourcesList),
+                                        wasStopped = wasCancelled
                                     )
                                 )
                                 _uiState.update { s ->
@@ -509,11 +607,12 @@ class ChatViewModel(
                                     )
                                 }
                             } else if (wasCancelled) {
-                                val stopMsg = "⚠️ Generation stopped by user."
+                                val stopMsg = STOPPED_MESSAGE_SENTINEL
                                 chatDao.insertMessage(
                                     ChatMessageEntity(
                                         assistantMsgId, sessionId, "assistant", stopMsg,
-                                        serializeAgentSteps(agentStepsList), usedSources = serializeSources(sourcesList)
+                                        serializeAgentSteps(agentStepsList), usedSources = serializeSources(sourcesList),
+                                        wasStopped = true
                                     )
                                 )
                                 _uiState.update { s ->

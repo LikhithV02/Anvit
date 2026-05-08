@@ -83,50 +83,22 @@ After the first response is generated, an independent critique LLM pass evaluate
 <claude-mem-context>
 # Memory Context
 
-# [AgenticRAG] recent context, 2026-05-06 1:11pm GMT+5:30
+# [AgenticRAG] recent context, 2026-05-08 1:38am GMT+5:30
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (16,704t read) | 278,656t work | 94% savings
+Stats: 50 obs (15,965t read) | 289,219t work | 94% savings
 
-### May 3, 2026
-S40 Finalize and validate table formatting decision; confirm key-value format is producing quality chunks in actual document ingestion pipeline (May 3 at 10:00 PM)
-S41 Evaluate table formatting approach for RAG chunking and validate pipeline output quality; determine whether to switch from key-value to markdown table syntax (May 3 at 10:01 PM)
-S42 Install mobile app, download models, and run smoke test validation (May 3 at 10:01 PM)
 ### May 6, 2026
-133 8:55a 🔵 RetrievalMetrics scoring implementation examined
-134 9:00a 🔵 Device evaluation requires pre-downloaded Gemma 4 models on test device
-135 " 🔵 Device evaluation test accepts parametrized configuration and supports multiple Gemma models
-136 9:01a 🔵 App not installed on test device; models directory cannot be accessed
-S43 Fix concurrent LiteRT Engine issue in device eval test by reusing Koin singleton; retry smoke test validation (May 6 at 9:18 AM)
-137 9:19a 🔵 Baseline evaluation metrics established for Agentic RAG system
-138 9:21a ✅ Device eval test refactored to reuse Koin InferenceService singleton instead of creating new GemmaInferenceService instance
 S44 Build a production-grade evaluation pipeline for Agentic RAG in Anvit with automated LLM-based evaluation and CI/CD integration for PR feedback (May 6 at 9:23 AM)
-139 9:24a ✅ Added HTML comment marker to eval markdown reports
-140 9:25a 🟣 Automated evaluation results posting to pull requests
-141 " 🔄 Removed simple ID-based metric functions in favor of relevance-based variants
-142 9:26a 🟣 Migrated GeminiClient from curl-based to Ktor HTTP client with streaming support
-143 " ✅ Integrated streaming API into GeminiInferenceService and added Ktor dependency
 S45 Diagnose Gemma model load failure in device instrumented test and improve error reporting (May 6 at 9:26 AM)
-144 9:30a 🔵 Gemma 4 E2B model fails to load during device instrumented test
-145 9:31a ✅ Added loadModelOrThrow variant to expose model loading exceptions
-146 9:32a ✅ Enhanced device test error reporting with root cause details for model loading
 S46 Fix device evaluation test failing with missing Gemma model files on Android device (May 6 at 9:32 AM)
-147 9:42a 🔴 Model file persistence during device eval test runs
 S47 User asked whether to use USB debugging instead of wireless debugging for their phone development setup (May 6 at 9:42 AM)
 S48 Fixed deprecated Project.android accessor in device eval model backup/restore gradle tasks (May 6 at 9:46 AM)
-148 10:33a 🔵 Gradle wrapper lock file permission denied blocks :app:installDebug
-149 10:34a 🔵 app/build.gradle.kts has unresolved exec references and deprecated Android DSL syntax
-150 " 🔴 Fixed unresolved exec references in app/build.gradle.kts using providers.exec API
-151 " 🔵 Build configuration fixed, app compilation and packaging successful
-152 10:35a 🔴 ./gradlew :app:installDebug completed successfully with APK installed to device
-153 " ✅ app/build.gradle.kts extended with device evaluation and model persistence infrastructure
-154 10:42a 🔵 Build script assumes connectedDebugAndroidTest task but it's not registered
-S49 Configure project :app to resolve build failure with missing connectedDebugAndroidTest task (May 6 at 10:42 AM)
-155 10:44a 🔴 Gradle adb command resolution from Android SDK path
-156 " 🔵 Gradle script compilation errors from missing Java imports
+S49 Configure project :app to resolve build failure with missing connectedDebugAndroidTest task (May 6 at 9:48 AM)
+S50 Increment version for new release of AgenticRAG Android app (May 6 at 10:42 AM)
 157 10:45a 🔴 Added Java imports and fixed lambda type inference in adbExecutable provider
 158 " 🔵 Gradle wrapper lock file permission issue blocks build execution
 159 " 🔵 adbExecutable provider successfully resolves and invokes adb command
@@ -153,6 +125,41 @@ S49 Configure project :app to resolve build failure with missing connectedDebugA
 180 " ✅ Added sampleTimeoutMs parameter to device eval instrumentation manifest
 181 " 🔵 Android Gradle Plugin Deprecated Settings and APIs in AgenticRAG Build
 182 " 🔵 Kotlin Compiler Warning in AndroidTest: Supertype Access Visibility Issue
+183 1:11p 🔵 Test failure root cause investigation via logcat analysis
+184 " 🔵 SELinux permission denials blocking hwservicemanager access in test process
+185 1:12p 🔵 Instrumentation process crash: SIGSEGV null pointer dereference in LiteRT JNI library
+186 " 🔵 Android instrumented test crash on Motorola Edge 40 Neo device
+187 " 🟣 Added retrieval-only evaluation mode to device tests
+188 1:13p 🔴 Fixed PipelineTrace construction in retrievalOnlyTrace method
+189 " 🔵 Compilation warning: ToolSet supertype visibility issue in device eval test
+190 1:14p 🟣 Optimized device eval to skip inference initialization in retrieval-only mode
+191 " 🔴 Fixed syntax error in device eval test from patch application
+192 " 🔴 Resolved compilation error in device eval test
+193 1:15p 🔵 Device eval test executed but failed due to missing Gemma model on device
+194 1:16p 🟣 Made Gemma model requirement conditional on answer generation mode
+195 " 🔴 Device eval test compilation successful with conditional model requirement
+196 " 🟣 Conditional LiteRT model inclusion in device eval APK based on evaluation mode
+197 2:02p ✅ Version incremented for new release
+S51 Determine correct Android foreground service permissions for on-device LLM app using FOREGROUND_SERVICE_DATA_SYNC and FOREGROUND_SERVICE_SPECIAL_USE (May 6 at 2:02 PM)
+S52 Diagnose Gemma 4 model loading failure after recent app changes (May 6 at 2:11 PM)
+198 4:10p 🔵 Android model loading path and recent version bump
+199 " 🔵 Large build configuration changes in recent commit
+200 4:12p 🔵 Gemma 4 E2B model loading fails in Settings page
+201 4:13p 🔵 LiteRT dependencies unchanged in latest commit
+202 " 🔵 ProGuard rules configured for newly added document parsing libraries
+203 4:14p 🔵 No Gemma/LiteRT model loading logs in device logcat
+204 " 🔵 Logcat confirms no AgenticRAG or LiteRT activity on device
+205 4:17p 🔵 Gemma-4 model TensorFlow Lite components loading successfully in logcat
+206 4:18p 🔴 Fixed Gemma 4 model loading failure caused by multiple vision encoder signatures
+S53 Fix inability to load Gemma 4 model after recent code changes in AgenticRAG Android app (May 6 at 4:19 PM)
+**Investigated**: Examined Android app logs from ADB logcat to identify model loading failures. Found stack trace showing LiteRT-LM JNI native method nativeCreateEngine() throwing INVALID_ARGUMENT exception during Engine.initialize() in GemmaInferenceService.ensureEngineLoaded().
 
-Access 279k tokens of past work via get_observations([IDs]) or mem-search skill.
+**Learned**: The Gemma 4 E2B model file ships with a multi-scale Vision Encoder containing 3 signatures (vision_70, vision_140, vision_280), but LiteRT-LM v0.10.2's Engine class enforces a single-signature constraint for the Vision Encoder component. Conditional backend initialization based on model.supportsVision and model.supportsAudio flags was triggering initialization of these multiple encoder signatures, causing the signature mismatch error.
+
+**Completed**: Root cause diagnosed. Code fix implemented in GemmaInferenceService.kt: disabled conditional vision/audio backend initialization by setting visionBackend=null and audioBackend=null unconditionally in EngineConfig. Updated logging to remove vision/audio capability flags. Built and installed debug APK to Motorola Edge 40 Neo device (26s build time, BUILD SUCCESSFUL).
+
+**Next Steps**: Testing model loading functionality - app should now successfully load Gemma 4 model with text inference working (vision/audio features disabled). User to verify by opening app and tapping Load model.
+
+
+Access 289k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

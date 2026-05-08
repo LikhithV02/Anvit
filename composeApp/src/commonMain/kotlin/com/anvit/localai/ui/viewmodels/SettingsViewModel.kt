@@ -37,7 +37,8 @@ data class SettingsUiState(
     val deletionTick: Int = 0,
     val huggingFaceToken: String = "",
     val hfTokenSaved: Boolean = false,
-    val userEmail: String = ""
+    val userEmail: String = "",
+    val themeMode: String = "system",
 )
 
 class SettingsViewModel(
@@ -64,6 +65,7 @@ class SettingsViewModel(
             }.collect()
         }
         viewModelScope.launch { preferences.accelerator.collect { _uiState.update { s -> s.copy(accelerator = it) } } }
+        viewModelScope.launch { preferences.themeMode.collect { m -> _uiState.update { s -> s.copy(themeMode = m) } } }
         viewModelScope.launch { preferences.huggingFaceToken.collect { t -> _uiState.update { s -> s.copy(huggingFaceToken = t) } } }
         viewModelScope.launch {
             val initialEmail = preferences.userEmail.first()
@@ -72,10 +74,25 @@ class SettingsViewModel(
         viewModelScope.launch {
             downloadService.downloads.collect { map ->
                 _uiState.update { it.copy(downloads = map) }
-                if (map.values.any { it.state == com.anvit.localai.download.DownloadState.COMPLETED }) refreshModelFiles()
+                if (map.values.any { it.state == com.anvit.localai.download.DownloadState.COMPLETED }) {
+                    refreshModelFiles()
+                    checkAndPromote4BDefault()
+                }
             }
         }
         refreshModelFiles()
+        checkAndPromote4BDefault()
+    }
+
+    private fun checkAndPromote4BDefault() {
+        val models = GemmaModels.forPlatform(isIosPlatform())
+        val allPresent = models.all { downloadService.isModelPresent(it.fileName) }
+        if (!allPresent) return
+        val fourB = models.maxByOrNull { it.sizeBytes } ?: return
+        viewModelScope.launch {
+            val current = preferences.selectedModelId.first()
+            if (current != fourB.id) preferences.setSelectedModelId(fourB.id)
+        }
     }
 
     fun selectModel(modelId: String) { viewModelScope.launch { preferences.setSelectedModelId(modelId) } }
@@ -143,6 +160,7 @@ class SettingsViewModel(
     fun setMaxRetrievalChunks(v: Int) { viewModelScope.launch { preferences.setMaxRetrievalChunks(v) } }
     fun setEnableSelfCritique(v: Boolean) { viewModelScope.launch { preferences.setEnableSelfCritique(v) } }
     fun setRetrievalMode(m: String) { viewModelScope.launch { preferences.setRetrievalMode(m) } }
+    fun setThemeMode(mode: String)  { viewModelScope.launch { preferences.setThemeMode(mode) } }
     fun resetGenerationDefaults() {
         viewModelScope.launch {
             preferences.setTemperature(1.0f)
@@ -160,20 +178,14 @@ class SettingsViewModel(
         viewModelScope.launch {
             if (!hasDownloadedEmbeddingModel()) {
                 embeddingService.cleanup()
-                _uiState.update { it.copy(embeddingModelStatus = "No embedding model downloaded") }
+                _uiState.update { it.copy(embeddingModelStatus = "Download a model above to enable document search") }
                 return@launch
             }
 
-            _uiState.update { it.copy(embeddingModelStatus = "Initializing...") }
+            _uiState.update { it.copy(embeddingModelStatus = "Activating…") }
             val ok = embeddingService.initialize()
             _uiState.update {
-                it.copy(
-                    embeddingModelStatus = if (ok) {
-                        "Initialized: ${embeddingService.getModelName()}"
-                    } else {
-                        "Initialization failed"
-                    }
-                )
+                it.copy(embeddingModelStatus = if (ok) "Active" else "Activation failed — try again")
             }
         }
     }
@@ -185,8 +197,8 @@ class SettingsViewModel(
         availableEmbeddingModels.any { downloadService.isModelPresent(it.fileName) }
 
     private fun currentEmbeddingStatus(): String = when {
-        embeddingService.isInitialized() -> "Initialized: ${embeddingService.getModelName()}"
-        hasDownloadedEmbeddingModel() -> "Not initialized"
-        else -> "No embedding model downloaded"
+        embeddingService.isInitialized() -> "Active"
+        hasDownloadedEmbeddingModel() -> "Ready to activate"
+        else -> "Download a model above to enable document search"
     }
 }

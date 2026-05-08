@@ -2,46 +2,100 @@ package com.anvit.localai.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// ── Base surfaces (elevation layers) ──────────────────────────────────────────
-val Surface0  = Color(0xFF080808)   // true near-black
-val Surface1  = Color(0xFF0F0F0F)   // app bar, nav bar
-val Surface2  = Color(0xFF171717)   // elevated cards, drawers
-val Surface3  = Color(0xFF202020)   // chips, input fields, modal sheets
+// ── AnvitColors — all semantic tokens for one theme palette ──────────────────
 
-// Legacy aliases (kept for compatibility)
-val Navy900  = Surface0
-val Navy800  = Surface1
-val Navy700  = Surface2
-val Navy600  = Color(0xFF2A2A2A)
-val NavyCard = Surface2
+data class AnvitColors(
+    val bg: Color,
+    val surf0: Color,
+    val surf1: Color,
+    val surf2: Color,
+    val surf3: Color,
+    val surf4: Color,
+    val accent: Color,
+    val accentB: Color,
+    val accentDim: Color,
+    val accentGlow: Color,
+    val pink: Color,
+    val pinkDim: Color,
+    val amber: Color,
+    val amberDim: Color,
+    val green: Color,
+    val greenDim: Color,
+    val txt0: Color,
+    val txt1: Color,
+    val txt2: Color,
+    val txt3: Color,
+    val border: Color,
+    val border2: Color,
+    val isDark: Boolean,
+)
 
-// ── Silver / ice-white accent ──────────────────────────────────────────────────
-val TealPrimary = Color(0xFFF1F5F9)   // slate-100 — crisp near-white
-val TealLight   = Color(0xFFFFFFFF)   // pure white for maximum emphasis
-val TealDark    = Color(0xFF94A3B8)   // slate-400 — muted silver for secondary use
-val TealSubtle  = Color(0xFFF1F5F91A) // 10% white for subtle fills
+// ── Midnight (dark) ───────────────────────────────────────────────────────────
 
-// ── Borders ───────────────────────────────────────────────────────────────────
-val BorderSubtle  = Color(0xFF1A1A1A)
-val BorderDefault = Color(0xFF2A2A2A)
-val BorderFocus   = Color(0xFFF1F5F940)  // ~25% white
+val AnvitMidnightColors = AnvitColors(
+    bg       = Color(0xFF060A0F),
+    surf0    = Color(0xFF0A1018),
+    surf1    = Color(0xFF101820),
+    surf2    = Color(0xFF182230),
+    surf3    = Color(0xFF1E2C3C),
+    surf4    = Color(0xFF25374A),
+    accent   = Color(0xFF00C8E8),
+    accentB  = Color(0xFF0099B8),
+    accentDim  = Color(0xFF00C8E8).copy(alpha = 0.10f),
+    accentGlow = Color(0xFF00C8E8).copy(alpha = 0.28f),
+    pink     = Color(0xFFF472B6),
+    pinkDim  = Color(0xFFF472B6).copy(alpha = 0.12f),
+    amber    = Color(0xFFFBBF24),
+    amberDim = Color(0xFFFBBF24).copy(alpha = 0.12f),
+    green    = Color(0xFF34D399),
+    greenDim = Color(0xFF34D399).copy(alpha = 0.12f),
+    txt0     = Color(0xFFE8F4FF),
+    txt1     = Color(0xFF8BAFC8),
+    txt2     = Color(0xFF4D6B80),
+    txt3     = Color(0xFF2A3D4D),
+    border   = Color(0xFF00C8E8).copy(alpha = 0.10f),
+    border2  = Color(0xFF00C8E8).copy(alpha = 0.22f),
+    isDark   = true,
+)
 
-// ── Text ──────────────────────────────────────────────────────────────────────
-val TextPrimary   = Color(0xFFF8FAFC)   // slate-50 — brightest readable white
-val TextSecondary = Color(0xFF64748B)   // slate-500 — cool mid-grey
-val TextHint      = Color(0xFF334155)   // slate-700 — dim
+// ── Dawn (light) ──────────────────────────────────────────────────────────────
 
-// ── Chat bubbles ──────────────────────────────────────────────────────────────
-val UserBubble       = Color(0xFF272727)   // noticeably raised — query bubble vs. bare response text
-val AssistantBubble  = Surface2            // kept for streaming dots fallback
-val UserBubbleBorder = Color(0xFF383838)   // hairline border on user bubble
+val AnvitDawnColors = AnvitColors(
+    bg       = Color(0xFFF0F6FA),
+    surf0    = Color(0xFFFFFFFF),
+    surf1    = Color(0xFFF7FBFD),
+    surf2    = Color(0xFFEAF4F9),
+    surf3    = Color(0xFFD8EDF6),
+    surf4    = Color(0xFFC4E2F0),
+    accent   = Color(0xFF0099BA),
+    accentB  = Color(0xFF00778F),
+    accentDim  = Color(0xFF0099BA).copy(alpha = 0.10f),
+    accentGlow = Color(0xFF0099BA).copy(alpha = 0.22f),
+    pink     = Color(0xFFDB2777),
+    pinkDim  = Color(0xFFDB2777).copy(alpha = 0.08f),
+    amber    = Color(0xFFD97706),
+    amberDim = Color(0xFFD97706).copy(alpha = 0.10f),
+    green    = Color(0xFF047857),
+    greenDim = Color(0xFF047857).copy(alpha = 0.10f),
+    txt0     = Color(0xFF0A2030),
+    txt1     = Color(0xFF2A5068),
+    txt2     = Color(0xFF6090A8),
+    txt3     = Color(0xFFAAC8D8),
+    border   = Color(0xFF0099BA).copy(alpha = 0.14f),
+    border2  = Color(0xFF0099BA).copy(alpha = 0.28f),
+    isDark   = false,
+)
 
-// ── Semantic ──────────────────────────────────────────────────────────────────
-val SuccessGreen  = Color(0xFF4ADE80)   // emerald-400
-val ErrorRed      = Color(0xFFF87171)   // red-400
-val WarningAmber  = Color(0xFFFBBF24)   // amber-400
-val AgentStepBlue = Color(0xFF60A5FA)   // blue-400 — only non-grey hue in the UI
+// ── Semantic (theme-independent) ──────────────────────────────────────────────
 
-// ── Gradient helpers (use with Brush.verticalGradient etc.) ──────────────────
-val GradientTop    = Surface0
-val GradientBottom = Surface2
+val SuccessGreen  = Color(0xFF4ADE80)
+val ErrorRed      = Color(0xFFF87171)
+val WarningAmber  = Color(0xFFFBBF24)
+
+// Agent step palette (same in both themes)
+val StepPlanning     = Color(0xFF9B87F5)
+val StepBreaking     = Color(0xFFFBBF24)
+val StepSearching    = Color(0xFF34D399)
+val StepSupplementing = Color(0xFF60A5FA)
+val StepFiltering    = Color(0xFFF472B6)
+val StepGenerating   = Color(0xFFA78BFA)

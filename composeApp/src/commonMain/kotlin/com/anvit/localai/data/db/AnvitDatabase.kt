@@ -15,7 +15,7 @@ import com.anvit.localai.utils.currentTimeMillis
         DocumentEntity::class, ChunkEntity::class, ChunkFtsEntity::class,
         ChatMessageEntity::class, ChatSessionEntity::class, CollectionEntity::class
     ],
-    version = 10,
+    version = 12,
     exportSchema = false
 )
 @ConstructedBy(AnvitDatabaseConstructor::class)
@@ -109,9 +109,22 @@ val MIGRATION_9_10 = object : Migration(9, 10) {
     }
 }
 
+val MIGRATION_10_11 = object : Migration(10, 11) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE chat_sessions ADD COLUMN isPinned INTEGER NOT NULL DEFAULT 0")
+    }
+}
+
+val MIGRATION_11_12 = object : Migration(11, 12) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE chat_messages ADD COLUMN wasStopped INTEGER NOT NULL DEFAULT 0")
+    }
+}
+
 val ALL_MIGRATIONS = arrayOf(
     MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
-    MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10
+    MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10,
+    MIGRATION_10_11, MIGRATION_11_12
 )
 
 /** Platform-specific builder (androidMain / iosMain provide actuals). */

@@ -153,14 +153,13 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
             val engineConfig = EngineConfig(
                 modelPath = modelFile.absolutePath,
                 backend = mainBackend,
-                visionBackend = if (model.supportsVision) Backend.CPU() else null,
-                audioBackend = if (model.supportsAudio) Backend.CPU() else null,
+                visionBackend = null,
+                audioBackend = null,
                 maxNumTokens = requestedContextWindow,
                 cacheDir = context.cacheDir.path
             )
 
             Log.d(TAG, "Loading engine for ${model.displayName} | " +
-                    "vision=${model.supportsVision} audio=${model.supportsAudio} " +
                     "accelerator=$accelerator contextWindow=$requestedContextWindow maxOutputTokens=$maxTokens")
             val newEngine = Engine(engineConfig)
             withContext(Dispatchers.IO) { newEngine.initialize() }

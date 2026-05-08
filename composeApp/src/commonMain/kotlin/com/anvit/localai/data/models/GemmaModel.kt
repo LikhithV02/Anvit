@@ -39,7 +39,7 @@ object GemmaModels {
         downloadUrl      = "https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/main/gemma-4-E2B-it.litertlm?download=true",
         sizeBytes        = 2_772_000_000L,
         sizeLabel        = "2B",
-        ramRequired      = "~1.7 GB RAM (CPU)",
+        ramRequired      = "~1.7 GB RAM",
         platform         = ModelPlatform.ANDROID,
         isDefault        = true,
         contextWindowSize = 128000,
@@ -54,7 +54,7 @@ object GemmaModels {
         downloadUrl      = "https://huggingface.co/litert-community/gemma-4-E4B-it-litert-lm/resolve/main/gemma-4-E4B-it.litertlm?download=true",
         sizeBytes        = 3_922_000_000L,
         sizeLabel        = "4B",
-        ramRequired      = "~3.2 GB RAM (CPU)",
+        ramRequired      = "~3.2 GB RAM",
         platform         = ModelPlatform.ANDROID,
         isDefault        = false,
         contextWindowSize = 128000,
@@ -108,20 +108,20 @@ object GemmaModels {
 object EmbeddingModels {
     val EMBEDDING_GEMMA_2048 = EmbeddingModelInfo(
         id           = "embeddinggemma-2048",
-        displayName  = "EmbeddingGemma 300M (seq2048)",
+        displayName  = "EmbeddingGemma 300M",
         fileName     = "embeddinggemma-300M_seq2048_mixed-precision.tflite",
         downloadUrl  = "https://huggingface.co/litert-community/embeddinggemma-300m/resolve/main/embeddinggemma-300M_seq2048_mixed-precision.tflite?download=true",
         sizeBytes    = 195_983_360L,
-        description  = "High-quality embeddings, 2048 token context. Recommended.",
+        description  = "High-quality · 2048 token context",
         isRecommended = true
     )
     val GECKO_512 = EmbeddingModelInfo(
         id          = "gecko-512",
-        displayName = "Gecko 110M (512-dim)",
+        displayName = "Gecko 110M",
         fileName    = "Gecko_512_quant.tflite",
         downloadUrl = "https://huggingface.co/litert-community/Gecko-110m-en/resolve/main/Gecko_512_quant.tflite?download=true",
         sizeBytes   = 120_432_640L,
-        description = "Faster, lighter alternative. 512-dim quantized.",
+        description = "Faster · 512-dim quantized.",
         isRecommended = false
     )
     val all = listOf(EMBEDDING_GEMMA_2048, GECKO_512)
