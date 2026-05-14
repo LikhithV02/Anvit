@@ -41,25 +41,32 @@ class GeckoEmbeddingService(
             "gecko-110m-en-1024.tflite"
         )
         private val TOKENIZER_NAMES = listOf("sentencepiece.model", "tokenizer.model")
+
+        internal fun preferredEmbeddingModelFile(modelsDir: File): File? =
+            EMBEDDING_MODEL_NAMES.map { File(modelsDir, it) }.firstOrNull { it.exists() }
     }
 
     override suspend fun initialize(): Boolean = mutex.withLock {
         val useGpu = preferences.accelerator.first() == "gpu"
-        if (initialized && initializedWithGpu == useGpu) return@withLock true
-        // Re-initialize if accelerator setting changed
-        if (initialized) {
-            geckoEmbedder = null
-            initialized = false
-        }
         withContext(Dispatchers.IO) {
             try {
                 val modelsDir = File(context.filesDir, "models")
-                val modelFile = EMBEDDING_MODEL_NAMES.map { File(modelsDir, it) }.firstOrNull { it.exists() }
+                val modelFile = preferredEmbeddingModelFile(modelsDir)
                     ?: run {
                         Log.e(TAG, "No embedding model found in ${modelsDir.absolutePath}")
                         Log.e(TAG, "Expected one of: ${EMBEDDING_MODEL_NAMES.joinToString()}")
                         return@withContext false
                     }
+                if (initialized && initializedWithGpu == useGpu && modelName == modelFile.name) {
+                    return@withContext true
+                }
+
+                // Re-initialize if accelerator setting or preferred available model changed.
+                if (initialized) {
+                    Log.d(TAG, "Reinitializing embedding model: $modelName -> ${modelFile.name} (GPU=$useGpu)")
+                    geckoEmbedder = null
+                    initialized = false
+                }
                 val tokenizerFile = TOKENIZER_NAMES.map { File(modelsDir, it) }.firstOrNull { it.exists() }
 
                 Log.d(TAG, "Initializing embedding model: ${modelFile.name} (GPU=$useGpu)")
@@ -91,7 +98,8 @@ class GeckoEmbeddingService(
     }
 
     override suspend fun generateEmbedding(text: String): FloatArray? = withContext(Dispatchers.IO) {
-        if (!initialized && !initialize()) return@withContext null
+        val preferredModelName = preferredEmbeddingModelFile(File(context.filesDir, "models"))?.name
+        if ((!initialized || preferredModelName != modelName) && !initialize()) return@withContext null
         try {
             val cleanText = text.trim().take(1024)
             if (cleanText.isEmpty()) return@withContext null

@@ -169,7 +169,7 @@ private class DocxXmlDelegate : NSObject(), NSXMLParserDelegateProtocol {
                 if (level > 0) {
                     val newNode = SectionNode(title = text, level = level)
                     while (nodeStack.size > 1 && nodeStack.last().level >= level) {
-                        nodeStack.removeLast()
+                        nodeStack.removeAt(nodeStack.lastIndex)
                     }
                     nodeStack.last().children.add(newNode)
                     nodeStack.add(newNode)

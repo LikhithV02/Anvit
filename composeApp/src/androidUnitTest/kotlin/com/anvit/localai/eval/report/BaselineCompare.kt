@@ -8,6 +8,7 @@ data class BaselineThresholds(
     val recallAt5Drop: Double = 0.02,
     val perDocRecallDrop: Double = 0.03,
     val faithfulnessDrop: Double = 0.05,
+    val correctnessDrop: Double = 0.10,
     val latencyP95Regression: Double = 0.30
 )
 
@@ -22,6 +23,9 @@ object BaselineCompare {
         }
         if (baseline.faithfulness - current.faithfulness > thresholds.faithfulnessDrop) {
             add("Faithfulness dropped from ${baseline.faithfulness} to ${current.faithfulness}")
+        }
+        if (baseline.correctness - current.correctness > thresholds.correctnessDrop) {
+            add("Correctness dropped from ${baseline.correctness} to ${current.correctness}")
         }
         if (baseline.latencyP95Ms > 0 && current.latencyP95Ms > baseline.latencyP95Ms * (1.0 + thresholds.latencyP95Regression)) {
             add("Latency p95 regressed from ${baseline.latencyP95Ms}ms to ${current.latencyP95Ms}ms")

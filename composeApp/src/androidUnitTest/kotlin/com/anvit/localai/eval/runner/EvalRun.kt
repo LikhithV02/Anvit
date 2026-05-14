@@ -21,6 +21,7 @@ data class EvalRunResult(
     val runId: String,
     val gitSha: String,
     val generatedAt: String,
+    val metadata: Map<String, String> = emptyMap(),
     val summary: com.anvit.localai.eval.metrics.EvalSummary,
     val samples: List<ScoredEvalSample>
 )

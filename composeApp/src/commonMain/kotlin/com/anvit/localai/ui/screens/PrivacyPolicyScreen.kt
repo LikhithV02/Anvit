@@ -76,12 +76,12 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             PolicyCard(emoji = "🔒", title = "Overview") {
                 Text(
                     "Anvit is a privacy-first AI assistant that runs entirely on your device. It lets you chat with your documents using a local Gemma 4 language model — no cloud inference, no analytics, no tracking.",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(6.dp))
                 Text(
                     "This policy explains what data Anvit stores locally, what limited information may leave your device, and how you remain in control at all times.",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
             }
 
@@ -89,7 +89,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             PolicyCard(emoji = "📱", title = "Data Stored on Your Device") {
                 Text(
                     "All of the following is stored only on your device and is never transmitted to any server:",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(8.dp))
                 val items = listOf(
@@ -106,7 +106,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(data, color = c.txt0, fontSize = 12.sp, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
                         Spacer(Modifier.width(8.dp))
-                        Text(purpose, color = c.txt2, fontSize = 11.sp, modifier = Modifier.weight(1f))
+                        Text(purpose, color = c.txt0, fontSize = 11.sp, modifier = Modifier.weight(1f))
                     }
                 }
             }
@@ -115,7 +115,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             PolicyCard(emoji = "🎙️", title = "Audio Data & Microphone") {
                 Text(
                     "Anvit requests microphone permission to enable voice-to-text interactions with your local AI agent.",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(8.dp))
                 HighlightBox {
@@ -129,19 +129,19 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             PolicyCard(emoji = "🌐", title = "Network Activity") {
                 Text(
                     "Anvit makes network requests in two narrow, user-initiated situations:",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(10.dp))
                 Text("1. Model Downloads — HuggingFace", color = c.txt0, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
                 Spacer(Modifier.height(4.dp))
                 Text(
                     "When you download a model in Settings, Anvit fetches files from huggingface.co. No personal data is sent. Your HuggingFace token is used only as an authorization header and is stored locally.",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(10.dp))
                 Text("2. Voluntary Feedback — Google Forms", color = c.txt0, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
                 Spacer(Modifier.height(4.dp))
-                Text("If you submit a feedback form, the following is sent:", color = c.txt1, fontSize = 13.sp)
+                Text("If you submit a feedback form, the following is sent:", color = c.txt0, fontSize = 13.sp)
                 Spacer(Modifier.height(4.dp))
                 listOf(
                     "A hashed message ID (8-character hex, not linked to your identity)",
@@ -153,7 +153,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 HighlightBox {
                     Text(
                         "No other network calls are made. All AI inference, document retrieval, and embedding computation runs locally. Anvit has no telemetry, crash reporting, or background analytics.",
-                        color = c.txt1, fontSize = 13.sp, lineHeight = 19.sp,
+                        color = c.txt0, fontSize = 13.sp, lineHeight = 19.sp,
                     )
                 }
             }
@@ -178,7 +178,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                         ) {
                             Text("Never", color = c.pink, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                         }
-                        Text(item, color = c.txt1, fontSize = 13.sp, lineHeight = 19.sp)
+                        Text(item, color = c.txt0, fontSize = 13.sp, lineHeight = 19.sp)
                     }
                 }
             }
@@ -193,7 +193,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 perms.forEachIndexed { i, (perm, reason) ->
                     if (i > 0) HorizontalDivider(color = c.border, thickness = 0.5.dp, modifier = Modifier.padding(vertical = 4.dp))
                     Text(perm, color = c.accent, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace)
-                    Text(reason, color = c.txt1, fontSize = 12.sp, lineHeight = 18.sp)
+                    Text(reason, color = c.txt0, fontSize = 12.sp, lineHeight = 18.sp)
                 }
             }
 
@@ -201,7 +201,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             PolicyCard(emoji = "🗑️", title = "Data Deletion") {
                 Text(
                     "Because all data is stored locally, you can delete it at any time:",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(6.dp))
                 PolicyBullet("Chat history: Delete individual sessions or clear all history from within the app.")
@@ -213,7 +213,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             PolicyCard(emoji = "✉️", title = "Contact") {
                 Text(
                     "Questions or concerns about this policy? Reach out at:",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(4.dp))
                 Text("likhithv02@gmail.com", color = c.accent, fontSize = 13.sp, fontWeight = FontWeight.Medium)
@@ -238,7 +238,7 @@ private fun PolicyCard(emoji: String, title: String, content: @Composable Column
             Spacer(Modifier.width(5.dp))
             Text(
                 title.uppercase(),
-                color = c.txt2, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp,
+                color = c.txt0, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp,
             )
         }
         Column(
@@ -276,6 +276,6 @@ private fun PolicyBullet(text: String) {
     val c = LocalAnvitColors.current
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(vertical = 2.dp)) {
         Text("·", color = c.accent, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-        Text(text, color = c.txt1, fontSize = 13.sp, lineHeight = 19.sp)
+        Text(text, color = c.txt0, fontSize = 13.sp, lineHeight = 19.sp)
     }
 }

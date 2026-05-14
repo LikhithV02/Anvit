@@ -19,6 +19,7 @@ import com.anvit.localai.document.DocumentIngestionService
 import com.anvit.localai.document.IngestionForegroundController
 import com.anvit.localai.document.IngestionResult
 import com.anvit.localai.document.PdfHierarchicalParser
+import com.anvit.localai.embedding.EmbeddingService
 import com.anvit.localai.embedding.GeckoEmbeddingService
 import com.anvit.localai.eval.dataset.EvalDataset
 import com.anvit.localai.inference.GemmaInferenceService
@@ -99,7 +100,10 @@ class DeviceEvalInstrumentedTest {
             .allowMainThreadQueries()
             .build()
         try {
-            val embedding = GeckoEmbeddingService(appContext, preferences)
+            // Reuse the Koin singleton to avoid initializing a second GeckoEmbeddingModel
+            // JNI instance in the same process — doing so causes a SIGSEGV native crash.
+            val embedding = runCatching { GlobalContext.get().get<EmbeddingService>() }
+                .getOrElse { GeckoEmbeddingService(appContext, preferences) }
             require(embedding.initialize()) {
                 "Embedding model is missing or failed to initialize on device. Download EmbeddingGemma or Gecko in Settings before running device eval."
             }
@@ -107,34 +111,38 @@ class DeviceEvalInstrumentedTest {
             val retriever = HybridRetriever(db.documentDao(), embedding)
 
             val evalModel = model?.copy(supportsVision = false, supportsAudio = false)
-            val inference = if (generateAnswers) {
+            // Validate Gemma availability up-front but DEFER actually loading it until after
+            // corpus ingestion. Loading Gemma 4 (~2.6GB) before ingestion causes severe memory
+            // swapping during embedding generation (chunks slow from ~22s to >120s each).
+            val deferredGemmaLoader: (suspend () -> GemmaInferenceService)? = if (generateAnswers) {
                 requireNotNull(evalModel) { "Generated-answer device eval requires a downloaded Gemma model." }
-                // Reuse the Koin singleton to avoid initializing a second LiteRT Engine instance.
-                // LiteRT-LM does not support concurrent Engine instances in the same process.
                 val inferenceService = runCatching { GlobalContext.get().get<InferenceService>() }
                     .getOrElse { error("Koin/InferenceService is not available in the target app process: ${it.message}") }
-                (inferenceService as? GemmaInferenceService)
-                    ?.also {
-                        it.setRagTools(RagAgentTools(retriever, appContext))
-                        it.setGenerationParams(
-                            topK = topK,
-                            temperature = temperature,
-                            enableThinking = enableThinking,
-                            maxTokens = maxOutputTokens,
-                            contextWindow = contextWindow,
-                            accelerator = accelerator
-                        )
-                        try {
-                            it.loadModelOrThrow(evalModel)
-                        } catch (e: Exception) {
-                            error(
-                                "Gemma model failed to load on device: ${evalModel.displayName}\n" +
-                                    "Model file: ${modelsDir.absolutePath}/${evalModel.fileName}\n" +
-                                    "Cause: ${e.javaClass.simpleName}: ${e.message}"
-                            )
-                        }
-                    }
+                val gemma = inferenceService as? GemmaInferenceService
                     ?: error("InferenceService is not a GemmaInferenceService — cannot run generated-answer device eval")
+                ({
+                    // Reuse the Koin singleton to avoid initializing a second LiteRT Engine instance.
+                    // LiteRT-LM does not support concurrent Engine instances in the same process.
+                    gemma.setRagTools(RagAgentTools(retriever, appContext))
+                    gemma.setGenerationParams(
+                        topK = topK,
+                        temperature = temperature,
+                        enableThinking = enableThinking,
+                        maxTokens = maxOutputTokens,
+                        contextWindow = contextWindow,
+                        accelerator = accelerator
+                    )
+                    try {
+                        gemma.loadModelOrThrow(evalModel)
+                    } catch (e: Exception) {
+                        error(
+                            "Gemma model failed to load on device: ${evalModel.displayName}\n" +
+                                "Model file: ${modelsDir.absolutePath}/${evalModel.fileName}\n" +
+                                "Cause: ${e.javaClass.simpleName}: ${e.message}"
+                        )
+                    }
+                    gemma
+                })
             } else {
                 println("[DeviceEval] generateAnswers=false; skipping Gemma engine load")
                 null
@@ -164,6 +172,13 @@ class DeviceEvalInstrumentedTest {
                 }
             }
             val ingestionLatencyMs = System.currentTimeMillis() - ingestionStarted
+
+            // Now that ingestion is complete and embeddings are persisted, load Gemma 4.
+            // Doing this here keeps the heavy LLM out of memory during the slow embedding pass.
+            val inference = deferredGemmaLoader?.invoke()
+            if (inference != null) {
+                println("[DeviceEval] Gemma loaded after ingestion (ingestionLatency=${ingestionLatencyMs}ms)")
+            }
 
             val traceStarted = System.currentTimeMillis()
             val traces = dataset.samples.mapIndexed { index, sample ->
@@ -250,7 +265,7 @@ class DeviceEvalInstrumentedTest {
                 answers = answers
             )
 
-            val outputDir = File(appContext.getExternalFilesDir("device-eval") ?: appContext.filesDir, runId)
+            val outputDir = File(appContext.filesDir, "device-eval/$runId")
             outputDir.mkdirs()
             File(outputDir, "device_ingestion_manifest.json").writeText(
                 DeviceEvalJson.format.encodeToString(DeviceEvalManifest.serializer(), manifest)
@@ -264,7 +279,20 @@ class DeviceEvalInstrumentedTest {
             File(outputDir, "device_eval_run.json").writeText(
                 DeviceEvalJson.format.encodeToString(DeviceEvalRunArtifacts.serializer(), artifacts)
             )
-            println("[DeviceEval] Artifacts written to ${outputDir.absolutePath}")
+            android.util.Log.i("DeviceEval", "Artifacts written to ${outputDir.absolutePath}")
+            // Stream device_eval_run.json as base64-encoded chunks so the host can
+            // reconstruct it via `adb logcat` even if the test runner uninstalls the
+            // app (wiping app internal storage) before pullDeviceEvalArtifacts runs.
+            // base64 avoids logcat-mangling from newlines/special chars in the JSON.
+            val runJson = File(outputDir, "device_eval_run.json").readText()
+            val b64 = android.util.Base64.encodeToString(runJson.toByteArray(Charsets.UTF_8), android.util.Base64.NO_WRAP)
+            val artifactChunks = b64.chunked(2000)
+            android.util.Log.i("DeviceEvalArtifact", "BEGIN $runId ${artifactChunks.size} ${b64.length}")
+            artifactChunks.forEachIndexed { idx, chunk ->
+                android.util.Log.i("DeviceEvalArtifact", "CHUNK $runId $idx $chunk")
+            }
+            android.util.Log.i("DeviceEvalArtifact", "END $runId")
+            Unit
         } finally {
             db.close()
         }

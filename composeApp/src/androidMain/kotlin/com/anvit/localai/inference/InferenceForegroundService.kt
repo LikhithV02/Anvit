@@ -99,7 +99,7 @@ class InferenceForegroundService : Service() {
         val channel = NotificationChannel(
             CHANNEL_ID,
             "AI Inference",
-            NotificationManager.IMPORTANCE_HIGH
+            NotificationManager.IMPORTANCE_LOW
         ).apply {
             description = "Keeps AI response generation running in the background"
             setShowBadge(false)
@@ -123,7 +123,7 @@ class InferenceForegroundService : Service() {
             .setContentText("Tap to return")
             .setContentIntent(tapIntent)
             .setOngoing(true)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
     }
 }

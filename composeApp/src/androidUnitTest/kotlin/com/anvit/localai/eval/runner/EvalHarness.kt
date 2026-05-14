@@ -46,6 +46,7 @@ class EvalHarness(
 
         try {
             ingestCorpus(db)
+            println("[EvalHarness] Corpus ingestion complete. Starting pipeline traces for ${dataset.samples.size} samples.")
             val inference = GeminiInferenceService(client)
             val retriever = HybridRetriever(db.documentDao(), GeminiEmbeddingService(client).also { it.initialize() })
             val orchestrator = AgenticRagOrchestrator(inference, retriever, db.documentDao())
@@ -72,7 +73,9 @@ class EvalHarness(
                     }
                 }.awaitAll()
             }
+            println("[EvalHarness] Pipeline traces complete: ${traces.size}/${dataset.samples.size}. Starting answer judging.")
             val judgeScores = if (System.getProperty("anvit.eval.disableBatchJudge", "false").toBoolean()) {
+                println("[EvalHarness] Batch judging disabled. Running immediate judge with $judgeWorkers workers.")
                 coroutineScope {
                     val semaphore = Semaphore(judgeWorkers)
                     traces.mapIndexed { index, item ->
@@ -86,6 +89,7 @@ class EvalHarness(
                     }.awaitAll().toMap()
                 }
             } else {
+                println("[EvalHarness] Batch judging enabled. Submitting ${traces.size} judge prompts.")
                 runCatching { judge.scoreBatch(traces) }
                     .getOrElse { error ->
                         println("[EvalHarness] Batch judge failed, falling back to immediate judge: ${error.message}")
@@ -103,6 +107,7 @@ class EvalHarness(
                         }
                     }
             }
+            println("[EvalHarness] Answer judging complete: ${judgeScores.size}/${traces.size} scores. Computing retrieval/perf metrics.")
 
             val scored = traces.map { (sample, trace) ->
                 ScoredEvalSample(
@@ -118,13 +123,19 @@ class EvalHarness(
                 runId = outputDir.name,
                 gitSha = System.getProperty("anvit.eval.gitSha") ?: "unknown",
                 generatedAt = Clock.System.now().toString(),
+                metadata = client.evalMetadata() + mapOf(
+                    "dataset" to datasetFile.absolutePath,
+                    "dataset_version" to dataset.version
+                ),
                 summary = MetricsAggregator.summarize(scored),
                 samples = scored
             )
             outputDir.mkdirs()
+            println("[EvalHarness] Writing eval report to ${outputDir.absolutePath}")
             File(outputDir, "metrics.json").writeText(EvalDataset.json.encodeToString(EvalRunResult.serializer(), result))
             MarkdownReporter.write(File(outputDir, "summary.md"), result)
             HtmlReporter.write(File(outputDir, "details.html"), result)
+            println("[EvalHarness] Report written: metrics.json, summary.md, details.html")
             return result
         } finally {
             db.close()
@@ -136,6 +147,7 @@ class EvalHarness(
             file.isFile && (file.extension.equals("pdf", true) || file.extension.equals("docx", true))
         }.orEmpty()
         require(files.isNotEmpty()) { "No PDF or DOCX files found in ${corpusDir.absolutePath}" }
+        println("[EvalHarness] Ingesting corpus from ${corpusDir.absolutePath}: ${files.size} files")
 
         val ingestion = DocumentIngestionService(
             documentDao = db.documentDao(),
@@ -145,11 +157,21 @@ class EvalHarness(
             },
             documentParsers = listOf(DesktopPdfHierarchicalParser(), DocxHierarchicalParser())
         )
-        files.forEach { file ->
+        var totalChunks = 0
+        files.forEachIndexed { index, file ->
+            val started = System.currentTimeMillis()
+            println("[EvalHarness] Ingesting ${index + 1}/${files.size}: ${file.name} (${file.length()} bytes)")
             when (val result = ingestion.ingestDocument(file.name, file.readBytes(), "default-collection")) {
-                is IngestionResult.Success -> println("[EvalHarness] Ingested ${file.name}: ${result.chunkCount} chunks")
+                is IngestionResult.Success -> {
+                    totalChunks += result.chunkCount
+                    println("[EvalHarness] Ingested ${index + 1}/${files.size}: ${file.name}: ${result.chunkCount} chunks in ${elapsedSeconds(started)}s")
+                }
                 is IngestionResult.Error -> error("Failed to ingest ${file.name}: ${result.message}")
             }
         }
+        println("[EvalHarness] Ingestion summary: ${files.size} files, $totalChunks chunks")
     }
+
+    private fun elapsedSeconds(started: Long): String =
+        "%.1f".format((System.currentTimeMillis() - started) / 1_000.0)
 }

@@ -94,17 +94,45 @@ Use the Android Studio JBR on this machine if Gradle cannot find Java:
 export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 ```
 
-Run the older Gemini-backed eval dataset:
+Run the Gemini baseline. This uses Gemini for pipeline generation/embeddings and
+Gemini Batch API structured-output judging:
 
 ```bash
-./gradlew :composeApp:runCloudBackedEval
+GEMINI_API_KEY="your_api_key_here" ./gradlew :composeApp:runGeminiBaselineEval \
+  -Danvit.eval.dataset=eval/datasets/v2/dataset.json
 ```
 
-Regenerate the synthetic dataset from the existing chunk CSV exports:
+Run the same JVM eval with an OpenAI-compatible oMLX server for the pipeline
+generation and embeddings. Gemini is still used for final answer judging:
+
+```bash
+GEMINI_API_KEY="your_api_key_here" ./gradlew :composeApp:runCloudBackedEval \
+  -Danvit.eval.omlxBaseUrl=http://127.0.0.1:8000 \
+  -Danvit.eval.omlxGenerationModel=gemma-4-e2b-it-4bit \
+  -Danvit.eval.omlxEmbeddingModel=embeddinggemma-300m-4bit \
+  -Danvit.eval.enforceBaseline=false
+```
+
+Run the oMLX pipeline with Gemma 4 thinking enabled for A/B comparison:
+
+```bash
+GEMINI_API_KEY="your_api_key_here" ./gradlew :composeApp:runCloudBackedEval \
+  -Danvit.eval.omlxBaseUrl=http://127.0.0.1:8000/v1 \
+  -Danvit.eval.omlxGenerationModel=gemma-4-e2b-it-4bit \
+  -Danvit.eval.omlxEmbeddingModel=embeddinggemma-300m-4bit \
+  -Danvit.eval.omlxEnableThinking=true \
+  -Danvit.eval.enforceBaseline=false
+```
+
+Regenerate the natural v2 dataset from the existing chunk CSV exports:
 
 ```bash
 ./gradlew :composeApp:regenerateDataset
 ```
+
+The legacy strict synthetic dataset remains at `eval/datasets/v1/dataset.json`.
+The regenerated human-realistic dataset is written to `eval/datasets/v2/dataset.json`
+unless `-Danvit.eval.dataset=...` is provided.
 
 Refresh the baseline after an intentional retrieval/answer-quality improvement:
 

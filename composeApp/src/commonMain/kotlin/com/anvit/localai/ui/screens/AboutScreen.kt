@@ -76,12 +76,12 @@ fun AboutScreen(onBack: () -> Unit) {
             InfoCard(title = "What is Anvit?") {
                 Text(
                     "Anvit is a private, on-device AI assistant that helps you chat with PDFs, uncover key insights, compare documents, and get clear answers grounded in your own files.",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
                     "Built with advanced agentic RAG, Anvit goes beyond simple document search. It breaks complex questions into smaller steps, retrieves the most relevant passages, refines weak results, and generates sharper answers from your document library.",
-                    color = c.txt1, fontSize = 13.sp, lineHeight = 20.sp,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
@@ -106,7 +106,7 @@ fun AboutScreen(onBack: () -> Unit) {
                         Icon(Icons.Default.CheckCircle, null, tint = c.accent, modifier = Modifier.size(16.dp).padding(top = 2.dp))
                         Column {
                             Text(title, color = c.txt0, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                            Text(desc, color = c.txt1, fontSize = 12.sp, lineHeight = 18.sp)
+                            Text(desc, color = c.txt0, fontSize = 12.sp, lineHeight = 18.sp)
                         }
                     }
                 }
@@ -123,7 +123,7 @@ fun AboutScreen(onBack: () -> Unit) {
                 useCases.forEach { useCase ->
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(vertical = 2.dp)) {
                         Text("·", color = c.accent, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                        Text(useCase, color = c.txt1, fontSize = 13.sp, lineHeight = 19.sp)
+                        Text(useCase, color = c.txt0, fontSize = 13.sp, lineHeight = 19.sp)
                     }
                 }
             }
@@ -147,8 +147,8 @@ private fun InfoCard(title: String, content: @Composable ColumnScope.() -> Unit)
     Column {
         Text(
             title.uppercase(),
-            color = c.txt2, fontSize = 11.sp, fontWeight = FontWeight.Bold,
-            letterSpacing = 1.2.sp,
+            color = c.txt0, fontSize = 12.sp, fontWeight = FontWeight.Bold,
+            letterSpacing = 0.8.sp,
             modifier = Modifier.padding(start = 4.dp, bottom = 8.dp),
         )
         Column(

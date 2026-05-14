@@ -174,7 +174,19 @@ class AgenticRagOrchestrator(
                 if (traceRecorder?.finalChunks?.isEmpty() == true) {
                     traceRecorder.finalChunks.addAll(reduced)
                 }
-                val budgeted = buildBudgetedInput(conversationHistory, userQuery, reduced)
+                val tableResult = TableAnswerEngine.answer(userQuery, reduced)
+                if (tableResult.confidence == TableAnswerConfidence.HIGH && tableResult.answer != null) {
+                    traceRecorder?.generatedAnswer = tableResult.answer
+                    onSources(reduced)
+                    return AgenticResult(
+                        answerFlow = flow { emit(tableResult.answer) },
+                        steps = steps,
+                        route = route.name,
+                        retrievedChunks = reduced
+                    )
+                }
+                val generationChunks = withTableFacts(userQuery, reduced, tableResult)
+                val budgeted = buildBudgetedInput(conversationHistory, userQuery, generationChunks)
                 traceRecorder?.finalChunks?.clear()
                 traceRecorder?.finalChunks?.addAll(budgeted.chunks)
                 onSources(budgeted.chunks)
@@ -276,8 +288,20 @@ class AgenticRagOrchestrator(
         traceRecorder?.reducedChunks?.addAll(reducedChunks)
         traceRecorder?.finalChunks?.clear()
         traceRecorder?.finalChunks?.addAll(reducedChunks)
-        var allUsedChunks = reducedChunks
-        val budgeted = buildBudgetedInput(conversationHistory, userQuery, reducedChunks)
+        val tableResult = TableAnswerEngine.answer(userQuery, reducedChunks)
+        if (tableResult.confidence == TableAnswerConfidence.HIGH && tableResult.answer != null) {
+            traceRecorder?.generatedAnswer = tableResult.answer
+            onSources(reducedChunks)
+            return AgenticResult(
+                answerFlow = flow { emit(tableResult.answer) },
+                steps = steps,
+                route = QueryRoute.AGENTIC.name,
+                retrievedChunks = reducedChunks,
+                subQueries = subQueries
+            )
+        }
+        var allUsedChunks = withTableFacts(userQuery, reducedChunks, tableResult)
+        val budgeted = buildBudgetedInput(conversationHistory, userQuery, allUsedChunks)
         allUsedChunks = budgeted.chunks
         traceRecorder?.finalChunks?.clear()
         traceRecorder?.finalChunks?.addAll(allUsedChunks)
@@ -300,7 +324,9 @@ class AgenticRagOrchestrator(
             }
 
             if (enableSelfCritique && reducedChunks.isNotEmpty()) {
-                val contextSummary = reducedChunks.take(3).joinToString("; ") { it.fileName }
+                val contextSummary = allUsedChunks.take(5).joinToString("\n---\n") { chunk ->
+                    "[${chunk.fileName}]\n${chunk.content.take(700)}"
+                }
                 val gapQuery = critiqueLoop.evaluate(userQuery, fullResponse.toString(), contextSummary)
                 if (gapQuery != null) {
                     traceRecorder?.selfCritiqueTriggered = true
@@ -349,6 +375,25 @@ class AgenticRagOrchestrator(
         return chunks.joinToString("\n\n---\n\n") { chunk ->
             "[Source: ${chunk.fileName}, relevance: ${formatScore(chunk.score)}]\n${chunk.content}"
         }
+    }
+
+    private fun withTableFacts(
+        userQuery: String,
+        chunks: List<RetrievedChunk>,
+        tableResult: TableAnswerResult = TableAnswerEngine.answer(userQuery, chunks)
+    ): List<RetrievedChunk> {
+        if (tableResult.confidence != TableAnswerConfidence.MEDIUM || tableResult.facts.isBlank()) return chunks
+        val anchor = chunks.firstOrNull() ?: return chunks
+        val factChunk = anchor.copy(
+            chunkId = "table-facts:${anchor.chunkId}",
+            content = "TABLE FACTS extracted from retrieved table rows:\n${tableResult.facts}\n\nUse these facts exactly. Preserve numeric formatting and refuse if a requested value is missing.",
+            score = Float.MAX_VALUE,
+            vectorScore = 0f,
+            bm25Rank = 0,
+            lexicalScore = 0f,
+            retrievalSource = "table_facts"
+        )
+        return listOf(factChunk) + chunks
     }
 
     internal fun buildBudgetedInput(
@@ -405,7 +450,7 @@ class AgenticRagOrchestrator(
             selectedHistory.addFirst(line)
             val candidateHistory = selectedHistory.joinToString("\n")
             if (tokensFor(selected, candidateHistory) > inputLimit) {
-                selectedHistory.removeFirst()
+                selectedHistory.removeAt(0)
                 break
             }
         }
@@ -471,14 +516,17 @@ Answer the user's question directly and specifically — do not pad with filler,
 Be crisp: give the exact answer first, then supporting detail only if it adds value.
 Always cite the source document name when referencing specific content.
 
-IMPORTANT — Grounding and refusal:
-- Use only the provided document context for document-specific claims.
-- You may synthesize across passages, but every factual claim must be supported by the context.
-- If the context does not contain enough relevant evidence to answer the question, say: "I don't have enough information in the selected documents to answer this."
-- Do not use outside knowledge to fill missing financial, table, entity, or document facts.
-
-DOCUMENT CONTEXT:
-$context
+	IMPORTANT — Grounding and refusal:
+	- Use only the provided document context for document-specific claims.
+	- You may synthesize across passages, but every factual claim must be supported by the context.
+	- If the context does not contain enough relevant evidence to answer the question, say: "I don't have enough information in the selected documents to answer this."
+	- Do not use outside knowledge to fill missing financial, table, entity, or document facts.
+	- For table or financial answers, copy numbers, parentheses, currency symbols, percent signs, row labels, and column labels exactly as shown.
+	- If a question asks for multiple values, answer each requested value separately. Do not skip fields silently.
+	- Do not calculate sums, differences, or rankings unless all operands are explicitly present in the context.
+	
+	DOCUMENT CONTEXT:
+	$context
             """.trimIndent()
         }
     }
@@ -498,7 +546,8 @@ $context
         return try {
             inferenceService.generateResponse(
                 prompt = "Rephrase this search query using different keywords:\n\"$query\"\n\nRephrased:",
-                systemPrompt = "You rephrase search queries. Output ONLY the rephrased query, nothing else."
+                systemPrompt = "You rephrase search queries. Output ONLY the rephrased query, nothing else.",
+                allowThinking = false
             ).trim().removeSurrounding("\"")
         } catch (e: Exception) { query }
     }

@@ -9,7 +9,7 @@ object DatasetGeneratorMain {
     fun main(args: Array<String>) {
         val root = File(property("user.dir", ".")).parentFile ?: File(".")
         val csvDir = File(property("anvit.eval.chunks", File(root, "Test Docs").absolutePath))
-        val output = File(property("anvit.eval.dataset", File(root, "eval/datasets/v1/dataset.json").absolutePath))
+        val output = File(property("anvit.eval.dataset", File(root, "eval/datasets/v2/dataset.json").absolutePath))
         val apiKey = ApiKeyProvider.geminiApiKey(required = true)
         val dataset = DatasetGenerator(GeminiClient(apiKey!!)).generateFromCsvExports(
             csvDir = csvDir,

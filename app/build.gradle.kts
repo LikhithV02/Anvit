@@ -1,4 +1,5 @@
 import java.io.File
+import java.util.Base64
 import java.util.Properties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -48,8 +49,8 @@ android {
         applicationId = "com.likhith.anvit"
         minSdk        = 27
         targetSdk     = 35
-        versionCode   = 10
-        versionName   = "1.0.9"
+        versionCode   = 11
+        versionName   = "1.0.10"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         if (connectedDeviceEvalRequested) {
             testInstrumentationRunnerArguments["class"] = deviceEvalInstrumentationClass
@@ -305,12 +306,209 @@ tasks.register("restoreEvalModels") {
     }
 }
 
-// Optional backup -> test -> restore. The backup streams multi-GB files through
-// adb, so keep it opt-in for cases where the test install may wipe app data.
-if (connectedDeviceEvalRequested && deviceEvalBackupModelsRequested.get()) {
+// ---------------------------------------------------------------------------
+// Pre-eval device setup: install the debug APK and push backed-up model files
+// to the device BEFORE connectedDebugAndroidTest runs.
+//
+// This solves the core problem: connectedDebugAndroidTest does its own
+// `adb install -r` which preserves app data only when the installed APK was
+// signed with the same key. If the device had the Play Store version (signed
+// with Google's key), Android wipes internal storage on reinstall, taking the
+// embedding model with it. setupDeviceForEval runs first to ensure the app is
+// installed with the correct debug key and models are in place before the test
+// runner's install step (which then does a same-key `-r` that preserves data).
+// ---------------------------------------------------------------------------
+
+tasks.register("setupDeviceForEval") {
+    group = "verification"
+    description = "Installs the debug APK and pushes backed-up model files to device before the eval test run."
+    dependsOn("packageDebug")
+    doLast {
+        val apkFile = layout.buildDirectory.file("outputs/apk/debug/app-debug.apk").get().asFile
+        if (apkFile.exists()) {
+            logger.lifecycle("[setupDeviceForEval] Installing debug APK (ensures correct signing key)...")
+            providers.exec {
+                commandLine(adbExecutable.get(), "install", "-r", "-t", "-g", apkFile.absolutePath)
+                isIgnoreExitValue = true
+            }.result.get()
+            // Force-stop any running instance so the test runner starts with a clean process.
+            providers.exec {
+                commandLine(adbExecutable.get(), "shell", "am", "force-stop", evalPackageName)
+                isIgnoreExitValue = true
+            }.result.get()
+        }
+        val modelFiles = localModelBackup.listFiles()?.filter { it.isFile }.orEmpty()
+        if (modelFiles.isEmpty()) {
+            logger.lifecycle("[setupDeviceForEval] No backed-up model files found in ${localModelBackup.absolutePath} — skipping model push.")
+            logger.lifecycle("[setupDeviceForEval] If the embedding model is missing, open the app and download it from Settings first,")
+            logger.lifecycle("[setupDeviceForEval] then run ./gradlew :app:backupEvalModels to create a local backup.")
+            return@doLast
+        }
+        logger.lifecycle("[setupDeviceForEval] Pushing ${modelFiles.size} model file(s) to device...")
+        providers.exec {
+            commandLine(adbExecutable.get(), "shell", "run-as", evalPackageName, "mkdir", "-p", "files/models")
+            isIgnoreExitValue = true
+        }.result.get()
+        modelFiles.forEach { file ->
+            val tmp = "/data/local/tmp/${file.name}"
+            logger.lifecycle("[setupDeviceForEval]  ${file.name} (${file.length() / 1_048_576} MB)")
+            providers.exec {
+                commandLine(adbExecutable.get(), "push", file.absolutePath, tmp)
+                isIgnoreExitValue = true
+            }.result.get()
+            providers.exec {
+                commandLine(adbExecutable.get(), "shell", "run-as", evalPackageName, "cp", tmp, "files/models/${file.name}")
+                isIgnoreExitValue = true
+            }.result.get()
+            providers.exec {
+                commandLine(adbExecutable.get(), "shell", "rm", "-f", tmp)
+                isIgnoreExitValue = true
+            }.result.get()
+        }
+        logger.lifecycle("[setupDeviceForEval] Done — models pushed to app internal storage.")
+    }
+}
+
+// Always wire setup (before) and pull+restore (after) for connectedDeviceEval runs.
+// Order: setupDeviceForEval → connectedDebugAndroidTest → pullDeviceEvalArtifacts → restoreEvalModels
+// restoreEvalModels reinstalls the APK (which wipes app data), so pull must happen first.
+if (connectedDeviceEvalRequested) {
     tasks.matching { it.name == "connectedDebugAndroidTest" }.configureEach {
-        mustRunAfter("backupEvalModels")
+        mustRunAfter("setupDeviceForEval", "startDeviceEvalLogcatCapture")
+        // Pull artifacts right after the test, before restore can wipe them.
+        finalizedBy("pullDeviceEvalArtifacts")
+        if (deviceEvalBackupModelsRequested.get()) {
+            mustRunAfter("backupEvalModels")
+        }
+    }
+    tasks.matching { it.name == "pullDeviceEvalArtifacts" }.configureEach {
+        // Restore runs after pull to put models back (APK reinstall wipes device data).
         finalizedBy("restoreEvalModels")
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Post-eval artifact pull: copy device_eval_run.json and siblings from the
+// app's internal storage (files/device-eval/<runId>/) to the host machine.
+//
+// Uses `adb exec-out run-as <pkg> cat` to stream files out of internal storage
+// without needing root or MANAGE_EXTERNAL_STORAGE.
+//
+// Output lands in eval/reports/device-pulled/ on the host so DeviceEvalScoringSuite
+// can score it with -Panvit.eval.deviceArtifacts=<path>.
+// ---------------------------------------------------------------------------
+
+val deviceEvalPullDir = rootProject.layout.buildDirectory.dir("device-eval-pull").get().asFile
+val deviceEvalLogcatFile = rootProject.layout.buildDirectory.file("device-eval-logcat.txt").get().asFile
+
+tasks.register("startDeviceEvalLogcatCapture") {
+    group = "verification"
+    description = "Starts an adb logcat tail capturing DeviceEvalArtifact chunks during the test run."
+    doLast {
+        val adb = adbExecutable.get()
+        // Clear logcat buffer so we only capture this run's output, then spawn a detached
+        // logcat tail that writes to a file. Killed by stopDeviceEvalLogcatCapture afterwards.
+        ProcessBuilder(adb, "logcat", "-c").start().waitFor()
+        deviceEvalLogcatFile.parentFile.mkdirs()
+        deviceEvalLogcatFile.delete()
+        val pidFile = File(deviceEvalLogcatFile.parentFile, "device-eval-logcat.pid")
+        // Use sh -c to redirect output and capture the pid of the background process.
+        ProcessBuilder(
+            "sh", "-c",
+            "$adb logcat -v raw -s DeviceEvalArtifact:I > '${deviceEvalLogcatFile.absolutePath}' 2>&1 & echo \$! > '${pidFile.absolutePath}'"
+        ).start().waitFor()
+        logger.lifecycle("[startDeviceEvalLogcatCapture] Capturing → ${deviceEvalLogcatFile.absolutePath}")
+    }
+}
+
+tasks.register("pullDeviceEvalArtifacts") {
+    group = "verification"
+    description = "Pulls device_eval_run.json and siblings from the device's app internal storage."
+    mustRunAfter("connectedDebugAndroidTest")
+    doLast {
+        val adb = adbExecutable.get()
+        // On Android, Context.filesDir resolves to /data/user/0/<pkg>/files (not /data/data/)
+        val appDataDir = "/data/user/0/$evalPackageName"
+
+        val pkgCheck = ProcessBuilder(adb, "shell", "pm", "list", "packages", evalPackageName)
+            .redirectErrorStream(true).start()
+        val pkgInstalled = pkgCheck.inputStream.bufferedReader().readText().contains(evalPackageName)
+        pkgCheck.waitFor()
+
+        val jsonPaths = if (pkgInstalled) {
+            val listOutput = ProcessBuilder(
+                adb, "exec-out", "run-as", evalPackageName,
+                "find", "$appDataDir/files/device-eval", "-maxdepth", "2", "-name", "*.json"
+            ).redirectErrorStream(true).start()
+            val paths = listOutput.inputStream.bufferedReader().readText()
+                .lineSequence().map { it.trim() }
+                .filter { it.isNotEmpty() && it.startsWith("/") }.toList()
+            listOutput.waitFor()
+            paths
+        } else {
+            logger.lifecycle("[pullDeviceEvalArtifacts] App was uninstalled by test runner — falling back to logcat reconstruction.")
+            emptyList()
+        }
+
+        if (jsonPaths.isEmpty()) {
+            // Fallback: reconstruct device_eval_run.json from base64-chunked logcat output
+            // captured during the test run by startDeviceEvalLogcatCapture.
+            val pidFile = File(deviceEvalLogcatFile.parentFile, "device-eval-logcat.pid")
+            if (pidFile.isFile) {
+                runCatching {
+                    ProcessBuilder("sh", "-c", "kill $(cat '${pidFile.absolutePath}') 2>/dev/null").start().waitFor()
+                }
+                pidFile.delete()
+            }
+            if (!deviceEvalLogcatFile.isFile) {
+                logger.lifecycle("[pullDeviceEvalArtifacts] No artifacts in app storage and no captured logcat at ${deviceEvalLogcatFile.absolutePath}.")
+                return@doLast
+            }
+            val chunkPattern = Regex("""^CHUNK (\S+) (\d+) (\S+)\s*$""")
+            val chunks = mutableMapOf<String, MutableMap<Int, String>>()
+            deviceEvalLogcatFile.forEachLine { line ->
+                val m = chunkPattern.matchEntire(line.trim()) ?: return@forEachLine
+                val (runId, idx, data) = m.destructured
+                chunks.getOrPut(runId) { mutableMapOf() }[idx.toInt()] = data
+            }
+            val latestRun = chunks.keys.maxOrNull()
+            if (latestRun == null) {
+                logger.lifecycle("[pullDeviceEvalArtifacts] Captured logcat at ${deviceEvalLogcatFile.absolutePath} contains no DeviceEvalArtifact CHUNK lines.")
+                return@doLast
+            }
+            val sortedChunks = chunks.getValue(latestRun).toSortedMap()
+            val b64 = sortedChunks.values.joinToString("")
+            val decoded = String(Base64.getDecoder().decode(b64), Charsets.UTF_8)
+            val pullTarget = File(deviceEvalPullDir, latestRun).also { it.mkdirs() }
+            File(pullTarget, "device_eval_run.json").writeText(decoded)
+            logger.lifecycle("[pullDeviceEvalArtifacts] Reconstructed device_eval_run.json from logcat (${sortedChunks.size} chunks, ${decoded.length} bytes) → ${pullTarget.absolutePath}")
+            logger.lifecycle("[pullDeviceEvalArtifacts] To score: ./gradlew :app:scoreDeviceEval -Panvit.eval.deviceArtifacts=${pullTarget.absolutePath}")
+            return@doLast
+        }
+
+        // Determine latest run dir (runId = "device-<timestamp>" → lexicographic max = most recent)
+        val deviceEvalDir = "$appDataDir/files/device-eval"
+        val runDirs = jsonPaths.map { it.removePrefix("$deviceEvalDir/").substringBefore("/") }.distinct()
+        val latestRun = runDirs.maxOrNull() ?: return@doLast
+        val pullTarget = File(deviceEvalPullDir, latestRun).also { it.mkdirs() }
+
+        logger.lifecycle("[pullDeviceEvalArtifacts] Pulling run: $latestRun → ${pullTarget.absolutePath}")
+        jsonPaths.filter { it.contains("/$latestRun/") }.forEach { remotePath ->
+            val fileName = remotePath.substringAfterLast("/")
+            val localFile = File(pullTarget, fileName)
+            val catProcess = ProcessBuilder(
+                adb, "exec-out", "run-as", evalPackageName, "cat", remotePath
+            ).redirectError(ProcessBuilder.Redirect.INHERIT).start()
+            localFile.outputStream().use { catProcess.inputStream.copyTo(it) }
+            val exit = catProcess.waitFor()
+            if (exit == 0 && localFile.length() > 0) {
+                logger.lifecycle("[pullDeviceEvalArtifacts]  $fileName (${localFile.length()} bytes)")
+            } else {
+                localFile.delete()
+                logger.lifecycle("[pullDeviceEvalArtifacts]  skipped $fileName (exit=$exit)")
+            }
+        }
+        logger.lifecycle("[pullDeviceEvalArtifacts] Done. To score: ./gradlew :app:scoreDeviceEval -Panvit.eval.deviceArtifacts=${pullTarget.absolutePath}")
     }
 }
 
@@ -318,8 +516,8 @@ tasks.register("connectedDeviceEval") {
     group = "verification"
     description = "Runs the device-local Agentic RAG eval on a connected Android device."
     if (deviceEvalBackupModelsRequested.get()) {
-        dependsOn("backupEvalModels", "connectedDebugAndroidTest")
+        dependsOn("backupEvalModels", "setupDeviceForEval", "startDeviceEvalLogcatCapture", "connectedDebugAndroidTest", "pullDeviceEvalArtifacts")
     } else {
-        dependsOn("connectedDebugAndroidTest")
+        dependsOn("setupDeviceForEval", "startDeviceEvalLogcatCapture", "connectedDebugAndroidTest", "pullDeviceEvalArtifacts")
     }
 }

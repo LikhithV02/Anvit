@@ -41,6 +41,7 @@ class IosInferenceService : InferenceService {
     override suspend fun generateResponse(
         prompt: String,
         systemPrompt: String?,
+        allowThinking: Boolean,
         imagePath: String?,
         audioBytes: ByteArray?
     ): String = stubMessage

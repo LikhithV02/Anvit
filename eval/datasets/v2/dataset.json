@@ -1,0 +1,1272 @@
+{
+    "version": "v2",
+    "description": "Gemini-generated Anvit Agentic RAG eval dataset with natural user-style questions.",
+    "samples": [
+        {
+            "id": "single-0",
+            "type": "single_hop",
+            "question": "What financial items are mentioned in this section of the document?",
+            "expected_chunk_ids": [
+                "bfc66c82-e875-4753-9d75-c1f24f4e0a8c"
+            ],
+            "expected_content_hashes": [
+                "-34334199e4136815"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "This section mentions 'Loss' and refers to 'Income tax relating to items that will not be'.",
+            "rationale": "The gold answer directly extracts the two distinct financial phrases found within the provided evidence. It does not infer or add information not present, respecting the single-hop requirement and full support by evidence.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-1",
+            "type": "single_hop",
+            "question": "What value was reported for Progress and Stock-in-Trade?",
+            "expected_chunk_ids": [
+                "a8e67342-b003-4bda-99b5-0643e0820645"
+            ],
+            "expected_content_hashes": [
+                "-7571bdacb830b723"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The reported value for Progress and Stock-in-Trade was (8,421).",
+            "rationale": "The answer directly extracts the value from the 'Progress and Stock-in-Trade' row, specifically from Col 3, which contains the value (8,421).",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-2",
+            "type": "single_hop",
+            "question": "What is the current number of sites in RBML's CBG network?",
+            "expected_chunk_ids": [
+                "e9ffbb93-3477-460c-9aa4-9209debf2362"
+            ],
+            "expected_content_hashes": [
+                "-1d278c73d97d2e2a"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "RBML has expanded its CBG network to 112 sites, which retail Bio-CNG produced at RIL's Bio-gas plants.",
+            "rationale": "The answer directly states the number of sites for RBML's CBG network as '112 sites' as mentioned in the provided text, making it a single-hop extraction of information.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-3",
+            "type": "single_hop",
+            "question": "I'm looking at the ratios for the quarter and nine months in the document. Have these been presented as-is for those periods, or have they been adjusted in some way?",
+            "expected_chunk_ids": [
+                "c0b6fad0-7668-42a8-a0cc-d272b228fa72"
+            ],
+            "expected_content_hashes": [
+                "-704ae79b539d5cb2"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The ratios for the quarter and nine months have been annualised.",
+            "rationale": "The evidence directly states that 'Ratios for the quarter/nine months have been annualised,' which directly answers the user's question about whether they have been adjusted.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-4",
+            "type": "single_hop",
+            "question": "What is the face value of the equity share mentioned in this document?",
+            "expected_chunk_ids": [
+                "6a745d21-9c59-4b14-8953-fcfc0698f754"
+            ],
+            "expected_content_hashes": [
+                "-33cc1187338e9e44"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The face value of the equity share is ₹ 10/-.",
+            "rationale": "The document explicitly states 'Earnings per equity share (Face Value of~ 101-)', directly providing the face value.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-5",
+            "type": "single_hop",
+            "question": "What was the company's total gross revenue for the year, and how much did it increase compared to the previous year?",
+            "expected_chunk_ids": [
+                "72983ef1-ff22-46ab-9ec9-84d58e16847c"
+            ],
+            "expected_content_hashes": [
+                "6a253be818f2899e"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The company's gross revenue for the year was ₹ 1,175,919 crore ($ 124.0 billion), representing a 9.8% increase year-over-year.",
+            "rationale": "The answer directly states the gross revenue and its year-over-year percentage increase as provided in the first bullet point of the 'Annual Performance' section.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "true"
+            }
+        },
+        {
+            "id": "single-6",
+            "type": "single_hop",
+            "question": "How is Cost of Goods Sold defined or calculated in this document?",
+            "expected_chunk_ids": [
+                "eabf478d-41e0-4f0b-adc8-345fb797d4f8"
+            ],
+            "expected_content_hashes": [
+                "6018214a1ffd9389"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "According to the document, Cost of Goods Sold is calculated as the sum of Cost of Material Consumed and Purchases.",
+            "rationale": "The evidence explicitly states: 'Cost of Goods Sold (Cost of Material Consumed + Purchases'. The gold answer directly extracts this definition.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-8",
+            "type": "single_hop",
+            "question": "What were the total current assets reported for both the 50,540 period and the 57,102 period?",
+            "expected_chunk_ids": [
+                "bea889af-b033-4302-aa65-72acd9f0aa5d"
+            ],
+            "expected_content_hashes": [
+                "1f81dafe738be69a"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The company reported Total Current Assets of 327,619 for the 50,540 period and 269,563 for the 57,102 period.",
+            "rationale": "The question asks for the 'Total Current Assets' for two distinct periods, which are listed directly in the provided table under the 'Investments' section. The answer provides the values '327,619' corresponding to the '50,540' column and '269,563' corresponding to the '57,102' column, matching the 'Total Current Assets' row.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-10",
+            "type": "single_hop",
+            "question": "What kind of items are grouped under the 'Unallocated' segment?",
+            "expected_chunk_ids": [
+                "84d25e2b-adbe-47ad-88c5-945b3918073f"
+            ],
+            "expected_content_hashes": [
+                "20b7701dc0d736f7"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The 'Unallocated' segment includes other investments, assets, and liabilities, long-term resources raised by the company, business trade financing liabilities managed by the centralized treasury function, and related income or expense.",
+            "rationale": "The chunk explicitly states: \"Other investments / assets / liabilities, long-term resources raised by the Company, business trade financing liabilities managed by the centralised treasury function and related income / expense are considered under Unallocated.\"",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-11",
+            "type": "single_hop",
+            "question": "What was the net number of new subscribers added by the company during the last quarter?",
+            "expected_chunk_ids": [
+                "a800f21f-7c84-4284-bf93-eff9b53b89e8"
+            ],
+            "expected_content_hashes": [
+                "-45cb98704e98fa42"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The company added 9.1 million net subscribers during the quarter.",
+            "rationale": "The 'OPERATIONAL UPDATE' section explicitly states: 'Monthly churn was stable at 1.7% with net subscriber addition of 9.1 million during the quarter.'",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-12",
+            "type": "single_hop",
+            "question": "Can you tell me the company's Finance Costs and its Depreciation, Amortisation, and Depletion Expenses for the period identified as '4,562'?",
+            "expected_chunk_ids": [
+                "395ba90c-ef48-4d03-984e-5955cc41bb79"
+            ],
+            "expected_content_hashes": [
+                "3f80e061ea9efad"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "For the period '4,562', the company's Finance Costs were 6,585, and its Depreciation / Amortisation and Depletion Expense was 14,808.",
+            "rationale": "The answer is extracted directly by looking up the 'Finance Costs' row (value 6,585) and the 'Depreciation / Amortisation and Depletion Expense' row (value 14,808) under the '4,562' column in the provided table.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-14",
+            "type": "single_hop",
+            "question": "Can you explain how to calculate the Interest Service Coverage Ratio?",
+            "expected_chunk_ids": [
+                "ddba9021-1aef-4ac5-a54f-dcee5e4797fd"
+            ],
+            "expected_content_hashes": [
+                "12f0a911c5343466"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The Interest Service Coverage Ratio is calculated by dividing the sum of the Interest Expense and Principal Repayments made during the period for long-term loans by the Earnings before Interest and Tax.",
+            "rationale": "The answer directly extracts the calculation method for the 'Interest Service Coverage Ratio' from the provided table, specifically from the row labeled 'b) I Interest Service I t Coverage Ratio'. The formula is explicitly stated as 'I Interest Expense + Principal Repayments made during the I' period for long term loans: Earnings before Interest and Tax'.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-15",
+            "type": "single_hop",
+            "question": "What were the year-over-year growth rates for HSD and MS sales for Jio-bp?",
+            "expected_chunk_ids": [
+                "819699c1-41bf-4fcd-a5a3-471556a4f5e9"
+            ],
+            "expected_content_hashes": [
+                "388d053b763e6472"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Jio-bp's quarterly sales for High-Speed Diesel (HSD) grew by 24% year-over-year, and Motor Spirit (MS) sales grew by 37% year-over-year.",
+            "rationale": "The answer directly states the growth rates for HSD and MS sales for RBML (Jio-bp) as found in the text: 'RBML quarterly sales for HSD and MS grew at 24% and 37% respectively on Y-o-Y basis'.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-16",
+            "type": "single_hop",
+            "question": "What was the average price of Dated Brent crude in the fourth quarter of fiscal year 2026, and how much did it change compared to the previous year?",
+            "expected_chunk_ids": [
+                "2987209f-767e-4898-bd0b-660d1301a918"
+            ],
+            "expected_content_hashes": [
+                "-2b7c5b49f889c574"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "In 4Q FY26, Dated Brent crude averaged $80.6 per barrel, which was an increase of $4.9 per barrel year-over-year.",
+            "rationale": "The document states: 'Dated Brent crude averaged $80.6/bbl in 4Q FY26, up $4.9/bbl Y-o-Y.' This directly answers both parts of the question regarding the average price and the year-over-year change.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-17",
+            "type": "single_hop",
+            "question": "What was the segment revenue for 4Q FY26, and what factors contributed to its change compared to the previous year?",
+            "expected_chunk_ids": [
+                "7fa5fe5a-e7e0-4fba-83f6-3f934f08a34c"
+            ],
+            "expected_content_hashes": [
+                "-17974d14ff35034"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Segment revenue for 4Q FY26 was ₹ 184,944 crore ($ 19.5 billion), representing a 12.4% increase year-over-year. This growth was primarily driven by a sharp 12% year-over-year increase in crude oil prices and higher volumes in domestic fuel retail.",
+            "rationale": "The gold answer accurately states the segment revenue for 4Q FY26, its percentage increase, and the two main reasons for the increase, all directly extracted from the provided text.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-18",
+            "type": "single_hop",
+            "question": "What happened to middle distillate cracks in Q4 FY26, and despite that, what challenges did the company face in capturing margins for transportation fuels?",
+            "expected_chunk_ids": [
+                "40d3e66b-325f-4878-a498-d87a0ac4d9cc"
+            ],
+            "expected_content_hashes": [
+                "-3d75200e6186a597"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "In Q4 FY26, middle distillate cracks jumped sharply, particularly after the outbreak of the Middle East conflict. However, the company found margin capture challenging due to significant volatility and policy interventions.",
+            "rationale": "The gold answer directly extracts information from the chunk, stating that 'Middle distillate cracks jumped sharply particularly after the outbreak of ME conflict' and explaining the challenges: 'However, margin capture remained challenging with significant volatility and policy interventions.' All parts of the answer are directly supported by the provided text.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "narrative",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "single-19",
+            "type": "single_hop",
+            "question": "What financial ratio or metric is mentioned that connects 'Long term debt' with 'working capital'?",
+            "expected_chunk_ids": [
+                "82a44563-0f9a-4de6-ba27-798a219ca669"
+            ],
+            "expected_content_hashes": [
+                "-3854136ea509cdd2"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The document refers to 'Long term debt to working capital'.",
+            "rationale": "The question directly asks for a specific financial metric involving 'Long term debt' and 'working capital', and the gold answer extracts the exact phrase 'Long term debt to working capital' from the provided evidence, which clearly defines this relationship.",
+            "difficulty": "easy",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-0",
+            "type": "multi_hop",
+            "question": "What was the reported increase in operating revenue year-over-year for the recent quarter, and what factors contributed to this growth?",
+            "expected_chunk_ids": [
+                "166d8cc2-9702-498b-ae96-1d2436efbd3d",
+                "3960f5bf-675e-4ca3-8508-4e30e7e5a5eb"
+            ],
+            "expected_content_hashes": [
+                "8436848158e0c37",
+                "-2cb21a375092107b"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Operating revenue increased by 12.6% year-over-year. This growth was primarily driven by strong subscriber addition, higher average revenue per user (ARPU), and continued expansion in digital services.",
+            "rationale": "The first chunk (166d8cc2-9702-498b-ae96-1d2436efbd3d) explicitly states: 'Operating revenue increased 12.6% Y-o-Y led by strong subscriber addition, higher ARPU and continued growth in digital services.' The answer directly extracts the percentage increase and the three stated contributing factors from this single sentence.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "true"
+            }
+        },
+        {
+            "id": "multi-1",
+            "type": "multi_hop",
+            "question": "Could you tell me the date and location for both Membership No.1029 and Membership No. 047841 as recorded in the document?",
+            "expected_chunk_ids": [
+                "864850f3-3f50-4578-a6d2-155d7750fa6f",
+                "7762a4df-e3bb-4251-ab71-c862400bebbd"
+            ],
+            "expected_content_hashes": [
+                "3931310a1868955",
+                "-5ebababc38479b50"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "For both Membership No.1029 (UDIN: 261029 l 2RVDREH934 l) and Membership No. 047841 (UDIN: 26047841 IXEOZC7585), the place is Mumbai and the date is 16th January, 2026.",
+            "rationale": "The answer requires extracting the place and date for two distinct entries in the same table, identified by their respective Membership Numbers and UDINs, and then consolidating this information. This demonstrates a multi-hop capability as it involves identifying and correlating information from multiple data points to form a complete answer.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-2",
+            "type": "multi_hop",
+            "question": "What was the reported crack spread for Gasoline 92 RON, what was its percentage change, and what factors contributed to this change?",
+            "expected_chunk_ids": [
+                "e155b79f-fc3c-4d25-bfaa-285949e8d0e6",
+                "7762a4df-e3bb-4251-ab71-c862400bebbd"
+            ],
+            "expected_content_hashes": [
+                "-6426f23ef34204cf",
+                "-5ebababc38479b50"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The crack spread for Gasoline 92 RON was reported as $9.3, marking a +34% change. This was attributed to refinery closures in North America and Europe, along with lower Chinese gasoline exports.",
+            "rationale": "The answer extracts three specific pieces of information related to 'Gasoline 92 RON' from the provided table: its value ($9.3), its percentage change (+34%), and the listed reasons ('Refinery closures in North America, Europe' and 'Lower Chinese gasoline exports'). This requires identifying and synthesizing multiple data points from the same entry in the table.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-3",
+            "type": "multi_hop",
+            "question": "Could you tell me the 'Total Income' and the 'Net Profit attributable to Owners of the Company' based on the financial documents?",
+            "expected_chunk_ids": [
+                "ff253202-01c2-4ea5-8fb2-60c376877e5d",
+                "a391a281-b509-41d1-9b76-2507b08a18e6"
+            ],
+            "expected_content_hashes": [
+                "105ca5a303aefcbe",
+                "3fe04723cefe145e"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Based on the provided documents:\n- One document lists the 'Total Income' as `541,886`.\n- Another document shows the 'Net Profit attributable to Owners of the Company' as `69,648`.",
+            "rationale": "The 'Total Income' is found in the 'Income' table under the row 'Total Income' and the last value `541,886`. The 'Net Profit attributable to Owners of the Company' is found in the 'Net Profit attributable to:' table under the row 'Owners of the Company' and the last value `69,648`.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-4",
+            "type": "multi_hop",
+            "question": "What were the main factors contributing to the robust EBITDA growth reported, and how is Cost of Goods Sold generally calculated?",
+            "expected_chunk_ids": [
+                "07b2a212-2813-47c3-8876-ef3a7f5c5168",
+                "dff1035c-0d30-4fb0-bdc1-dc44898291e5"
+            ],
+            "expected_content_hashes": [
+                "-4cf7151cb5eef831",
+                "-4d78e8643834931c"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The robust EBITDA growth was attributed to an increase in revenue and strong operating leverage, which resulted in a 190 basis point expansion in margins. Cost of Goods Sold is calculated by summing the Cost of Material Consumed, Purchases, Changes in Inventory, and Manufacturing Expenses.",
+            "rationale": "The question requires two distinct pieces of information from different documents. The first part of the answer, regarding EBITDA growth, is found in the 'Annual Performance' section of the media release (Chunk 2). The second part, defining Cost of Goods Sold, is located in the table in the financial document (Chunk 1). The answer synthesizes these two points into a single, comprehensive response.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-5",
+            "type": "multi_hop",
+            "question": "Can you tell me which company this financial information relates to, and specifically, what was the reported crack for Gasoil 10-ppm in Singapore, including its percentage change and one reason for that change?",
+            "expected_chunk_ids": [
+                "cec55bdc-5a70-405c-9b95-e1c373e2d487",
+                "fcfe7465-e3c5-47d6-a43a-9f50e75ee300"
+            ],
+            "expected_content_hashes": [
+                "-547ef6785dea0a7f",
+                "-1dd045658f48c8c7"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "This financial information relates to Reliance Industries Limited. For Gasoil 10-ppm in Singapore, the reported crack was $35.4, which represents a 148% increase. One key reason for this change was the blockage of diesel and crude flows through the Strait of Hormuz (SoH).",
+            "rationale": "The first chunk identifies the company as \"Reliance Industries Limited.\" The second chunk, under the 'Cracks (/bbl)' section for Singapore, lists 'Gasoil 10-ppm' with a value of '$35.4' and a percentage change of '+148%'. One of the listed reasons for this change is 'Blockage of diesel and crude flows through SoH'.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-6",
+            "type": "multi_hop",
+            "question": "Can you provide the address detailed in the financial document for the period ending December 31, 2025, and also mention the subscriber count for Reliance Jio Infocomm as stated by its Chairman?",
+            "expected_chunk_ids": [
+                "2354c685-e891-499a-a5a5-168c5dc6d4a3",
+                "9c03a8c9-44aa-4234-ac1e-964eaa34ef65"
+            ],
+            "expected_content_hashes": [
+                "5be00c328c069d16",
+                "85b185e8fd399cd"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The financial document for the period ending December 31, 2025, details the address as Senapati Bapat Marg, Elphinstone Road (West), Mumbai - 400021, Maharashtra, India. Mr. Akash M Ambani, Chairman of Reliance Jio Infocomm, reported that Jio has over 524 million subscribers.",
+            "rationale": "This is a multi-hop question that requires extracting two distinct pieces of information from two separate evidence chunks. The first part of the answer, the address, comes from the document titled 'months ended December 31, 2025' (Chunk 2). The second part, Reliance Jio Infocomm's subscriber count and the Chairman's quote, comes from the 'Media Release' document (Chunk 1). The answer combines these facts directly from the evidence without inference.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-7",
+            "type": "multi_hop",
+            "question": "Can you tell me how to calculate the Interest Service Coverage Ratio and the Inventory turnover, based on these documents?",
+            "expected_chunk_ids": [
+                "4d4096cc-8d3a-436d-95ba-b23e5faa73a9",
+                "eabf478d-41e0-4f0b-adc8-345fb797d4f8"
+            ],
+            "expected_content_hashes": [
+                "2af6ef275f165d84",
+                "6018214a1ffd9389"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "According to the documents, the Interest Service Coverage Ratio is calculated as Earnings before Interest and Tax Interest Expense. The Inventory turnover is calculated as Cost of Goods Sold (Cost of Material Consumed + Purchases).",
+            "rationale": "The user asks for the calculation of two different financial ratios. The calculation for the 'Interest Service Coverage Ratio' is explicitly stated in chunk `4d4096cc-8d3a-436d-95ba-b23e5faa73a9` as 'Earnings before Interest and Tax Interest Expense'. The calculation for 'Inventory turnover' is explicitly stated in chunk `eabf478d-41e0-4f0b-adc8-345fb797d4f8` as 'Cost of Goods Sold (Cost of Material Consumed + Purchases)'. This requires retrieving specific definitions from two distinct pieces of evidence.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-8",
+            "type": "multi_hop",
+            "question": "Can you tell me about RBML's market share in the Indian aviation industry, and what were the reported figures for total segment profit before interest, tax, and depreciation?",
+            "expected_chunk_ids": [
+                "f50bac83-1af8-4f3d-8f48-cd6f33cab09b",
+                "38f9afe9-f422-4479-9656-49a4b15e0ec1"
+            ],
+            "expected_content_hashes": [
+                "24e16c39a985faa4",
+                "-4ce57a63d1629d0"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "RBML captured a 5.9% market share in the India aviation sector. The total segment profit before interest, tax, depreciation, amortisation, and depletion was reported as 16,151 and 48,706.",
+            "rationale": "The answer combines two distinct pieces of information from separate parts of the provided evidence. The market share for RBML is found in the 'Jio-bp update' section of the '24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf' document. The total segment profit figures are extracted from a different document ('38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf') under financial segment results, requiring information to be pulled from different contextual locations.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-10",
+            "type": "multi_hop",
+            "question": "What factors impacted the downstream chemical margin environment for RIL during the fourth quarter of fiscal year 2026?",
+            "expected_chunk_ids": [
+                "d3936f47-cb95-4f24-bbde-8e76713702c4",
+                "9d092d6e-d80c-46b4-8155-266a4b26d381"
+            ],
+            "expected_content_hashes": [
+                "-586bf51be3528563",
+                "-1cff019ce762c823"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "During the fourth quarter of fiscal year 2026, RIL's downstream chemical margin environment experienced pressure from higher Naphtha prices, which rose by 13%, and weak demand trends. Market conditions were also tightened in March due to Middle East disruptions in feedstock and products, as well as infrastructure damage that led several producers to declare Force Majeure. On a more favorable note, US Ethane prices averaged 23.5 cpg, a 14% year-over-year decrease consistent with lower US Natural Gas prices, which resulted in favorable cracking economics.",
+            "rationale": "The question requires combining information about the company (RIL, implied by the filenames, specifically 'RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf' in the second chunk's source path, and contact info in the first chunk) with specific financial performance details for the '4Q FY26 vs 4Q FY25' period from the second chunk. The answer synthesizes multiple causes for margin changes, including Naphtha prices, demand trends, ME disruptions, and US Ethane prices.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-11",
+            "type": "multi_hop",
+            "question": "Could you tell me the current number of stores for this business? Also, if I wanted to check their debt management, is there a relevant financial ratio defined in these documents?",
+            "expected_chunk_ids": [
+                "74d14a28-6f0e-46de-9237-55b9f69966c2",
+                "ddba9021-1aef-4ac5-a54f-dcee5e4797fd"
+            ],
+            "expected_content_hashes": [
+                "-1539d0807675c120",
+                "12f0a911c5343466"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The business has a total of 20,160 stores. For assessing debt management, the documents define the Debt Equity Ratio, which is calculated based on total debt.",
+            "rationale": "The question asks for two distinct pieces of information, each found in a separate document chunk. The total store count (20,160) is directly extracted from the first chunk. The relevant financial ratio for debt management, the Debt Equity Ratio, and its connection to 'Total Debt' are identified in the second chunk. This requires accessing and synthesizing information from both chunks.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-12",
+            "type": "multi_hop",
+            "question": "What was Reliance's year-over-year EBITDA performance, including the specific decline, the final EBITDA figure, and the reasons for this change? Also, does Reliance operate multiple subsidiary companies?",
+            "expected_chunk_ids": [
+                "e2b39ed9-a496-46a9-b8ae-65f04416d2b9",
+                "5b8c8f80-ea1e-4c7e-8577-4a661f002e35"
+            ],
+            "expected_content_hashes": [
+                "-2db9c33ad259c288",
+                "-51687179efaefbee"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Reliance's EBITDA declined by 18.1% year-over-year, reaching ₹ 4,195 crore. This decline was due to lower revenue combined with higher operating costs, which were attributed to maintenance activity and government levies. Yes, Reliance operates numerous subsidiary companies, such as Reliance Jio Infocomm Limited, Reliance New Energy Limited, and Reliance Petro Marketing Limited, among many others.",
+            "rationale": "The first part of the answer, covering the EBITDA decline (18.1% to ₹ 4,195 crore) and the reasons (lower revenue, higher operating cost due to maintenance activity and Government levies), is directly from chunk e2b39ed9. The second part, confirming that Reliance operates multiple subsidiary companies and providing examples, is drawn from chunk 5b8c8f80, which lists many 'Reliance' entities.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-13",
+            "type": "multi_hop",
+            "question": "How did tax expenses change year-over-year, and what were the other expenses?",
+            "expected_chunk_ids": [
+                "0ccd9e94-4602-4d4c-aea6-f5e5a175c8ec",
+                "cf0d5ada-c93e-4aab-bd29-6ada96590dc8"
+            ],
+            "expected_content_hashes": [
+                "38ea74e5eac43294",
+                "-32b9a1b1c99582c7"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "Tax expenses decreased by 1.3% year-over-year to 6,579 crore ($694 million). The document lists several figures for other expenses, including 39,000, 37,904, 36,083, 101,499, and 141,001.",
+            "rationale": "The first part of the answer, regarding tax expenses, is directly extracted from the first chunk, which states: 'Tax Expenses decreased by 1.3% Y-o-Y to 6,579 crore ($ 694 million).' The second part of the answer, for other expenses, is compiled from the 'Other Expenses' row in the table found in the second chunk. Multiple numerical values (39,W' interpreted as 39,000; 37,904; 36,083; 01,499 interpreted as 101,499; and .1.41 001 interpreted as 141,001) are present for other expenses without specific date labels, so they are all listed.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-15",
+            "type": "multi_hop",
+            "question": "Could you tell me about the company's non-reclassified income items and its outstanding debentures?",
+            "expected_chunk_ids": [
+                "82e648ad-76ca-45ba-958f-c8bf09b1d419",
+                "8b2673f4-a4f4-4139-a7a0-baafdc743446"
+            ],
+            "expected_content_hashes": [
+                "-3200830f246064fb",
+                "350b52e28c87450c"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf",
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The documents mention 'Items that will not be reclassified to Profit or' as part of 'Other Comprehensive Income'. They also refer to 'Total Non-Convertible Debentures of the Company outstanding'.",
+            "rationale": "The first part of the answer, 'Items that will not be reclassified to Profit or' under 'Other Comprehensive Income', is directly extracted from Chunk 1. The second part, 'Total Non-Convertible Debentures of the Company outstanding', is directly extracted from Chunk 2. The question requires combining these two distinct pieces of information from separate documents.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-16",
+            "type": "multi_hop",
+            "question": "Could you tell me what components make up Cost of Goods Sold in the context of inventory turnover, and what specific income type is accounted for within segment results like EBITDA and EBIT?",
+            "expected_chunk_ids": [
+                "5f5b18b5-f7dd-4809-b4a1-dece94e1be16",
+                "b7dd7333-e6e6-4f29-ba0f-1f65274154cb"
+            ],
+            "expected_content_hashes": [
+                "-404da85ed5b70924",
+                "9a906d89b61eb07"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "In the context of inventory turnover, Cost of Goods Sold is comprised of Cost of Material Consumed plus Purchases, reported in crore. Additionally, the segment results such as EBITDA and EBIT include Interest Income that pertains to their respective segments.",
+            "rationale": "The question requires extracting two distinct pieces of information from the provided chunks: 1) the components of Cost of Goods Sold as related to inventory turnover (from Chunk 1), and 2) what specific income is included in segment results like EBITDA and EBIT (from Chunk 2). This necessitates combining information from two different, unrelated statements in the evidence, fulfilling the 'MULTI_HOP' requirement.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-17",
+            "type": "multi_hop",
+            "question": "What kind of financial results were published for the period ending December 31, 2025, and what were JioStar's reported revenues for the fourth quarter of fiscal year 2026?",
+            "expected_chunk_ids": [
+                "c3a4babe-a545-4f70-8e59-6923e95ce04a",
+                "3ac05e5e-8661-4a2a-9f13-c66c691b66bb"
+            ],
+            "expected_content_hashes": [
+                "-2de94b96f949bab",
+                "434a144a3b30d6fa"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "Unaudited standalone financial results were published for the quarter and nine months ended December 31, 2025. JioStar reported strong revenues of ₹9,784 crore for 4Q FY26.",
+            "rationale": "The answer requires extracting two distinct pieces of information from separate documents: the type and period of the financial results from the first document ('UNAUDITED STANDALONE FINANCIAL RESULTS FOR THE QUARTER/ NINE MONTHS ENDED 31ST DECEMBER, 2025') and the specific revenue figure and its corresponding period/entity for JioStar from the second document ('JioStar reported strong revenues of ₹ 9,784 crore ... for 4Q FY26'). The answer combines these two facts without implying a direct financial relationship or comparison between two different entities/reporting types/periods.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-18",
+            "type": "multi_hop",
+            "question": "Could you tell me how the Debt Service Coverage Ratio is calculated based on the provided formulae?",
+            "expected_chunk_ids": [
+                "40c3b7c2-9ee8-4636-a633-8c474d540723",
+                "c1668f33-a144-4dee-9192-ec4c2ee9414e"
+            ],
+            "expected_content_hashes": [
+                "-67ec8045379f69b6",
+                "2e8350f0f5236bc7"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The Debt Service Coverage Ratio is calculated by dividing 'Earnings before Interest and Tax' by the sum of 'Interest Expense + Principal Repayments made during the [period]'.",
+            "rationale": "The user is asking for the formula of a specific ratio. The answer is found by locating the 'Debt Service Coverage Ratio' in the table and extracting both the numerator ('Earnings before Interest and Tax') and the denominator ('Interest Expense + Principal Repayments made during the [period]') from the 'Formulae' column, which spans across multiple rows for this specific ratio.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "multi-19",
+            "type": "multi_hop",
+            "question": "Can you tell me the combined total of Employee Benefits Expense, Finance Costs, and Depreciation/Amortisation for the period identified as '4,275'? And what was the higher of the two Net Profit Before Tax figures reported?",
+            "expected_chunk_ids": [
+                "59590e7a-a716-492d-bdd0-2c92c0cb74cf",
+                "2795e89f-611f-447e-b47d-b2c6b5a7d1ca"
+            ],
+            "expected_content_hashes": [
+                "-701ee294730b0f50",
+                "-1223661e1fce02c8"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf",
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "For the period '4,275', the combined total of Employee Benefits Expense (2,321), Finance Costs (1,770), and Depreciation / Amortisation and Depletion Expense (4,472) is 8,563. The higher of the two Net Profit Before Tax figures reported was 123,162.",
+            "rationale": "The question requires two distinct operations drawing information from separate chunks. First, it asks for a sum of three specific expense categories (Employee Benefits Expense: 2,321; Finance Costs: 1,770; Depreciation / Amortisation and Depletion Expense: 4,472) for the period '4,275' from the table in the first chunk (2321 + 1770 + 4472 = 8563). Second, it asks to identify the maximum of two Net Profit Before Tax figures (123,162 and 106,017) from the second chunk.",
+            "difficulty": "medium",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "multi_doc",
+                "requires_calculation": "true"
+            }
+        },
+        {
+            "id": "table-0",
+            "type": "table_lookup",
+            "question": "What was the EBITDA Margin (%) for 4Q FY26 compared to 4Q FY25?",
+            "expected_chunk_ids": [
+                "59aaa157-e915-47e3-aa2c-e78306dc5557"
+            ],
+            "expected_content_hashes": [
+                "3c0bb878b5723137"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The EBITDA Margin for 4Q FY26 was 7.9%, which is a decrease compared to 9.2% in 4Q FY25.",
+            "rationale": "The 'EBITDA Margin (%)' row shows 7.9 for '4Q FY26' and 9.2 for '4Q FY25'. The answer states both values and indicates the change.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "table-2",
+            "type": "table_lookup",
+            "question": "What's the Scrip Code for BSE Limited?",
+            "expected_chunk_ids": [
+                "1c59ba0c-8d04-4365-b8b6-9316049d7c73"
+            ],
+            "expected_content_hashes": [
+                "88bbcfc9871002d"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The Scrip Code for BSE Limited is 500325.",
+            "rationale": "The question asks for a specific identifier ('Scrip Code') for 'BSE Limited'. The evidence clearly states 'BSE Limited: Scrip Code: 500325', directly providing the answer.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "table-3",
+            "type": "table_lookup",
+            "question": "What was the Gross Value of Sales and Services for the Oil to Chemicals (O2C) segment in the most recent quarter reported?",
+            "expected_chunk_ids": [
+                "fefdfb98-942b-416a-9151-d44daa1c57e7"
+            ],
+            "expected_content_hashes": [
+                "44178acc3e056db3"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The Gross Value of Sales and Services for the Oil to Chemicals (O2C) segment was 363,189 in the most recent quarter.",
+            "rationale": "The question asks for the 'Gross Value of Sales and Services' for 'Oil to Chemicals (O2C)' in the 'most recent quarter'. The table provides data for 'Oil to Chemicals (O2C): Gross Value of Sales and Services'. The column '184,944' represents the most recent quarter (Q4 FY2025-26 from the document title, which is often presented as the leftmost column for the latest period). The value in this column for the specified row is 363,189.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "table-5",
+            "type": "table_lookup",
+            "question": "What are the key components used to calculate the 'I Interest Service' metric?",
+            "expected_chunk_ids": [
+                "ddba9021-1aef-4ac5-a54f-dcee5e4797fd"
+            ],
+            "expected_content_hashes": [
+                "12f0a911c5343466"
+            ],
+            "expected_doc_ids": [
+                "38a2f910-438f-4fc0-8abc-c6cd5933b5ac.pdf"
+            ],
+            "gold_answer": "The 'I Interest Service' metric is calculated using 'I Interest Expense + Principal Repayments made during the I' period for long term loans' and 'Earnings before Interest and Tax'.",
+            "rationale": "The answer directly extracts the two components defining the 'I Interest Service' metric from the table's row 'b) | Ratio: I Interest Service'. The first component is derived from the column header 'I Interest Expense + Principal Repayments made during the I' period for long term loans', which is implicitly the numerator for this type of ratio definition where the second component 'Earnings before Interest and Tax' is explicitly listed in the corresponding cell.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "table-6",
+            "type": "table_lookup",
+            "question": "What financial metrics or ratios are represented by the label 'f)' in the financial notes?",
+            "expected_chunk_ids": [
+                "a3554619-59ca-4650-a7db-5b808087e247"
+            ],
+            "expected_content_hashes": [
+                "3784900390c2950b"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The label 'f)' represents the Bad debts to account receivable ratio and Average Trade Receivables.",
+            "rationale": "The table explicitly states that 'f)' is associated with 'Bad debts to account receivable ratio' and 'Average Trade Receivables'. The answer directly extracts this information.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "table-7",
+            "type": "table_lookup",
+            "question": "What business activities are covered by the Retail segment?",
+            "expected_chunk_ids": [
+                "248c6f5c-3b1f-4242-9b5b-55f9f12a25a6"
+            ],
+            "expected_content_hashes": [
+                "-4cd8d9e7d5a5c812"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "The Retail segment includes consumer retail and a range of related services.",
+            "rationale": "The user is asking for the definition of the 'Retail segment'. The evidence directly states: 'The Retail segment includes consumer retail and range of related services.'",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "table-8",
+            "type": "table_lookup",
+            "question": "How much Other Income was reported for the period identified as 288,138?",
+            "expected_chunk_ids": [
+                "42630c3f-9ece-4775-b29c-ec96522b437a"
+            ],
+            "expected_content_hashes": [
+                "7f5c017bdc7ee0c1"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "For the period identified as 288,138, the reported Other Income was 4,905.",
+            "rationale": "The gold answer directly extracts the value from the 'Other Income' row and the column headed '288,138' in the provided table.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "table-9",
+            "type": "table_lookup",
+            "question": "Could you tell me the Profit After Tax reported when the Current Tax was 7,872?",
+            "expected_chunk_ids": [
+                "ac6687ab-a007-479e-8615-f6ba1cb2b9ba"
+            ],
+            "expected_content_hashes": [
+                "1b1e0ce91d628d5d"
+            ],
+            "expected_doc_ids": [
+                "24042026_Media_Release_RIL_Q4_FY2025-26_Financial_and_Operational_Performance.pdf"
+            ],
+            "gold_answer": "When the Current Tax was reported as 7,872, the Profit After Tax was 43,851.",
+            "rationale": "The user is asking for a specific value (Profit After Tax) corresponding to another given value (Current Tax) from the provided table. The answer directly states the corresponding 'Profit After Tax' value (43,851) found on the row 'Current Tax: Profit After Tax' where the 'Current Tax' value is '7,872'.",
+            "difficulty": "easy",
+            "expected_route": "AGENTIC",
+            "expected_refusal": false,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "table",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-0",
+            "type": "adversarial",
+            "question": "What specific environmental sustainability targets has the company set for the next five years, beyond general mentions of green initiatives, and what progress has been made towards them so far?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-1",
+            "type": "adversarial",
+            "question": "What is the average salary for an entry-level software engineer at this company?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-2",
+            "type": "adversarial",
+            "question": "What initiatives has the company implemented to improve employee work-life balance and reduce turnover in the past year?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-3",
+            "type": "adversarial",
+            "question": "What is the company's policy on remote work, and what specific initiatives are in place to support employee well-being and professional development?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-4",
+            "type": "adversarial",
+            "question": "How does the company foster innovation among its employees?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-5",
+            "type": "adversarial",
+            "question": "What are the company's specific product development plans for its new line of smart home devices over the next two years?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-6",
+            "type": "adversarial",
+            "question": "What new product lines or major innovations is the company planning to release in the next year?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-7",
+            "type": "adversarial",
+            "question": "What are the key customer pain points your latest product aims to solve, and how does it specifically address them?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-8",
+            "type": "adversarial",
+            "question": "What specific features does their flagship product offer, and how does it differentiate itself from competitors?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        },
+        {
+            "id": "adv-9",
+            "type": "adversarial",
+            "question": "What specific initiatives has the company implemented to improve employee retention and satisfaction over the past year?",
+            "expected_chunk_ids": [],
+            "expected_content_hashes": [],
+            "expected_doc_ids": [],
+            "gold_answer": "The corpus does not contain enough information to answer.",
+            "rationale": "Adversarial sample with no linked evidence chunks.",
+            "difficulty": "medium",
+            "expected_route": "SINGLE_SHOT",
+            "expected_refusal": true,
+            "metadata": {
+                "question_style": "natural",
+                "source_type": "adversarial",
+                "requires_calculation": "false"
+            }
+        }
+    ]
+}

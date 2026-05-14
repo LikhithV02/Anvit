@@ -29,16 +29,19 @@ class EvalSuite {
         }
 
         val root = File(property("user.dir", ".")).parentFile ?: File(".")
-        val dataset = File(property("anvit.eval.dataset", File(root, "eval/datasets/v1/dataset.json").absolutePath))
+        val dataset = fileProperty("anvit.eval.dataset", File(root, "eval/datasets/v1/dataset.json"), root)
         val defaultCorpus = File(root, "eval/corpus").takeIf { dir ->
             dir.listFiles { file -> file.isFile && (file.extension.equals("pdf", true) || file.extension.equals("docx", true)) }.orEmpty().isNotEmpty()
         } ?: File(root, "Test Docs")
-        val corpus = File(property("anvit.eval.corpus", defaultCorpus.absolutePath))
+        val corpus = fileProperty("anvit.eval.corpus", defaultCorpus, root)
         val timestamp = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())
-        val output = File(property("anvit.eval.output", File(root, "eval/reports/$timestamp").absolutePath))
+        val output = fileProperty("anvit.eval.output", File(root, "eval/reports/$timestamp"), root)
+
+        val client = GeminiClient(apiKey!!)
+        println("[EvalSuite] Pipeline backend: ${client.pipelineBackendDescription()}")
 
         val result = EvalHarness(
-            client = GeminiClient(apiKey!!),
+            client = client,
             datasetFile = dataset,
             corpusDir = corpus,
             outputDir = output
@@ -59,4 +62,10 @@ class EvalSuite {
 
     private fun property(name: String, defaultValue: String): String =
         System.getProperty(name) ?: defaultValue
+
+    private fun fileProperty(name: String, defaultValue: File, root: File): File {
+        val raw = System.getProperty(name) ?: return defaultValue
+        val file = File(raw)
+        return if (file.isAbsolute) file else File(root, raw)
+    }
 }

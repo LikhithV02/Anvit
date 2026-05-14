@@ -238,6 +238,9 @@ val runCloudBackedEvalRequested = requestedTaskNames.any {
     it == "runCloudBackedEval" || it.endsWith(":runCloudBackedEval") ||
         it == "runEval" || it.endsWith(":runEval")
 }
+val runGeminiBaselineEvalRequested = requestedTaskNames.any {
+    it == "runGeminiBaselineEval" || it.endsWith(":runGeminiBaselineEval")
+}
 val scoreDeviceEvalRequested = requestedTaskNames.any { it == "scoreDeviceEval" || it.endsWith(":scoreDeviceEval") }
 val regenerateDatasetRequested = requestedTaskNames.any { it == "regenerateDataset" || it.endsWith(":regenerateDataset") }
 val refreshBaselineRequested = requestedTaskNames.any { it == "refreshBaseline" || it.endsWith(":refreshBaseline") }
@@ -257,7 +260,12 @@ tasks.withType<Test>().configureEach {
         "anvit.eval.cacheDir",
         "anvit.eval.datasetWorkers",
         "anvit.eval.traceWorkers",
-        "anvit.eval.judgeWorkers"
+        "anvit.eval.judgeWorkers",
+        "anvit.eval.enforceBaseline",
+        "anvit.eval.omlxBaseUrl",
+        "anvit.eval.omlxEmbeddingModel",
+        "anvit.eval.omlxGenerationModel",
+        "anvit.eval.omlxEnableThinking"
     ).forEach { key ->
         providers.systemProperty(key).orNull?.let { value -> systemProperty(key, value) }
     }
@@ -267,10 +275,37 @@ tasks.withType<Test>().configureEach {
                 filter { includeTestsMatching("com.anvit.localai.eval.DeviceEvalScoringSuite.scoreDeviceEval") }
                 systemProperty("anvit.eval.requireApiKey", "true")
             }
+            runGeminiBaselineEvalRequested -> {
+                filter { includeTestsMatching("com.anvit.localai.eval.EvalSuite.runEval") }
+                testLogging.showStandardStreams = true
+                systemProperty("anvit.eval.requireApiKey", "true")
+                systemProperty("anvit.eval.omlxBaseUrl", "")
+                systemProperty("anvit.eval.omlxGenerationModel", "")
+                systemProperty("anvit.eval.omlxEmbeddingModel", "")
+                systemProperty("anvit.eval.omlxEnableThinking", "false")
+                if (providers.systemProperty("anvit.eval.disableBatchJudge").orNull == null) {
+                    systemProperty("anvit.eval.disableBatchJudge", "false")
+                }
+                if (providers.systemProperty("anvit.eval.enforceBaseline").orNull == null) {
+                    systemProperty("anvit.eval.enforceBaseline", "false")
+                }
+            }
             runCloudBackedEvalRequested -> {
                 filter { includeTestsMatching("com.anvit.localai.eval.EvalSuite.runEval") }
+                testLogging.showStandardStreams = true
                 systemProperty("anvit.eval.requireApiKey", "true")
-                systemProperty("anvit.eval.enforceBaseline", "true")
+                if (providers.systemProperty("anvit.eval.omlxBaseUrl").orNull == null) {
+                    systemProperty("anvit.eval.omlxBaseUrl", "http://127.0.0.1:8000/v1")
+                }
+                if (providers.systemProperty("anvit.eval.omlxGenerationModel").orNull == null) {
+                    systemProperty("anvit.eval.omlxGenerationModel", "gemma-4-e2b-it-4bit")
+                }
+                if (providers.systemProperty("anvit.eval.omlxEmbeddingModel").orNull == null) {
+                    systemProperty("anvit.eval.omlxEmbeddingModel", "embeddinggemma-300m-4bit")
+                }
+                if (providers.systemProperty("anvit.eval.enforceBaseline").orNull == null) {
+                    systemProperty("anvit.eval.enforceBaseline", "true")
+                }
             }
             regenerateDatasetRequested -> {
                 filter { includeTestsMatching("com.anvit.localai.eval.dataset.DatasetGeneratorSuite.regenerateDataset") }
@@ -292,7 +327,13 @@ tasks.register("runEval") {
 
 tasks.register("runCloudBackedEval") {
     group = "verification"
-    description = "Runs the Gemini-backed JVM eval suite against the pinned dataset."
+    description = "Runs the JVM eval suite with oMLX for pipeline generation/embeddings and Gemini for judging."
+    dependsOn("testDebugUnitTest")
+}
+
+tasks.register("runGeminiBaselineEval") {
+    group = "verification"
+    description = "Runs the JVM eval suite with Gemini generation/embeddings and Gemini batch structured-output judging."
     dependsOn("testDebugUnitTest")
 }
 
@@ -304,7 +345,7 @@ tasks.register("scoreDeviceEval") {
 
 tasks.register("regenerateDataset") {
     group = "verification"
-    description = "Regenerates eval/datasets/v1/dataset.json from exported chunk CSVs using Gemini."
+    description = "Regenerates eval/datasets/v2/dataset.json from exported chunk CSVs using Gemini."
     dependsOn("testDebugUnitTest")
 }
 

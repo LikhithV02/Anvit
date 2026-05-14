@@ -1,6 +1,8 @@
 package com.anvit.localai.ui.screens
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -78,22 +80,11 @@ fun DocumentsScreen(viewModel: DocumentsViewModel = koinViewModel()) {
             }
 
             AnimatedVisibility(visible = uiState.isIngesting) {
-                Surface(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    color = c.surf2
-                ) {
-                    Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                            CircularProgressIndicator(modifier = Modifier.size(18.dp), color = c.accent, strokeWidth = 2.dp)
-                            Text(uiState.ingestionProgress.ifEmpty { "Processing PDF…" }, color = c.txt0, fontSize = 13.sp)
-                        }
-                        LinearProgressIndicator(
-                            modifier = Modifier.fillMaxWidth().height(2.dp).clip(RoundedCornerShape(1.dp)),
-                            color = c.accent, trackColor = c.border
-                        )
-                    }
-                }
+                IndexingProgressBanner(
+                    text = uiState.ingestionProgress,
+                    progress = uiState.ingestionProgressFraction,
+                    onCancel = { viewModel.cancelIngestion() }
+                )
             }
 
             CollectionsRow(
@@ -158,6 +149,87 @@ fun DocumentsScreen(viewModel: DocumentsViewModel = koinViewModel()) {
             },
             onDismiss = { showCreateCollectionDialog = false }
         )
+    }
+}
+
+@Composable
+private fun IndexingProgressBanner(
+    text: String,
+    progress: Float,
+    onCancel: () -> Unit
+) {
+    val c = LocalAnvitColors.current
+    val animatedProgress by animateFloatAsState(
+        targetValue = progress.coerceIn(0f, 1f),
+        animationSpec = tween(durationMillis = 220),
+        label = "document-indexing-progress"
+    )
+    val percent = (animatedProgress * 100).toInt().coerceIn(0, 100)
+
+    Surface(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(10.dp),
+        color = c.surf1,
+        border = BorderStroke(1.dp, c.border2),
+        tonalElevation = 1.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(c.accentDim),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        progress = { animatedProgress },
+                        modifier = Modifier.size(24.dp),
+                        color = c.accent,
+                        trackColor = c.border,
+                        strokeWidth = 2.5.dp
+                    )
+                }
+
+                Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text("Indexing document", color = c.txt0, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                        Text("$percent%", color = c.accent, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                    }
+                    Text(
+                        text.ifBlank { "Preparing document..." },
+                        color = c.txt1,
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+
+                IconButton(
+                    onClick = onCancel,
+                    modifier = Modifier.size(36.dp)
+                ) {
+                    Icon(Icons.Default.Cancel, contentDescription = "Cancel indexing", tint = ErrorRed, modifier = Modifier.size(20.dp))
+                }
+            }
+
+            LinearProgressIndicator(
+                progress = { animatedProgress },
+                modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
+                color = c.accent,
+                trackColor = c.border
+            )
+        }
     }
 }
 

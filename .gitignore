@@ -22,3 +22,4 @@ anvit_logo.html
 eval/reports/*
 eval/.cache/
 !eval/reports/.gitkeep
+.env

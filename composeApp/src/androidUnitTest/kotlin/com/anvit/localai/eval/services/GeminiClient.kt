@@ -34,6 +34,20 @@ class GeminiClient(
     private val batchPollIntervalMs: Long = 30_000L,
     private val batchTimeoutMs: Long = 24L * 60L * 60L * 1_000L
 ) {
+    private val omlxBaseUrl: String? = evalSetting("anvit.eval.omlxBaseUrl", "ANVIT_EVAL_OMLX_BASE_URL")
+        ?.trim()
+        ?.trimEnd('/')
+        ?.takeIf { it.isNotBlank() }
+    private val omlxGenerationModel: String? = evalSetting("anvit.eval.omlxGenerationModel", "ANVIT_EVAL_OMLX_GENERATION_MODEL")
+        ?.trim()
+        ?.takeIf { it.isNotBlank() }
+    private val omlxEmbeddingModel: String? = evalSetting("anvit.eval.omlxEmbeddingModel", "ANVIT_EVAL_OMLX_EMBEDDING_MODEL")
+        ?.trim()
+        ?.takeIf { it.isNotBlank() }
+    private val omlxEnableThinking: Boolean = evalSetting("anvit.eval.omlxEnableThinking", "ANVIT_EVAL_OMLX_ENABLE_THINKING")
+        ?.toBooleanStrictOrNull()
+        ?: false
+
     private val cacheDir: File = run {
         val configured = System.getProperty("anvit.eval.cacheDir")
         if (!configured.isNullOrBlank()) {
@@ -58,14 +72,42 @@ class GeminiClient(
         }
     }
 
-    fun generateText(prompt: String, systemPrompt: String? = null, useJudgeModel: Boolean = false): String {
+    fun generateText(
+        prompt: String,
+        systemPrompt: String? = null,
+        useJudgeModel: Boolean = false,
+        responseSchema: JsonObject? = null
+    ): String {
+        if (!useJudgeModel && omlxBaseUrl != null) {
+            return generateTextWithOmlx(prompt, systemPrompt)
+        }
         val model = if (useJudgeModel) judgeModel else generationModel
-        val body = generationRequest(prompt, systemPrompt)
+        val body = generationRequest(prompt, systemPrompt, responseSchema)
         val response = post("https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent", body)
         return extractText(response)
     }
 
+    fun pipelineBackendDescription(): String =
+        if (omlxBaseUrl == null) {
+            "Gemini(generation=$generationModel, embeddings=$embeddingModel)"
+        } else {
+            "oMLX(baseUrl=$omlxBaseUrl, generation=$omlxGenerationModel, embeddings=$omlxEmbeddingModel, thinking=$omlxEnableThinking; judge=$judgeModel)"
+        }
+
+    fun evalMetadata(): Map<String, String> = mapOf(
+        "pipeline_backend" to pipelineBackendDescription(),
+        "omlx_base_url" to (omlxBaseUrl ?: ""),
+        "omlx_generation_model" to (omlxGenerationModel ?: ""),
+        "omlx_embedding_model" to (omlxEmbeddingModel ?: ""),
+        "omlx_enable_thinking" to omlxEnableThinking.toString(),
+        "judge_model" to judgeModel
+    )
+
     fun streamText(prompt: String, systemPrompt: String? = null): Flow<String> = flow {
+        if (omlxBaseUrl != null) {
+            emit(generateTextWithOmlx(prompt, systemPrompt))
+            return@flow
+        }
         val reqBody = json.encodeToString(JsonObject.serializer(), generationRequest(prompt, systemPrompt))
         val url = "https://generativelanguage.googleapis.com/v1beta/models/$generationModel:streamGenerateContent?alt=sse"
         httpClient.preparePost(url) {
@@ -95,13 +137,18 @@ class GeminiClient(
         useJudgeModel: Boolean = false,
         displayName: String = "anvit-eval-batch-${System.currentTimeMillis()}"
     ): Map<String, String> {
-        if (requests.isEmpty()) return emptyMap()
+        if (requests.isEmpty()) {
+            println("[GeminiClient] Batch generation skipped: all responses already cached")
+            return emptyMap()
+        }
         if (requests.size == 1) {
             val request = requests.first()
-            return mapOf(request.key to generateText(request.prompt, request.systemPrompt, useJudgeModel))
+            println("[GeminiClient] Batch generation shortcut: 1 request -> immediate call (${request.key})")
+            return mapOf(request.key to generateText(request.prompt, request.systemPrompt, useJudgeModel, request.responseSchema))
         }
 
         val model = if (useJudgeModel) judgeModel else generationModel
+        println("[GeminiClient] Creating Gemini batch job '$displayName' with ${requests.size} requests on model $model")
         val body = buildJsonObject {
             put("batch", buildJsonObject {
                 put("display_name", JsonPrimitive(displayName))
@@ -110,7 +157,7 @@ class GeminiClient(
                         put("requests", buildJsonArray {
                             requests.forEach { item ->
                                 add(buildJsonObject {
-                                    put("request", generationRequest(item.prompt, item.systemPrompt))
+                                    put("request", generationRequest(item.prompt, item.systemPrompt, item.responseSchema))
                                     put("metadata", buildJsonObject {
                                         put("key", JsonPrimitive(item.key))
                                     })
@@ -126,11 +173,18 @@ class GeminiClient(
         val jobName = createResponse["name"]?.jsonPrimitive?.contentOrNull
             ?: createResponse["batch"]?.jsonObject?.get("name")?.jsonPrimitive?.contentOrNull
             ?: error("Batch job creation response did not include a job name: $createResponse")
+        println("[GeminiClient] Gemini batch job created: $jobName")
         val finalResponse = pollBatchJob(jobName)
-        return extractInlineBatchResponses(finalResponse, requests.map { it.key })
+        val responses = extractInlineBatchResponses(finalResponse, requests.map { it.key })
+        println("[GeminiClient] Gemini batch job responses extracted: ${responses.count { it.value.isNotBlank() }}/${requests.size}")
+        return responses
     }
 
     fun embed(text: String): FloatArray {
+        if (omlxBaseUrl != null) {
+            return embedWithOmlx(text)
+        }
+
         val cacheFile = File(cacheDir, "embeddings/$embeddingModel/${sha256(text.take(8000))}.txt")
         if (cacheFile.exists()) {
             val cached = cacheFile.readText().trim()
@@ -190,7 +244,7 @@ class GeminiClient(
                     }
                     val text = response.bodyAsText()
                     if (response.status.value !in 200..299) {
-                        error("Gemini API returned HTTP ${response.status.value}: $text")
+                        error("Eval model API returned HTTP ${response.status.value}: $text")
                     }
                     text
                 }
@@ -203,13 +257,77 @@ class GeminiClient(
         throw lastError ?: IllegalStateException("Gemini API call failed")
     }
 
+    private fun generateTextWithOmlx(prompt: String, systemPrompt: String?): String {
+        val baseUrl = requireNotNull(omlxBaseUrl)
+        val model = requireOmlxProperty("anvit.eval.omlxGenerationModel", omlxGenerationModel)
+        val body = buildJsonObject {
+            put("model", JsonPrimitive(model))
+            put("messages", buildJsonArray {
+                omlxSystemPrompt(systemPrompt)?.takeIf { it.isNotBlank() }?.let { promptText ->
+                    add(buildJsonObject {
+                        put("role", JsonPrimitive("system"))
+                        put("content", JsonPrimitive(promptText))
+                    })
+                }
+                add(buildJsonObject {
+                    put("role", JsonPrimitive("user"))
+                    put("content", JsonPrimitive(prompt))
+                })
+            })
+            put("stream", JsonPrimitive(false))
+        }
+        val response = post(openAiEndpoint(baseUrl, "chat/completions"), body)
+        return response["choices"]?.jsonArray?.firstOrNull()
+            ?.jsonObject?.get("message")?.jsonObject?.get("content")?.jsonPrimitive?.contentOrNull
+            ?.trim()
+            ?.stripThinkingText()
+            .orEmpty()
+    }
+
+    private fun omlxSystemPrompt(systemPrompt: String?): String? {
+        if (!omlxEnableThinking) return systemPrompt
+        val base = systemPrompt?.takeIf { it.isNotBlank() }
+        return if (base == null) "<|think|>" else "<|think|>\n$base"
+    }
+
+    private fun embedWithOmlx(text: String): FloatArray {
+        val baseUrl = requireNotNull(omlxBaseUrl)
+        val model = requireOmlxProperty("anvit.eval.omlxEmbeddingModel", omlxEmbeddingModel)
+        val cacheFile = File(cacheDir, "omlx-embeddings/$model/${sha256(text.take(8000))}.txt")
+        if (cacheFile.exists()) {
+            val cached = cacheFile.readText().trim()
+            if (cached.isNotBlank()) {
+                return cached.split(",").mapNotNull { it.toFloatOrNull() }.toFloatArray()
+            }
+        }
+
+        val body = buildJsonObject {
+            put("model", JsonPrimitive(model))
+            put("input", JsonPrimitive(text.take(8000)))
+        }
+        val response = post(openAiEndpoint(baseUrl, "embeddings"), body)
+        val values = response["data"]?.jsonArray?.firstOrNull()
+            ?.jsonObject?.get("embedding")?.jsonArray
+            ?: JsonArray(emptyList())
+        return FloatArray(values.size) { index -> values[index].jsonPrimitive.floatOrNull ?: 0f }
+            .also { embedding ->
+                cacheFile.parentFile?.mkdirs()
+                cacheFile.writeText(embedding.joinToString(","))
+            }
+    }
+
+    private fun requireOmlxProperty(name: String, value: String?): String =
+        value ?: error("$name is required when anvit.eval.omlxBaseUrl is set.")
+
     private fun pollBatchJob(jobName: String): JsonObject {
         val started = System.currentTimeMillis()
+        var pollCount = 0
         while (System.currentTimeMillis() - started < batchTimeoutMs) {
+            pollCount += 1
             val response = try {
                 get("https://generativelanguage.googleapis.com/v1beta/$jobName")
             } catch (e: Exception) {
-                println("[GeminiClient] Batch poll failed for $jobName; retrying: ${e.message}")
+                println("[GeminiClient] Batch poll #$pollCount failed for $jobName after ${elapsedMinutes(started)}m; retrying: ${e.message}")
                 Thread.sleep(batchPollIntervalMs)
                 continue
             }
@@ -217,8 +335,10 @@ class GeminiClient(
                 ?: response["state"]?.jsonPrimitive?.contentOrNull
                 ?: response["batch"]?.jsonObject?.get("state")?.jsonPrimitive?.contentOrNull
             val done = response["done"]?.jsonPrimitive?.contentOrNull?.toBooleanStrictOrNull()
+            println("[GeminiClient] Batch poll #$pollCount: state=${state ?: "unknown"}, done=${done ?: false}, elapsed=${elapsedMinutes(started)}m")
             if (done == true || state in terminalBatchStates) {
                 if (state in failedBatchStates) error("Gemini batch job $jobName ended in $state: $response")
+                println("[GeminiClient] Gemini batch job complete: $jobName in ${elapsedMinutes(started)}m")
                 return response
             }
             Thread.sleep(batchPollIntervalMs)
@@ -231,7 +351,7 @@ class GeminiClient(
 
         val byKey = linkedMapOf<String, String>()
         inlined.forEachIndexed { index, element ->
-            val obj = element.jsonObject
+            val obj = element as? JsonObject ?: return@forEachIndexed
             val key = obj["metadata"]?.jsonObject?.get("key")?.jsonPrimitive?.contentOrNull
                 ?: obj["key"]?.jsonPrimitive?.contentOrNull
                 ?: orderedKeys.getOrNull(index)
@@ -254,17 +374,34 @@ class GeminiClient(
             response["output"]?.jsonObject?.get("inlinedResponses"),
             response["output"]?.jsonObject?.get("inlined_responses")
         )
-        return candidates.firstNotNullOfOrNull { element ->
-            val responses = when (element) {
-                is JsonArray -> element.toList()
-                is JsonObject -> element.values.toList()
-                else -> null
-            }
-            responses?.takeIf { it.isNotEmpty() }
-        } ?: emptyList()
+        return candidates
+            .asSequence()
+            .map { flattenBatchElements(it) }
+            .firstOrNull { it.isNotEmpty() }
+            ?: emptyList()
     }
 
-    private fun generationRequest(prompt: String, systemPrompt: String? = null): JsonObject = buildJsonObject {
+    private fun flattenBatchElements(element: JsonElement): List<JsonElement> =
+        when (element) {
+            is JsonArray -> element.flatMap { flattenBatchElements(it) }
+            is JsonObject -> {
+                if (element.containsKey("response") ||
+                    element.containsKey("generateContentResponse") ||
+                    element.containsKey("generate_content_response")
+                ) {
+                    listOf(element)
+                } else {
+                    element.values.flatMap { flattenBatchElements(it) }
+                }
+            }
+            else -> emptyList()
+        }
+
+    private fun generationRequest(
+        prompt: String,
+        systemPrompt: String? = null,
+        responseSchema: JsonObject? = null
+    ): JsonObject = buildJsonObject {
         systemPrompt?.takeIf { it.isNotBlank() }?.let { promptText ->
             put("systemInstruction", buildJsonObject {
                 put("parts", buildJsonArray {
@@ -280,6 +417,12 @@ class GeminiClient(
                 })
             })
         })
+        responseSchema?.let { schema ->
+            put("generationConfig", buildJsonObject {
+                put("responseMimeType", JsonPrimitive("application/json"))
+                put("responseJsonSchema", schema)
+            })
+        }
     }
 
     private fun extractText(response: JsonObject): String =
@@ -300,8 +443,28 @@ private fun sha256(value: String): String {
     return digest.joinToString("") { "%02x".format(it.toInt() and 0xff) }
 }
 
+private fun evalSetting(propertyName: String, envName: String): String? =
+    System.getProperty(propertyName) ?: System.getenv(envName)
+
+private fun openAiEndpoint(baseUrl: String, path: String): String =
+    "${baseUrl.trimEnd('/')}/${path.trimStart('/')}"
+
+private fun elapsedMinutes(started: Long): String =
+    "%.1f".format((System.currentTimeMillis() - started) / 60_000.0)
+
+private fun String.stripThinkingText(): String {
+    var text = this
+    val thoughtBlock = Regex("<\\|channel>thought\\s*.*?<channel\\|>", setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
+    text = text.replace(thoughtBlock, "")
+    val xmlThought = Regex("<think>.*?</think>", setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
+    text = text.replace(xmlThought, "")
+    text = text.replace("<|think|>", "")
+    return text.trim()
+}
+
 data class BatchTextRequest(
     val key: String,
     val prompt: String,
-    val systemPrompt: String? = null
+    val systemPrompt: String? = null,
+    val responseSchema: JsonObject? = null
 )

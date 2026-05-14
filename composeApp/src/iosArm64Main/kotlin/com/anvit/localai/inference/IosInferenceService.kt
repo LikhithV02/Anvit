@@ -122,10 +122,11 @@ class IosInferenceService : InferenceService {
     override suspend fun generateResponse(
         prompt: String,
         systemPrompt: String?,
+        allowThinking: Boolean,
         imagePath: String?,
         audioBytes: ByteArray?
     ): String {
-        val effectiveSys = thinkingSystemPrompt(systemPrompt)
+        val effectiveSys = thinkingSystemPrompt(systemPrompt, allowThinking)
         return engine.generateStreamFull(prompt, effectiveSys, imagePath)
             .fold("") { acc, token -> acc + token }
             .stripThinkingMarkers()
@@ -143,8 +144,8 @@ class IosInferenceService : InferenceService {
         return if (enableThinking) raw.parseThinkingMarkers() else raw
     }
 
-    private fun thinkingSystemPrompt(base: String?): String? = when {
-        !enableThinking          -> base
+    private fun thinkingSystemPrompt(base: String?, allowThinking: Boolean = enableThinking): String? = when {
+        !enableThinking || !allowThinking -> base
         base.isNullOrBlank()     -> "<|think|>"
         else                     -> "<|think|>\n$base"
     }

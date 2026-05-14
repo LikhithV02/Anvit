@@ -326,7 +326,7 @@ class DesktopPdfHierarchicalParser : DocumentParser {
             if (headingLevel > 0) {
                 val newNode = SectionNode(title = text.trim(), level = headingLevel)
                 while (nodeStack.size > 1 && nodeStack.last().level >= headingLevel) {
-                    nodeStack.removeLast()
+                    nodeStack.removeAt(nodeStack.lastIndex)
                 }
                 nodeStack.last().children.add(newNode)
                 nodeStack.add(newNode)

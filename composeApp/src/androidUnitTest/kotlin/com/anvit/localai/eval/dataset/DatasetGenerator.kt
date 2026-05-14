@@ -44,8 +44,8 @@ class DatasetGenerator(
             }
         })
         val dataset = EvalDataset(
-            version = "v1",
-            description = "Gemini-generated Anvit Agentic RAG eval dataset.",
+            version = datasetVersion(output),
+            description = "Gemini-generated Anvit Agentic RAG eval dataset with natural user-style questions.",
             samples = valid
         )
         EvalDataset.write(output, dataset)
@@ -76,8 +76,12 @@ class DatasetGenerator(
         val context = chunks.joinToString("\n---\n") { "[${it.chunkId} | ${it.fileName}]\n${it.content.take(1600)}" }
         val raw = client.generateText(
             prompt = """
-Create one document QA eval item from these chunks.
-The question must require exactly the provided chunks. Return JSON only:
+Create one realistic user question and answer for a document-chat app from this evidence.
+The user should sound like a normal person asking about uploaded business or financial documents.
+Do not mention "chunks", "provided chunks", "expected chunks", or internal eval mechanics.
+Avoid artificial labels like "Col 2" unless the label is the only visible way to identify the table cell.
+Prefer natural wording such as "What did the company report for..." or "How did ... change, and why?"
+The answer must be fully supported by the evidence. Return JSON only:
 {"question":"...","goldAnswer":"...","rationale":"...","difficulty":"easy|medium|hard"}
 
 Type: $type
@@ -97,19 +101,26 @@ $context
             goldAnswer = parsed.goldAnswer,
             rationale = parsed.rationale,
             difficulty = parsed.difficulty,
-            expectedRoute = if (type == EvalQuestionType.SINGLE_HOP) "SINGLE_SHOT" else "AGENTIC"
+            expectedRoute = if (type == EvalQuestionType.SINGLE_HOP) "SINGLE_SHOT" else "AGENTIC",
+            metadata = sampleMetadata(type, parsed.question, chunks)
         )
     }
 
     private fun generateSampleOrNull(id: String, type: EvalQuestionType, chunks: List<ChunkRecord>): EvalSample? =
         runCatching { generateSample(id, type, chunks) }
+            .map { sample ->
+                require(isNaturalQuestion(sample.question)) {
+                    "Generated question uses synthetic phrasing: ${sample.question}"
+                }
+                sample
+            }
             .onFailure { println("[DatasetGenerator] Dropping $id after generation failure: ${it.message}") }
             .getOrNull()
 
     private fun generateAdversarial(id: String): EvalSample {
         println("[DatasetGenerator] Generating $id (ADVERSARIAL)")
         val question = client.generateText(
-            prompt = "Write one plausible but unanswerable business-document question. Return only the question.",
+            prompt = "Write one natural, plausible user question for a document-chat app that cannot be answered from a typical company financial report. Return only the question.",
             systemPrompt = "You generate adversarial RAG evaluation questions."
         ).trim()
         return EvalSample(
@@ -122,7 +133,12 @@ $context
             rationale = "Adversarial sample with no linked evidence chunks.",
             difficulty = "medium",
             expectedRoute = "SINGLE_SHOT",
-            expectedRefusal = true
+            expectedRefusal = true,
+            metadata = mapOf(
+                "question_style" to "natural",
+                "source_type" to "adversarial",
+                "requires_calculation" to "false"
+            )
         )
     }
 
@@ -154,6 +170,58 @@ $context
                 content = columns.getOrNull(5).orEmpty()
             )
         }.filter { it.content.isNotBlank() }
+    }
+
+    private fun datasetVersion(output: File): String =
+        output.parentFile?.name?.takeIf { it.startsWith("v") } ?: "v2"
+
+    private fun sampleMetadata(
+        type: EvalQuestionType,
+        question: String,
+        chunks: List<ChunkRecord>
+    ): Map<String, String> {
+        val sourceType = when (type) {
+            EvalQuestionType.TABLE_LOOKUP -> "table"
+            EvalQuestionType.MULTI_HOP -> if (chunks.map { it.docId }.distinct().size > 1) "multi_doc" else "narrative"
+            EvalQuestionType.SINGLE_HOP -> if (chunks.any { isTableChunk(it.content) }) "table" else "narrative"
+            EvalQuestionType.ADVERSARIAL -> "adversarial"
+        }
+        return mapOf(
+            "question_style" to "natural",
+            "source_type" to sourceType,
+            "requires_calculation" to requiresCalculation(question).toString()
+        )
+    }
+
+    private fun isTableChunk(content: String): Boolean =
+        content.lines().any { line ->
+            line.startsWith("Table:") ||
+                line.startsWith("Table summary:") ||
+                line.startsWith("Table (continued)") ||
+                line.contains(" | ")
+        }
+
+    private fun requiresCalculation(question: String): Boolean {
+        val q = question.lowercase()
+        return listOf("sum", "combined", "total of", "difference", "increase", "decrease", "highest", "lowest", "largest", "smallest")
+            .any { q.contains(it) }
+    }
+
+    private fun isNaturalQuestion(question: String): Boolean {
+        val q = question.lowercase()
+        val banned = listOf(
+            "provided chunks",
+            "expected chunks",
+            "chunk 1",
+            "chunk 2",
+            "first chunk",
+            "second chunk",
+            "associated numerical identifier",
+            "based on the provided documents"
+        )
+        if (banned.any { q.contains(it) }) return false
+        val colReferences = Regex("\\bcol\\s*\\d+\\b", RegexOption.IGNORE_CASE).findAll(question).count()
+        return colReferences <= 1
     }
 
     private fun stableContentHash(content: String): String {

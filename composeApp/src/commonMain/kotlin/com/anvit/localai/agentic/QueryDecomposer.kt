@@ -26,7 +26,8 @@ If the query is simple, output a single-element array: ["original query"]
         return try {
             val response = inferenceService.generateResponse(
                 prompt = "Decompose this question into sub-questions for document retrieval:\n\"$query\"",
-                systemPrompt = SYSTEM_PROMPT
+                systemPrompt = SYSTEM_PROMPT,
+                allowThinking = false
             ).trim()
 
             includeOriginalFallback(parseSubQueries(response, query), query)

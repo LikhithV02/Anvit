@@ -21,6 +21,7 @@ interface InferenceService {
     suspend fun generateResponse(
         prompt: String,
         systemPrompt: String? = null,
+        allowThinking: Boolean = false,
         imagePath: String? = null,
         audioBytes: ByteArray? = null
     ): String

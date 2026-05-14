@@ -17,6 +17,12 @@ object MarkdownReporter {
         appendLine("- Run: `${result.runId}`")
         appendLine("- Git SHA: `${result.gitSha}`")
         appendLine("- Samples: ${result.summary.sampleCount}")
+        result.metadata["pipeline_backend"]?.takeIf { it.isNotBlank() }?.let {
+            appendLine("- Pipeline: `$it`")
+        }
+        result.metadata["dataset_version"]?.takeIf { it.isNotBlank() }?.let {
+            appendLine("- Dataset: `$it`")
+        }
         appendLine()
         appendLine("| Metric | Value |")
         appendLine("|---|---:|")

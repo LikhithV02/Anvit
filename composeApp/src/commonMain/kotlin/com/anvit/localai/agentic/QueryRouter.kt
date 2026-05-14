@@ -24,7 +24,8 @@ Reply with ONLY ONE WORD: SINGLE_SHOT or AGENTIC.
         return try {
             val response = inferenceService.generateResponse(
                 prompt = "Query: \"$query\"\n\nClassify this query:",
-                systemPrompt = SYSTEM_PROMPT
+                systemPrompt = SYSTEM_PROMPT,
+                allowThinking = false
             ).trim().uppercase()
             (if (response.contains("AGENTIC")) QueryRoute.AGENTIC else QueryRoute.SINGLE_SHOT)
                 .also { println("[QueryRouter] Route: $it") }

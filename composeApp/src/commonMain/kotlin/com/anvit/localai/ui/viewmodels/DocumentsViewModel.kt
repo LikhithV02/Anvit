@@ -11,6 +11,7 @@ import com.anvit.localai.document.DocumentIngestionService
 import com.anvit.localai.document.IngestionResult
 import com.anvit.localai.utils.currentTimeMillis
 import com.anvit.localai.utils.randomUUID
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,7 @@ data class DocumentsUiState(
     val activeCollectionName: String = "General",
     val isIngesting: Boolean = false,
     val ingestionProgress: String = "",
+    val ingestionProgressFraction: Float = 0f,
     val errorMessage: String? = null,
     val successMessage: String? = null
 )
@@ -35,6 +37,7 @@ class DocumentsViewModel(
 
     private val _uiState = MutableStateFlow(DocumentsUiState())
     val uiState: StateFlow<DocumentsUiState> = _uiState.asStateFlow()
+    private var ingestionJob: Job? = null
 
     init {
         viewModelScope.launch { ensureDefaultCollection() }
@@ -101,20 +104,49 @@ class DocumentsViewModel(
     fun ingestDocument(fileName: String, documentBytes: ByteArray) {
         if (_uiState.value.isIngesting) return
         val collectionId = _uiState.value.activeCollectionId
-        viewModelScope.launch {
-            _uiState.update { it.copy(isIngesting = true, errorMessage = null, successMessage = null) }
-            val result = ingestionService.ingestDocument(fileName, documentBytes, collectionId) { progress ->
-                _uiState.update { it.copy(ingestionProgress = progress) }
+        ingestionJob = viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    isIngesting = true,
+                    ingestionProgress = "Preparing $fileName",
+                    ingestionProgressFraction = 0f,
+                    errorMessage = null,
+                    successMessage = null
+                )
+            }
+            val result = ingestionService.ingestDocument(fileName, documentBytes, collectionId) { fraction, progress ->
+                _uiState.update {
+                    it.copy(
+                        ingestionProgress = progress,
+                        ingestionProgressFraction = fraction.coerceIn(0f, 1f)
+                    )
+                }
             }
             when (result) {
                 is IngestionResult.Success -> _uiState.update {
-                    it.copy(isIngesting = false, ingestionProgress = "",
+                    if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f,
                         successMessage = "Added \"$fileName\" (${result.chunkCount} chunks, ${result.pageCount} pages)")
                 }
                 is IngestionResult.Error   -> _uiState.update {
-                    it.copy(isIngesting = false, ingestionProgress = "", errorMessage = result.message)
+                    if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f, errorMessage = result.message)
+                }
+                IngestionResult.Cancelled -> _uiState.update {
+                    if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f, successMessage = "Indexing cancelled")
                 }
             }
+            ingestionJob = null
+        }
+    }
+
+    fun cancelIngestion() {
+        val job = ingestionJob ?: return
+        ingestionJob = null
+        job.cancel()
+        _uiState.update {
+            it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f, successMessage = "Indexing cancelled")
+        }
+        viewModelScope.launch {
+            ingestionService.cancelActiveIngestion()
         }
     }
 

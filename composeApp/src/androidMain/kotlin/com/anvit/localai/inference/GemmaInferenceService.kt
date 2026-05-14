@@ -174,11 +174,14 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
     private fun isGemma4Model(): Boolean =
         currentModel?.displayName?.contains("Gemma 4", ignoreCase = true) == true
 
-    private fun buildConversationConfig(systemPrompt: String? = null): ConversationConfig {
+    private fun buildConversationConfig(
+        systemPrompt: String? = null,
+        allowThinking: Boolean = enableThinking
+    ): ConversationConfig {
         val sysInstruction = when {
-            isGemma4Model() && enableThinking && systemPrompt != null ->
+            isGemma4Model() && allowThinking && systemPrompt != null ->
                 Contents.of("<|think|>\n$systemPrompt")
-            isGemma4Model() && enableThinking ->
+            isGemma4Model() && allowThinking ->
                 Contents.of("<|think|>")
             systemPrompt != null ->
                 Contents.of(systemPrompt)
@@ -236,13 +239,14 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
     override suspend fun generateResponse(
         prompt: String,
         systemPrompt: String?,
+        allowThinking: Boolean,
         imagePath: String?,
         audioBytes: ByteArray?
     ): String {
         val eng = engine ?: throw IllegalStateException("No engine loaded. Call loadModel() first.")
         return withContext(Dispatchers.IO) {
             val sb = StringBuilder()
-            val config = buildConversationConfig(systemPrompt)
+            val config = buildConversationConfig(systemPrompt, enableThinking && allowThinking)
             val contents = buildContents(prompt, imagePath, audioBytes)
             val effectiveMaxTokens = currentModel?.let { maxTokens.coerceIn(1, getEffectiveMaxTokens(it)) } ?: maxTokens
             eng.createConversation(config).also { activeConversation = it }.use { conv ->

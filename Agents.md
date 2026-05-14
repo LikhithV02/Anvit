@@ -2,6 +2,13 @@
 
 Anvit represents a paradigm shift from traditional "dumb" RAG (Retrieval-Augmented Generation) to an **Agentic RAG** system that actively reasons about user queries, evaluates its own retrieved context, and refines its answers iteratively—all completely on-device.
 
+## App Theme Colors
+
+Material3 `primary` maps to the Anvit `accent` token, and Material3 `secondary` maps to the Anvit `txt1` token.
+
+- Dark / Midnight theme: primary `#00C8E8`, secondary `#8BAFC8`
+- Light / Dawn theme: primary `#0099BA`, secondary `#2A5068`
+
 ## Agentic RAG Pipeline Visualization
 
 The following diagram illustrates the lifecycle of a query as it traverses Sage's agentic orchestrator.
@@ -83,83 +90,76 @@ After the first response is generated, an independent critique LLM pass evaluate
 <claude-mem-context>
 # Memory Context
 
-# [AgenticRAG] recent context, 2026-05-08 1:38am GMT+5:30
+# [AgenticRAG] recent context, 2026-05-13 8:04pm GMT+5:30
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (15,965t read) | 289,219t work | 94% savings
+Stats: 50 obs (17,192t read) | 247,871t work | 93% savings
 
 ### May 6, 2026
-S44 Build a production-grade evaluation pipeline for Agentic RAG in Anvit with automated LLM-based evaluation and CI/CD integration for PR feedback (May 6 at 9:23 AM)
-S45 Diagnose Gemma model load failure in device instrumented test and improve error reporting (May 6 at 9:26 AM)
 S46 Fix device evaluation test failing with missing Gemma model files on Android device (May 6 at 9:32 AM)
 S47 User asked whether to use USB debugging instead of wireless debugging for their phone development setup (May 6 at 9:42 AM)
 S48 Fixed deprecated Project.android accessor in device eval model backup/restore gradle tasks (May 6 at 9:46 AM)
 S49 Configure project :app to resolve build failure with missing connectedDebugAndroidTest task (May 6 at 9:48 AM)
 S50 Increment version for new release of AgenticRAG Android app (May 6 at 10:42 AM)
-157 10:45a 🔴 Added Java imports and fixed lambda type inference in adbExecutable provider
-158 " 🔵 Gradle wrapper lock file permission issue blocks build execution
-159 " 🔵 adbExecutable provider successfully resolves and invokes adb command
-160 " 🔵 Device-based instrumented tests now execute successfully using adb after path resolution fix
-161 10:46a 🔴 Fixed Gemma model loading failure by disabling vision/audio backends in device eval
-162 " 🔵 Device eval test executes successfully after adb path and model loading fixes
-163 10:47a ✅ Refactored backupEvalModels task to use adb exec-out with cat for reliable model file backup
-164 10:48a 🔵 Refactored backupEvalModels task executes successfully with ProcessBuilder/adb exec-out implementation
-165 " 🔵 adb Command Not Found Error Persists in backupEvalModels Task
-166 10:52a 🔴 adb Command Resolution Fixed in backupEvalModels Task
-167 10:55a 🔵 App File Structure and Model Storage Investigation
-168 10:56a 🔵 backupEvalModels Task Cannot Locate Existing Model Files
-169 " 🔴 Fixed backupEvalModels Model File Discovery via adb
-170 " 🔵 backupEvalModels Now Discovers Model Files Successfully
-171 10:57a 🔵 backupEvalModels Successfully Pulls Both Model Files
-172 10:58a 🔵 backupEvalModels Task Completed Successfully
-173 11:01a 🔵 backupEvalModels Transfer In Progress - adb Successfully Reading Model Files
-174 11:02a 🔵 backupEvalModels Task Completed After Fix Validation
-175 11:12a ✅ Made model backup/restore optional in device eval pipeline
-176 11:13a 🔵 Verified conditional task graph wiring for model backup pipeline
-177 11:28a 🔵 ConcurrentModificationException in ARouter blocking device evaluation
-178 " 🔵 Device eval test active on first sample, models loaded, ARouter crashes blocking progress
-179 11:29a 🔵 processForEval() blocks indefinitely on answer stream without timeout
-180 " ✅ Added sampleTimeoutMs parameter to device eval instrumentation manifest
-181 " 🔵 Android Gradle Plugin Deprecated Settings and APIs in AgenticRAG Build
-182 " 🔵 Kotlin Compiler Warning in AndroidTest: Supertype Access Visibility Issue
-183 1:11p 🔵 Test failure root cause investigation via logcat analysis
-184 " 🔵 SELinux permission denials blocking hwservicemanager access in test process
-185 1:12p 🔵 Instrumentation process crash: SIGSEGV null pointer dereference in LiteRT JNI library
-186 " 🔵 Android instrumented test crash on Motorola Edge 40 Neo device
-187 " 🟣 Added retrieval-only evaluation mode to device tests
-188 1:13p 🔴 Fixed PipelineTrace construction in retrievalOnlyTrace method
-189 " 🔵 Compilation warning: ToolSet supertype visibility issue in device eval test
-190 1:14p 🟣 Optimized device eval to skip inference initialization in retrieval-only mode
-191 " 🔴 Fixed syntax error in device eval test from patch application
-192 " 🔴 Resolved compilation error in device eval test
-193 1:15p 🔵 Device eval test executed but failed due to missing Gemma model on device
-194 1:16p 🟣 Made Gemma model requirement conditional on answer generation mode
-195 " 🔴 Device eval test compilation successful with conditional model requirement
-196 " 🟣 Conditional LiteRT model inclusion in device eval APK based on evaluation mode
-197 2:02p ✅ Version incremented for new release
 S51 Determine correct Android foreground service permissions for on-device LLM app using FOREGROUND_SERVICE_DATA_SYNC and FOREGROUND_SERVICE_SPECIAL_USE (May 6 at 2:02 PM)
 S52 Diagnose Gemma 4 model loading failure after recent app changes (May 6 at 2:11 PM)
-198 4:10p 🔵 Android model loading path and recent version bump
-199 " 🔵 Large build configuration changes in recent commit
-200 4:12p 🔵 Gemma 4 E2B model loading fails in Settings page
-201 4:13p 🔵 LiteRT dependencies unchanged in latest commit
-202 " 🔵 ProGuard rules configured for newly added document parsing libraries
-203 4:14p 🔵 No Gemma/LiteRT model loading logs in device logcat
-204 " 🔵 Logcat confirms no AgenticRAG or LiteRT activity on device
-205 4:17p 🔵 Gemma-4 model TensorFlow Lite components loading successfully in logcat
-206 4:18p 🔴 Fixed Gemma 4 model loading failure caused by multiple vision encoder signatures
-S53 Fix inability to load Gemma 4 model after recent code changes in AgenticRAG Android app (May 6 at 4:19 PM)
-**Investigated**: Examined Android app logs from ADB logcat to identify model loading failures. Found stack trace showing LiteRT-LM JNI native method nativeCreateEngine() throwing INVALID_ARGUMENT exception during Engine.initialize() in GemmaInferenceService.ensureEngineLoaded().
+S53 Fix inability to load Gemma 4 model after recent code changes in AgenticRAG Android app (May 6 at 4:11 PM)
+S54 Update request received - status checkpoint (May 6 at 4:19 PM)
+### May 13, 2026
+316 12:53a 🔵 Kotlin compatibility fix verified - all removeFirst/removeLast replaced
+317 " 🟣 Table answer engine integrated into agentic RAG orchestrator
+318 " ✅ Enhanced system prompt grounding rules for document-based QA
+319 12:54a 🔵 Kotlin compilation succeeded without removeFirst/removeLast errors
+S55 Validate evaluation metrics after judge output fix by comparing runs 20260512-102523 and 20260512-135717 (May 13 at 12:54 AM)
+320 " 🔵 Kotlin compatibility fix verified and compiled successfully
+321 " 🔵 Fix completion verified - all removeFirst/removeLast replaced and no regressions found
+322 12:55a 🔵 Run 20260512-135717 has complete evaluation data with zero empty rationale fields
+323 " 🔵 Judge output fix caused model performance regression across all sample types
+324 12:56a 🔵 Judge fix reveals retrieval failure as root cause, not model hallucination
+325 " 🔵 Judge fix caused 10-12x latency explosion with no correctness improvement across sample types
+326 12:57a 🔵 Judge fix is a critical regression: +122s latency, -7.45% correctness, only 7 of 53 samples improved
+327 " 🔵 Judge fix breaks high-confidence adversarial and single-hop queries while marginally improving multi-hop
+328 1:11a 🔵 Embedding model architecture supports both EmbeddingGemma and Gecko with EmbeddingGemma as default
+329 " 🔵 Model storage and presence detection uses filesDir/models directory with isModelPresent checking
+330 " 🔵 Complete embedding model initialization pipeline supports both models with status tracking and accelerator switching
+331 1:12a 🔵 Embedding initialization happens at document ingestion start; getModelName() drives vector threshold selection
+332 " 🔴 GeckoEmbeddingService now detects and auto-switches to newly downloaded embedding models without restart
+333 1:13a 🟣 Added test verifying EmbeddingGemma is preferred when both embedding models are downloaded
+334 " 🔵 GeckoEmbeddingServiceTest unit test passes - confirms EmbeddingGemma prioritization when both models present
+335 1:15a ✅ GeckoEmbeddingServiceTest updated to use non-deprecated kotlin.io.path APIs
+336 " 🔵 GeckoEmbeddingServiceTest compilation fails - kotlin.io.path.deleteRecursively() is experimental API
+337 1:16a ✅ GeckoEmbeddingServiceTest fixed to use stable java.nio.file.Files API instead of experimental kotlin.io.path
+338 " 🔵 GeckoEmbeddingServiceTest unit test passes after using stable java.nio.file.Files API
+339 " 🟣 Document Ingestion Cancellation with Safe Cleanup
+340 " 🔵 Gradle Build Compilation Success with Cancellation Implementation
+341 1:25a 🔵 Document Ingestion Cancellation Implementation Verified and Compiled
+342 1:31a 🔵 Document cancellation is asynchronous with potential hang points
+343 " 🔵 Embedding service calls may block without cancellation awareness
+344 " 🔵 Ingestion progress UI lacks timeout or fallback for stuck cancellation
+345 " 🔴 Fixed ingestion cancellation UI hang with immediate state transition
+346 " 🟣 Added explicit cancellation API to ingestion service
+349 1:07p 🔵 Document Indexing Progress Architecture Identified
+350 " 🔵 Root Cause of Progress Jump: Every-5-Chunks Reporting
+351 " 🔴 Fixed Progress Reporting to Show Every Chunk, Not Every 5th
+352 1:08p ✅ ViewModel Updated to Handle Progress Fraction and Improved Initial State
+353 1:09p ✅ Optimized Foreground Controller Updates with Strategic Batching
+354 " 🔄 Extracted Indexing Progress UI into Dedicated Composable Component
+355 " 🟣 Implemented Modern Animated IndexingProgressBanner Component
+358 1:18p ✅ Improved heading visibility in About screen
+359 1:19p ✅ Improved heading visibility in Privacy Policy screen
+360 " 🔵 Gradle wrapper permission error during build attempt
+361 1:20p 🔵 Code changes verified - successful Kotlin compilation
+362 1:32p 🔴 Fixed dark text visibility in privacy policy table
+363 " 🔵 Privacy policy text color fix successfully compiled
+364 1:35p 🔴 Enhanced text visibility in About screen
+365 " ✅ Comprehensive text visibility improvements in Privacy Policy screen
+366 1:36p 🔵 Comprehensive text color changes successfully compiled in both screens
+371 2:26p 🔵 Located dark text color and keyboard configuration in ChatScreen
+372 2:27p 🔴 Fixed keyboard capitalization and text visibility in ChatScreen
+373 " ✅ Kotlin compilation successful for keyboard and text visibility changes
 
-**Learned**: The Gemma 4 E2B model file ships with a multi-scale Vision Encoder containing 3 signatures (vision_70, vision_140, vision_280), but LiteRT-LM v0.10.2's Engine class enforces a single-signature constraint for the Vision Encoder component. Conditional backend initialization based on model.supportsVision and model.supportsAudio flags was triggering initialization of these multiple encoder signatures, causing the signature mismatch error.
-
-**Completed**: Root cause diagnosed. Code fix implemented in GemmaInferenceService.kt: disabled conditional vision/audio backend initialization by setting visionBackend=null and audioBackend=null unconditionally in EngineConfig. Updated logging to remove vision/audio capability flags. Built and installed debug APK to Motorola Edge 40 Neo device (26s build time, BUILD SUCCESSFUL).
-
-**Next Steps**: Testing model loading functionality - app should now successfully load Gemma 4 model with text inference working (vision/audio features disabled). User to verify by opening app and tapping Load model.
-
-
-Access 289k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 248k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
