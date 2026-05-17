@@ -156,7 +156,10 @@ class SettingsViewModel(
     fun setTopK(v: Int) { viewModelScope.launch { preferences.setTopK(v) } }
     fun setContextWindow(v: Int) { viewModelScope.launch { preferences.setContextWindow(v) } }
     fun setMaxOutputTokens(v: Int) { viewModelScope.launch { preferences.setMaxOutputTokens(v) } }
-    fun setAccelerator(v: String) { viewModelScope.launch { preferences.setAccelerator(v) } }
+    fun setAccelerator(v: String) {
+        _uiState.update { it.copy(accelerator = v) }
+        viewModelScope.launch { preferences.setAccelerator(v) }
+    }
     fun setMaxRetrievalChunks(v: Int) { viewModelScope.launch { preferences.setMaxRetrievalChunks(v) } }
     fun setEnableSelfCritique(v: Boolean) { viewModelScope.launch { preferences.setEnableSelfCritique(v) } }
     fun setRetrievalMode(m: String) { viewModelScope.launch { preferences.setRetrievalMode(m) } }
@@ -167,7 +170,6 @@ class SettingsViewModel(
             preferences.setTopK(40)
             preferences.setContextWindow(8192)
             preferences.setMaxOutputTokens(4000)
-            preferences.setAccelerator("cpu")
         }
     }
     fun clearMessages() { _uiState.update { it.copy(modelLoadError = null, modelLoadSuccess = null) } }
