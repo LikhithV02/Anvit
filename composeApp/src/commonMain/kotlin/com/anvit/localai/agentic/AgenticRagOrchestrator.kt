@@ -144,11 +144,12 @@ class AgenticRagOrchestrator(
         // still runs through the unified system-prompt path rather than bypassing RAG.
         val route = if (enableAgenticRag && hasDocuments) {
             val routeStarted = currentTimeMillis()
-            router.route(userQuery, hasDocuments).also {
+            router.route(userQuery, hasDocuments, conversationHistory).also {
                 traceRecorder?.latencyMs?.set("route", currentTimeMillis() - routeStarted)
                 emitStep("route", when (it) {
                     QueryRoute.AGENTIC     -> "This looks like a complex question — I'll search in multiple steps"
                     QueryRoute.SINGLE_SHOT -> "Searching your documents for a direct answer"
+                    QueryRoute.DIRECT      -> "Answering directly..."
                 })
                 println("[$TAG] Route: $it")
             }
@@ -203,6 +204,10 @@ class AgenticRagOrchestrator(
                     retrievedChunks = budgeted.chunks
                 )
             }
+
+            QueryRoute.DIRECT -> directFlow(
+                userQuery, conversationHistory, imagePath, audioBytes, steps
+            )
 
             QueryRoute.AGENTIC -> agenticFlow(
                 userQuery, conversationHistory, steps, emitStep, onSources, maxChunks,
@@ -362,6 +367,33 @@ class AgenticRagOrchestrator(
             route = QueryRoute.AGENTIC.name,
             retrievedChunks = allUsedChunks,
             subQueries = subQueries
+        )
+    }
+
+    private fun directFlow(
+        userQuery: String,
+        conversationHistory: String,
+        imagePath: String?,
+        audioBytes: ByteArray?,
+        steps: MutableList<AgentStep>
+    ): AgenticResult {
+        // buildBudgetedInput with no chunks produces buildSystemPrompt("") — the no-context
+        // variant that answers from general knowledge and budgets history into the context window.
+        // For context-reuse follow-ups the prior RAG response is already in conversationHistory,
+        // so the model can answer from it without any new retrieval.
+        val budgeted = buildBudgetedInput(conversationHistory, userQuery, emptyList())
+        return AgenticResult(
+            answerFlow = inferenceService.generateStream(
+                prompt        = budgeted.prompt,
+                systemPrompt  = budgeted.systemPrompt,
+                useAgentTools = false,
+                imagePath     = imagePath,
+                audioBytes    = audioBytes
+            ),
+            steps           = steps,
+            route           = QueryRoute.DIRECT.name,
+            retrievedChunks = emptyList(),
+            subQueries      = emptyList()
         )
     }
 
