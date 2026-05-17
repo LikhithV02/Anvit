@@ -47,12 +47,13 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
     private var accelerator: String = "cpu"
     private var loadedAccelerator: String = "cpu"
     private var loadedContextWindow: Int? = null
+    private var lastModelLoadFailure: String? = null
 
     private var ragTools: RagAgentTools? = null
 
     companion object {
         private const val TAG = "GemmaInference"
-        private const val DEFAULT_CONTEXT_WINDOW = 8192
+        private const val ANDROID_LITERT_CONTEXT_WINDOW = 1536
     }
 
     fun setRagTools(tools: RagAgentTools?) {
@@ -85,7 +86,8 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
     }
 
     override fun getEffectiveMaxTokens(model: GemmaModel): Int {
-        return (contextWindow ?: DEFAULT_CONTEXT_WINDOW).coerceIn(1, model.contextWindowSize)
+        return (contextWindow ?: ANDROID_LITERT_CONTEXT_WINDOW)
+            .coerceIn(1, minOf(model.contextWindowSize, ANDROID_LITERT_CONTEXT_WINDOW))
     }
 
     override fun getMaxOutputTokens(): Int = maxTokens
@@ -104,13 +106,18 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
 
     override suspend fun loadModel(model: GemmaModel): Boolean {
         return try {
+            lastModelLoadFailure = null
             ensureEngineLoaded(model)
             true
         } catch (e: Exception) {
+            lastModelLoadFailure = e.message
             Log.e(TAG, "Failed to load model ${model.displayName}: ${e.message}", e)
             false
         }
     }
+
+    override fun modelLoadFailureMessage(model: GemmaModel): String? =
+        lastModelLoadFailure
 
     /** Like [loadModel] but throws the underlying exception instead of returning false. */
     suspend fun loadModelOrThrow(model: GemmaModel) = ensureEngineLoaded(model)
@@ -146,6 +153,13 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
                     if (!it.exists()) throw IllegalStateException(
                         "Model file not found: ${it.absolutePath}\n\nPlease download ${model.fileName} in Settings."
                     )
+                    val minimumValidSize = (model.sizeBytes * 0.95).toLong()
+                    if (it.length() < minimumValidSize) {
+                        throw IllegalStateException(
+                            "${model.displayName} looks incomplete (${formatBytes(it.length())} of ${formatBytes(model.sizeBytes)}). " +
+                                "Delete it in Settings and download it again."
+                        )
+                    }
                 }
             }
 
@@ -173,6 +187,13 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
 
     private fun isGemma4Model(): Boolean =
         currentModel?.displayName?.contains("Gemma 4", ignoreCase = true) == true
+
+    private fun formatBytes(bytes: Long): String = when {
+        bytes >= 1_073_741_824 -> "${"%.1f".format(bytes / 1_073_741_824.0)} GB"
+        bytes >= 1_048_576 -> "${"%.1f".format(bytes / 1_048_576.0)} MB"
+        bytes >= 1_024 -> "${"%.1f".format(bytes / 1_024.0)} KB"
+        else -> "$bytes B"
+    }
 
     private fun buildConversationConfig(
         systemPrompt: String? = null,
@@ -297,8 +318,8 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
         withContext(Dispatchers.IO) {
             eng.createConversation(config).also { activeConversation = it }.use { conv ->
                 try {
+                    var responseTokenCount = 0
                     conv.sendMessageAsync(contents)
-                        .take(effectiveMaxTokens)
                         .collect { msg ->
                             val chunk = msg.contents.contents.filterIsInstance<Content.Text>()
                                 .joinToString("") { it.text }
@@ -311,8 +332,13 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
                                 if (cleaned.isNotEmpty()) send(cleaned)
                             } else {
                                 if (thinkOpen && !thinkClose) { send(InferenceService.SENTINEL_ENDTHINK); thinkClose = true }
-                                val (cleaned, _) = processStopTokens(chunk)
-                                if (cleaned.isNotEmpty()) send(cleaned)
+                                if (responseTokenCount < effectiveMaxTokens) {
+                                    val (cleaned, _) = processStopTokens(chunk)
+                                    if (cleaned.isNotEmpty()) {
+                                        send(cleaned)
+                                        responseTokenCount++
+                                    }
+                                }
                             }
                         }
                 } finally {

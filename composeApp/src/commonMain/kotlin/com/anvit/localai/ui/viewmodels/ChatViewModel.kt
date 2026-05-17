@@ -76,7 +76,7 @@ data class ChatUiState(
     val loadedModelName: String = "",
     val isSwitchingModel: Boolean = false,
     val enableThinking: Boolean = true,
-    val showComplianceReminder: Boolean = false,
+
     val showRatingDialog: Boolean = false,
     val userEmail: String = ""
 ) {
@@ -175,27 +175,12 @@ class ChatViewModel(
             }
         }
         viewModelScope.launch { ensureDefaultSession() }
-        viewModelScope.launch { checkCompliance() }
+
         checkModelLoaded()
     }
 
     // ── Session management ────────────────────────────────────────────────────
 
-    private suspend fun checkCompliance() {
-        val lastSeen = preferences.getComplianceLastSeen()
-        val now = currentTimeMillis()
-        val ninetyDaysMillis = 90L * 24L * 60L * 60L * 1000L
-        if (now - lastSeen > ninetyDaysMillis) {
-            _uiState.update { it.copy(showComplianceReminder = true) }
-        }
-    }
-
-    fun acknowledgeCompliance() {
-        viewModelScope.launch {
-            preferences.setComplianceLastSeen(currentTimeMillis())
-            _uiState.update { it.copy(showComplianceReminder = false) }
-        }
-    }
 
     fun dismissRatingPrompt(permanent: Boolean) {
         viewModelScope.launch {
@@ -265,6 +250,7 @@ class ChatViewModel(
             deleteIfEmpty(currentSessionId)
             _uiState.update { it.copy(messages = emptyList(), inputText = "") }
             preferences.setActiveSessionId(sessionId)
+            inferenceService.recordSessionReset(sessionId)
             val title = chatSessionDao.getSession(sessionId)?.title ?: "Chat"
             _uiState.update { it.copy(activeSessionId = sessionId, activeSessionTitle = title) }
         }
@@ -375,10 +361,43 @@ class ChatViewModel(
     private fun checkModelLoaded() = refreshModelState()
     fun clearError() { _uiState.update { it.copy(errorMessage = null) } }
 
+    private fun firstDownloadedModel(): GemmaModel? =
+        availableModels.firstOrNull { downloadService.isModelPresent(it.fileName) }
+
+    private suspend fun resolveLoadableSelectedModel(): GemmaModel? {
+        val selectedModelId = preferences.selectedModelId.first()
+        val selectedModel = availableModels.find { it.id == selectedModelId }
+        if (selectedModel != null && downloadService.isModelPresent(selectedModel.fileName)) {
+            return selectedModel
+        }
+
+        val downloadedModel = firstDownloadedModel()
+        if (downloadedModel != null && downloadedModel.id != selectedModelId) {
+            preferences.setSelectedModelId(downloadedModel.id)
+        }
+        return downloadedModel ?: selectedModel ?: GemmaModels.defaultForPlatform(isIosPlatform())
+    }
+
+    private suspend fun acceleratorFor(model: GemmaModel): String {
+        val preferred = preferences.accelerator.first()
+        return if (!isIosPlatform() && model.id == GemmaModels.E2B.id) "cpu" else preferred
+    }
+
     private suspend fun autoLoadModel(): Boolean {
-        val modelId = preferences.selectedModelId.first()
-        val platformModels = GemmaModels.forPlatform(isIosPlatform())
-        val model = platformModels.find { it.id == modelId } ?: GemmaModels.defaultForPlatform(isIosPlatform())
+        val model = resolveLoadableSelectedModel()
+            ?: GemmaModels.defaultForPlatform(isIosPlatform())
+        if (!downloadService.isModelPresent(model.fileName)) {
+            _uiState.update {
+                it.copy(
+                    isAutoLoadingModel = false,
+                    autoLoadStatus = "",
+                    isModelLoaded = false,
+                    loadedModelName = "",
+                    errorMessage = "Download Gemma 4 2B or 4B before starting a chat."
+                )
+            }
+            return false
+        }
         _uiState.update { it.copy(isAutoLoadingModel = true, autoLoadStatus = "Loading ${model.displayName}…") }
         val prefs = preferences
         inferenceService.setGenerationParams(
@@ -387,20 +406,32 @@ class ChatViewModel(
             enableThinking = prefs.enableThinking.first(),
             maxTokens = prefs.maxOutputTokens.first(),
             contextWindow = prefs.contextWindow.first(),
-            accelerator = prefs.accelerator.first()
+            accelerator = acceleratorFor(model)
         )
         val ok = inferenceService.loadModel(model)
+        if (ok) preferences.setSelectedModelId(model.id)
         _uiState.update {
             if (ok) it.copy(isAutoLoadingModel = false, autoLoadStatus = "", isModelLoaded = true, loadedModelName = model.displayName)
             else it.copy(isAutoLoadingModel = false, autoLoadStatus = "", isModelLoaded = false, loadedModelName = "",
-                errorMessage = "Could not load ${model.displayName}. Make sure ${model.fileName} has been downloaded in Settings.")
+                errorMessage = inferenceService.modelLoadFailureMessage(model)
+                    ?: "Could not load ${model.displayName}. Make sure ${model.fileName} has been downloaded in Settings.")
         }
         return ok
     }
 
     fun loadModelFromPicker(model: GemmaModel) {
         viewModelScope.launch {
-            preferences.setSelectedModelId(model.id)
+            if (!downloadService.isModelPresent(model.fileName)) {
+                _uiState.update {
+                    it.copy(
+                        isSwitchingModel = false,
+                        isAutoLoadingModel = false,
+                        autoLoadStatus = "",
+                        errorMessage = "${model.displayName} is not downloaded yet."
+                    )
+                }
+                return@launch
+            }
             _uiState.update {
                 it.copy(
                     isSwitchingModel = true,
@@ -414,9 +445,10 @@ class ChatViewModel(
                 enableThinking = preferences.enableThinking.first(),
                 maxTokens = preferences.maxOutputTokens.first(),
                 contextWindow = preferences.contextWindow.first(),
-                accelerator = preferences.accelerator.first()
+                accelerator = acceleratorFor(model)
             )
             val ok = inferenceService.loadModel(model)
+            if (ok) preferences.setSelectedModelId(model.id)
             _uiState.update {
                 if (ok) it.copy(
                     isSwitchingModel = false,
@@ -429,7 +461,8 @@ class ChatViewModel(
                     isSwitchingModel = false,
                     isAutoLoadingModel = false,
                     autoLoadStatus = "",
-                    errorMessage = "Could not load ${model.displayName}. Make sure it is downloaded in Settings."
+                    errorMessage = inferenceService.modelLoadFailureMessage(model)
+                        ?: "Could not load ${model.displayName}. Make sure it is downloaded in Settings."
                 )
             }
         }
@@ -499,7 +532,15 @@ class ChatViewModel(
 
                 val answerFlow = if (collectionId == null) {
                     usedDirectMode = true
-                    val directPrompt = if (history.isNotEmpty()) "$history\nuser: $effectiveUserText" else effectiveUserText
+                    val directPrompt = if (isIosPlatform()) {
+                        // iOS MLX uses a stateful ChatSession with KV-cache. Re-sending the
+                        // full text history makes first-token latency grow quickly.
+                        effectiveUserText
+                    } else if (history.isNotEmpty()) {
+                        "$history\nuser: $effectiveUserText"
+                    } else {
+                        effectiveUserText
+                    }
                     inferenceService.generateStream(directPrompt, buildDirectSystemPrompt(), false, capturedImagePath, audioBytes)
                 } else {
                     val result = orchestrator.process(
@@ -644,6 +685,7 @@ class ChatViewModel(
                 chatSessionDao.getSession(currentSessionId)?.let { s ->
                     chatSessionDao.updateSession(s.copy(messageCount = 0, updatedAt = currentTimeMillis()))
                 }
+                inferenceService.recordSessionReset(currentSessionId)
             }
         }
     }

@@ -291,6 +291,38 @@ fun SettingsScreen(navController: NavController, viewModel: SettingsViewModel = 
                         lineHeight = 15.sp
                     )
                 }
+                Spacer(Modifier.height(4.dp))
+                val hasModel = viewModel.availableModels.any { viewModel.isModelFilePresent(it.fileName) }
+                Button(
+                    onClick = { viewModel.loadSelectedModel() },
+                    enabled = hasModel && !uiState.isLoadingModel,
+                    modifier = Modifier.fillMaxWidth().height(36.dp),
+                    contentPadding = PaddingValues(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = c.accentDim,
+                        contentColor = c.accent,
+                        disabledContainerColor = c.accentDim.copy(alpha = 0.4f),
+                        disabledContentColor = c.accent.copy(alpha = 0.4f)
+                    )
+                ) {
+                    if (uiState.isLoadingModel) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(14.dp),
+                            strokeWidth = 2.dp,
+                            color = c.accent
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Loading…", fontSize = 12.sp)
+                    } else {
+                        Text("Reload Model", fontSize = 12.sp)
+                    }
+                }
+                uiState.modelLoadSuccess?.let {
+                    Text(it, color = SuccessGreen, fontSize = 11.sp)
+                }
+                uiState.modelLoadError?.let {
+                    Text(it, color = ErrorRed, fontSize = 11.sp)
+                }
             }
 
             Spacer(Modifier.height(4.dp))
