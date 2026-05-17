@@ -36,15 +36,68 @@ class QueryRouterHeuristicTest {
     }
 
     @Test
-    fun speculativeAdversarialQuestionsStaySingleShot() = runBlocking {
+    fun speculativeAdversarialQuestionsRouteToDirectNotSingleShot() = runBlocking {
         val router = QueryRouter(alwaysAgenticInference)
 
         assertEquals(
-            QueryRoute.SINGLE_SHOT,
+            QueryRoute.DIRECT,
             router.route(
                 "What is the optimal synergy multiplier that will quantifiably enhance future-proofed operational agility?",
                 hasDocuments = true
             )
+        )
+    }
+
+    @Test
+    fun greetingRoutesToDirect() = runBlocking {
+        val router = QueryRouter(alwaysAgenticInference)
+
+        assertEquals(
+            QueryRoute.DIRECT,
+            router.route("hello", hasDocuments = true)
+        )
+    }
+
+    @Test
+    fun mathCalculationRoutesToDirect() = runBlocking {
+        val router = QueryRouter(alwaysAgenticInference)
+
+        assertEquals(
+            QueryRoute.DIRECT,
+            router.route("what is 15% of 500", hasDocuments = true)
+        )
+    }
+
+    @Test
+    fun worldKnowledgeRoutesToDirect() = runBlocking {
+        val router = QueryRouter(alwaysAgenticInference)
+
+        assertEquals(
+            QueryRoute.DIRECT,
+            router.route("what is the capital of France", hasDocuments = true)
+        )
+    }
+
+    @Test
+    fun followUpWithPriorSourceContextRoutesToDirect() = runBlocking {
+        val router = QueryRouter(alwaysAgenticInference)
+        val historyWithSources = "assistant: Revenue was ₹2,30,832 crore.\n[Source: annual_report.pdf, relevance: 0.92]"
+
+        assertEquals(
+            QueryRoute.DIRECT,
+            router.route("you mentioned that figure earlier, what does it represent?", hasDocuments = true, conversationHistory = historyWithSources)
+        )
+    }
+
+    @Test
+    fun followUpWithoutPriorSourceContextDoesNotRouteToDirectViaHeuristic() = runBlocking {
+        // No [Source:] in history — heuristic should not fire; LLM (faked as AGENTIC) decides
+        val router = QueryRouter(alwaysAgenticInference)
+        val historyWithoutSources = "assistant: Let me help you with that."
+
+        assertEquals(
+            QueryRoute.AGENTIC,
+            router.route("you mentioned that figure earlier, what does it represent?", hasDocuments = true, conversationHistory = historyWithoutSources)
         )
     }
 
