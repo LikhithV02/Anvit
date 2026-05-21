@@ -38,7 +38,7 @@ class HybridRetrieverLexicalTest {
                     docId = "doc",
                     fileName = "financial.pdf",
                     chunkIndex = 0,
-                    content = "Table: Segment, Revenue, EBITDA\nSegment: O2C | Revenue: 100 | EBITDA: 20 | Operating margin: 20%",
+                    content = "| Segment | Revenue | EBITDA | Operating margin |\n|---|---|---|---|\n| O2C | 100 | 20 | 20% |",
                     embedding = null
                 ),
                 ChunkEntity(
@@ -89,7 +89,7 @@ class HybridRetrieverLexicalTest {
                     docId = "doc",
                     fileName = "financial.pdf",
                     chunkIndex = 0,
-                    content = "Table summary: 9 rows. Headers: Segment, Revenue, EBITDA",
+                    content = "| Segment | Revenue | EBITDA |\n|---|---|---|",
                     embedding = null,
                     groupId = groupId,
                     isGroupHead = true
@@ -101,7 +101,7 @@ class HybridRetrieverLexicalTest {
                         docId = "doc",
                         fileName = "financial.pdf",
                         chunkIndex = index,
-                        content = "Table (continued) — Headers: Segment, Revenue, EBITDA\nSegment: $segment | Revenue: ${index * 100} | EBITDA: ${index * 10}",
+                        content = "| Segment | Revenue | EBITDA |\n|---|---|---|\n| $segment | ${index * 100} | ${index * 10} |",
                         embedding = null,
                         groupId = groupId
                     ))
@@ -117,6 +117,71 @@ class HybridRetrieverLexicalTest {
             assertTrue(results.any { it.chunkId == "row5" })
             assertTrue(results.any { it.chunkId == "head" })
             assertTrue(results.none { it.chunkId == "row9" })
+        } finally {
+            db.close()
+        }
+    }
+
+    @Test
+    fun ocrChildRetrievalIncludesParentSectionAndNearbySibling() = runBlocking {
+        val db = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            AnvitDatabase::class.java
+        ).allowMainThreadQueries().build()
+
+        try {
+            val dao = db.documentDao()
+            val sectionId = "sec-financials"
+            dao.insertDocument(DocumentEntity(
+                id = "doc",
+                fileName = "financial.pdf",
+                filePath = "",
+                pageCount = 1,
+                chunkCount = 3,
+                status = "READY"
+            ))
+            dao.insertChunks(listOf(
+                ChunkEntity(
+                    id = sectionId,
+                    docId = "doc",
+                    fileName = "financial.pdf",
+                    chunkIndex = 0,
+                    content = "CONSOLIDATED FINANCIAL HIGHLIGHTS",
+                    embedding = null,
+                    chunkType = "SECTION",
+                    sectionId = sectionId
+                ),
+                ChunkEntity(
+                    id = "child1",
+                    docId = "doc",
+                    fileName = "financial.pdf",
+                    chunkIndex = 1,
+                    content = "Gross Revenue 325,290 293,829",
+                    embedding = null,
+                    chunkType = "TEXT",
+                    parentChunkId = sectionId,
+                    sectionId = sectionId
+                ),
+                ChunkEntity(
+                    id = "child2",
+                    docId = "doc",
+                    fileName = "financial.pdf",
+                    chunkIndex = 2,
+                    content = "EBITDA 48,588 50,932",
+                    embedding = null,
+                    chunkType = "TEXT",
+                    parentChunkId = sectionId,
+                    sectionId = sectionId
+                )
+            ))
+            dao.rebuildChunksFts()
+
+            val retriever = HybridRetriever(dao, NoopEmbeddingService)
+            val results = retriever.retrieve("Gross Revenue 325,290", maxResults = 1)
+
+            assertTrue(results.any { it.chunkId == "child1" })
+            assertTrue(results.any { it.chunkId == sectionId })
+            assertTrue(results.any { it.chunkId == "child2" })
         } finally {
             db.close()
         }

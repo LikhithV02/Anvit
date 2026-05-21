@@ -32,6 +32,10 @@
 -dontwarn com.tom_roush.pdfbox.**
 -dontwarn com.gemalto.jp2.**
 
+# RapidOCR is kept compile-only for the experimental OCR parser. The app does
+# not register that parser while testing the normal hierarchical chunker path.
+-dontwarn io.github.hzkitty.**
+
 # Annotations & OSGi
 -dontwarn aQute.bnd.annotation.**
 -dontwarn edu.umd.cs.findbugs.annotations.**

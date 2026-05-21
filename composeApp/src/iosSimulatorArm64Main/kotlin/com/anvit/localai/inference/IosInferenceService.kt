@@ -22,6 +22,9 @@ class IosInferenceService : InferenceService {
 
     override suspend fun loadModel(model: GemmaModel): Boolean = false
 
+    override fun modelLoadFailureMessage(model: GemmaModel): String =
+        "MLX inference is not available in the iOS Simulator. Run Anvit on a physical iPhone to load ${model.displayName}."
+
     override fun isLoaded(): Boolean = false
 
     override fun getCurrentModel(): GemmaModel? = null

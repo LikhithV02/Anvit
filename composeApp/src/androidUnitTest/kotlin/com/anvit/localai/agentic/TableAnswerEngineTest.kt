@@ -9,9 +9,10 @@ import kotlin.test.assertTrue
 class TableAnswerEngineTest {
     @Test
     fun answersDirectTableLookupWithExactFormatting() {
+        val content = "| Item | Col 2 | Col 3 | Col 4 |\n|---|---|---|---|\n| Progress and Stock-in-Trade | (81-1) | (8,421) | (5 |"
         val result = TableAnswerEngine.answer(
             query = "What did Progress and Stock-in-Trade report in the expenses table?",
-            chunks = listOf(chunk("Table: Item, Col 2, Col 3, ,014)\nItem: Progress and Stock-in-Trade | Col 2: (81-1) | Col 3: (8,421) | ,014): (5"))
+            chunks = listOf(chunk(content))
         )
 
         assertEquals(TableAnswerConfidence.HIGH, result.confidence)
@@ -23,9 +24,10 @@ class TableAnswerEngineTest {
 
     @Test
     fun returnsTableFactsForPartialTableQuestion() {
+        val content = "| Item | Amount |\n|---|---|\n| Employee Benefits Expense | 5,100 |\n| Finance Costs | 2,300 |"
         val result = TableAnswerEngine.answer(
             query = "What should I know about the expenses table?",
-            chunks = listOf(chunk("Table: Item, Amount\nItem: Employee Benefits Expense | Amount: 5,100\nItem: Finance Costs | Amount: 2,300"))
+            chunks = listOf(chunk(content))
         )
 
         assertEquals(TableAnswerConfidence.MEDIUM, result.confidence)
@@ -35,9 +37,10 @@ class TableAnswerEngineTest {
 
     @Test
     fun calculatesSumOnlyFromVisibleCells() {
+        val content = "| Item | Amount |\n|---|---|\n| Employee Benefits Expense | 5100 |\n| Finance Costs | 2300 |"
         val result = TableAnswerEngine.answer(
             query = "What is the combined total of Employee Benefits Expense and Finance Costs?",
-            chunks = listOf(chunk("Table: Item, Amount\nItem: Employee Benefits Expense | Amount: 5100\nItem: Finance Costs | Amount: 2300"))
+            chunks = listOf(chunk(content))
         )
 
         assertEquals(TableAnswerConfidence.HIGH, result.confidence)

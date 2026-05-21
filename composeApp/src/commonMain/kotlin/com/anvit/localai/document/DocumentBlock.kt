@@ -26,5 +26,19 @@ data class DocumentChunk(
     val hierarchyPath: List<String>,
     val tokenCount: Int,
     val groupId: String? = null,
-    val isGroupHead: Boolean = false
+    val isGroupHead: Boolean = false,
+    val chunkType: String = ChunkTypes.TEXT,
+    val parentChunkId: String? = null,
+    val sectionId: String? = null,
+    val pageStart: Int = 0,
+    val pageEnd: Int = 0,
+    val bboxJson: String = "",
+    val rowRangeJson: String = ""
 )
+
+object ChunkTypes {
+    const val SECTION = "SECTION"
+    const val TEXT = "TEXT"
+    const val TABLE = "TABLE"
+    const val TABLE_PART = "TABLE_PART"
+}

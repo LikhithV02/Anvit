@@ -52,6 +52,7 @@ interface InferenceService {
     fun setActiveCollection(collectionId: String?)
 
     suspend fun loadModel(model: GemmaModel): Boolean
+    fun modelLoadFailureMessage(model: GemmaModel): String? = null
     suspend fun unloadModel()
     fun getCurrentModel(): GemmaModel?
     fun isLoaded(): Boolean

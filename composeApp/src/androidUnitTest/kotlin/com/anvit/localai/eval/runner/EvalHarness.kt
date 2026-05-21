@@ -167,6 +167,7 @@ class EvalHarness(
                     println("[EvalHarness] Ingested ${index + 1}/${files.size}: ${file.name}: ${result.chunkCount} chunks in ${elapsedSeconds(started)}s")
                 }
                 is IngestionResult.Error -> error("Failed to ingest ${file.name}: ${result.message}")
+                IngestionResult.Cancelled -> error("Ingestion cancelled for ${file.name}")
             }
         }
         println("[EvalHarness] Ingestion summary: ${files.size} files, $totalChunks chunks")

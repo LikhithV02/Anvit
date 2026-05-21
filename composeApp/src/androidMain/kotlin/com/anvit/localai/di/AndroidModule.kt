@@ -55,5 +55,14 @@ val androidModule = module {
     single<List<DocumentParser>> { listOf(PdfHierarchicalParser(androidContext()), DocxHierarchicalParser()) }
 
     // Override common binding to inject the parsers list
-    single { DocumentIngestionService(get(), get(), get(), get<IngestionForegroundController>(), get<List<DocumentParser>>()) }
+    single {
+        DocumentIngestionService(
+            get(),
+            get(),
+            get(),
+            get<IngestionForegroundController>(),
+            get<List<DocumentParser>>(),
+            emptyList()
+        )
+    }
 }

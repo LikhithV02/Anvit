@@ -99,12 +99,23 @@ class SettingsViewModel(
     fun loadSelectedModel() {
         viewModelScope.launch {
             val model = availableModels.find { it.id == _uiState.value.selectedModelId } ?: return@launch
+            if (!downloadService.isModelPresent(model.fileName)) {
+                _uiState.update {
+                    it.copy(modelLoadError = "${model.displayName} is not downloaded yet.")
+                }
+                return@launch
+            }
             _uiState.update { it.copy(isLoadingModel = true, modelLoadError = null, modelLoadSuccess = null) }
+            val safeAccelerator = if (!isIosPlatform() && model.id == GemmaModels.E2B.id) "cpu" else _uiState.value.accelerator
+            if (safeAccelerator != _uiState.value.accelerator) {
+                preferences.setAccelerator(safeAccelerator)
+                _uiState.update { it.copy(accelerator = safeAccelerator) }
+            }
             inferenceService.setGenerationParams(
                 topK = _uiState.value.topK, temperature = _uiState.value.temperature,
                 enableThinking = _uiState.value.enableThinking, maxTokens = _uiState.value.maxOutputTokens,
                 contextWindow = _uiState.value.contextWindow,
-                accelerator = _uiState.value.accelerator
+                accelerator = safeAccelerator
             )
             val ok = inferenceService.loadModel(model)
             _uiState.update {

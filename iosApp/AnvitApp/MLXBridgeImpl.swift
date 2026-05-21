@@ -3,7 +3,7 @@
 // This file must be compiled as part of the AnvitApp Xcode target.
 //
 // Required SPM packages in the Xcode project:
-//   1. mlx-swift-lm (local: ../mlx-swift-lm) — provides MLXLLM, MLXVLM, MLXLMCommon, MLXHuggingFace
+//   1. mlx-swift-lm — provides MLXLLM, MLXVLM, MLXLMCommon, MLXHuggingFace
 //   2. swift-transformers (https://github.com/huggingface/swift-transformers) — provides Tokenizers
 //
 // Required framework targets linked to AnvitApp:
@@ -36,8 +36,37 @@ private actor MLXBridgeEngine {
         session = nil
         container = nil
         isLoaded = false
-        // Try VLM factory first (covers Gemma4 VLM); falls through to LLM factory for text models.
-        let c = try await loadModelContainer(from: directory, using: tokenizerLoader)
+        let runtime = try detectRuntime(for: directory)
+        // Local directory loading bypasses mlx-swift-lm's named model registry, so
+        // reapply model-specific stop tokens here.
+        let configuration = ModelConfiguration(
+            directory: directory,
+            extraEOSTokens: runtime.extraEOSTokens
+        )
+        let c: ModelContainer
+        switch runtime {
+        case .gemma4VLM:
+            c = try await VLMModelFactory.shared.loadContainer(
+                from: LocalOnlyDownloader(),
+                using: tokenizerLoader,
+                configuration: configuration
+            )
+            print("Anvit MLX: loaded Gemma 4 VLM container for \(directory.lastPathComponent)")
+        case .gemma4LLM:
+            c = try await LLMModelFactory.shared.loadContainer(
+                from: LocalOnlyDownloader(),
+                using: tokenizerLoader,
+                configuration: configuration
+            )
+            print("Anvit MLX: loaded Gemma 4 LLM container for \(directory.lastPathComponent)")
+        case .llm:
+            c = try await LLMModelFactory.shared.loadContainer(
+                from: LocalOnlyDownloader(),
+                using: tokenizerLoader,
+                configuration: configuration
+            )
+            print("Anvit MLX: loaded LLM container for \(directory.lastPathComponent)")
+        }
         let s = ChatSession(c)
         container = c
         session = s
@@ -77,20 +106,63 @@ private actor MLXBridgeEngine {
         // .url case avoids loading UIImage into memory here; mlx-swift-lm handles decoding.
         let images: [UserInput.Image] = imagePath.map { [.url(URL(fileURLWithPath: $0))] } ?? []
 
+        let promptCharCount = prompt.count
+        let systemCharCount = systemPrompt?.count ?? 0
+        let requestedMaxTokens = params.maxTokens ?? -1
+        print("Anvit MLX: generation requested promptChars=\(promptCharCount) systemChars=\(systemCharCount) maxTokens=\(requestedMaxTokens) image=\(imagePath != nil)")
+
         // Create the async stream while still actor-isolated (safe access to sess).
-        let stream = sess.streamResponse(to: prompt, images: images, videos: [])
-        // stream is AsyncThrowingStream<String, Error> which is Sendable — safe to capture.
+        let stream = sess.streamDetails(to: prompt, images: images, videos: [])
+        // stream is AsyncThrowingStream<Generation, Error> which is Sendable — safe to capture.
 
         genTask = Task { @Sendable [tokenCallback] in
+            let startedAt = Date()
+            var firstChunkLogged = false
+            var emittedChunks = 0
+            var emittedCharacters = 0
+            var invisibleChunkStreak = 0
             do {
-                for try await chunk in stream {
+                for try await item in stream {
                     guard !Task.isCancelled else { break }
-                    tokenCallback(chunk, false, nil)
+                    switch item {
+                    case .chunk(let chunk):
+                        if !firstChunkLogged {
+                            firstChunkLogged = true
+                            print("Anvit MLX: first text chunk after \(elapsedSeconds(since: startedAt))s preview=\"\(chunkPreview(chunk))\"")
+                        }
+                        emittedChunks += 1
+                        emittedCharacters += chunk.count
+                        if emittedChunks <= 8 {
+                            print("Anvit MLX: chunk[\(emittedChunks)] chars=\(chunk.count) preview=\"\(chunkPreview(chunk))\"")
+                        }
+                        if hasVisibleContent(chunk) {
+                            invisibleChunkStreak = 0
+                        } else {
+                            invisibleChunkStreak += 1
+                            if invisibleChunkStreak == 16 {
+                                print("Anvit MLX: still receiving invisible chunks; latest preview=\"\(chunkPreview(chunk))\"")
+                            }
+                            if invisibleChunkStreak >= 64 {
+                                print("Anvit MLX: stopping after 64 consecutive invisible chunks")
+                                break
+                            }
+                        }
+                        tokenCallback(chunk, false, nil)
+                    case .info(let info):
+                        let promptTime = formatSeconds(info.promptTime)
+                        let generationTime = formatSeconds(info.generateTime)
+                        let summary = "Anvit MLX: completed promptTokens=\(info.promptTokenCount) generatedTokens=\(info.generationTokenCount) promptTime=\(promptTime)s generationTime=\(generationTime)s stopReason=\(info.stopReason)"
+                        print(summary)
+                    case .toolCall:
+                        break
+                    }
                 }
                 if !Task.isCancelled {
+                    print("Anvit MLX: stream finished elapsed=\(elapsedSeconds(since: startedAt))s chunks=\(emittedChunks) chars=\(emittedCharacters)")
                     tokenCallback(nil, true, nil)
                 }
             } catch {
+                print("Anvit MLX: generation failed after \(elapsedSeconds(since: startedAt))s: \(error.localizedDescription)")
                 tokenCallback(nil, true, error.localizedDescription)
             }
         }
@@ -104,6 +176,69 @@ private actor MLXBridgeEngine {
 // MARK: - Singleton state
 
 private let _engine = MLXBridgeEngine()
+
+private struct LocalOnlyDownloader: Downloader {
+    func download(
+        id: String,
+        revision: String?,
+        matching patterns: [String],
+        useLatest: Bool,
+        progressHandler: @Sendable @escaping (Progress) -> Void
+    ) async throws -> URL {
+        throw NSError(
+            domain: "Anvit.MLXBridge",
+            code: 1,
+            userInfo: [NSLocalizedDescriptionKey: "Unexpected remote download request for local MLX model: \(id)"]
+        )
+    }
+}
+
+private enum MLXRuntimeKind {
+    case gemma4VLM
+    case gemma4LLM
+    case llm
+
+    var extraEOSTokens: Set<String> {
+        switch self {
+        case .gemma4VLM:
+            return ["<end_of_turn>"]
+        case .gemma4LLM:
+            return ["<turn|>"]
+        case .llm:
+            return []
+        }
+    }
+}
+
+private func detectRuntime(for directory: URL) throws -> MLXRuntimeKind {
+    let config = try loadJSONFile(directory.appendingPathComponent("config.json"))
+    let processor = try? loadJSONFile(directory.appendingPathComponent("processor_config.json"))
+    let modelType = stringValue(config["model_type"])?.lowercased()
+    let processorClass = stringValue(processor?["processor_class"])
+
+    if modelType == "gemma4" {
+        if config["vision_config"] != nil || processorClass == "Gemma4Processor" {
+            return .gemma4VLM
+        }
+        return .gemma4LLM
+    }
+
+    if modelType == "gemma4_text" {
+        return .gemma4LLM
+    }
+
+    return .llm
+}
+
+private func loadJSONFile(_ url: URL) throws -> [String: Any] {
+    let data = try Data(contentsOf: url)
+    let object = try JSONSerialization.jsonObject(with: data)
+    return object as? [String: Any] ?? [:]
+}
+
+private func stringValue(_ value: Any?) -> String? {
+    value as? String
+}
 
 private let _tokenizerLoader: any TokenizerLoader = {
     // Expands to a struct that wraps Tokenizers.AutoTokenizer (from swift-transformers).
@@ -164,8 +299,8 @@ public func mlxEngineGenerateStream(
             imagePath:     imgStr,
             params:        params
         ) { @Sendable token, isFinal, errMsg in
-            if let token {
-                token.withCString  { tokenCallback(userData, $0, isFinal, nil) }
+            if let token, !isPaddingOnly(token) {
+                token.withCString { tokenCallback(userData, $0, isFinal, nil) }
             } else if let errMsg {
                 errMsg.withCString { tokenCallback(userData, nil, isFinal, $0) }
             } else {
@@ -173,6 +308,38 @@ public func mlxEngineGenerateStream(
             }
         }
     }
+}
+
+private func isPaddingOnly(_ token: String) -> Bool {
+    let stripped = token
+        .replacingOccurrences(of: "<pad>", with: "")
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+    return stripped.isEmpty && token.contains("<pad>")
+}
+
+private func hasVisibleContent(_ token: String) -> Bool {
+    let stripped = token
+        .replacingOccurrences(of: "<pad>", with: "")
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+    return !stripped.isEmpty
+}
+
+private func chunkPreview(_ token: String) -> String {
+    let escaped = token
+        .replacingOccurrences(of: "\\", with: "\\\\")
+        .replacingOccurrences(of: "\n", with: "\\n")
+        .replacingOccurrences(of: "\r", with: "\\r")
+        .replacingOccurrences(of: "\t", with: "\\t")
+    let prefix = escaped.prefix(80)
+    return escaped.count > 80 ? "\(prefix)..." : String(prefix)
+}
+
+private func elapsedSeconds(since start: Date) -> String {
+    formatSeconds(Date().timeIntervalSince(start))
+}
+
+private func formatSeconds(_ value: TimeInterval) -> String {
+    String(format: "%.2f", value)
 }
 
 /// Cancel in-flight generation.

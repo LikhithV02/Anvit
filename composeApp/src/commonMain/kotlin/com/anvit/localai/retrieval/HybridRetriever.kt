@@ -27,6 +27,7 @@ class HybridRetriever(
         private const val TABLE_VECTOR_WEIGHT = 0.45f
         private const val TABLE_LEXICAL_WEIGHT = 0.55f
         private const val MAX_GROUP_EXPANSION_CHUNKS = 3
+        private const val MAX_OCR_RELATION_EXPANSION_CHUNKS = 4
     }
 
     suspend fun retrieve(query: String, maxResults: Int = 5, collectionId: String? = null): List<RetrievedChunk> =
@@ -35,8 +36,8 @@ class HybridRetriever(
                 val vectorResults = retrieveVector(query, maxResults * 4, collectionId)
                 val bm25Results   = retrieveLexical(query, maxResults * 4, collectionId)
                 if (vectorResults.isEmpty() && bm25Results.isEmpty()) return@withContext emptyList()
-                if (vectorResults.isEmpty()) return@withContext expandGroups(bm25Results.take(maxResults))
-                if (bm25Results.isEmpty())   return@withContext expandGroups(vectorResults.take(maxResults))
+                if (vectorResults.isEmpty()) return@withContext expandOcrRelations(expandGroups(bm25Results.take(maxResults)))
+                if (bm25Results.isEmpty())   return@withContext expandOcrRelations(expandGroups(vectorResults.take(maxResults)))
                 val weights = fusionWeights(query)
                 val scores   = mutableMapOf<String, Float>()
                 val chunkMap = mutableMapOf<String, RetrievedChunk>()
@@ -68,7 +69,7 @@ class HybridRetriever(
                     )
                     .take(maxResults)
                     .mapNotNull { (id, score) -> chunkMap[id]?.copy(score = score) }
-                expandGroups(ranked)
+                expandOcrRelations(expandGroups(ranked))
             } catch (e: Exception) {
                 println("[$TAG] Hybrid retrieve failed: ${e.message}")
                 emptyList()
@@ -181,6 +182,49 @@ class HybridRetriever(
         )
     }
 
+    private suspend fun expandOcrRelations(chunks: List<RetrievedChunk>): List<RetrievedChunk> {
+        if (chunks.isEmpty()) return chunks
+
+        val expanded = chunks.toMutableList()
+        val seenIds = chunks.map { it.chunkId }.toMutableSet()
+        var added = 0
+
+        for (chunk in chunks) {
+            if (added >= MAX_OCR_RELATION_EXPANSION_CHUNKS) break
+            val entity = documentDao.getChunkEntityById(chunk.chunkId) ?: continue
+
+            val parentId = entity.parentChunkId
+            if (parentId != null && parentId !in seenIds && added < MAX_OCR_RELATION_EXPANSION_CHUNKS) {
+                documentDao.getChunkEntityById(parentId)?.let { parent ->
+                    expanded.add(parent.toRetrievedChunk(score = 0f))
+                    seenIds.add(parent.id)
+                    added++
+                }
+            }
+
+            val sectionId = entity.sectionId
+            if (sectionId.isNullOrBlank() || added >= MAX_OCR_RELATION_EXPANSION_CHUNKS) continue
+
+            val siblings = documentDao.getChunksForSection(sectionId)
+                .filter { sibling ->
+                    sibling.id !in seenIds &&
+                        sibling.chunkType != "SECTION" &&
+                        kotlin.math.abs(sibling.chunkIndex - entity.chunkIndex) <= 1
+                }
+                .take(MAX_OCR_RELATION_EXPANSION_CHUNKS - added)
+
+            for (sibling in siblings) {
+                expanded.add(sibling.toRetrievedChunk(score = 0f))
+                seenIds.add(sibling.id)
+                added++
+            }
+        }
+
+        return expanded.sortedWith(
+            compareByDescending<RetrievedChunk> { it.score }.thenBy { it.chunkIndex }
+        )
+    }
+
     private fun vectorThreshold(): Float {
         val model = embeddingService.getModelName()
         return when {
@@ -232,9 +276,26 @@ class HybridRetriever(
             score += 1f
         }
 
+        if (chunk.chunkType == "TABLE" || chunk.chunkType == "TABLE_PART") {
+            score += terms.count { term -> content.contains("$term:") || content.contains("| $term", ignoreCase = true) }.toFloat() * 2.5f
+            score += 1f
+        }
+
+        extractNumericTerms(original).forEach { numeric ->
+            if (content.contains(numeric)) score += 4f
+        }
+
         if (chunk.groupId != null) score += 0.5f
         return score
     }
+
+    private fun extractNumericTerms(query: String): List<String> =
+        Regex("""[-(]?\d[\d,]*(?:\.\d+)?%?[)]?""")
+            .findAll(query)
+            .map { it.value.trim() }
+            .filter { it.length >= 2 }
+            .distinct()
+            .toList()
 
     private fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
         if (a.size != b.size) return 0f

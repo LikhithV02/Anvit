@@ -15,7 +15,7 @@ import com.anvit.localai.utils.currentTimeMillis
         DocumentEntity::class, ChunkEntity::class, ChunkFtsEntity::class,
         ChatMessageEntity::class, ChatSessionEntity::class, CollectionEntity::class
     ],
-    version = 12,
+    version = 13,
     exportSchema = false
 )
 @ConstructedBy(AnvitDatabaseConstructor::class)
@@ -121,10 +121,26 @@ val MIGRATION_11_12 = object : Migration(11, 12) {
     }
 }
 
+val MIGRATION_12_13 = object : Migration(12, 13) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE chunks ADD COLUMN chunkType TEXT NOT NULL DEFAULT 'TEXT'")
+        connection.execSQL("ALTER TABLE chunks ADD COLUMN parentChunkId TEXT")
+        connection.execSQL("ALTER TABLE chunks ADD COLUMN sectionId TEXT")
+        connection.execSQL("ALTER TABLE chunks ADD COLUMN pageStart INTEGER NOT NULL DEFAULT 0")
+        connection.execSQL("ALTER TABLE chunks ADD COLUMN pageEnd INTEGER NOT NULL DEFAULT 0")
+        connection.execSQL("ALTER TABLE chunks ADD COLUMN bboxJson TEXT NOT NULL DEFAULT ''")
+        connection.execSQL("ALTER TABLE chunks ADD COLUMN rowRangeJson TEXT NOT NULL DEFAULT ''")
+        connection.execSQL("CREATE INDEX IF NOT EXISTS index_chunks_parentChunkId ON chunks (parentChunkId)")
+        connection.execSQL("CREATE INDEX IF NOT EXISTS index_chunks_sectionId ON chunks (sectionId)")
+        connection.execSQL("CREATE INDEX IF NOT EXISTS index_chunks_chunkType ON chunks (chunkType)")
+        connection.execSQL("CREATE INDEX IF NOT EXISTS index_chunks_pageStart_pageEnd ON chunks (pageStart, pageEnd)")
+    }
+}
+
 val ALL_MIGRATIONS = arrayOf(
     MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,
     MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10,
-    MIGRATION_10_11, MIGRATION_11_12
+    MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13
 )
 
 /** Platform-specific builder (androidMain / iosMain provide actuals). */

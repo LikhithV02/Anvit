@@ -11,7 +11,9 @@ import io.ktor.client.plugins.expectSuccess
 import io.ktor.utils.io.readAvailable
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.Pinned
+import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.toKString
 import kotlinx.cinterop.usePinned
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -30,10 +32,14 @@ import kotlinx.serialization.json.longOrNull
 import com.anvit.localai.utils.currentTimeMillis
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSDocumentDirectory
+import platform.Foundation.NSHomeDirectory
 import platform.Foundation.NSUserDomainMask
 import platform.posix.fclose
+import platform.posix.FILE
 import platform.posix.fopen
 import platform.posix.fwrite
+import platform.posix.errno
+import platform.posix.strerror
 import platform.UIKit.UIApplication
 import platform.UIKit.UIBackgroundTaskIdentifier
 import platform.UIKit.UIBackgroundTaskInvalid
@@ -120,10 +126,10 @@ class IosDownloadService : DownloadService {
                 create = true,
                 error = null
             )
-            val dir = (docsDir?.path ?: "") + "/models"
-            NSFileManager.defaultManager.createDirectoryAtPath(
-                dir, withIntermediateDirectories = true, attributes = null, error = null
-            )
+            val documentsPath = docsDir?.path ?: "${NSHomeDirectory()}/Documents"
+            ensureDirectory(documentsPath)
+            val dir = "$documentsPath/models"
+            ensureDirectory(dir)
             return dir
         }
 
@@ -143,6 +149,47 @@ class IosDownloadService : DownloadService {
     private fun fileSize(path: String): Long {
         val attrs = NSFileManager.defaultManager.attributesOfItemAtPath(path, error = null)
         return (attrs?.get("NSFileSize") as? Long) ?: 0L
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun ensureDirectory(path: String) {
+        val created = NSFileManager.defaultManager.createDirectoryAtPath(
+            path, withIntermediateDirectories = true, attributes = null, error = null
+        )
+        if (!created && !NSFileManager.defaultManager.fileExistsAtPath(path)) {
+            throw Exception("Cannot create directory: $path")
+        }
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun removePathIfExists(path: String) {
+        if (NSFileManager.defaultManager.fileExistsAtPath(path)) {
+            NSFileManager.defaultManager.removeItemAtPath(path, error = null)
+        }
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun openWritableFile(path: String, append: Boolean): CPointer<FILE> {
+        return fopen(path, if (append) "ab" else "wb")
+            ?: throw Exception("Cannot open file for writing: $path (${posixErrorMessage()})")
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun posixErrorMessage(): String {
+        val message = strerror(errno)?.toKString()
+        return if (message.isNullOrBlank()) "errno=$errno" else message
+    }
+
+    private fun safeHuggingFacePath(path: String): String {
+        val normalized = path.replace('\\', '/').trim()
+        if (
+            normalized.isBlank() ||
+            normalized.startsWith("/") ||
+            normalized.split('/').any { it.isBlank() || it == "." || it == ".." }
+        ) {
+            throw Exception("Unsafe HuggingFace file path: $path")
+        }
+        return normalized
     }
 
     @OptIn(ExperimentalForeignApi::class)
@@ -218,8 +265,10 @@ class IosDownloadService : DownloadService {
             if (NSFileManager.defaultManager.fileExistsAtPath(destPath)) fileSize(destPath) else 0L
         var effectiveTotalBytes = totalSizeBytes
 
-        val file = fopen(destPath, if (currentOffset > 0) "ab" else "wb")
-            ?: throw Exception("Cannot open file for writing: $destPath")
+        if (NSFileManager.defaultManager.fileExistsAtPath(destPath) && currentOffset <= 0L) {
+            removePathIfExists(destPath)
+        }
+        val file = openWritableFile(destPath, append = currentOffset > 0L)
 
         var lastProgressUpdate = 0L
         var lastBytesDownloaded = currentOffset
@@ -313,8 +362,10 @@ class IosDownloadService : DownloadService {
             fclose(file)
         }
 
-        NSFileManager.defaultManager.removeItemAtPath(finalPath, error = null)
-        NSFileManager.defaultManager.moveItemAtPath(destPath, toPath = finalPath, error = null)
+        removePathIfExists(finalPath)
+        if (!NSFileManager.defaultManager.moveItemAtPath(destPath, toPath = finalPath, error = null)) {
+            throw Exception("Cannot finalize downloaded file: $finalPath")
+        }
 
         updateProgress(modelId, DownloadProgress(
             modelId         = modelId,
@@ -337,16 +388,15 @@ class IosDownloadService : DownloadService {
 
         val totalBytes = if (hintTotalBytes > 0) hintTotalBytes else files.sumOf { it.second }
         val destDir = "$modelsDir/$dirName"
-        NSFileManager.defaultManager.createDirectoryAtPath(
-            destDir, withIntermediateDirectories = true, attributes = null, error = null
-        )
+        ensureDirectory(destDir)
 
         var completedBytes = 0L
         var lastProgressUpdate = 0L
 
-        for ((filePath, fileSizeHint) in files) {
+        for ((rawFilePath, fileSizeHint) in files) {
             currentCoroutineContext().ensureActive()
 
+            val filePath = safeHuggingFacePath(rawFilePath)
             val localPath = "$destDir/$filePath"
             val partPath  = "$localPath.part"
 
@@ -363,17 +413,17 @@ class IosDownloadService : DownloadService {
             // Ensure parent subdirectory exists (for nested paths inside the repo)
             val parentDir = localPath.substringBeforeLast('/')
             if (parentDir != localPath) {
-                NSFileManager.defaultManager.createDirectoryAtPath(
-                    parentDir, withIntermediateDirectories = true, attributes = null, error = null
-                )
+                ensureDirectory(parentDir)
             }
 
             val fileUrl = "https://huggingface.co/$repoId/resolve/main/$filePath"
             var fileOffset = if (NSFileManager.defaultManager.fileExistsAtPath(partPath)) fileSize(partPath) else 0L
             var effectiveFileSize = fileSizeHint
 
-            val file = fopen(partPath, if (fileOffset > 0) "ab" else "wb")
-                ?: throw Exception("Cannot open: $partPath")
+            if (NSFileManager.defaultManager.fileExistsAtPath(partPath) && fileOffset <= 0L) {
+                removePathIfExists(partPath)
+            }
+            val file = openWritableFile(partPath, append = fileOffset > 0L)
 
             try {
                 var fileFinished = false
@@ -443,14 +493,16 @@ class IosDownloadService : DownloadService {
                 fclose(file)
             }
 
-            NSFileManager.defaultManager.removeItemAtPath(localPath, error = null)
-            NSFileManager.defaultManager.moveItemAtPath(partPath, toPath = localPath, error = null)
+            removePathIfExists(localPath)
+            if (!NSFileManager.defaultManager.moveItemAtPath(partPath, toPath = localPath, error = null)) {
+                throw Exception("Cannot finalize downloaded file: $localPath")
+            }
             completedBytes += if (effectiveFileSize > 0L) effectiveFileSize else fileOffset
         }
 
         // Write sentinel only after every file is on disk — isModelPresent checks for this.
-        val sentinel = fopen("$destDir/.complete", "w")
-        if (sentinel != null) fclose(sentinel)
+        val sentinel = openWritableFile("$destDir/.complete", append = false)
+        fclose(sentinel)
 
         updateProgress(modelId, DownloadProgress(
             modelId         = modelId,

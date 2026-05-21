@@ -11,6 +11,7 @@ import com.anvit.localai.document.DocumentIngestionService
 import com.anvit.localai.document.IngestionResult
 import com.anvit.localai.utils.currentTimeMillis
 import com.anvit.localai.utils.randomUUID
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -114,24 +115,37 @@ class DocumentsViewModel(
                     successMessage = null
                 )
             }
-            val result = ingestionService.ingestDocument(fileName, documentBytes, collectionId) { fraction, progress ->
+            try {
+                val result = ingestionService.ingestDocument(fileName, documentBytes, collectionId) { fraction, progress ->
+                    _uiState.update {
+                        it.copy(
+                            ingestionProgress = progress,
+                            ingestionProgressFraction = fraction.coerceIn(0f, 1f)
+                        )
+                    }
+                }
+                when (result) {
+                    is IngestionResult.Success -> _uiState.update {
+                        if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f,
+                            successMessage = "Added \"$fileName\" (${result.chunkCount} chunks, ${result.pageCount} pages)")
+                    }
+                    is IngestionResult.Error   -> _uiState.update {
+                        if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f, errorMessage = result.message)
+                    }
+                    IngestionResult.Cancelled -> _uiState.update {
+                        if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f, successMessage = "Indexing cancelled")
+                    }
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (t: Throwable) {
                 _uiState.update {
                     it.copy(
-                        ingestionProgress = progress,
-                        ingestionProgressFraction = fraction.coerceIn(0f, 1f)
+                        isIngesting = false,
+                        ingestionProgress = "",
+                        ingestionProgressFraction = 0f,
+                        errorMessage = "Document ingestion failed: ${t.message ?: t::class.simpleName ?: "Unexpected error"}"
                     )
-                }
-            }
-            when (result) {
-                is IngestionResult.Success -> _uiState.update {
-                    if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f,
-                        successMessage = "Added \"$fileName\" (${result.chunkCount} chunks, ${result.pageCount} pages)")
-                }
-                is IngestionResult.Error   -> _uiState.update {
-                    if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f, errorMessage = result.message)
-                }
-                IngestionResult.Cancelled -> _uiState.update {
-                    if (!it.isIngesting) it else it.copy(isIngesting = false, ingestionProgress = "", ingestionProgressFraction = 0f, successMessage = "Indexing cancelled")
                 }
             }
             ingestionJob = null

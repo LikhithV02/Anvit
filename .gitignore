@@ -2,6 +2,8 @@
 build/
 *.apk
 *.aab
+*.jks
+*.keystore
 local.properties
 .idea/
 *.iml
@@ -23,3 +25,4 @@ eval/reports/*
 eval/.cache/
 !eval/reports/.gitkeep
 .env
+Test Docs/

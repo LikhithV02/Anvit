@@ -2,7 +2,5 @@
 <resources>
     <style name="Theme.Anvit" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/anvit_bg</item>
-        <item name="android:statusBarColor">@color/anvit_bg</item>
-        <item name="android:navigationBarColor">@color/anvit_bg</item>
     </style>
 </resources>

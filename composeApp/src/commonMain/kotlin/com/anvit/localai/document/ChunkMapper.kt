@@ -21,7 +21,14 @@ fun DocumentChunk.toChunkEntity(
     collectionId = collectionId,
     hierarchyPath = hierarchyPath.joinToString(PATH_SEPARATOR),
     groupId = groupId,
-    isGroupHead = isGroupHead
+    isGroupHead = isGroupHead,
+    chunkType = chunkType,
+    parentChunkId = parentChunkId,
+    sectionId = sectionId,
+    pageStart = pageStart,
+    pageEnd = pageEnd,
+    bboxJson = bboxJson,
+    rowRangeJson = rowRangeJson
 )
 
 fun ChunkEntity.hierarchyPathList(): List<String> =

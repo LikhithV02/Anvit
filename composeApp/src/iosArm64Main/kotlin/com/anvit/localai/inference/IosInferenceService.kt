@@ -60,9 +60,13 @@ class IosInferenceService : InferenceService {
         this.topK          = topK
         this.topP          = topP
         this.temperature   = temperature
-        this.maxTokens     = maxTokens
+        this.maxTokens     = maxTokens.coerceIn(1, IOS_MAX_OUTPUT_TOKENS)
         this.contextWindow = contextWindow
         this.enableThinking = enableThinking
+        println(
+            "IosInferenceService: setGenerationParams thinking=$enableThinking " +
+                "requestedMaxTokens=$maxTokens effectiveMaxTokens=${this.maxTokens}"
+        )
         engine.setSamplerParams(
             topK            = topK,
             topP            = topP,
@@ -139,6 +143,11 @@ class IosInferenceService : InferenceService {
         imagePath: String?,
         audioBytes: ByteArray?
     ): Flow<String> {
+        println(
+            "IosInferenceService: generateStream promptChars=${prompt.length}, " +
+                "systemChars=${systemPrompt.length}, maxTokens=${getMaxOutputTokens()}, " +
+                "thinking=$enableThinking"
+        )
         val effectiveSys = thinkingSystemPrompt(systemPrompt.ifBlank { null })
         val raw = engine.generateStreamFull(prompt, effectiveSys, imagePath)
         return if (enableThinking) raw.parseThinkingMarkers() else raw
@@ -241,4 +250,8 @@ class IosInferenceService : InferenceService {
     }
 
     private fun currentTimeMillis(): Long = com.anvit.localai.utils.currentTimeMillis()
+
+    private companion object {
+        const val IOS_MAX_OUTPUT_TOKENS = 8192
+    }
 }

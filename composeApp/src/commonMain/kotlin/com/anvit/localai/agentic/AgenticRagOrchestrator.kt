@@ -176,16 +176,6 @@ class AgenticRagOrchestrator(
                     traceRecorder.finalChunks.addAll(reduced)
                 }
                 val tableResult = TableAnswerEngine.answer(userQuery, reduced)
-                if (tableResult.confidence == TableAnswerConfidence.HIGH && tableResult.answer != null) {
-                    traceRecorder?.generatedAnswer = tableResult.answer
-                    onSources(reduced)
-                    return AgenticResult(
-                        answerFlow = flow { emit(tableResult.answer) },
-                        steps = steps,
-                        route = route.name,
-                        retrievedChunks = reduced
-                    )
-                }
                 val generationChunks = withTableFacts(userQuery, reduced, tableResult)
                 val budgeted = buildBudgetedInput(conversationHistory, userQuery, generationChunks)
                 traceRecorder?.finalChunks?.clear()
@@ -294,17 +284,6 @@ class AgenticRagOrchestrator(
         traceRecorder?.finalChunks?.clear()
         traceRecorder?.finalChunks?.addAll(reducedChunks)
         val tableResult = TableAnswerEngine.answer(userQuery, reducedChunks)
-        if (tableResult.confidence == TableAnswerConfidence.HIGH && tableResult.answer != null) {
-            traceRecorder?.generatedAnswer = tableResult.answer
-            onSources(reducedChunks)
-            return AgenticResult(
-                answerFlow = flow { emit(tableResult.answer) },
-                steps = steps,
-                route = QueryRoute.AGENTIC.name,
-                retrievedChunks = reducedChunks,
-                subQueries = subQueries
-            )
-        }
         var allUsedChunks = withTableFacts(userQuery, reducedChunks, tableResult)
         val budgeted = buildBudgetedInput(conversationHistory, userQuery, allUsedChunks)
         allUsedChunks = budgeted.chunks
@@ -414,11 +393,16 @@ class AgenticRagOrchestrator(
         chunks: List<RetrievedChunk>,
         tableResult: TableAnswerResult = TableAnswerEngine.answer(userQuery, chunks)
     ): List<RetrievedChunk> {
-        if (tableResult.confidence != TableAnswerConfidence.MEDIUM || tableResult.facts.isBlank()) return chunks
+        if (tableResult.confidence == TableAnswerConfidence.NONE || tableResult.facts.isBlank()) return chunks
         val anchor = chunks.firstOrNull() ?: return chunks
+        val content = if (tableResult.confidence == TableAnswerConfidence.HIGH && tableResult.answer != null) {
+            "VERIFIED ANSWER extracted from table data: ${tableResult.answer}\n\nTABLE FACTS:\n${tableResult.facts}\n\nPresent this answer in clear, natural language. Preserve all numeric values exactly."
+        } else {
+            "TABLE FACTS extracted from retrieved table rows:\n${tableResult.facts}\n\nUse these facts exactly. Preserve numeric formatting and refuse if a requested value is missing."
+        }
         val factChunk = anchor.copy(
             chunkId = "table-facts:${anchor.chunkId}",
-            content = "TABLE FACTS extracted from retrieved table rows:\n${tableResult.facts}\n\nUse these facts exactly. Preserve numeric formatting and refuse if a requested value is missing.",
+            content = content,
             score = Float.MAX_VALUE,
             vectorScore = 0f,
             bm25Rank = 0,

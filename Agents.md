@@ -90,13 +90,13 @@ After the first response is generated, an independent critique LLM pass evaluate
 <claude-mem-context>
 # Memory Context
 
-# [AgenticRAG] recent context, 2026-05-13 8:04pm GMT+5:30
+# [AgenticRAG] recent context, 2026-05-19 10:48pm GMT+5:30
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (17,192t read) | 247,871t work | 93% savings
+Stats: 50 obs (21,997t read) | 302,418t work | 93% savings
 
 ### May 6, 2026
 S46 Fix device evaluation test failing with missing Gemma model files on Android device (May 6 at 9:32 AM)
@@ -109,57 +109,58 @@ S52 Diagnose Gemma 4 model loading failure after recent app changes (May 6 at 2:
 S53 Fix inability to load Gemma 4 model after recent code changes in AgenticRAG Android app (May 6 at 4:11 PM)
 S54 Update request received - status checkpoint (May 6 at 4:19 PM)
 ### May 13, 2026
-316 12:53a 🔵 Kotlin compatibility fix verified - all removeFirst/removeLast replaced
-317 " 🟣 Table answer engine integrated into agentic RAG orchestrator
-318 " ✅ Enhanced system prompt grounding rules for document-based QA
-319 12:54a 🔵 Kotlin compilation succeeded without removeFirst/removeLast errors
 S55 Validate evaluation metrics after judge output fix by comparing runs 20260512-102523 and 20260512-135717 (May 13 at 12:54 AM)
-320 " 🔵 Kotlin compatibility fix verified and compiled successfully
-321 " 🔵 Fix completion verified - all removeFirst/removeLast replaced and no regressions found
-322 12:55a 🔵 Run 20260512-135717 has complete evaluation data with zero empty rationale fields
-323 " 🔵 Judge output fix caused model performance regression across all sample types
-324 12:56a 🔵 Judge fix reveals retrieval failure as root cause, not model hallucination
-325 " 🔵 Judge fix caused 10-12x latency explosion with no correctness improvement across sample types
-326 12:57a 🔵 Judge fix is a critical regression: +122s latency, -7.45% correctness, only 7 of 53 samples improved
-327 " 🔵 Judge fix breaks high-confidence adversarial and single-hop queries while marginally improving multi-hop
-328 1:11a 🔵 Embedding model architecture supports both EmbeddingGemma and Gecko with EmbeddingGemma as default
-329 " 🔵 Model storage and presence detection uses filesDir/models directory with isModelPresent checking
-330 " 🔵 Complete embedding model initialization pipeline supports both models with status tracking and accelerator switching
-331 1:12a 🔵 Embedding initialization happens at document ingestion start; getModelName() drives vector threshold selection
-332 " 🔴 GeckoEmbeddingService now detects and auto-switches to newly downloaded embedding models without restart
-333 1:13a 🟣 Added test verifying EmbeddingGemma is preferred when both embedding models are downloaded
-334 " 🔵 GeckoEmbeddingServiceTest unit test passes - confirms EmbeddingGemma prioritization when both models present
-335 1:15a ✅ GeckoEmbeddingServiceTest updated to use non-deprecated kotlin.io.path APIs
-336 " 🔵 GeckoEmbeddingServiceTest compilation fails - kotlin.io.path.deleteRecursively() is experimental API
-337 1:16a ✅ GeckoEmbeddingServiceTest fixed to use stable java.nio.file.Files API instead of experimental kotlin.io.path
-338 " 🔵 GeckoEmbeddingServiceTest unit test passes after using stable java.nio.file.Files API
-339 " 🟣 Document Ingestion Cancellation with Safe Cleanup
-340 " 🔵 Gradle Build Compilation Success with Cancellation Implementation
-341 1:25a 🔵 Document Ingestion Cancellation Implementation Verified and Compiled
-342 1:31a 🔵 Document cancellation is asynchronous with potential hang points
-343 " 🔵 Embedding service calls may block without cancellation awareness
-344 " 🔵 Ingestion progress UI lacks timeout or fallback for stuck cancellation
-345 " 🔴 Fixed ingestion cancellation UI hang with immediate state transition
-346 " 🟣 Added explicit cancellation API to ingestion service
-349 1:07p 🔵 Document Indexing Progress Architecture Identified
-350 " 🔵 Root Cause of Progress Jump: Every-5-Chunks Reporting
-351 " 🔴 Fixed Progress Reporting to Show Every Chunk, Not Every 5th
-352 1:08p ✅ ViewModel Updated to Handle Progress Fraction and Improved Initial State
-353 1:09p ✅ Optimized Foreground Controller Updates with Strategic Batching
-354 " 🔄 Extracted Indexing Progress UI into Dedicated Composable Component
-355 " 🟣 Implemented Modern Animated IndexingProgressBanner Component
-358 1:18p ✅ Improved heading visibility in About screen
-359 1:19p ✅ Improved heading visibility in Privacy Policy screen
-360 " 🔵 Gradle wrapper permission error during build attempt
-361 1:20p 🔵 Code changes verified - successful Kotlin compilation
-362 1:32p 🔴 Fixed dark text visibility in privacy policy table
-363 " 🔵 Privacy policy text color fix successfully compiled
-364 1:35p 🔴 Enhanced text visibility in About screen
-365 " ✅ Comprehensive text visibility improvements in Privacy Policy screen
-366 1:36p 🔵 Comprehensive text color changes successfully compiled in both screens
-371 2:26p 🔵 Located dark text color and keyboard configuration in ChatScreen
-372 2:27p 🔴 Fixed keyboard capitalization and text visibility in ChatScreen
-373 " ✅ Kotlin compilation successful for keyboard and text visibility changes
+### May 19, 2026
+472 1:26p 🟣 OCR-specific document ingestion path in DocumentIngestionService
+473 1:27p 🟣 PaddleOcrChunker implementation with heading inference and table detection
+474 1:28p 🟣 Android-specific PaddleOCR PDF parser with RapidOCR integration
+475 " 🟣 Integrated PaddleOCR pipeline into Android dependency injection and build
+478 1:36p 🟣 PaddleOCR chunking successfully exported on test documents
+480 1:43p 🔵 PaddleOCR chunked output contains structured text and table extraction
+481 1:45p 🔵 PaddleOCR table extraction preserves complex financial data structure and formatting
+482 1:47p 🔵 PaddleOCR document chunking creates hierarchical structure with proper parent-child relationships
+483 " 🟣 PaddleOCR chunker enhanced with structure normalization and table parsing for language model comprehension
+484 1:52p 🔴 Fixed null pointer and column clustering tolerance in table structure parsing
+485 " 🟣 Added comprehensive integration test for RIL financial table chunking with structure validation
+486 1:53p 🔴 Fixed compilation error from duplicate tableLineIds variable declaration
+487 " 🔵 Root cause identified: duplicate tableLineIds declarations in same scope
+488 " 🔴 Removed duplicate mutable tableLineIds declaration to resolve compilation error
+489 " 🔵 Test execution reveals logic failures in table detection and parsing
+490 " 🔵 Test failure root causes identified from JUnit XML report
+491 1:54p 🔵 Actual chunk output reveals table detection completely disabled by improved logic
+492 " 🔵 Table detection partially works but misses critical page 1 financial table
+493 " 🔵 Page 1 financial table content folded into TEXT chunk instead of recognized as TABLE
+494 " 🔴 Improved serial number detection in table rows with position-aware logic
+495 1:55p 🔵 Serial number detection fix applied but page 1 table still not detected
+496 " 🔵 Confirmed: zero TABLE chunks on page 1; isTableStartRow() heuristic too strict
+497 " 🔵 isTableStartRow() heuristic actually works correctly; root cause identified as parsing phase
+498 1:56p 🔵 Page 1 table still not emitted despite detection logic working; parsing failure confirmed
+499 " 🟣 Implemented Complete First-Page Table Detection and Structure Improvements for PaddleOCR Chunker
+500 6:30p 🔵 Current chunk export implementation exports JSON, CSV, and summary markdown
+501 6:31p 🟣 Added markdown chunk export with individual chunk sections
+502 " 🔵 Markdown chunk export test passes with minor type warning
+503 " 🟣 Markdown chunk export generates properly formatted files with sequential chunk numbering
+504 6:49p 🔵 Chunk 6 OCR formatting issues identified in financial document
+505 " 🔵 Root cause identified: OCR spacing detection and line structure loss in chunking pipeline
+506 6:51p 🔄 Refactor PaddleOcrChunker text formatting and heading detection
+507 6:52p 🔴 Fix regex pattern matching in formatTextLines method
+508 " 🔵 PaddleOcrChunkExportTest unit tests pass with refactored chunker
+509 " 🔵 Paddle OCR chunker processes RIL financial document with improved formatting
+510 " 🔵 Paddle OCR output reveals chunking handles OCR quality issues and CEO commentary
+511 6:53p ✅ Enhance PaddleOcrChunker bullet detection and text normalization
+512 6:54p 🔵 Enhanced PaddleOcrChunker tests pass with improved performance
+513 " 🔵 Text normalization improvements visible in re-processed chunks
+514 " 🔵 Paddle OCR chunker implementation complete with comprehensive text processing pipeline
+515 6:55p 🔵 Raw Paddle OCR output analysis from RIL page 2 reveals specific text artifacts
+516 " ✅ Enhance formatTextLines with bullet tracking and metric line detection
+517 6:56p 🔵 Enhanced chunker with metric line detection produces improved formatting and readability
+518 " 🔵 Paddle OCR chunker test output validates improvements with identified remaining gaps
+519 " ✅ Refine CIN (Corporate Identification Number) detection in furniture filtering
+520 6:57p ✅ Add additional text normalization patterns for numeric variations and spacing gaps
+521 " ✅ Add integration test for Annual Performance section with bullet structure validation
+522 6:58p 🔴 CIN regex pattern in isPageFurniture() breaks existing tests
+523 " 🔴 Test failures root cause: broken CIN regex breaks furniture filtering and table parsing
+524 " ✅ Update table format assertions to match markdown table output
 
-Access 248k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 302k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

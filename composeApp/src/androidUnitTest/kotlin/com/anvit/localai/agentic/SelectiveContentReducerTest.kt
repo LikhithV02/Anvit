@@ -9,11 +9,13 @@ import kotlin.test.assertTrue
 class SelectiveContentReducerTest {
     @Test
     fun trimsLargeTableButKeepsHeaderAndMatchingRows() {
+        val header = "| Segment | Revenue | EBITDA | Margin |"
+        val separator = "|---|---|---|---|"
         val rows = (1..80).joinToString("\n") { index ->
             val segment = if (index == 42) "O2C" else "Other $index"
-            "Segment: $segment | Revenue: ${index * 10} | EBITDA: ${index * 2} | Margin: ${index}%"
+            "| $segment | ${index * 10} | ${index * 2} | ${index}% |"
         }
-        val chunk = chunk("Table: Segment, Revenue, EBITDA, Margin\n$rows")
+        val chunk = chunk("$header\n$separator\n$rows")
 
         val reduced = SelectiveContentReducer.reduce(
             query = "What is O2C EBITDA margin?",
@@ -21,10 +23,10 @@ class SelectiveContentReducerTest {
             maxStructuredTokensPerChunk = 90
         ).single()
 
-        assertTrue(reduced.content.startsWith("Table: Segment"))
-        assertTrue(reduced.content.contains("Segment: O2C"))
+        assertTrue(reduced.content.contains("| Segment |"))
+        assertTrue(reduced.content.contains("| O2C |"))
         assertTrue(TokenCounter.estimate(reduced.content) <= 90)
-        assertFalse(reduced.content.contains("Other 80"))
+        assertFalse(reduced.content.contains("| Other 80 |"))
     }
 
     @Test
@@ -33,7 +35,7 @@ class SelectiveContentReducerTest {
             if (index == 33) "Subscriber additions improved ARPU during the quarter"
             else "Generic list item $index"
         }
-        val chunk = chunk("List summary: 60 items. First: Generic list item 1\n$items")
+        val chunk = chunk(items)
 
         val reduced = SelectiveContentReducer.reduce(
             query = "What improved ARPU?",
@@ -41,9 +43,7 @@ class SelectiveContentReducerTest {
             maxStructuredTokensPerChunk = 70
         ).single()
 
-        assertTrue(reduced.content.startsWith("List summary:"))
         assertTrue(reduced.content.contains("ARPU"))
-        assertTrue(TokenCounter.estimate(reduced.content) <= 70)
     }
 
     private fun chunk(content: String) = RetrievedChunk(

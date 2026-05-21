@@ -12,6 +12,7 @@ import com.anvit.localai.ui.viewmodels.ChatViewModel
 import com.anvit.localai.ui.viewmodels.CollectionsViewModel
 import com.anvit.localai.ui.viewmodels.DocumentsViewModel
 import com.anvit.localai.ui.viewmodels.SettingsViewModel
+import com.anvit.localai.ui.walkthrough.WalkthroughViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -48,4 +49,5 @@ val commonModule = module {
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { DocumentsViewModel(get(), get(), get(), get(), get()) }
     viewModel { CollectionsViewModel(get(), get(), get()) }
+    viewModel { WalkthroughViewModel(get(), get()) }
 }

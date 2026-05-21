@@ -1,6 +1,7 @@
 package com.anvit.localai.agentic
 
 import com.anvit.localai.retrieval.RetrievedChunk
+import com.anvit.localai.utils.formatFixed
 import kotlin.math.abs
 
 data class TableAnswerResult(
@@ -68,39 +69,33 @@ object TableAnswerEngine {
     private fun parseRows(chunk: RetrievedChunk): List<TableRow> {
         val headers = mutableListOf<String>()
         val rows = mutableListOf<TableRow>()
+        var headerParsed = false
+
         chunk.content.lines()
             .map { it.trim() }
-            .filter { it.isNotBlank() }
+            .filter { it.isNotBlank() && it.startsWith("|") }
             .forEach { line ->
-                when {
-                    line.startsWith("Table:", ignoreCase = true) -> {
-                        headers.clear()
-                        headers.addAll(line.substringAfter(':').split(',').map { it.trim() }.filter { it.isNotBlank() })
+                val cells = parseMarkdownRow(line)
+                if (cells.isEmpty()) return@forEach
+                if (cells.all { it.replace("-", "").isBlank() }) return@forEach  // separator row
+                if (!headerParsed) {
+                    headers.clear()
+                    headers.addAll(cells)
+                    headerParsed = true
+                } else {
+                    val tableCells = (0 until maxOf(headers.size, cells.size)).mapNotNull { i ->
+                        val value = cells.getOrElse(i) { "" }.trim()
+                        if (value.isBlank() || value == "-") null
+                        else TableCell(label = headers.getOrElse(i) { "Col ${i + 1}" }, value = value)
                     }
-                    line.startsWith("Table (continued)", ignoreCase = true) -> {
-                        headers.clear()
-                        headers.addAll(line.substringAfter("Headers:", "").split(',').map { it.trim() }.filter { it.isNotBlank() })
-                    }
-                    line.contains(" | ") && line.contains(":") -> {
-                        val cells = parseCells(line)
-                        if (cells.isNotEmpty()) {
-                            rows.add(TableRow(chunk, headers.toList(), cells))
-                        }
-                    }
+                    if (tableCells.isNotEmpty()) rows.add(TableRow(chunk, headers.toList(), tableCells))
                 }
             }
         return rows
     }
 
-    private fun parseCells(line: String): List<TableCell> =
-        line.split(" | ").mapNotNull { part ->
-            val separator = part.indexOf(':')
-            if (separator <= 0) return@mapNotNull null
-            TableCell(
-                label = part.substring(0, separator).trim(),
-                value = part.substring(separator + 1).trim()
-            )
-        }
+    private fun parseMarkdownRow(line: String): List<String> =
+        line.trim('|').split("|").map { it.trim() }
 
     private fun terms(text: String): Set<String> =
         text.lowercase()
@@ -139,7 +134,7 @@ object TableAnswerEngine {
         val selected = if (explicitColumns.isNotEmpty()) {
             row.cells.filter { cell -> explicitColumns.any { sameLabel(it, cell.label) } }
         } else {
-            row.cells.filter { !it.value.equals("(empty)", ignoreCase = true) }.take(8)
+            row.cells.take(8)
         }
         if (selected.isEmpty()) return null
         val rowName = row.primaryLabel()
@@ -178,17 +173,14 @@ object TableAnswerEngine {
         if (selected.size < 2 || selected.size > 8) return null
         val sum = selected.sumOf { it.number }
         val operands = selected.joinToString(" + ") { it.cell.value }
-        val formatted = if (abs(sum - sum.toLong()) < 0.0001) sum.toLong().toString() else "%.2f".format(sum)
+        val formatted = if (abs(sum - sum.toLong()) < 0.0001) sum.toLong().toString() else formatFixed(sum, 2)
         return "$operands = $formatted (Source: ${selected.first().row.chunk.fileName})"
     }
 
     private fun factsFor(rows: List<TableRow>): String =
         rows.take(MAX_FACT_ROWS).joinToString("\n") { row ->
             val rowName = row.primaryLabel().ifBlank { "Table row" }
-            val cells = row.cells
-                .filter { !it.value.equals("(empty)", ignoreCase = true) }
-                .take(10)
-                .joinToString(" | ") { "${it.label}: ${it.value}" }
+            val cells = row.cells.take(10).joinToString(" | ") { "${it.label}: ${it.value}" }
             "- ${row.chunk.fileName}: $rowName | $cells"
         }
 
@@ -220,8 +212,7 @@ object TableAnswerEngine {
     ) {
         val searchText: String = "${chunk.fileName} ${chunk.content} ${cells.joinToString(" ") { "${it.label} ${it.value}" }}"
 
-        fun primaryLabel(): String =
-            cells.firstOrNull { !it.value.equals("(empty)", ignoreCase = true) }?.value.orEmpty()
+        fun primaryLabel(): String = cells.firstOrNull()?.value.orEmpty()
     }
 
     private data class TableCell(val label: String, val value: String)

@@ -194,12 +194,7 @@ $context
     }
 
     private fun isTableChunk(content: String): Boolean =
-        content.lines().any { line ->
-            line.startsWith("Table:") ||
-                line.startsWith("Table summary:") ||
-                line.startsWith("Table (continued)") ||
-                line.contains(" | ")
-        }
+        content.lines().any { line -> line.trim().startsWith("|") }
 
     private fun requiresCalculation(question: String): Boolean {
         val q = question.lowercase()

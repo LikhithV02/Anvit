@@ -42,7 +42,7 @@ class ChunkerCsvTest {
             val chunker = HierarchicalChunker(maxTokensPerChunk = 8000)
             val chunks = chunker.chunkTree(rootNode)
 
-            val tableChunks = chunks.count { it.content.lines().any { l -> l.startsWith("Table:") || l.startsWith("Table summary:") || l.startsWith("Table (continued)") } }
+            val tableChunks = chunks.count { it.content.lines().any { l -> l.trim().startsWith("|") } }
             val groupedChunks = chunks.count { it.groupId != null }
             println("Generated ${chunks.size} chunks ($tableChunks table chunks, $groupedChunks grouped) for $fileName. Exporting to CSV...")
 
@@ -65,6 +65,58 @@ class ChunkerCsvTest {
             
             println("Export complete: ${csvFile.absolutePath}")
             assertTrue(csvFile.exists(), "CSV file should be created for $fileName")
+        }
+    }
+
+    @Test
+    fun testExportChunksToMarkdown() = runBlocking {
+        val testDocsFolder = File("/Users/likhithv/AndroidStudioProjects/AgenticRAG/Test Docs")
+
+        if (!testDocsFolder.exists() || !testDocsFolder.isDirectory) {
+            println("Test Docs folder not found at ${testDocsFolder.absolutePath}.")
+            return@runBlocking
+        }
+
+        val documentFiles = testDocsFolder.listFiles { file ->
+            file.isFile && (file.name.endsWith(".docx", ignoreCase = true) || file.name.endsWith(".pdf", ignoreCase = true))
+        }
+
+        if (documentFiles.isNullOrEmpty()) {
+            println("No .docx or .pdf files found in ${testDocsFolder.absolutePath}.")
+            return@runBlocking
+        }
+
+        for (testFile in documentFiles) {
+            val fileName = testFile.name
+            println("\n--- Processing $fileName ---")
+            val bytes = testFile.readBytes()
+            val parser = when {
+                fileName.endsWith(".docx", ignoreCase = true) -> DocxHierarchicalParser()
+                fileName.endsWith(".pdf", ignoreCase = true) -> DesktopPdfHierarchicalParser()
+                else -> throw IllegalArgumentException("Unsupported file type")
+            }
+
+            val rootNode = parser.parse(fileName, bytes)
+            val chunks = HierarchicalChunker(maxTokensPerChunk = 8000).chunkTree(rootNode)
+
+            val mdFile = File(testDocsFolder, "chunks_export_${fileName}.md")
+            mdFile.bufferedWriter().use { writer ->
+                writer.write("# Chunks: $fileName\n")
+                writer.write("Total: ${chunks.size} chunks\n\n")
+
+                chunks.forEachIndexed { index, chunk ->
+                    val path = chunk.hierarchyPath.joinToString(" > ")
+                    writer.write("---\n\n")
+                    writer.write("**Chunk ${index + 1}** · ${chunk.tokenCount} tokens")
+                    if (path.isNotBlank()) writer.write(" · $path")
+                    writer.write("\n\n")
+                    writer.write(chunk.content)
+                    writer.write("\n\n")
+                }
+            }
+
+            println("Markdown export: ${mdFile.absolutePath}")
+            assertTrue(mdFile.exists(), "Markdown file should be created for $fileName")
         }
     }
 

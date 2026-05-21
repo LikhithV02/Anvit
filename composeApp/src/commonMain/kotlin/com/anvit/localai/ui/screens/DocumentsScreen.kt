@@ -34,6 +34,7 @@ import com.anvit.localai.data.db.entities.DocumentEntity
 import com.anvit.localai.ui.components.rememberPdfPicker
 import com.anvit.localai.ui.theme.*
 import com.anvit.localai.ui.viewmodels.DocumentsViewModel
+import com.anvit.localai.utils.formatFixed
 import org.koin.compose.viewmodel.koinViewModel
 
 // ── Root screen ───────────────────────────────────────────────────────────────
@@ -585,7 +586,7 @@ private fun DocumentCard(doc: DocumentEntity, onDelete: () -> Unit) {
 }
 
 private fun formatFileSize(bytes: Long): String = when {
-    bytes >= 1_048_576 -> "${"%.1f".format(bytes / 1_048_576.0)} MB"
+    bytes >= 1_048_576 -> "${formatFixed(bytes / 1_048_576.0, 1)} MB"
     bytes >= 1_024     -> "${bytes / 1_024} KB"
     else               -> "$bytes B"
 }

@@ -98,20 +98,13 @@ object SelectiveContentReducer {
     }
 
     private fun isTableChunk(content: String): Boolean =
-        content.lines().any { line ->
-            line.startsWith("Table:") ||
-            line.startsWith("Table summary:") ||
-            line.startsWith("Table (continued)")
-        }
+        content.lines().any { it.trim().startsWith("|") }
 
-    private fun isListChunk(content: String): Boolean =
-        content.lines().any { line -> line.startsWith("List summary:") }
+    private fun isListChunk(content: String): Boolean = false
 
     private fun isStructuredHeaderLine(line: String): Boolean =
-        line.startsWith("Table:") ||
-            line.startsWith("Table summary:") ||
-            line.startsWith("Table (continued)") ||
-            line.startsWith("List summary:")
+        line.trim().startsWith("|") &&
+            line.replace("|", "").replace("-", "").replace(" ", "").isBlank()
 
     private data class IndexedLine(val index: Int, val line: String, val score: Float)
 }

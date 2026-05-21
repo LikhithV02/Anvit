@@ -13,15 +13,27 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
     private fun traverse(node: SectionNode, parentPath: List<String>, result: MutableList<DocumentChunk>) {
         val path = if (node.title.isBlank()) parentPath else parentPath + node.title
 
+        // Empty leaf: the parser misclassified this line as a heading (e.g. bold highlight text).
+        // Recover it as plain text content under the parent section.
+        if (node.title.isNotBlank() && node.blocks.isEmpty() && node.children.isEmpty()) {
+            val tokens = TokenCounter.estimate(node.title)
+            result.add(DocumentChunk(
+                id = randomUUID(),
+                content = node.title,
+                hierarchyPath = parentPath,
+                tokenCount = tokens
+            ))
+            return
+        }
+
         var currentContent = StringBuilder()
         var currentTokens = 0
 
         fun flush() {
             if (currentTokens > 0) {
-                val prefix = if (path.isNotEmpty()) path.joinToString(" > ") + "\n\n" else ""
                 result.add(DocumentChunk(
                     id = randomUUID(),
-                    content = (prefix + currentContent.toString()).trim(),
+                    content = currentContent.toString().trim(),
                     hierarchyPath = path,
                     tokenCount = currentTokens
                 ))
@@ -82,20 +94,22 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
     }
 
     private fun emitTableChunks(table: Block.Table, path: List<String>, result: MutableList<DocumentChunk>) {
-        val prefix = if (path.isNotEmpty()) path.joinToString(" > ") + "\n\n" else ""
         val colCount = maxOf(table.headers.size, table.rows.firstOrNull()?.size ?: 0)
         val headers = normalizeHeaders(table.headers, colCount)
 
         if (colCount == 0) return
 
+        val headerRow = "| ${headers.joinToString(" | ")} |"
+        val separatorRow = "| ${headers.joinToString(" | ") { "---" }} |"
+
         if (table.rows.isEmpty()) {
-            val content = "${prefix}Table: ${headers.joinToString(", ")} (no data rows)"
+            val content = "$headerRow\n$separatorRow"
             result.add(DocumentChunk(randomUUID(), content.trim(), path, TokenCounter.estimate(content)))
             return
         }
 
-        val rowLines = table.rows.map { formatRowAsKeyValue(headers, it) }
-        val fullContent = "${prefix}Table: ${headers.joinToString(", ")}\n${rowLines.joinToString("\n")}"
+        val rowLines = table.rows.map { formatRowAsMarkdown(headers, it) }
+        val fullContent = "$headerRow\n$separatorRow\n${rowLines.joinToString("\n")}"
         val totalTokens = TokenCounter.estimate(fullContent)
 
         if (totalTokens <= maxTokensPerChunk) {
@@ -103,10 +117,10 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
             return
         }
 
-        // Table exceeds limit — parent summary + grouped child chunks
+        // Table exceeds limit — grouped child chunks, each with the header rows repeated
         val groupId = randomUUID()
 
-        val headContent = "${prefix}Table summary: ${table.rows.size} rows. Headers: ${headers.joinToString(", ")}"
+        val headContent = "$headerRow\n$separatorRow"
         result.add(DocumentChunk(
             id = randomUUID(), content = headContent.trim(), hierarchyPath = path,
             tokenCount = TokenCounter.estimate(headContent),
@@ -115,11 +129,10 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
 
         val rowBuffer = StringBuilder()
         var bufTokens = 0
-        val headerLine = "Table (continued) — Headers: ${headers.joinToString(", ")}"
 
         fun flushRowBuffer() {
             if (bufTokens == 0) return
-            val content = "$prefix$headerLine\n$rowBuffer"
+            val content = "$headerRow\n$separatorRow\n$rowBuffer"
             result.add(DocumentChunk(
                 id = randomUUID(), content = content.trim(), hierarchyPath = path,
                 tokenCount = TokenCounter.estimate(content),
@@ -139,30 +152,21 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
     }
 
     private fun emitListChunks(list: Block.ListBlock, path: List<String>, result: MutableList<DocumentChunk>) {
-        val prefix = if (path.isNotEmpty()) path.joinToString(" > ") + "\n\n" else ""
         val groupId = randomUUID()
-
-        val firstItem = list.items.firstOrNull()?.take(80) ?: ""
-        val headContent = "${prefix}List summary: ${list.items.size} items. First: $firstItem"
-        result.add(DocumentChunk(
-            id = randomUUID(), content = headContent.trim(), hierarchyPath = path,
-            tokenCount = TokenCounter.estimate(headContent),
-            groupId = groupId, isGroupHead = true
-        ))
-
         val itemBuffer = StringBuilder()
         var bufTokens = 0
+        var isFirst = true
 
         fun flushItemBuffer() {
             if (bufTokens == 0) return
-            val content = "$prefix$itemBuffer"
             result.add(DocumentChunk(
-                id = randomUUID(), content = content.trim(), hierarchyPath = path,
-                tokenCount = TokenCounter.estimate(content),
-                groupId = groupId, isGroupHead = false
+                id = randomUUID(), content = itemBuffer.toString().trim(), hierarchyPath = path,
+                tokenCount = TokenCounter.estimate(itemBuffer.toString()),
+                groupId = groupId, isGroupHead = isFirst
             ))
             itemBuffer.clear()
             bufTokens = 0
+            isFirst = false
         }
 
         for (item in list.items) {
@@ -174,12 +178,9 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
         flushItemBuffer()
     }
 
-    private fun formatRowAsKeyValue(headers: List<String>, row: List<String>): String {
+    private fun formatRowAsMarkdown(headers: List<String>, row: List<String>): String {
         val colCount = maxOf(headers.size, row.size)
-        val h = normalizeHeaders(headers, colCount)
-        return (0 until colCount).joinToString(" | ") { i ->
-            "${h[i]}: ${row.getOrElse(i) { "" }.ifEmpty { "(empty)" }}"
-        }
+        return "| ${(0 until colCount).joinToString(" | ") { i -> row.getOrElse(i) { "" }.ifBlank { "-" } }} |"
     }
 
     private fun normalizeHeaders(headers: List<String>, colCount: Int): List<String> =
@@ -204,16 +205,16 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
             }
 
             exactSeen.add(signature)
-            val shouldMerge = chunk.groupId == null &&
-                !isStructuredTableChunk(chunk) &&
-                chunk.tokenCount < MIN_TEXT_CHUNK_TOKENS
 
-            if (shouldMerge && cleaned.isNotEmpty()) {
+            // Merge adjacent plain-text chunks in the same section up to MAX_MERGE_TOKENS.
+            // Tables (start with |) and grouped list chunks (groupId != null) stay separate.
+            val isMergeCandidate = chunk.groupId == null && !isStructuredChunk(chunk)
+            if (isMergeCandidate && cleaned.isNotEmpty()) {
                 val previous = cleaned.last()
                 if (previous.groupId == null &&
-                    !isStructuredTableChunk(previous) &&
+                    !isStructuredChunk(previous) &&
                     previous.hierarchyPath == chunk.hierarchyPath &&
-                    previous.tokenCount + chunk.tokenCount <= maxTokensPerChunk
+                    previous.tokenCount + chunk.tokenCount <= MAX_MERGE_TOKENS
                 ) {
                     val mergedContent = "${previous.content.trim()}\n\n${body.trim()}".trim()
                     cleaned[cleaned.lastIndex] = previous.copy(
@@ -224,25 +225,16 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
                 }
             }
 
-            if (shouldMerge && bodyTokenCount(body) <= TINY_TEXT_CHUNK_TOKENS) continue
             cleaned.add(chunk)
         }
 
         return cleaned
     }
 
-    private fun semanticBody(content: String): String =
-        content.substringAfter("\n\n", content).trim()
+    private fun semanticBody(content: String): String = content.trim()
 
-    private fun bodyTokenCount(body: String): Int = TokenCounter.estimate(body)
-
-    private fun isStructuredTableChunk(chunk: DocumentChunk): Boolean {
-        val body = semanticBody(chunk.content)
-        return body.startsWith("Table:") ||
-            body.startsWith("Table summary:") ||
-            body.startsWith("Table (continued)") ||
-            chunk.groupId != null
-    }
+    private fun isStructuredChunk(chunk: DocumentChunk): Boolean =
+        chunk.content.trimStart().startsWith("|") || chunk.groupId != null
 
     private fun isJunkBody(body: String): Boolean {
         val normalized = body.lowercase()
@@ -280,8 +272,7 @@ class HierarchicalChunker(private val maxTokensPerChunk: Int = 8000) {
             ?: "page".takeIf { Regex("^page # of #$").matches(signature) }
 
     private companion object {
-        const val MIN_TEXT_CHUNK_TOKENS = 20
-        const val TINY_TEXT_CHUNK_TOKENS = 5
+        const val MAX_MERGE_TOKENS = 1500
         val pageFurnitureTerms = listOf(
             "registered office",
             "corporate communications",

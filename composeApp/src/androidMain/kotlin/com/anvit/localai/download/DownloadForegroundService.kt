@@ -8,6 +8,10 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
@@ -65,6 +69,25 @@ class DownloadForegroundService : Service() {
             }
         }
 
+        private fun accentColor(context: Context): Int {
+            val nightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            return if (nightMode == Configuration.UI_MODE_NIGHT_YES) 0xFF00C8E8.toInt() else 0xFF0099BA.toInt()
+        }
+
+        private fun appIconBitmap(context: Context): Bitmap? = try {
+            val drawable = context.packageManager.getApplicationIcon(context.packageName)
+            if (drawable is BitmapDrawable) drawable.bitmap
+            else {
+                val w = drawable.intrinsicWidth.takeIf { it > 0 } ?: 96
+                val h = drawable.intrinsicHeight.takeIf { it > 0 } ?: 96
+                val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bmp)
+                drawable.setBounds(0, 0, w, h)
+                drawable.draw(canvas)
+                bmp
+            }
+        } catch (_: Exception) { null }
+
         private fun buildNotification(context: Context, fraction: Float, status: String): Notification {
             val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
             val tapIntent = PendingIntent.getActivity(
@@ -74,7 +97,8 @@ class DownloadForegroundService : Service() {
                 PendingIntent.FLAG_IMMUTABLE
             )
             return NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(com.anvit.localai.R.mipmap.ic_launcher_foreground)
+                .setSmallIcon(com.anvit.localai.R.drawable.ic_notification)
+                .setColor(accentColor(context))
                 .setContentTitle("Downloading models")
                 .setContentText(status)
                 .setContentIntent(tapIntent)

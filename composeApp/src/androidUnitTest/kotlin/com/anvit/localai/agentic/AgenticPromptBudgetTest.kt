@@ -26,9 +26,9 @@ class AgenticPromptBudgetTest {
         )
         val longRows = (1..250).joinToString("\n") { index ->
             val segment = if (index == 127) "O2C" else "Other $index"
-            "Segment: $segment | Revenue: ${index * 100} | EBITDA: ${index * 10} | Margin: ${index}% | Notes: repeated financial detail"
+            "| $segment | ${index * 100} | ${index * 10} | ${index}% | repeated financial detail |"
         }
-        val chunks = listOf(chunk("Table: Segment, Revenue, EBITDA, Margin\n$longRows"))
+        val chunks = listOf(chunk("| Segment | Revenue | EBITDA | Margin | Notes |\n|---|---|---|---|---|\n$longRows"))
         val history = (1..12).joinToString("\n") { index ->
             if (index % 2 == 0) "assistant: older answer $index ".repeat(400)
             else "user: older question $index ".repeat(400)
@@ -43,7 +43,7 @@ class AgenticPromptBudgetTest {
 
         assertTrue(totalTokens < 4000)
         assertTrue(budgeted.prompt.contains("What is the O2C EBITDA margin?"))
-        assertTrue(budgeted.systemPrompt.contains("Table: Segment"))
+        assertTrue(budgeted.systemPrompt.contains("| Segment |"))
         assertTrue(budgeted.systemPrompt.contains("O2C"))
         assertFalse(budgeted.prompt.contains("older question 1"))
     }
@@ -128,6 +128,8 @@ class AgenticPromptBudgetTest {
         override suspend fun getTotalChunkCount(): Int = 0
         override suspend fun getChunkCountForCollection(collectionId: String): Int = 0
         override suspend fun getChunksForGroup(groupId: String): List<ChunkEntity> = emptyList()
+        override suspend fun getChunkEntityById(id: String): ChunkEntity? = null
+        override suspend fun getChunksForSection(sectionId: String): List<ChunkEntity> = emptyList()
         override suspend fun searchChunksFts(query: String, limit: Int): List<ChunkEntity> = emptyList()
         override suspend fun searchChunksFtsForCollection(query: String, collectionId: String, limit: Int): List<ChunkEntity> = emptyList()
     }

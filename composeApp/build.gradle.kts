@@ -161,6 +161,10 @@ kotlin {
             // Structural document parsing
             implementation(libs.pdfbox.android)
             implementation(libs.apache.poi.ooxml)
+            // OCR PDF parsing is experimental. Keep RapidOCR on the compile
+            // classpath only so its app manifest does not force Anvit's
+            // release minSdk/theme while hierarchical chunker testing is active.
+            compileOnly("io.github.hzkitty:rapidocr4j-android:1.0.0")
             // Markdown
             implementation("com.github.jeziellago:compose-markdown:0.3.0")
         }

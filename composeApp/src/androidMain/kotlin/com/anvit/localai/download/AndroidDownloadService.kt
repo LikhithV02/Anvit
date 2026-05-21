@@ -1,6 +1,8 @@
 package com.anvit.localai.download
 
 import android.content.Context
+import com.anvit.localai.data.models.EmbeddingModels
+import com.anvit.localai.data.models.GemmaModels
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -26,7 +28,7 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
         get() = File(context.filesDir, "models").also { it.mkdirs() }
 
     override fun isModelPresent(fileName: String): Boolean =
-        File(modelsDir, fileName).exists()
+        isCompleteModelFile(File(modelsDir, fileName), expectedSizeBytes(fileName))
 
     override fun startDownload(
         modelId: String,
@@ -43,6 +45,21 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
 
             val destFile  = File(modelsDir, "$fileName.part")
             val finalFile = File(modelsDir, fileName)
+
+            if (isCompleteModelFile(finalFile, totalSizeBytes)) {
+                updateProgress(
+                    modelId,
+                    DownloadProgress(
+                        modelId = modelId,
+                        state = DownloadState.COMPLETED,
+                        bytesDownloaded = finalFile.length(),
+                        totalBytes = totalSizeBytes
+                    )
+                )
+                activeFileNames.remove(modelId)
+                return@launch
+            }
+            if (finalFile.exists()) finalFile.delete()
 
             val bytesAlreadyDownloaded = if (destFile.exists()) destFile.length() else 0L
             var connection: HttpURLConnection? = null
@@ -95,9 +112,9 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
                 val isPartialContent  = responseCode == HttpURLConnection.HTTP_PARTIAL
                 val contentLength     = connection.contentLengthLong
                 val effectiveTotalBytes = when {
-                    totalSizeBytes > 0 -> totalSizeBytes
                     isPartialContent   -> bytesAlreadyDownloaded + contentLength
                     contentLength > 0  -> contentLength
+                    totalSizeBytes > 0 -> totalSizeBytes
                     else               -> 0L
                 }
 
@@ -148,7 +165,25 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
                     inputStream.close()
                 }
 
-                destFile.renameTo(finalFile)
+                val expectedDownloadedBytes = when {
+                    isPartialContent && contentLength > 0 -> bytesAlreadyDownloaded + contentLength
+                    contentLength > 0 -> contentLength
+                    effectiveTotalBytes > 0 -> effectiveTotalBytes
+                    else -> totalDownloaded
+                }
+                if (totalDownloaded < expectedDownloadedBytes) {
+                    throw Exception(
+                        "Download incomplete (${formatBytes(totalDownloaded)} of ${formatBytes(expectedDownloadedBytes)}). Try again."
+                    )
+                }
+                if (!isCompleteModelFile(destFile, expectedDownloadedBytes)) {
+                    throw Exception(
+                        "Downloaded file is smaller than expected (${formatBytes(destFile.length())} of ${formatBytes(expectedDownloadedBytes)}). Try again."
+                    )
+                }
+                if (!destFile.renameTo(finalFile)) {
+                    throw Exception("Could not save downloaded model. Try again.")
+                }
                 activeFileNames.remove(modelId)
                 updateProgress(modelId, DownloadProgress(
                     modelId         = modelId,
@@ -233,5 +268,16 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
 
     private fun updateProgress(modelId: String, progress: DownloadProgress) {
         _downloads.update { current -> current + (modelId to progress) }
+    }
+
+    private fun expectedSizeBytes(fileName: String): Long =
+        GemmaModels.all.firstOrNull { it.fileName == fileName }?.sizeBytes
+            ?: EmbeddingModels.all.firstOrNull { it.fileName == fileName }?.sizeBytes
+            ?: 0L
+
+    private fun isCompleteModelFile(file: File, expectedBytes: Long): Boolean {
+        if (!file.exists()) return false
+        if (expectedBytes <= 0L) return file.length() > 0L
+        return file.length() >= (expectedBytes * 0.95).toLong()
     }
 }

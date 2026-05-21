@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A5000001"
-               BuildableName = "AnvitApp.app"
+               BuildableName = "Anvit.app"
                BlueprintName = "AnvitApp"
                ReferencedContainer = "container:AnvitApp.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A5000001"
-            BuildableName = "AnvitApp.app"
+            BuildableName = "Anvit.app"
             BlueprintName = "AnvitApp"
             ReferencedContainer = "container:AnvitApp.xcodeproj">
          </BuildableReference>
@@ -61,7 +61,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A5000001"
-            BuildableName = "AnvitApp.app"
+            BuildableName = "Anvit.app"
             BlueprintName = "AnvitApp"
             ReferencedContainer = "container:AnvitApp.xcodeproj">
          </BuildableReference>

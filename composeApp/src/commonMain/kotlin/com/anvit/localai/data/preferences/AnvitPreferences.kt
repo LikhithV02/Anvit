@@ -33,6 +33,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
         val THEME_MODE                        = stringPreferencesKey("theme_mode")
         val RATING_PROMPT_MSGS_AT_LAST_SHOWN  = longPreferencesKey("rating_prompt_msgs_at_last_shown")
         val RATING_PROMPT_PERMANENTLY_DISMISSED = booleanPreferencesKey("rating_prompt_permanently_dismissed")
+        val WALKTHROUGH_SEEN                  = booleanPreferencesKey("walkthrough_seen")
     }
 
     private fun <T> flow(key: Preferences.Key<T>, default: T): Flow<T> =
@@ -60,6 +61,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     val themeMode:                         Flow<String>  = flow(THEME_MODE,                               "system")
     val ratingPromptMsgsAtLastShown:       Flow<Long>    = flow(RATING_PROMPT_MSGS_AT_LAST_SHOWN,         -1L)
     val ratingPromptPermanentlyDismissed:  Flow<Boolean> = flow(RATING_PROMPT_PERMANENTLY_DISMISSED,      false)
+    val walkthroughSeen:                   Flow<Boolean> = flow(WALKTHROUGH_SEEN,                         false)
 
     suspend fun setSelectedModelId(id: String)            { dataStore.edit { it[SELECTED_MODEL_ID] = id } }
     suspend fun setSelectedEmbeddingModel(m: String)      { dataStore.edit { it[SELECTED_EMBEDDING_MODEL] = m } }
@@ -81,6 +83,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     suspend fun setThemeMode(mode: String)                { dataStore.edit { it[THEME_MODE] = mode } }
     suspend fun setRatingPromptShown(totalMessages: Long) { dataStore.edit { it[RATING_PROMPT_MSGS_AT_LAST_SHOWN] = totalMessages } }
     suspend fun dismissRatingPromptPermanently()          { dataStore.edit { it[RATING_PROMPT_PERMANENTLY_DISMISSED] = true } }
+    suspend fun setWalkthroughSeen(v: Boolean)            { dataStore.edit { it[WALKTHROUGH_SEEN] = v } }
 
     suspend fun getHuggingFaceToken(): String =
         dataStore.data.catch { emit(emptyPreferences()) }.map { it[HUGGINGFACE_TOKEN] ?: "" }.first()

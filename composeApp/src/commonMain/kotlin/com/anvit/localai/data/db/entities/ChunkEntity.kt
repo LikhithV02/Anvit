@@ -14,7 +14,14 @@ import com.anvit.localai.utils.currentTimeMillis
         childColumns = ["docId"],
         onDelete = ForeignKey.CASCADE
     )],
-    indices = [Index("docId"), Index("groupId")]
+    indices = [
+        Index("docId"),
+        Index("groupId"),
+        Index("parentChunkId"),
+        Index("sectionId"),
+        Index("chunkType"),
+        Index(value = ["pageStart", "pageEnd"])
+    ]
 )
 data class ChunkEntity(
     @PrimaryKey val id: String,
@@ -27,5 +34,12 @@ data class ChunkEntity(
     val collectionId: String = "default-collection",
     val hierarchyPath: String = "",
     val groupId: String? = null,
-    val isGroupHead: Boolean = false
+    val isGroupHead: Boolean = false,
+    val chunkType: String = "TEXT",
+    val parentChunkId: String? = null,
+    val sectionId: String? = null,
+    val pageStart: Int = 0,
+    val pageEnd: Int = 0,
+    val bboxJson: String = "",
+    val rowRangeJson: String = ""
 )

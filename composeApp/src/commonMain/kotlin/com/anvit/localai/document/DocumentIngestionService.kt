@@ -25,7 +25,8 @@ class DocumentIngestionService(
     private val embeddingService: EmbeddingService,
     private val pdfExtractor: PdfExtractor,
     private val foregroundController: IngestionForegroundController = IngestionForegroundController.NoOp,
-    private val documentParsers: List<DocumentParser> = emptyList()
+    private val documentParsers: List<DocumentParser> = emptyList(),
+    private val documentChunkParsers: List<DocumentChunkParser> = emptyList()
 ) {
     companion object {
         private const val MAX_CHUNK_SIZE = 800
@@ -57,9 +58,65 @@ class DocumentIngestionService(
                 collectionId = collectionId
             ))
 
+            val directChunkParser = documentChunkParsers.firstOrNull { it.supports(fileName) }
             val structuredParser = documentParsers.firstOrNull { it.supports(fileName) }
 
-            if (structuredParser != null) {
+            if (directChunkParser != null) {
+                report(0.05f, "Running OCR layout parser...", true)
+                val parsed = directChunkParser.parseChunks(fileName, documentBytes)
+                val docChunks = parsed.chunks
+
+                if (docChunks.isEmpty()) {
+                    documentDao.updateDocument(DocumentEntity(
+                        id = docId, fileName = fileName, filePath = "",
+                        pageCount = parsed.pageCount, chunkCount = 0, status = "FAILED", collectionId = collectionId
+                    ))
+                    return@withContext IngestionResult.Error(
+                        "OCR did not find readable text in this PDF."
+                    )
+                }
+
+                report(0.15f, "Initializing embedding model...", true)
+                if (!embeddingService.isInitialized()) {
+                    val ok = embeddingService.initialize()
+                    if (!ok) {
+                        documentDao.updateDocument(DocumentEntity(
+                            id = docId, fileName = fileName, filePath = "",
+                            pageCount = parsed.pageCount, chunkCount = 0, status = "FAILED", collectionId = collectionId
+                        ))
+                        return@withContext IngestionResult.Error(
+                            "Embedding model not found. Please download an embedding model in Settings."
+                        )
+                    }
+                }
+
+                var embeddedCount = 0
+                val chunkEntities = mutableListOf<ChunkEntity>()
+                val chunkCount = docChunks.size.coerceAtLeast(1)
+                for ((index, docChunk) in docChunks.withIndex()) {
+                    ensureActive()
+                    val embedFraction = 0.15f + 0.80f * (index.toFloat() / chunkCount)
+                    val shouldUpdateForeground = index == 0 || index == docChunks.lastIndex || (index + 1) % 5 == 0
+                    report(embedFraction, "Embedding OCR chunk ${index + 1} of ${docChunks.size}", shouldUpdateForeground)
+                    val embedding = embeddingService.generateEmbedding(docChunk.content)
+                    chunkEntities.add(
+                        docChunk.toChunkEntity(docId, fileName, index, embedding?.toByteArray(), collectionId)
+                    )
+                    if (embedding != null) embeddedCount++
+                }
+
+                report(0.98f, "Saving to database...", true)
+                documentDao.insertChunks(chunkEntities)
+                documentDao.rebuildChunksFts()
+                documentDao.updateDocument(DocumentEntity(
+                    id = docId, fileName = fileName, filePath = "",
+                    pageCount = parsed.pageCount, chunkCount = embeddedCount,
+                    status = "READY", collectionId = collectionId,
+                    sizeBytes = documentBytes.size.toLong()
+                ))
+                IngestionResult.Success(docId, embeddedCount, parsed.pageCount)
+
+            } else if (structuredParser != null) {
                 // ── Hierarchical path (PDF via pdfbox-android, DOCX via POI) ──────────
                 report(0.05f, "Parsing document structure...", true)
                 val root = structuredParser.parse(fileName, documentBytes)

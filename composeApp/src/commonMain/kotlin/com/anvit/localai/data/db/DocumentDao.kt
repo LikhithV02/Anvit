@@ -63,6 +63,12 @@ interface DocumentDao {
     @Query("SELECT * FROM chunks WHERE groupId = :groupId ORDER BY chunkIndex ASC")
     suspend fun getChunksForGroup(groupId: String): List<ChunkEntity>
 
+    @Query("SELECT * FROM chunks WHERE id = :id LIMIT 1")
+    suspend fun getChunkEntityById(id: String): ChunkEntity?
+
+    @Query("SELECT * FROM chunks WHERE sectionId = :sectionId ORDER BY chunkIndex ASC")
+    suspend fun getChunksForSection(sectionId: String): List<ChunkEntity>
+
     // FTS search — global
     @Query("SELECT c.* FROM chunks c INNER JOIN chunks_fts fts ON c.rowid = fts.rowid WHERE chunks_fts MATCH :query LIMIT :limit")
     suspend fun searchChunksFts(query: String, limit: Int): List<ChunkEntity>

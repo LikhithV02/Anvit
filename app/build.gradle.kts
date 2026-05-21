@@ -41,6 +41,10 @@ val deviceEvalInstrumentationArgs = listOf(
     "anvit.eval.temperature"
 )
 
+val localProps = Properties().also { p ->
+    rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { p.load(it) }
+}
+
 android {
     namespace  = "com.anvit.localai"
     compileSdk = 35
@@ -49,8 +53,8 @@ android {
         applicationId = "com.likhith.anvit"
         minSdk        = 27
         targetSdk     = 35
-        versionCode   = 11
-        versionName   = "1.0.10"
+        versionCode   = 12
+        versionName   = "1.0.11"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         if (connectedDeviceEvalRequested) {
             testInstrumentationRunnerArguments["class"] = deviceEvalInstrumentationClass
@@ -68,10 +72,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("release.jks")
-            storePassword = "DishanthV#5649"
-            keyAlias = "key0"
-            keyPassword = "DishanthV#5649"
+            storeFile     = localProps.getProperty("signing.storeFile")?.let { rootProject.file(it) }
+            storePassword = localProps.getProperty("signing.storePassword")
+            keyAlias      = localProps.getProperty("signing.keyAlias")
+            keyPassword   = localProps.getProperty("signing.keyPassword")
         }
     }
 

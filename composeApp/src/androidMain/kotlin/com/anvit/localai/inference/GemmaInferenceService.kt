@@ -53,7 +53,7 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
 
     companion object {
         private const val TAG = "GemmaInference"
-        private const val ANDROID_LITERT_CONTEXT_WINDOW = 1536
+        private const val ANDROID_LITERT_CONTEXT_WINDOW = 8192
     }
 
     fun setRagTools(tools: RagAgentTools?) {
@@ -87,7 +87,7 @@ class GemmaInferenceService(private val context: Context) : InferenceService {
 
     override fun getEffectiveMaxTokens(model: GemmaModel): Int {
         return (contextWindow ?: ANDROID_LITERT_CONTEXT_WINDOW)
-            .coerceIn(1, minOf(model.contextWindowSize, ANDROID_LITERT_CONTEXT_WINDOW))
+            .coerceIn(1, model.contextWindowSize)
     }
 
     override fun getMaxOutputTokens(): Int = maxTokens

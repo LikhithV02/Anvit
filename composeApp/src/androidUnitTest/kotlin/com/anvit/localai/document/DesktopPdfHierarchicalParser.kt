@@ -237,6 +237,12 @@ class DesktopPdfHierarchicalParser : DocumentParser {
             }
 
             if (cellMatrix.isEmpty()) return null
+
+            // If every row's first cell is a bullet marker, this is a list rendered with spacing —
+            // not a real table. Return null so the rows fall through to processTextRun as list items.
+            val bulletRegex = Regex("^[•‣◦⁃∙oO*\\-–]$")
+            if (cellMatrix.all { row -> row.firstOrNull()?.trim()?.let { bulletRegex.matches(it) } == true }) return null
+
             val (headers, dataRows) = extractHeadersAndData(cellMatrix)
             val markdown = buildMarkdownFromRows(listOf(headers) + dataRows)
             return Block.Table(markdown, headers, dataRows, TokenCounter.estimate(markdown))

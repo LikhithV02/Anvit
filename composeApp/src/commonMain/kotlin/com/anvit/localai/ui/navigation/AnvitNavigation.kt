@@ -30,6 +30,10 @@ import com.anvit.localai.ui.screens.DocumentsScreen
 import com.anvit.localai.ui.screens.PrivacyPolicyScreen
 import com.anvit.localai.ui.screens.SettingsScreen
 import com.anvit.localai.ui.theme.LocalAnvitColors
+import com.anvit.localai.ui.walkthrough.WalkthroughBottomSheet
+import com.anvit.localai.ui.walkthrough.WalkthroughViewModel
+import com.anvit.localai.ui.walkthrough.walkthroughStepRoutes
+import org.koin.compose.viewmodel.koinViewModel
 
 sealed class SageScreen(val route: String, val label: String, val icon: ImageVector) {
     object Chat      : SageScreen("chat",      "Chat",      Icons.Default.Chat)
@@ -48,47 +52,78 @@ fun AnvitNavHost() {
     val c = LocalAnvitColors.current
     val navController = rememberNavController()
 
-    Scaffold(
-        modifier       = Modifier.imePadding(),
-        containerColor = c.bg,
-        bottomBar      = { FloatingNavBar(navController) },
-    ) { innerPadding ->
-        NavHost(
-            navController    = navController,
-            startDestination = SageScreen.Chat.route,
-            modifier         = Modifier.padding(innerPadding),
-            enterTransition  = {
-                val fromIndex = screenOrder.indexOf(initialState.destination.route)
-                val toIndex   = screenOrder.indexOf(targetState.destination.route)
-                val dir = if (toIndex > fromIndex)
-                    AnimatedContentTransitionScope.SlideDirection.Start
-                else
-                    AnimatedContentTransitionScope.SlideDirection.End
-                slideIntoContainer(dir, tween(TRANSITION_DURATION)) + fadeIn(tween(TRANSITION_DURATION))
-            },
-            exitTransition = {
-                val fromIndex = screenOrder.indexOf(initialState.destination.route)
-                val toIndex   = screenOrder.indexOf(targetState.destination.route)
-                val dir = if (toIndex > fromIndex)
-                    AnimatedContentTransitionScope.SlideDirection.Start
-                else
-                    AnimatedContentTransitionScope.SlideDirection.End
-                slideOutOfContainer(dir, tween(TRANSITION_DURATION)) + fadeOut(tween(TRANSITION_DURATION))
-            },
-            popEnterTransition = {
-                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TRANSITION_DURATION)) +
-                    fadeIn(tween(TRANSITION_DURATION))
-            },
-            popExitTransition = {
-                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(TRANSITION_DURATION)) +
-                    fadeOut(tween(TRANSITION_DURATION))
-            },
-        ) {
-            composable(SageScreen.Chat.route)      { ChatScreen() }
-            composable(SageScreen.Documents.route) { DocumentsScreen() }
-            composable(SageScreen.Settings.route)  { SettingsScreen(navController) }
-            composable("about")   { AboutScreen(onBack = { navController.popBackStack() }) }
-            composable("privacy") { PrivacyPolicyScreen(onBack = { navController.popBackStack() }) }
+    val walkthroughVm: WalkthroughViewModel = koinViewModel()
+    val walkthroughState by walkthroughVm.uiState.collectAsState()
+
+    // Drive tab navigation to match the current walkthrough step
+    LaunchedEffect(walkthroughState.currentStep) {
+        if (!walkthroughState.showSheet) return@LaunchedEffect
+        val targetRoute = walkthroughStepRoutes[walkthroughState.currentStep]
+        if (navController.currentDestination?.route != targetRoute) {
+            navController.navigate(targetRoute) {
+                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            modifier       = Modifier.imePadding(),
+            containerColor = c.bg,
+            bottomBar      = { FloatingNavBar(navController) },
+        ) { innerPadding ->
+            NavHost(
+                navController    = navController,
+                startDestination = SageScreen.Chat.route,
+                modifier         = Modifier.padding(innerPadding),
+                enterTransition  = {
+                    val fromIndex = screenOrder.indexOf(initialState.destination.route)
+                    val toIndex   = screenOrder.indexOf(targetState.destination.route)
+                    val dir = if (toIndex > fromIndex)
+                        AnimatedContentTransitionScope.SlideDirection.Start
+                    else
+                        AnimatedContentTransitionScope.SlideDirection.End
+                    slideIntoContainer(dir, tween(TRANSITION_DURATION)) + fadeIn(tween(TRANSITION_DURATION))
+                },
+                exitTransition = {
+                    val fromIndex = screenOrder.indexOf(initialState.destination.route)
+                    val toIndex   = screenOrder.indexOf(targetState.destination.route)
+                    val dir = if (toIndex > fromIndex)
+                        AnimatedContentTransitionScope.SlideDirection.Start
+                    else
+                        AnimatedContentTransitionScope.SlideDirection.End
+                    slideOutOfContainer(dir, tween(TRANSITION_DURATION)) + fadeOut(tween(TRANSITION_DURATION))
+                },
+                popEnterTransition = {
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.End, tween(TRANSITION_DURATION)) +
+                        fadeIn(tween(TRANSITION_DURATION))
+                },
+                popExitTransition = {
+                    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(TRANSITION_DURATION)) +
+                        fadeOut(tween(TRANSITION_DURATION))
+                },
+            ) {
+                composable(SageScreen.Chat.route)      { ChatScreen() }
+                composable(SageScreen.Documents.route) { DocumentsScreen() }
+                composable(SageScreen.Settings.route)  { SettingsScreen(navController) }
+                composable("about")   { AboutScreen(onBack = { navController.popBackStack() }) }
+                composable("privacy") { PrivacyPolicyScreen(onBack = { navController.popBackStack() }) }
+            }
+        }
+
+        if (walkthroughState.showSheet) {
+            WalkthroughBottomSheet(
+                uiState = walkthroughState,
+                canAdvance = walkthroughVm.canAdvance(walkthroughState.currentStep),
+                onNext = walkthroughVm::nextStep,
+                onSkip = walkthroughVm::skip,
+                onStartLlmDownload = walkthroughVm::startLlmDownload,
+                onSelectLlmModel = walkthroughVm::selectLlmModel,
+                onStartGeckoDownload = walkthroughVm::startGeckoDownload,
+                modifier = Modifier.align(Alignment.BottomCenter),
+            )
         }
     }
 }

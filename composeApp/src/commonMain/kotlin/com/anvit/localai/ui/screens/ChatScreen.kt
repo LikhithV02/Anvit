@@ -257,20 +257,6 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
         )
     }
 
-    if (uiState.showComplianceReminder) {
-        val c2 = LocalAnvitColors.current
-        AlertDialog(
-            onDismissRequest = { },
-            containerColor   = c2.surf2,
-            title = { Text("Terms of Service Reminder", color = c2.txt0, fontWeight = FontWeight.Bold) },
-            text  = { Text("As per IT Rules 2026, please be reminded that you must not use AI tools to generate illegal, offensive, or harmful content. Misuse is subject to legal penalties.", color = c2.txt1) },
-            confirmButton = {
-                TextButton(onClick = { viewModel.acknowledgeCompliance() }) {
-                    Text("I Agree", color = c2.accent)
-                }
-            },
-        )
-    }
 
     if (uiState.showRatingDialog) {
         val c2 = LocalAnvitColors.current
@@ -1537,7 +1523,8 @@ private fun SourcesPanel(sources: List<SourceChunk>) {
 @Composable
 private fun ThinkingSection(content: String, isStreaming: Boolean) {
     val c = LocalAnvitColors.current
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(isStreaming) }
+    LaunchedEffect(isStreaming) { if (isStreaming) expanded = true }
 
     Box(
         modifier = Modifier
@@ -1645,7 +1632,7 @@ private fun CrossedPinIcon(tint: Color, modifier: Modifier = Modifier, crossed: 
 // ── Time helpers ──────────────────────────────────────────────────────────────
 
 private fun groupSessionsByTime(sessions: List<ChatSessionEntity>): List<Pair<String, List<ChatSessionEntity>>> {
-    val now   = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    val now   = Instant.fromEpochMilliseconds(currentTimeMillis()).toLocalDateTime(TimeZone.currentSystemDefault()).date
     val today = now
     val yest  = now.minus(1, DateTimeUnit.DAY)
     val groups = linkedMapOf<String, MutableList<ChatSessionEntity>>()
@@ -1662,13 +1649,14 @@ private fun groupSessionsByTime(sessions: List<ChatSessionEntity>): List<Pair<St
 }
 
 private fun formatRelativeTime(epochMs: Long): String {
-    val now  = Clock.System.now().toEpochMilliseconds()
-    val diff = now - epochMs
+    val now  = currentTimeMillis()
+    val diff: Long = now - epochMs
+    val dayMs = 86_400_000L
     return when {
         diff < 60_000L          -> "just now"
         diff < 3_600_000L       -> "${diff / 60_000}m ago"
         diff < 86_400_000L      -> "${diff / 3_600_000}h ago"
-        diff < 7 * 86_400_000L  -> "${diff / 86_400_000}d ago"
+        diff < 7L * dayMs       -> "${diff / dayMs}d ago"
         else -> {
             val ldt = Instant.fromEpochMilliseconds(epochMs).toLocalDateTime(TimeZone.currentSystemDefault())
             "${ldt.dayOfMonth} ${ldt.month.name.take(3).lowercase().replaceFirstChar { it.uppercase() }}"
