@@ -1,0 +1,40 @@
+flowchart TD
+    UserQuery([User Query])
+
+    Router{Query Router}
+    UserQuery --> Router
+
+    Router -->|SINGLE_SHOT| SingleRet[Standard Hybrid Retrieval]
+    Router -->|AGENTIC| Decomposer[Query Decomposer]
+    Router -->|DIRECT| DirectGen[LLM Generation — no retrieval]
+
+    SingleRet --> SingleRed[Content Reducer]
+    SingleRed --> SingleGen[LLM Generation]
+
+    Decomposer --> SubQ[multiple sub-queries]
+    SubQ --> AgenticRet[(Hybrid Retrieval)]
+    AgenticRet --> MergeRRF[Merge & Deduplicate]
+
+    MergeRRF --> Evaluator{Relevance Evaluator}
+
+    Evaluator -->|REQUERY| Rephrase[Rephrase Query]
+    Rephrase --> AgenticRet
+
+    Evaluator -->|SUPPLEMENT| SuppRet[(Supplemental Retrieval)]
+    SuppRet --> MergeSupp[Merge]
+    MergeSupp --> Reducer
+
+    Evaluator -->|USE| Reducer[Selective Content Reducer]
+
+    Reducer --> AgenticGen[LLM Generation with Native Tools]
+
+    AgenticGen --> Critique{Self-Critique Loop}
+    Critique -->|INSUFFICIENT| GapQuery[Generate Gap Query]
+    GapQuery --> ExtraRet[(Gap Retrieval)]
+    ExtraRet --> RefinedGen[Refined Generation]
+
+    Critique -->|SUFFICIENT| FinalResponse
+
+    DirectGen --> FinalResponse([Final Response])
+    SingleGen --> FinalResponse
+    RefinedGen --> FinalResponse

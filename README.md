@@ -76,6 +76,7 @@ flowchart TD
 
     Router -->|SINGLE_SHOT| SingleRet[Standard Hybrid Retrieval]
     Router -->|AGENTIC| Decomposer[Query Decomposer]
+    Router -->|DIRECT| DirectGen[LLM Generation — no retrieval]
 
     %% Single-Shot Flow
     SingleRet --> SingleRed[Content Reducer]
@@ -108,7 +109,8 @@ flowchart TD
     Critique -->|SUFFICIENT| FinalResponse
 
     %% Terminations
-    SingleGen --> FinalResponse([Final Response])
+    DirectGen --> FinalResponse([Final Response])
+    SingleGen --> FinalResponse
     RefinedGen --> FinalResponse
 ```
 

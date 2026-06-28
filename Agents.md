@@ -23,6 +23,7 @@ flowchart TD
 
     Router -->|SINGLE_SHOT| SingleRet[Standard Hybrid Retrieval]
     Router -->|AGENTIC| Decomposer[Query Decomposer]
+    Router -->|DIRECT| DirectGen[LLM Generation — no retrieval]
 
     %% Single-Shot Flow
     SingleRet --> SingleRed[Content Reducer]
@@ -55,7 +56,8 @@ flowchart TD
     Critique -->|SUFFICIENT| FinalResponse
 
     %% Terminations
-    SingleGen --> FinalResponse([Final Response])
+    DirectGen --> FinalResponse([Final Response])
+    SingleGen --> FinalResponse
     RefinedGen --> FinalResponse
 ```
 
@@ -90,7 +92,7 @@ After the first response is generated, an independent critique LLM pass evaluate
 <claude-mem-context>
 # Memory Context
 
-# [AgenticRAG] recent context, 2026-05-19 10:48pm GMT+5:30
+# [AgenticRAG] recent context, 2026-05-22 12:37am GMT+5:30
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
