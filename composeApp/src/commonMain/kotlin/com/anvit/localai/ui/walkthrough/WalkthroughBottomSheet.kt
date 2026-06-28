@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.sp
 import com.anvit.localai.data.models.EmbeddingModels
 import com.anvit.localai.data.models.GemmaModel
 import com.anvit.localai.data.models.GemmaModels
+import com.anvit.localai.device.acceleratorDisplayName
+import com.anvit.localai.device.acceleratorRecommendationSuffix
 import com.anvit.localai.download.DownloadState
 import com.anvit.localai.ui.theme.LocalAnvitColors
 import com.anvit.localai.utils.formatFixed
@@ -40,7 +42,7 @@ private fun stepContent(step: Int, uiState: WalkthroughUiState): StepContent {
             val modelName = if (rec != null)
                 GemmaModels.all.find { it.id == rec.modelId }?.displayName ?: "Gemma 4 E2B"
             else "Gemma 4 E2B"
-            val accelLabel = if (rec?.accelerator == "gpu") "GPU" else "CPU"
+            val accelLabel = acceleratorDisplayName(rec?.accelerator)
             StepContent(
                 title = "Download AI Model",
                 description = "Choose Gemma 4 2B or 4B. We mark $modelName as recommended for this phone ($accelLabel), and whichever you download stays on-device.",
@@ -325,9 +327,7 @@ private fun ModelDownloadOption(
 ) {
     val c = LocalAnvitColors.current
     val sizeLabel = "${formatFixed(model.sizeBytes / 1_073_741_824.0, 1)} GB"
-    val accelLabel = if (isRecommended) {
-        if (accelerator == "gpu") " · GPU recommended" else " · CPU recommended"
-    } else ""
+    val accelLabel = if (isRecommended) acceleratorRecommendationSuffix(accelerator) else ""
 
     Box(
         modifier = Modifier

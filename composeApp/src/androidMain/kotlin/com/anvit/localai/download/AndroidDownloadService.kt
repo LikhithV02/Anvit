@@ -35,7 +35,8 @@ class AndroidDownloadService(private val context: Context) : DownloadService {
         fileName: String,
         downloadUrl: String,
         totalSizeBytes: Long,
-        authToken: String
+        authToken: String,
+        archiveFileName: String?
     ) {
         activeJobs[modelId]?.cancel()
         activeFileNames[modelId] = fileName

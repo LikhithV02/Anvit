@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * Platform-agnostic LLM inference interface.
  * Android: backed by GemmaInferenceService (litertlm-android JVM SDK)
- * iOS: backed by IosInferenceService (LiteRT-LM C API via cinterop)
+ * iOS: backed by IosInferenceService (Cactus Compute C API via cinterop)
  */
 interface InferenceService {
     companion object {

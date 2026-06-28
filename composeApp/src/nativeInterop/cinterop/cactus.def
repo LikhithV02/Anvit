@@ -1,0 +1,7 @@
+language = C
+headers = cactus_engine.h
+headerFilter = cactus_engine.h
+
+compilerOpts = -I../../../../native/cactus/headers
+
+staticLibraries = libcactus_engine.a

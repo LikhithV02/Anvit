@@ -19,6 +19,7 @@ import com.anvit.localai.data.reporting.ReportingService
 import com.anvit.localai.download.DownloadService
 import com.anvit.localai.inference.InferenceService
 import com.anvit.localai.retrieval.HybridRetriever
+import com.anvit.localai.retrieval.RetrievalMode
 import com.anvit.localai.utils.currentTimeMillis
 import com.anvit.localai.utils.isIosPlatform
 import com.anvit.localai.utils.randomUUID
@@ -352,7 +353,9 @@ class ChatViewModel(
         inferenceService.stopGeneration()
         generationJob?.cancel()
     }
-    fun toggleThinking() { viewModelScope.launch { preferences.setEnableThinking(!_uiState.value.enableThinking) } }
+    fun setThinkingEnabled(enabled: Boolean) {
+        viewModelScope.launch { preferences.setEnableThinking(enabled) }
+    }
 
     fun refreshModelState() {
         val model = inferenceService.getCurrentModel()
@@ -468,6 +471,20 @@ class ChatViewModel(
         }
     }
 
+    fun unloadModel() {
+        viewModelScope.launch {
+            inferenceService.unloadModel()
+            _uiState.update {
+                it.copy(
+                    isModelLoaded    = false,
+                    loadedModelName  = "",
+                    isSwitchingModel = false,
+                    autoLoadStatus   = ""
+                )
+            }
+        }
+    }
+
     fun sendMessage(userText: String) {
         val hasAudio = _uiState.value.pendingAudioPath != null
         if ((userText.isBlank() && !hasAudio) || _uiState.value.isGenerating) return
@@ -522,6 +539,7 @@ class ChatViewModel(
                 val temperature = preferences.temperature.first()
                 val enableThinking = preferences.enableThinking.first()
                 val accelerator = preferences.accelerator.first()
+                val retrievalMode = RetrievalMode.fromPreference(preferences.retrievalMode.first())
                 val collectionId = _uiState.value.chatCollectionId
                 inferenceService.setGenerationParams(
                     topK = topK, temperature = temperature, enableThinking = enableThinking,
@@ -544,8 +562,16 @@ class ChatViewModel(
                     inferenceService.generateStream(directPrompt, buildDirectSystemPrompt(), false, capturedImagePath, audioBytes)
                 } else {
                     val result = orchestrator.process(
-                        effectiveUserText, history, enableAgenticRag, maxChunks, enableSelfCritique,
-                        true, collectionId, capturedImagePath, audioBytes,
+                        userQuery = effectiveUserText,
+                        conversationHistory = history,
+                        enableAgenticRag = enableAgenticRag,
+                        maxChunks = maxChunks,
+                        enableSelfCritique = enableSelfCritique,
+                        useAgentTools = true,
+                        collectionId = collectionId,
+                        retrievalMode = retrievalMode,
+                        imagePath = capturedImagePath,
+                        audioBytes = audioBytes,
                         onStep = { step ->
                             agentStepsList = agentStepsList + step
                             _uiState.update { s -> s.copy(streamingMessage = (s.streamingMessage ?: ChatMessage(assistantMsgId, "assistant", "", isStreaming = true)).copy(agentSteps = agentStepsList)) }

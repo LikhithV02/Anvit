@@ -6,8 +6,8 @@ enum class ModelPlatform { ANDROID, IOS }
 data class GemmaModel(
     val id: String,
     val displayName: String,
-    val fileName: String,         // file name (Android) or directory name (iOS MLX)
-    val downloadUrl: String,      // direct URL (Android) or "hf://<repo_id>" (iOS MLX)
+    val fileName: String,         // file name (Android) or directory name (iOS)
+    val downloadUrl: String,      // direct URL (Android) or "hf://<repo_id>" (iOS)
     val sizeBytes: Long,
     val sizeLabel: String,
     val ramRequired: String,
@@ -15,7 +15,8 @@ data class GemmaModel(
     val isDefault: Boolean = false,
     val contextWindowSize: Int = 32768,
     val supportsVision: Boolean = false,
-    val supportsAudio: Boolean = false
+    val supportsAudio: Boolean = false,
+    val archiveFileName: String? = null
 )
 
 data class EmbeddingModelInfo(
@@ -62,41 +63,43 @@ object GemmaModels {
         supportsAudio    = true
     )
 
-    // ── iOS models (MLX format, downloaded from HuggingFace Hub) ──────────────
-    // downloadUrl prefix "hf://" signals IosDownloadService to use Hub multi-file download.
-    // fileName is the local directory name (= repo name without the org prefix).
+    // ── iOS models (Cactus cq4-apple bundle, downloaded from HuggingFace Hub) ─
+    // downloadUrl prefix "hf://" signals IosDownloadService to use HuggingFace.
+    // archiveFileName is fetched, unzipped into fileName/, then guarded by .complete.
 
-    val MLX_E2B = GemmaModel(
-        id               = "gemma4-mlx-e2b",
-        displayName      = "Gemma 4 2B (MLX)",
-        fileName         = "gemma-4-e2b-it-4bit",
-        downloadUrl      = "hf://mlx-community/gemma-4-e2b-it-4bit",
+    val CACTUS_E2B = GemmaModel(
+        id               = "gemma4-cactus-e2b",
+        displayName      = "Gemma 4 E2B (Cactus)",
+        fileName         = "gemma-4-e2b-it-cq4-apple",
+        downloadUrl      = "hf://Cactus-Compute/gemma-4-E2B-it",
+        archiveFileName  = "gemma-4-e2b-it-cq4-apple.zip",
         sizeBytes        = 3_613_529_644L,
-        sizeLabel        = "2B · 4-bit",
-        ramRequired      = "~4 GB (Metal GPU)",
+        sizeLabel        = "2B · cq4 Apple",
+        ramRequired      = "~4 GB RAM",
         platform         = ModelPlatform.IOS,
         isDefault        = true,
         contextWindowSize = 128000,
         supportsVision   = true,
-        supportsAudio    = false
+        supportsAudio    = true
     )
 
-    val MLX_E4B = GemmaModel(
-        id               = "gemma4-mlx-e4b",
-        displayName      = "Gemma 4 4B (MLX)",
-        fileName         = "gemma-4-e4b-it-4bit",
-        downloadUrl      = "hf://mlx-community/gemma-4-e4b-it-4bit",
+    val CACTUS_E4B = GemmaModel(
+        id               = "gemma4-cactus-e4b",
+        displayName      = "Gemma 4 E4B (Cactus)",
+        fileName         = "gemma-4-e4b-it-cq4-apple",
+        downloadUrl      = "hf://Cactus-Compute/gemma-4-E4B-it",
+        archiveFileName  = "gemma-4-e4b-it-cq4-apple.zip",
         sizeBytes        = 5_249_810_583L,
-        sizeLabel        = "4B · 4-bit",
-        ramRequired      = "~6 GB (Metal GPU)",
+        sizeLabel        = "4B · cq4 Apple",
+        ramRequired      = "~6 GB RAM",
         platform         = ModelPlatform.IOS,
         isDefault        = false,
         contextWindowSize = 128000,
         supportsVision   = true,
-        supportsAudio    = false
+        supportsAudio    = true
     )
 
-    val all = listOf(E2B, E4B, MLX_E2B, MLX_E4B)
+    val all = listOf(E2B, E4B, CACTUS_E2B, CACTUS_E4B)
 
     fun forPlatform(ios: Boolean): List<GemmaModel> =
         all.filter { it.platform == if (ios) ModelPlatform.IOS else ModelPlatform.ANDROID }

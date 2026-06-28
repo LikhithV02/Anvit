@@ -7,6 +7,7 @@ import com.anvit.localai.document.TokenCounter
 import com.anvit.localai.inference.InferenceService
 import com.anvit.localai.retrieval.HybridRetriever
 import com.anvit.localai.retrieval.RetrievedChunk
+import com.anvit.localai.retrieval.RetrievalMode
 import com.anvit.localai.utils.currentTimeMillis
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -57,6 +58,7 @@ class AgenticRagOrchestrator(
         enableSelfCritique: Boolean,
         useAgentTools: Boolean,
         collectionId: String? = null,
+        retrievalMode: RetrievalMode = RetrievalMode.HYBRID,
         imagePath: String? = null,
         audioBytes: ByteArray? = null,
         onStep: suspend (AgentStep) -> Unit = {},
@@ -69,6 +71,7 @@ class AgenticRagOrchestrator(
         enableSelfCritique = enableSelfCritique,
         useAgentTools = useAgentTools,
         collectionId = collectionId,
+        retrievalMode = retrievalMode,
         imagePath = imagePath,
         audioBytes = audioBytes,
         onStep = onStep,
@@ -84,7 +87,8 @@ class AgenticRagOrchestrator(
         maxChunks: Int = 5,
         enableSelfCritique: Boolean = true,
         useAgentTools: Boolean = false,
-        collectionId: String? = null
+        collectionId: String? = null,
+        retrievalMode: RetrievalMode = RetrievalMode.HYBRID
     ): PipelineTrace {
         val recorder = PipelineTraceRecorder(queryId, userQuery)
         val started = currentTimeMillis()
@@ -96,6 +100,7 @@ class AgenticRagOrchestrator(
             enableSelfCritique = enableSelfCritique,
             useAgentTools = useAgentTools,
             collectionId = collectionId,
+            retrievalMode = retrievalMode,
             traceRecorder = recorder
         )
         val answer = StringBuilder()
@@ -115,6 +120,7 @@ class AgenticRagOrchestrator(
         enableSelfCritique: Boolean,
         useAgentTools: Boolean,
         collectionId: String? = null,
+        retrievalMode: RetrievalMode = RetrievalMode.HYBRID,
         imagePath: String? = null,
         audioBytes: ByteArray? = null,
         onStep: suspend (AgentStep) -> Unit = {},
@@ -162,7 +168,7 @@ class AgenticRagOrchestrator(
             QueryRoute.SINGLE_SHOT -> {
                 emitStep("retrieve", "Searching your documents...")
                 val retrieveStarted = currentTimeMillis()
-                val chunks  = hybridRetriever.retrieve(userQuery, maxChunks, collectionId)
+                val chunks  = hybridRetriever.retrieve(userQuery, maxChunks, collectionId, retrievalMode)
                 traceRecorder?.latencyMs?.set("retrieve", currentTimeMillis() - retrieveStarted)
                 traceRecorder?.retrievedChunks?.addAll(chunks)
                 traceRecorder?.dedupedChunks?.addAll(chunks.distinctBy { it.chunkId })
@@ -201,7 +207,7 @@ class AgenticRagOrchestrator(
 
             QueryRoute.AGENTIC -> agenticFlow(
                 userQuery, conversationHistory, steps, emitStep, onSources, maxChunks,
-                enableSelfCritique, useAgentTools, collectionId, imagePath, audioBytes,
+                enableSelfCritique, useAgentTools, collectionId, retrievalMode, imagePath, audioBytes,
                 traceRecorder
             )
         }
@@ -217,6 +223,7 @@ class AgenticRagOrchestrator(
         enableSelfCritique: Boolean,
         useAgentTools: Boolean,
         collectionId: String?,
+        retrievalMode: RetrievalMode,
         imagePath: String? = null,
         audioBytes: ByteArray? = null,
         traceRecorder: PipelineTraceRecorder? = null
@@ -231,7 +238,7 @@ class AgenticRagOrchestrator(
         val retrieveStarted = currentTimeMillis()
         subQueries.forEach { subQuery ->
             emitStep("retrieve", "Searching for: \"${subQuery.take(60)}\"")
-            allChunks.addAll(hybridRetriever.retrieve(subQuery, maxChunks, collectionId))
+            allChunks.addAll(hybridRetriever.retrieve(subQuery, maxChunks, collectionId, retrievalMode))
         }
         traceRecorder?.latencyMs?.set("retrieve", currentTimeMillis() - retrieveStarted)
         traceRecorder?.retrievedChunks?.addAll(allChunks)
@@ -251,7 +258,7 @@ class AgenticRagOrchestrator(
             requeryAttempts++
             emitStep("requery", "Results weren't quite right — trying a different search (attempt $requeryAttempts)")
             val rephrased = rephrase(userQuery)
-            val newChunks = hybridRetriever.retrieve(rephrased, maxChunks, collectionId)
+            val newChunks = hybridRetriever.retrieve(rephrased, maxChunks, collectionId, retrievalMode)
             if (newChunks.isNotEmpty()) {
                 finalChunks    = newChunks
                 relevanceAction = evaluator.evaluate(userQuery, finalChunks)
@@ -267,7 +274,7 @@ class AgenticRagOrchestrator(
         if (relevanceAction == RelevanceAction.SUPPLEMENT) {
             emitStep("supplement", "Gathering a few more relevant passages to fill any gaps")
             val supplementStarted = currentTimeMillis()
-            val extra = hybridRetriever.retrieve(userQuery, 3, collectionId)
+            val extra = hybridRetriever.retrieve(userQuery, 3, collectionId, retrievalMode)
             traceRecorder?.latencyMs?.set("supplement", currentTimeMillis() - supplementStarted)
             traceRecorder?.supplementChunks?.addAll(extra)
             finalChunks = (finalChunks + extra).distinctBy { it.chunkId }
@@ -317,7 +324,7 @@ class AgenticRagOrchestrator(
                     traceRecorder?.gapQuery = gapQuery
                     println("[$TAG] Self-critique gap found. Re-querying: $gapQuery")
                     emit("\n\n---\n*Refining with additional context...*\n\n")
-                    val extraChunks = hybridRetriever.retrieve(gapQuery, 3, collectionId)
+                    val extraChunks = hybridRetriever.retrieve(gapQuery, 3, collectionId, retrievalMode)
                     traceRecorder?.gapChunks?.addAll(extraChunks)
                     if (extraChunks.isNotEmpty()) {
                         val extraReduced = contentReducer.reduce(gapQuery, extraChunks)

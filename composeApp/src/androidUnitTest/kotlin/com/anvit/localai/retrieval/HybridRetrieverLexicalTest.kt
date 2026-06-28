@@ -66,6 +66,49 @@ class HybridRetrieverLexicalTest {
     }
 
     @Test
+    fun retrievalModeSelectsRequestedRetrievalPath() = runBlocking {
+        val db = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            AnvitDatabase::class.java
+        ).allowMainThreadQueries().build()
+
+        try {
+            val dao = db.documentDao()
+            dao.insertDocument(DocumentEntity(
+                id = "doc",
+                fileName = "financial.pdf",
+                filePath = "",
+                pageCount = 1,
+                chunkCount = 1,
+                status = "READY"
+            ))
+            dao.insertChunks(listOf(
+                ChunkEntity(
+                    id = "c1",
+                    docId = "doc",
+                    fileName = "financial.pdf",
+                    chunkIndex = 0,
+                    content = "Operating margin for O2C was 20%",
+                    embedding = null
+                )
+            ))
+            dao.rebuildChunksFts()
+
+            val retriever = HybridRetriever(dao, NoopEmbeddingService)
+
+            val bm25 = retriever.retrieve("O2C operating margin", maxResults = 5, mode = RetrievalMode.BM25)
+            val vector = retriever.retrieve("O2C operating margin", maxResults = 5, mode = RetrievalMode.VECTOR)
+            val hybrid = retriever.retrieve("O2C operating margin", maxResults = 5, mode = RetrievalMode.HYBRID)
+
+            assertEquals("lexical", bm25.first().retrievalSource)
+            assertTrue(vector.isEmpty())
+            assertEquals("lexical", hybrid.first().retrievalSource)
+        } finally {
+            db.close()
+        }
+    }
+
+    @Test
     fun groupExpansionIsBoundedAndIncludesGroupHead() = runBlocking {
         val db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),

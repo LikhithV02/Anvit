@@ -16,8 +16,7 @@ import com.anvit.localai.inference.IosInferenceService
 import org.koin.dsl.module
 
 /**
- * iOS Simulator Koin module — mirrors the device module but binds the Simulator stubs.
- * InferenceService is a no-op stub (LiteRT-LM device-only in v1).
+ * iOS Simulator Koin module. ARM64 Simulator inference uses the Cactus simulator slice.
  */
 val iosModule = module {
     single<InferenceService> { IosInferenceService() }

@@ -12,22 +12,25 @@ import com.anvit.localai.download.DownloadProgress
 import com.anvit.localai.download.DownloadService
 import com.anvit.localai.embedding.EmbeddingService
 import com.anvit.localai.inference.InferenceService
+import com.anvit.localai.ui.llmParameterDefaults
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+
+private val defaultGenerationParameters = llmParameterDefaults(isIosPlatform())
 
 data class SettingsUiState(
     val selectedModelId: String = GemmaModels.defaultForPlatform(isIosPlatform()).id,
     val enableThinking: Boolean = true,
     val enableAgenticRag: Boolean = true,
-    val temperature: Float = 1.0f,
-    val topK: Int = 40,
-    val contextWindow: Int = 8192,
-    val maxOutputTokens: Int = 4000,
+    val temperature: Float = defaultGenerationParameters.temperature,
+    val topK: Int = defaultGenerationParameters.topK,
+    val contextWindow: Int = defaultGenerationParameters.contextWindow,
+    val maxOutputTokens: Int = defaultGenerationParameters.maxOutputTokens,
     val accelerator: String = "cpu",
-    val maxRetrievalChunks: Int = 5,
+    val maxRetrievalChunks: Int = defaultGenerationParameters.maxRetrievalChunks,
     val enableSelfCritique: Boolean = true,
-    val retrievalMode: String = "hybrid",
+    val retrievalMode: String = defaultGenerationParameters.retrievalMode,
     val isLoadingModel: Boolean = false,
     val modelLoadError: String? = null,
     val modelLoadSuccess: String? = null,
@@ -125,7 +128,14 @@ class SettingsViewModel(
         }
     }
     fun downloadGemmaModel(model: GemmaModel) {
-        downloadService.startDownload(model.id, model.fileName, model.downloadUrl, model.sizeBytes, _uiState.value.huggingFaceToken)
+        downloadService.startDownload(
+            model.id,
+            model.fileName,
+            model.downloadUrl,
+            model.sizeBytes,
+            _uiState.value.huggingFaceToken,
+            model.archiveFileName
+        )
     }
     fun downloadEmbeddingModel(model: EmbeddingModelInfo) {
         downloadService.startDownload(model.id, model.fileName, model.downloadUrl, model.sizeBytes, _uiState.value.huggingFaceToken)
@@ -177,10 +187,11 @@ class SettingsViewModel(
     fun setThemeMode(mode: String)  { viewModelScope.launch { preferences.setThemeMode(mode) } }
     fun resetGenerationDefaults() {
         viewModelScope.launch {
-            preferences.setTemperature(1.0f)
-            preferences.setTopK(40)
-            preferences.setContextWindow(8192)
-            preferences.setMaxOutputTokens(4000)
+            val defaults = llmParameterDefaults(isIosPlatform())
+            preferences.setTemperature(defaults.temperature)
+            preferences.setTopK(defaults.topK)
+            preferences.setContextWindow(defaults.contextWindow)
+            preferences.setMaxOutputTokens(defaults.maxOutputTokens)
         }
     }
     fun clearMessages() { _uiState.update { it.copy(modelLoadError = null, modelLoadSuccess = null) } }

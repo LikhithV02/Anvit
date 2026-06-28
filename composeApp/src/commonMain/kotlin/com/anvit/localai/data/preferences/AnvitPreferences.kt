@@ -2,6 +2,8 @@ package com.anvit.localai.data.preferences
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
+import com.anvit.localai.ui.llmParameterDefaults
+import com.anvit.localai.utils.isIosPlatform
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -43,15 +45,17 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
 
     val selectedModelId:        Flow<String>  = flow(SELECTED_MODEL_ID,        "gemma4-e2b")
     val selectedEmbeddingModel: Flow<String>  = flow(SELECTED_EMBEDDING_MODEL, "EmbeddingGemma")
+    private val generationDefaults = llmParameterDefaults(isIosPlatform())
+
     val enableThinking:         Flow<Boolean> = flow(ENABLE_THINKING,           true)
     val enableAgenticRag:       Flow<Boolean> = flow(ENABLE_AGENTIC_RAG,        true)
-    val temperature:            Flow<Float>   = flow(TEMPERATURE,               1.0f)
-    val topK:                   Flow<Int>     = flow(TOP_K,                     40)
-    val maxOutputTokens:        Flow<Int>     = flow(MAX_OUTPUT_TOKENS,         4000)
-    val contextWindow:          Flow<Int>     = flow(CONTEXT_WINDOW,            8192)
-    val maxRetrievalChunks:     Flow<Int>     = flow(MAX_RETRIEVAL_CHUNKS,      5)
+    val temperature:            Flow<Float>   = flow(TEMPERATURE,               generationDefaults.temperature)
+    val topK:                   Flow<Int>     = flow(TOP_K,                     generationDefaults.topK)
+    val maxOutputTokens:        Flow<Int>     = flow(MAX_OUTPUT_TOKENS,         generationDefaults.maxOutputTokens)
+    val contextWindow:          Flow<Int>     = flow(CONTEXT_WINDOW,            generationDefaults.contextWindow)
+    val maxRetrievalChunks:     Flow<Int>     = flow(MAX_RETRIEVAL_CHUNKS,      generationDefaults.maxRetrievalChunks)
     val enableSelfCritique:     Flow<Boolean> = flow(ENABLE_SELF_CRITIQUE,      true)
-    val retrievalMode:          Flow<String>  = flow(RETRIEVAL_MODE,            "hybrid")
+    val retrievalMode:          Flow<String>  = flow(RETRIEVAL_MODE,            generationDefaults.retrievalMode)
     val huggingFaceToken:       Flow<String>  = flow(HUGGINGFACE_TOKEN,         "")
     val activeSessionId:        Flow<String>  = flow(ACTIVE_SESSION_ID,         "")
     val activeCollectionId:     Flow<String>  = flow(ACTIVE_COLLECTION_ID,      DEFAULT_COLLECTION_ID)

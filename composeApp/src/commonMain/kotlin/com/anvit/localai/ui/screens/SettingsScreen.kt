@@ -53,6 +53,7 @@ import com.anvit.localai.data.models.GemmaModel
 import com.anvit.localai.download.DownloadProgress
 import com.anvit.localai.download.DownloadState
 import com.anvit.localai.ui.theme.*
+import com.anvit.localai.ui.contextWindowSettingMax
 import com.anvit.localai.ui.viewmodels.SettingsViewModel
 import com.anvit.localai.utils.isIosPlatform
 import org.koin.compose.viewmodel.koinViewModel
@@ -350,12 +351,13 @@ fun SettingsScreen(navController: NavController, viewModel: SettingsViewModel = 
                 .find { it.id == uiState.selectedModelId }
                 ?.contextWindowSize
                 ?: 128000
+            val contextWindowMax = contextWindowSettingMax(isIosPlatform(), selectedContextMax)
             LabeledSlider(
                 label = "Context Window",
-                value = uiState.contextWindow.coerceAtMost(selectedContextMax).toFloat(),
-                displayValue = "${uiState.contextWindow.coerceAtMost(selectedContextMax)}",
+                value = uiState.contextWindow.coerceAtMost(contextWindowMax).toFloat(),
+                displayValue = "${uiState.contextWindow.coerceAtMost(contextWindowMax)}",
                 onValueChange = { viewModel.setContextWindow(it.toInt()) },
-                valueRange = 1024f..selectedContextMax.toFloat(),
+                valueRange = 1024f..contextWindowMax.toFloat(),
                 steps = 30
             )
 

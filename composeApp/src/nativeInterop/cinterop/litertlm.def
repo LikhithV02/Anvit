@@ -1,7 +1,7 @@
 language = Objective-C
-headers = engine.h
+headers = ../../../../native/litertlm-ios/headers/engine.h
 
-compilerOpts = -I/Users/likhithv/AndroidStudioProjects/AgenticRAG/native/litertlm-ios/headers
+compilerOpts = -I../../../../native/litertlm-ios/headers
 
 staticLibraries = libLiteRtLM.a
-libraryPaths = /Users/likhithv/AndroidStudioProjects/AgenticRAG/native/litertlm-ios/LiteRtLM.xcframework/ios-arm64
+libraryPaths = ../../../../native/litertlm-ios/LiteRtLM.xcframework/ios-arm64

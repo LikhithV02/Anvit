@@ -30,7 +30,19 @@ class HybridRetriever(
         private const val MAX_OCR_RELATION_EXPANSION_CHUNKS = 4
     }
 
-    suspend fun retrieve(query: String, maxResults: Int = 5, collectionId: String? = null): List<RetrievedChunk> =
+    suspend fun retrieve(
+        query: String,
+        maxResults: Int = 5,
+        collectionId: String? = null,
+        mode: RetrievalMode = RetrievalMode.HYBRID
+    ): List<RetrievedChunk> =
+        when (mode) {
+            RetrievalMode.VECTOR -> expandOcrRelations(expandGroups(retrieveVector(query, maxResults, collectionId)))
+            RetrievalMode.BM25 -> expandOcrRelations(expandGroups(retrieveLexical(query, maxResults, collectionId)))
+            RetrievalMode.HYBRID -> retrieveHybrid(query, maxResults, collectionId)
+        }
+
+    private suspend fun retrieveHybrid(query: String, maxResults: Int = 5, collectionId: String? = null): List<RetrievedChunk> =
         withContext(Dispatchers.IO) {
             try {
                 val vectorResults = retrieveVector(query, maxResults * 4, collectionId)

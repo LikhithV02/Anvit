@@ -8,6 +8,7 @@ struct AnvitApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     init() {
+        setenv("CACTUS_DISABLE_CLOUD_HANDOFF", "1", 1)
         // Bootstrap Koin DI — must run before any ViewModel or Room access
         KoinHelper.shared.doInitKoin()
     }

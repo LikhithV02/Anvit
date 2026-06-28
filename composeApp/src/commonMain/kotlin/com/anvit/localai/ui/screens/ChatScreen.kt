@@ -53,6 +53,8 @@ import com.anvit.localai.data.models.GemmaModel
 import com.anvit.localai.ui.components.AgentStepsPanel
 import com.anvit.localai.ui.components.MarkdownText
 import com.anvit.localai.ui.theme.*
+import com.anvit.localai.ui.nextThinkingMode
+import com.anvit.localai.ui.thinkingModeLabel
 import com.anvit.localai.ui.viewmodels.ChatMessage
 import com.anvit.localai.ui.viewmodels.ChatViewModel
 import com.anvit.localai.ui.viewmodels.SourceChunk
@@ -232,7 +234,7 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
                 onTextChange     = { viewModel.setInputText(it) },
                 onSend           = { scope.launch { viewModel.sendMessage(uiState.inputText) } },
                 onStop           = { viewModel.stopGeneration() },
-                onToggleThinking = { viewModel.toggleThinking() },
+                onSetThinking    = viewModel::setThinkingEnabled,
             )
         }
     }
@@ -253,6 +255,7 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
             isSwitching        = uiState.isSwitchingModel,
             isModelFilePresent = viewModel::isModelFilePresent,
             onLoad             = { model -> viewModel.loadModelFromPicker(model); showModelPicker = false },
+            onUnload           = { viewModel.unloadModel(); showModelPicker = false },
             onDismiss          = { showModelPicker = false },
         )
     }
@@ -890,7 +893,7 @@ private fun ChatInputBar(
     onTextChange: (String) -> Unit,
     onSend: () -> Unit,
     onStop: () -> Unit,
-    onToggleThinking: () -> Unit,
+    onSetThinking: (Boolean) -> Unit,
 ) {
     val c = LocalAnvitColors.current
     var isFocused by remember { mutableStateOf(false) }
@@ -953,7 +956,7 @@ private fun ChatInputBar(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        // Think toggle
+                        // Thinking mode toggle
                         val thinkTint by animateColorAsState(
                             targetValue = if (enableThinking) c.amber else c.txt2,
                             label = "think_tint",
@@ -966,16 +969,16 @@ private fun ChatInputBar(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(100.dp))
                                 .background(thinkBg)
-                                .border(1.dp, if (enableThinking) c.amber.copy(0.3f) else Color.Transparent, RoundedCornerShape(100.dp))
-                                .clickable(enabled = !isGenerating) { onToggleThinking() }
-                                .padding(horizontal = 14.dp, vertical = 9.dp),
+                                .border(1.dp, if (enableThinking) c.amber.copy(0.3f) else c.border, RoundedCornerShape(100.dp))
+                                .clickable(enabled = !isGenerating) { onSetThinking(nextThinkingMode(enableThinking)) }
+                                .padding(horizontal = 12.dp, vertical = 9.dp),
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                horizontalArrangement = Arrangement.spacedBy(5.dp),
                             ) {
                                 Icon(Icons.Default.Lightbulb, null, tint = thinkTint, modifier = Modifier.size(18.dp))
-                                Text("Think", color = thinkTint, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                                Text(thinkingModeLabel(enableThinking), color = thinkTint, fontSize = 14.sp, fontWeight = FontWeight.Medium)
                             }
                         }
 
@@ -1677,6 +1680,7 @@ private fun ModelPickerSheet(
     isSwitching: Boolean,
     isModelFilePresent: (String) -> Boolean,
     onLoad: (GemmaModel) -> Unit,
+    onUnload: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     val c = LocalAnvitColors.current
@@ -1731,15 +1735,27 @@ private fun ModelPickerSheet(
                 when {
                     isActive -> Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        Icon(
-                            Icons.Default.CheckCircle,
-                            contentDescription = null,
-                            tint     = c.green,
-                            modifier = Modifier.size(15.dp),
-                        )
-                        Text("Active", color = c.green, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        ) {
+                            Icon(
+                                Icons.Default.CheckCircle,
+                                contentDescription = null,
+                                tint     = c.green,
+                                modifier = Modifier.size(15.dp),
+                            )
+                            Text("Active", color = c.green, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                        }
+                        TextButton(
+                            onClick = onUnload,
+                            colors  = ButtonDefaults.textButtonColors(contentColor = c.amber),
+                            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                        ) {
+                            Text("Unload", fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                        }
                     }
                     isSwitching -> CircularProgressIndicator(
                         modifier    = Modifier.size(20.dp),

@@ -27,9 +27,16 @@ kotlin {
             }
         }
         compilations["main"].cinterops {
-            val mlxbridge by creating {
-                defFile(project.file("src/nativeInterop/cinterop/mlxbridge.def"))
-                packageName("com.anvit.mlxbridge")
+            val cactus by creating {
+                defFile(project.file("src/nativeInterop/cinterop/cactus.def"))
+                packageName("cactus")
+                compilerOpts("-I${rootProject.file("native/cactus/headers").absolutePath}")
+                extraOpts("-libraryPath", rootProject.file("native/cactus/Cactus.xcframework/ios-arm64").absolutePath)
+            }
+            val pdfbridge by creating {
+                defFile(project.file("src/nativeInterop/cinterop/pdfbridge.def"))
+                packageName("com.anvit.pdfbridge")
+                compilerOpts("-I${rootProject.file("native/pdfbridge").absolutePath}")
             }
         }
         // Export as static framework for the Xcode host to embed
@@ -43,12 +50,34 @@ kotlin {
                 export(libs.androidx.lifecycle.runtime)
                 export(libs.androidx.savedstate)
                 export(libs.androidx.navigation.compose)
+                linkerOpts(
+                    "-lc++",
+                    "-framework", "Accelerate",
+                    "-framework", "Metal",
+                    "-framework", "Foundation"
+                )
             }
         }
     }
 
-    // iosSimulatorArm64 target — MLX symbols are device-only (arm64); inference is a stub
+    // Apple Silicon Simulator uses the vendored Cactus simulator slice.
     iosSimulatorArm64 {
+        compilations.all {
+            compilerOptions.configure {
+                optIn.add("kotlinx.cinterop.ExperimentalForeignApi")
+            }
+        }
+        compilations["main"].cinterops {
+            val cactus by creating {
+                defFile(project.file("src/nativeInterop/cinterop/cactus.def"))
+                packageName("cactus")
+                compilerOpts("-I${rootProject.file("native/cactus/headers").absolutePath}")
+                extraOpts(
+                    "-libraryPath",
+                    rootProject.file("native/cactus/Cactus.xcframework/ios-arm64-simulator").absolutePath
+                )
+            }
+        }
         binaries {
             framework {
                 baseName = "ComposeApp"
@@ -59,6 +88,12 @@ kotlin {
                 export(libs.androidx.lifecycle.runtime)
                 export(libs.androidx.savedstate)
                 export(libs.androidx.navigation.compose)
+                linkerOpts(
+                    "-lc++",
+                    "-framework", "Accelerate",
+                    "-framework", "Metal",
+                    "-framework", "Foundation"
+                )
             }
         }
     }

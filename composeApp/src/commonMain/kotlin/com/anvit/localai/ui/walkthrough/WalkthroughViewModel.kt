@@ -168,6 +168,7 @@ class WalkthroughViewModel(
             fileName      = model.fileName,
             downloadUrl   = model.downloadUrl,
             totalSizeBytes = model.sizeBytes,
+            archiveFileName = model.archiveFileName,
         )
     }
 

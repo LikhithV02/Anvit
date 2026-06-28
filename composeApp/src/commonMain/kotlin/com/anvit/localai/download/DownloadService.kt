@@ -19,7 +19,14 @@ enum class DownloadState { IDLE, DOWNLOADING, PAUSED, COMPLETED, FAILED, CANCELL
 
 interface DownloadService {
     val downloads: StateFlow<Map<String, DownloadProgress>>
-    fun startDownload(modelId: String, fileName: String, downloadUrl: String, totalSizeBytes: Long, authToken: String = "")
+    fun startDownload(
+        modelId: String,
+        fileName: String,
+        downloadUrl: String,
+        totalSizeBytes: Long,
+        authToken: String = "",
+        archiveFileName: String? = null
+    )
     fun pauseDownload(modelId: String)
     fun cancelDownload(modelId: String)
     fun isModelPresent(fileName: String): Boolean
