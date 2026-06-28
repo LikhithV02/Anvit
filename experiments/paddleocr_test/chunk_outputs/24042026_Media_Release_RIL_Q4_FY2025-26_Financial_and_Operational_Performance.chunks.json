@@ -1,9 +1,9 @@
 [
   {
-    "id": "573d9466-d818-4fca-b577-512d68f656d5",
+    "id": "53ef0b4c-42ba-4926-80d3-8624088f412e",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "573d9466-d818-4fca-b577-512d68f656d5",
+    "sectionId": "53ef0b4c-42ba-4926-80d3-8624088f412e",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 1,
@@ -15,10 +15,10 @@
     "content": "CONSOLIDATED RESULTS FOR QUARTER / YEAR ENDED 31ST MARCH, 2026\n\nRecord Annual Consolidated Revenue at1,175,919crore, up9.8%Y-o-Y\nRecord Annual Consolidated EBITDA at 207,911 crore, up 13.4% Y-o-Y\nRecord Annual Consolidated PAT at 95,610crore, up18.3%Y-o-Y\nJio Platforms 4Q FY26 EBITDA up17.9%Y-o-Y at 20,060 crore, margin up 230 bps\nJio total subscriber base of over524millionwith268million Jio True5G\nReliance Retail 4Q FY26 EBITDA up3.1%Y-o-Y at 6,921crore,store count crosses20,000\nRIL announces Dividend of 6/- per share"
   },
   {
-    "id": "2bd2b6c2-cc38-40d6-bdcd-4a83842c4ef9",
+    "id": "6b4754e7-a158-4380-975d-85e0771f4a80",
     "chunkType": "SECTION",
-    "parentChunkId": "573d9466-d818-4fca-b577-512d68f656d5",
-    "sectionId": "2bd2b6c2-cc38-40d6-bdcd-4a83842c4ef9",
+    "parentChunkId": "53ef0b4c-42ba-4926-80d3-8624088f412e",
+    "sectionId": "6b4754e7-a158-4380-975d-85e0771f4a80",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 1,
@@ -30,10 +30,10 @@
     "content": "CONSOLIDATED FINANCIAL HIGHLIGHTS"
   },
   {
-    "id": "760b3235-17e4-4325-a982-5df8e90cb3f8",
+    "id": "64f685d7-fa52-450f-865a-23fa5780192f",
     "chunkType": "TABLE",
-    "parentChunkId": "2bd2b6c2-cc38-40d6-bdcd-4a83842c4ef9",
-    "sectionId": "2bd2b6c2-cc38-40d6-bdcd-4a83842c4ef9",
+    "parentChunkId": "6b4754e7-a158-4380-975d-85e0771f4a80",
+    "sectionId": "6b4754e7-a158-4380-975d-85e0771f4a80",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 1,
@@ -45,10 +45,10 @@
     "content": "( in crore)\n| Sr. No | Particulars | 4Q FY26 | 3Q FY26 | 4Q FY25 | % chg. Y-o-Y | FY26 | FY25 |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | Gross Revenue | 325,290 | 293,829 | 288,138 | 12.9 | 1,175,919 | 1,071,174 |\n| 2 | EBITDA | 48,588 | 50,932 | 48,737 | (0.3) | 207,911 | 183,422 |\n| 3 | EBITDA margin (%) | 14.9 | 17.3 | 16.9 | (200 bps) | 17.7 | 17.1 |\n| 4 | Depreciation | 14,808 | 14,622 | 13,479 | 9.9 | 57,688 | 53,136 |\n| 5 | Finance Costs | 6,585 | 6.613 | 6,155 | 7.0 | 27,061 | 24,269 |\n| 6 | Profit Before Tax | 27,195 | 29,697 | 29,103 | (6.6) | 123,162 | 106,017 |\n| 7 | Tax Expenses | 6,579 | 7,530 | 6,669 | (1.3) | 27,552 | 25,230 |\n| 8 | Profit After Tax | 20,616 | 22,167 | 22,434 | (8.1) | 95,610 | 80,787 |\n| 9 | Share of Profit/(Loss) of Associates & JVs | (27) | 123 | 177 | - | 144 | 522 |\n| 10 | Profit After Tax and Share of Profit/(Loss) of Associates & JVs | 20,589 | 22,290 | 22,611 | (8.9) | 95,754 | 81,309 |\n| 11 | Capital Expenditure# | 40,560 | 33,826 | 36,041 | - | 144,271 | 131,107 |\n| 12 | Outstanding Debt | 374,421 | 346,896 | 347,530 | - | 374,421 | 347,530 |\n| 13 | Cash & Cash Equivalents | 249,704 | 229,794 | 230,447 | - | 249,704 | 230,447 |\n| 14 | Net Debt | 124,717 | 117,102 | 117,083 | - | 124,717 | 117,083 |\n| 15 | Net Debt to EBITDA* | 0.64 | 0.57 | 0.60 | - | 0.60 | 0.64 |"
   },
   {
-    "id": "be6ccc16-1b37-47e5-92c7-c138f0aa9b47",
+    "id": "3ab9cd6a-83c9-408b-a16c-e084dcb96c71",
     "chunkType": "TEXT",
-    "parentChunkId": "2bd2b6c2-cc38-40d6-bdcd-4a83842c4ef9",
-    "sectionId": "2bd2b6c2-cc38-40d6-bdcd-4a83842c4ef9",
+    "parentChunkId": "6b4754e7-a158-4380-975d-85e0771f4a80",
+    "sectionId": "6b4754e7-a158-4380-975d-85e0771f4a80",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 1,
@@ -60,10 +60,10 @@
     "content": "Excludling amountincurred towardsspectrum\n*Annualized\nFY26 EBITDAincludes8,924crore being proceeds of profit from saleof listed investments"
   },
   {
-    "id": "89ba3811-b342-45a9-990a-c81f965aad92",
+    "id": "96c0da34-fa57-41a4-8ca4-3535a6d1a858",
     "chunkType": "SECTION",
-    "parentChunkId": "573d9466-d818-4fca-b577-512d68f656d5",
-    "sectionId": "89ba3811-b342-45a9-990a-c81f965aad92",
+    "parentChunkId": "53ef0b4c-42ba-4926-80d3-8624088f412e",
+    "sectionId": "96c0da34-fa57-41a4-8ca4-3535a6d1a858",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 2,
@@ -75,10 +75,10 @@
     "content": "Annual Performance"
   },
   {
-    "id": "3fb5cf5a-3544-4f6b-89d3-d364f57560bf",
+    "id": "db7b860c-4638-49dc-b0d4-09088108abee",
     "chunkType": "TEXT",
-    "parentChunkId": "89ba3811-b342-45a9-990a-c81f965aad92",
-    "sectionId": "89ba3811-b342-45a9-990a-c81f965aad92",
+    "parentChunkId": "96c0da34-fa57-41a4-8ca4-3535a6d1a858",
+    "sectionId": "96c0da34-fa57-41a4-8ca4-3535a6d1a858",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 2,
@@ -90,10 +90,10 @@
     "content": "- Gross Revenue increased by 9.8%Y-o-Y to 1,175,919 crore ($ 124.0 billion).\n  - [OCR continuation; preceding text may be missing] ARPU and steady ramp-up of digital services.\n  - [OCR continuation; preceding text may be missing] baskets, deeper penetration into under-served markets, and scaling of India's widest hyper-local delivery network.\n  - [OCR continuation; preceding text may be missing] domestic market product placement and better price realisation.\n  - Oil and Gas segment revenue decreased by 5.4%Y-o-Y on account of lower KGD6 gas volume partly offset by higher realisations.\n- EBITDA increased by 13.4% Y-o-Y to ? 207,911 crore ($ 21.9 billion).\n  - [OCR continuation; preceding text may be missing] leading to 190bps expansion in margin.\n  - RRVL EBITDA increased 7.9% Y-o-Y to 27,033 crore with an EBITDA margin of 8.3%. Margin\n  - O2C EBITDA increased by 10.1%due to stronger transportation fuel cracks.Earnings growth was further aided by efficient feedstock sourcing and product placement, high utilisation and proactive yield management.\n  - [OCR continuation; preceding text may be missing] cost.\n- depreciation in Digital Services.\n- [OCR continuation; preceding text may be missing] operationalisation of 5G spectrum assets.\n- Tax Expenses increased by 9.2%Y-o-Y at 27,552 crore ($ 2.9 billion).\n- Profit After Tax and Share of Profit/(Loss) of Associates & JVs increased by 17.8%Y-o-Y to\n95,754 crore ($ 10.1 billion).\n- [OCR continuation; preceding text may be missing] Energy business, while strengthening and expanding of the Jio and Retail network and infrastructure."
   },
   {
-    "id": "5a598a98-db82-4002-bde6-c8ca0b7f626a",
+    "id": "9f38dc13-b246-4850-8f7d-f425d81094d5",
     "chunkType": "SECTION",
-    "parentChunkId": "573d9466-d818-4fca-b577-512d68f656d5",
-    "sectionId": "5a598a98-db82-4002-bde6-c8ca0b7f626a",
+    "parentChunkId": "53ef0b4c-42ba-4926-80d3-8624088f412e",
+    "sectionId": "9f38dc13-b246-4850-8f7d-f425d81094d5",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 3,
@@ -105,10 +105,10 @@
     "content": "Quarterly Performance(4QFY26vs4QFY25)"
   },
   {
-    "id": "497804c0-54ac-4ddb-b802-4aac9a62df32",
+    "id": "a5f82c49-d1f4-41db-98bb-9079bea1cab4",
     "chunkType": "TEXT",
-    "parentChunkId": "5a598a98-db82-4002-bde6-c8ca0b7f626a",
-    "sectionId": "5a598a98-db82-4002-bde6-c8ca0b7f626a",
+    "parentChunkId": "9f38dc13-b246-4850-8f7d-f425d81094d5",
+    "sectionId": "9f38dc13-b246-4850-8f7d-f425d81094d5",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 3,
@@ -120,10 +120,10 @@
     "content": "- Gross Revenue increased by 12.9%Y-o-Y to 325,290crore($ 34.3 billion).Strongbusiness momentum across O2C,Digital Services and Retail delivered double-digitrevenuegrowthineachof thesesegments.Oiland Gassegmentrevenue decreased in-linewithnaturaldeclinein KGD6gas production."
   },
   {
-    "id": "11dbf92d-1914-4de1-9fae-5c08101436b0",
+    "id": "638763a3-4ccb-4491-be31-223f48f3b1c9",
     "chunkType": "TEXT",
-    "parentChunkId": "5a598a98-db82-4002-bde6-c8ca0b7f626a",
-    "sectionId": "5a598a98-db82-4002-bde6-c8ca0b7f626a",
+    "parentChunkId": "9f38dc13-b246-4850-8f7d-f425d81094d5",
+    "sectionId": "9f38dc13-b246-4850-8f7d-f425d81094d5",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 3,
@@ -135,10 +135,10 @@
     "content": "Depreciationincreased by9.9%Y-o-Y to14,808crore($1.6billion)\n- Finance Costs increased by 7.0% Y-o-Y to 6,585 crore ($ 694 million), largely due to\noperationalisation of 5G spectrum assets.\nTax Expensesdecreasedby1.3%Y-o-Y to6,579crore($694million)\n- Profit After Tax and Share of Profit/(Loss) of Associates & JVs decreased by 8.9% Y-o-Y to\n20,589 crore ($ 2.2 billion)."
   },
   {
-    "id": "c6e995c9-f561-4e07-a3d7-b49c55b5190d",
+    "id": "da87f5cf-239b-4ea0-b3b9-e5716cb770d4",
     "chunkType": "TEXT",
-    "parentChunkId": "5a598a98-db82-4002-bde6-c8ca0b7f626a",
-    "sectionId": "5a598a98-db82-4002-bde6-c8ca0b7f626a",
+    "parentChunkId": "9f38dc13-b246-4850-8f7d-f425d81094d5",
+    "sectionId": "9f38dc13-b246-4850-8f7d-f425d81094d5",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 4,
@@ -150,10 +150,10 @@
     "content": "Commentingontheresults,Mukesh D.Ambani,Chairmanand Managing Director，Reliance"
   },
   {
-    "id": "37eb313b-6654-4b97-a3ed-3372b536100e",
+    "id": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "37eb313b-6654-4b97-a3ed-3372b536100e",
+    "sectionId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 4,
@@ -165,10 +165,10 @@
     "content": "Industries Limitedsaid:“Throughfiscal FY2025-26wefacedgeopoliticaldisruptions,volatile energy"
   },
   {
-    "id": "78337ee0-c735-4965-9a64-f59107c78431",
+    "id": "56497260-2b08-4c2c-8749-2547f82980b6",
     "chunkType": "TEXT",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "37eb313b-6654-4b97-a3ed-3372b536100e",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 4,
@@ -180,10 +180,10 @@
     "content": "prices and shifting global trade patterns.These headwinds weighed on businesses across the world.India\nheld its economic growthcourse through all this,as did Reliance.Thebreadthof ourportfolioand strong\n- [OCR continuation; preceding text may be missing] domesticorientationhelpednavigatevolatilityintheexternalenvironment.\n- [OCR continuation; preceding text may be missing] towardsthelistingof Jio Platforms .Thiswill markadefiningmilestoneinitsjourneyasitcontinuestoscale newheightsandcontributeto India'sdigitalfuture.Robustfull-year EBITDAgrowthof19%wasdrivenby\n- [OCR continuation; preceding text may be missing] to Altoolsandnext-generationtechnologyplatforms,Jioiswellplacedtoshapehow Indiacommunicates, computesandconsumescontentintheyears ahead.\n- [OCR continuation; preceding text may be missing] Reliance Retail delivered steady growth through theyear.I am confident that Reliance Retail'sdeep omni-\n- [OCR continuation; preceding text may be missing] storyhasmanyyearsofgrowthaheadofit,andourbusinessesarebuilttobeatthecentreofthis opportunity.\n- [OCR continuation; preceding text may be missing] tounprecedenteddislocationinglobalsupplychains.Asinpriorperiodsofdisruption,Reliancehasagain\n- [OCR continuation; preceding text may be missing] continuousavailabilityoffuelstoindividualsandbusinessesthroughout India.Gasfrom KG-D6Basinhas\n- [OCR continuation; preceding text may be missing] ofourteamsandtheagilitywithwhichtheyhaveaddressedchallengesfacingthenation.\n- [OCR continuation; preceding text may be missing] Recenteventshaveunderscoredthecriticalneedofenergysecurity.Iamhappythat Relianceismaking rapid progress in operationalizing its New Energy giga-factories.Thisbusiness will emerge as a powerful\ngrowthenginefor Relianceandatransformativecontributorto India'senergyfuture.\""
   },
   {
-    "id": "3f1ef96d-6e06-4a64-8ddf-486d3e3c79eb",
+    "id": "5ce07b4f-b61a-482c-90dc-3d906c2ca5e9",
     "chunkType": "SECTION",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "3f1ef96d-6e06-4a64-8ddf-486d3e3c79eb",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "5ce07b4f-b61a-482c-90dc-3d906c2ca5e9",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 5,
@@ -195,10 +195,10 @@
     "content": "CONSOLIDATEDJIOPLATFORMSLIMITED(JPL\")\n\nQuarterly Revenue at 44,928 crore, up 12.7% Y-o-Y\nQuarterly EBITDA at20,060crore, up17.9%Y-o-Y\nStrong momentum in 5G and Fixed Broadband additions with 75 million and ~10 million net\nadditions respectively, during FY26\nTotalsubscriber base of over524millionincluding268million5Gsubscribers\nJio Air Fiber strengthened its global leadershipwith~13millionsubscribers\nCustomer engagement with 35% Y-o-Y increase in data traffic to 66 Exabytes in 4Q FY26"
   },
   {
-    "id": "7f19904b-9c03-42b8-bee6-a4b8ada5aadc",
+    "id": "78b67d0b-47b6-404f-b4ac-146b9f91b542",
     "chunkType": "SECTION",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "7f19904b-9c03-42b8-bee6-a4b8ada5aadc",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "78b67d0b-47b6-404f-b4ac-146b9f91b542",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 5,
@@ -210,10 +210,10 @@
     "content": "A.FINANCIAL RESULTS"
   },
   {
-    "id": "eb9acde6-3ae9-4d7a-99f5-badf03788dc6",
+    "id": "9fa4c775-b083-45e4-81ea-31e21bee85c1",
     "chunkType": "TABLE",
-    "parentChunkId": "7f19904b-9c03-42b8-bee6-a4b8ada5aadc",
-    "sectionId": "7f19904b-9c03-42b8-bee6-a4b8ada5aadc",
+    "parentChunkId": "78b67d0b-47b6-404f-b4ac-146b9f91b542",
+    "sectionId": "78b67d0b-47b6-404f-b4ac-146b9f91b542",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 5,
@@ -225,10 +225,10 @@
     "content": "( in crore)\n| Sr. No. | Particulars | 4Q FY26 | FY26 | 3Q | FY25 | 4Q | % chg. Y-0-Y | FY26 | FY25 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | Gross Revenue | 44,928 | 43,683 | - | 39,853 | - | 12.7 | 172,317 | 150,270 |\n| 2 | Revenue from Operations | 38,259 | 37,262 | - | 33,986 | - | 12.6 | 146,885 | 128,218 |\n| 3 | EBITDA | 20,060 | 19,303 | - | 17,016 | - | 17.9 | 76,255 | 64,170 |\n| 4 | EBITDA Margin (%)* | 52.4 | 51.8 | - | 50.1 | - | 230bps | 51.9 | 50.0 |\n| 5 | Depreciation | 7,156 | 6,939 | - | 6,206 | - | 15.3 | 27,249 | 24,138 |\n| 6 | Finance Costs | 2,263 | 2,140 | - | 1,362 | - | 66.2 | 8,653 | 4,905 |\n| 7 | Tax Expenses | 2,706 | 2,595 | - | 2,426 | - | 11.5 | 10,300 | 9,007 |\n| 8 | Profit After Tax | 7,935 | 7,629 | - | 7,022 | - | 13.0 | 30,053 | 26,120 |\n| 9 | Share of Profit/(Loss)of Associates & JVs | (0) | - | 0 | - | 1 | - | (4) | (11) |\n| 10 | Profit After Tax and Share of Profit/(Loss) of Associates & JVs | 7,935 | 7,629 | - | 7,023 | - | 13.0 | 30,049 | 26,109 |"
   },
   {
-    "id": "be4844b8-1dba-491d-ba66-d6acf5ed8476",
+    "id": "f277cc98-0fd9-4381-9ea8-0b66e94cebfd",
     "chunkType": "TEXT",
-    "parentChunkId": "7f19904b-9c03-42b8-bee6-a4b8ada5aadc",
-    "sectionId": "7f19904b-9c03-42b8-bee6-a4b8ada5aadc",
+    "parentChunkId": "78b67d0b-47b6-404f-b4ac-146b9f91b542",
+    "sectionId": "78b67d0b-47b6-404f-b4ac-146b9f91b542",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 5,
@@ -240,10 +240,10 @@
     "content": "*EBITDAMarginiscalculated on Revenuefrom Operations"
   },
   {
-    "id": "31f33e90-5676-45fb-8919-8c677a77edc1",
+    "id": "dd544e70-9247-4d52-9c70-3dc390543efe",
     "chunkType": "SECTION",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "31f33e90-5676-45fb-8919-8c677a77edc1",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "dd544e70-9247-4d52-9c70-3dc390543efe",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 6,
@@ -255,10 +255,10 @@
     "content": "Annual Performance"
   },
   {
-    "id": "ddf222ca-dfde-458b-a742-195d45c0ec55",
+    "id": "ee2d62e9-64f0-40cc-a20d-119e30ee1b2d",
     "chunkType": "TEXT",
-    "parentChunkId": "31f33e90-5676-45fb-8919-8c677a77edc1",
-    "sectionId": "31f33e90-5676-45fb-8919-8c677a77edc1",
+    "parentChunkId": "dd544e70-9247-4d52-9c70-3dc390543efe",
+    "sectionId": "dd544e70-9247-4d52-9c70-3dc390543efe",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 6,
@@ -270,10 +270,10 @@
     "content": "Sustaineddouble-digitrevenuegrowthdrivenbyorganic ARPUgrowthwithimprovingsubscribermix\ninmobility,scaleup ofhomeconnects and growth in digital services.\nRobust EBITDA growth on account of revenue increase and strong operating leverage driving 190 bps\nexpansion in margins.\n- Depreciation increase led by higher network utilisation and addition to the gross block.\nPAT growth driven byflow through of strong EBITDA growth."
   },
   {
-    "id": "6c3e0529-c37b-479e-98d2-16fbc5526d26",
+    "id": "a8a3aebe-85e0-4826-bce0-512c0e30c54d",
     "chunkType": "SECTION",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "6c3e0529-c37b-479e-98d2-16fbc5526d26",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "a8a3aebe-85e0-4826-bce0-512c0e30c54d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 6,
@@ -285,10 +285,10 @@
     "content": "Quarterly Performance (4QFY26 vs 4Q FY25)"
   },
   {
-    "id": "9c87479a-8830-417d-8c6b-edd56ce2d90b",
+    "id": "477ffcd0-84f5-4fb9-8fc8-99fa07f18412",
     "chunkType": "TEXT",
-    "parentChunkId": "6c3e0529-c37b-479e-98d2-16fbc5526d26",
-    "sectionId": "6c3e0529-c37b-479e-98d2-16fbc5526d26",
+    "parentChunkId": "a8a3aebe-85e0-4826-bce0-512c0e30c54d",
+    "sectionId": "a8a3aebe-85e0-4826-bce0-512c0e30c54d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 6,
@@ -300,10 +300,10 @@
     "content": "Operatingrevenue increased12.6%Y-o-Yledbystrongsubscriberaddition,higher ARPUand\ncontinuedgrowthindigital services.\n- EBITDA increased by 17.9% Y-o-Y driven by steady revenue growth and margin expansion of 230 bps."
   },
   {
-    "id": "ba2af05c-c3b0-4acb-8c1b-3e880a0eeec4",
+    "id": "403ad6b7-4790-4be1-9f6d-c133704077a9",
     "chunkType": "SECTION",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "ba2af05c-c3b0-4acb-8c1b-3e880a0eeec4",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "403ad6b7-4790-4be1-9f6d-c133704077a9",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 6,
@@ -315,10 +315,10 @@
     "content": "B.OPERATIONAL UPDATE"
   },
   {
-    "id": "d9618f60-b165-4cba-a4aa-60ff469ad49a",
+    "id": "e9f134ac-4159-4957-a7cd-a050da2292ac",
     "chunkType": "TABLE",
-    "parentChunkId": "ba2af05c-c3b0-4acb-8c1b-3e880a0eeec4",
-    "sectionId": "ba2af05c-c3b0-4acb-8c1b-3e880a0eeec4",
+    "parentChunkId": "403ad6b7-4790-4be1-9f6d-c133704077a9",
+    "sectionId": "403ad6b7-4790-4be1-9f6d-c133704077a9",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 6,
@@ -330,10 +330,10 @@
     "content": "| Sr. No. | Particulars | Uo M | 4Q FY26 | 3Q FY26 | 4Q FY25 | % chg. Y-0-Y | FY26 | FY25 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | Customer Base | Million | 524.4 | 515.3 | 488.2 | 7.4 | 524.4* | 488.2* |\n| 2 | ARPU | per subscriber | 214.0 | 213.7 | 206.2 | 3.8 | 214.0* | 196.1 |\n| 3 | Data Traffic | billion GB | 66.0 | 62.3 | 48.9 | 35.0 | 241.4 | 184.5 |\n| 4 | Voice Traffic | trillion minutes | 1.54 | 1.53 | 1.49 | 3.4 | 6.05 | 5.80 |"
   },
   {
-    "id": "cd55b445-0812-4a6c-a008-2ad60af42482",
+    "id": "3b939de6-48dc-4c02-b898-c22d2dd49325",
     "chunkType": "TEXT",
-    "parentChunkId": "ba2af05c-c3b0-4acb-8c1b-3e880a0eeec4",
-    "sectionId": "ba2af05c-c3b0-4acb-8c1b-3e880a0eeec4",
+    "parentChunkId": "403ad6b7-4790-4be1-9f6d-c133704077a9",
+    "sectionId": "403ad6b7-4790-4be1-9f6d-c133704077a9",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 6,
@@ -345,10 +345,10 @@
     "content": "*forexitquarter\n- [OCR continuation; preceding text may be missing] ARPUincreasedto214.0withhighercustomerengagementandbettersubscribermixpartly impacted by lower number of days in the quarter.\nPercapitadataconsumptionwas42.3GB/monthwithtotaldata trafficgrowthof~35%Y-o-Yduring"
   },
   {
-    "id": "14cc7b61-47ec-48ef-a124-4c2456129695",
+    "id": "20685c60-62f3-4190-b871-9de517c5b1b5",
     "chunkType": "SECTION",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "14cc7b61-47ec-48ef-a124-4c2456129695",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "20685c60-62f3-4190-b871-9de517c5b1b5",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 6,
@@ -360,10 +360,10 @@
     "content": "4Q FY26.\n\nMonthly churnwasstableat 1.7%withnet subscriber additionof 9.1millionduring thequarter."
   },
   {
-    "id": "ca9cca4a-6e1d-484d-8c3e-4ff12f96c81c",
+    "id": "9437e0aa-42a6-4cb9-b06f-69a73e683825",
     "chunkType": "SECTION",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "ca9cca4a-6e1d-484d-8c3e-4ff12f96c81c",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "9437e0aa-42a6-4cb9-b06f-69a73e683825",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 7,
@@ -375,10 +375,10 @@
     "content": "C.STRATEGICPROGRESS"
   },
   {
-    "id": "9cd033b6-0d35-481c-a641-bdf96c8d90fb",
+    "id": "9b3aa59c-de5a-411b-a321-de5a86b64afd",
     "chunkType": "TEXT",
-    "parentChunkId": "ca9cca4a-6e1d-484d-8c3e-4ff12f96c81c",
-    "sectionId": "ca9cca4a-6e1d-484d-8c3e-4ff12f96c81c",
+    "parentChunkId": "9437e0aa-42a6-4cb9-b06f-69a73e683825",
+    "sectionId": "9437e0aa-42a6-4cb9-b06f-69a73e683825",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 7,
@@ -390,10 +390,10 @@
     "content": "- Jio's network leadership in 5G continued to attract subscribers with total 5G subscriber base reaching 268millionasof March2026.Customerengagementalsoremainsrobustwith5Gnowaccountingfor ~55%oftotalwirelesstraffic.\n- Jioisdrivingtheindustrywidefixedbroadbandmarketgrowthwithadditionof~10millionduring FY26 Total Fixed Broadband subscribers as of March2026stood at 27.1million giving Jio themarket share of ~43%,up 10 percentage points in last 12-months.Jio Air Fiber with total base of ~13 million\n- [OCR continuation; preceding text may be missing] whichwouldsignificantlywidenaddressablemarketanddrivegreaterdeploymentefficiencyacross geographies. Also, enhanced the product offering with new Live TV experience covering 1000+\n- [OCR continuation; preceding text may be missing] of connected devices.\n- [OCR continuation; preceding text may be missing] uplift patterns observed inpreviousyears.Duringthe quarter,Jio launched new Jio Home Cricket\n- [OCR continuation; preceding text may be missing] price of just 555 per month."
   },
   {
-    "id": "3da44d21-4e53-42a2-9ca0-8483a2f281b7",
+    "id": "e164da4e-c3c8-4c84-9c6a-c59f8df43858",
     "chunkType": "SECTION",
-    "parentChunkId": "37eb313b-6654-4b97-a3ed-3372b536100e",
-    "sectionId": "3da44d21-4e53-42a2-9ca0-8483a2f281b7",
+    "parentChunkId": "d04dc777-de44-409e-a22c-2b99d22ac5c8",
+    "sectionId": "e164da4e-c3c8-4c84-9c6a-c59f8df43858",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 7,
@@ -405,10 +405,10 @@
     "content": "D.LEADERSHIP QUOTE"
   },
   {
-    "id": "b1d7097b-a894-4468-bf19-e4a6bd32b4df",
+    "id": "fb8f0cee-62e3-4a08-a381-f948a5a71601",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "b1d7097b-a894-4468-bf19-e4a6bd32b4df",
+    "sectionId": "fb8f0cee-62e3-4a08-a381-f948a5a71601",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 7,
@@ -420,10 +420,10 @@
     "content": "Mr. Akash M Ambani, Chairman of Reliance Jio Infocomm, said,“Jio played a crucial role in connecting"
   },
   {
-    "id": "4acf39fd-3172-49af-907d-03af1522ab13",
+    "id": "a4376f81-6752-4583-8403-0d4e88c84222",
     "chunkType": "TEXT",
-    "parentChunkId": "b1d7097b-a894-4468-bf19-e4a6bd32b4df",
-    "sectionId": "b1d7097b-a894-4468-bf19-e4a6bd32b4df",
+    "parentChunkId": "fb8f0cee-62e3-4a08-a381-f948a5a71601",
+    "sectionId": "fb8f0cee-62e3-4a08-a381-f948a5a71601",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 7,
@@ -435,10 +435,10 @@
     "content": "Indiatothe Interneteraandwithover524millionsubscribersacross Indiaisnowpositionedasthe\n- [OCR continuation; preceding text may be missing] households and businesses.This will sustain Jio's industry-leading growth for many years to come.\""
   },
   {
-    "id": "664f7c21-b136-48c3-94ba-09e17875900d",
+    "id": "0720feb2-b4eb-4f10-a2b4-b3248a5d4419",
     "chunkType": "TEXT",
-    "parentChunkId": "b1d7097b-a894-4468-bf19-e4a6bd32b4df",
-    "sectionId": "b1d7097b-a894-4468-bf19-e4a6bd32b4df",
+    "parentChunkId": "fb8f0cee-62e3-4a08-a381-f948a5a71601",
+    "sectionId": "fb8f0cee-62e3-4a08-a381-f948a5a71601",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 8,
@@ -450,10 +450,10 @@
     "content": "CONSOLIDATEDRELIANCERETAILVENTURESLIMITED(RRVL\")\n  - [OCR continuation; preceding text may be missing] Annual Revenue at 370,026 crore, up 11.8% Y-o-Y Annual EBITDA at27,033crore, up7.9%Y-o-Y Annual PAT at13,838crore, up 11.7%Y-o-Y.\n387millionregistered customers,1.93billionannual transactions\n1,564new stores opened across FY26"
   },
   {
-    "id": "d8f28ee1-ec19-4a3d-ac76-0fc382942b6e",
+    "id": "cd660717-3ef3-4736-8303-f274516566bb",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "d8f28ee1-ec19-4a3d-ac76-0fc382942b6e",
+    "sectionId": "cd660717-3ef3-4736-8303-f274516566bb",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 8,
@@ -465,10 +465,10 @@
     "content": "Hyper-local daily orders up 300%+Y-o-Y in Q4"
   },
   {
-    "id": "ed3f3a4f-6a3b-440d-9cc7-4123278f3c23",
+    "id": "2bf81f14-e603-4e76-8c3f-659b2069ffb3",
     "chunkType": "SECTION",
-    "parentChunkId": "d8f28ee1-ec19-4a3d-ac76-0fc382942b6e",
-    "sectionId": "ed3f3a4f-6a3b-440d-9cc7-4123278f3c23",
+    "parentChunkId": "cd660717-3ef3-4736-8303-f274516566bb",
+    "sectionId": "2bf81f14-e603-4e76-8c3f-659b2069ffb3",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 8,
@@ -480,10 +480,10 @@
     "content": "A.FINANCIAL RESULTS"
   },
   {
-    "id": "8b49c8b3-67d3-47ee-a572-f355c19e054d",
+    "id": "491fe8af-e78e-40c1-bfd9-be4d438db0dd",
     "chunkType": "TABLE",
-    "parentChunkId": "ed3f3a4f-6a3b-440d-9cc7-4123278f3c23",
-    "sectionId": "ed3f3a4f-6a3b-440d-9cc7-4123278f3c23",
+    "parentChunkId": "2bf81f14-e603-4e76-8c3f-659b2069ffb3",
+    "sectionId": "2bf81f14-e603-4e76-8c3f-659b2069ffb3",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 8,
@@ -495,10 +495,10 @@
     "content": "( in crore)\n| Sr. No. | Particulars | 4Q FY26 | FY26 | 3Q | 4Q FY25 | % chg. Y-0-Y | FY26 | FY25 | Column 10 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | Gross Revenue | 98,232 | 97,605 | - | 88,620 | 10.8 | 370,026 | 330,870 | - |\n| 2 | Revenuefrom Operations | 87,344 | 86,951 | - | 78,622 | 11.1 | 327,143 | 290,979 | - |\n| 3 | EBITDAfrom Operations | 6,690 | 6,770 | - | 6,510 | 2.8 | 26,128 | 24,265 | - |\n| 4 | Investment Income | 231 | 145 | - | 201 | 14.9 | 905 | 788 | - |\n| 5 | EBITDA | 6,921 | 6,915 | - | 6,711 | 3.1 | 27,033 | 25,053 | - |\n| 6 | EBITDA Margin(%)* | 7.9 | 8.0 | - | 8.5 | (60 bps) | 8.3 | - | 8.6 |\n| 7 | Depreciation | 1,581 | 1,576 | - | 1,402 | 12.8 | 6,219 | 5,996 | - |\n| 8 | Finance Costs | 525 | 578 | - | 680 | (22.8) | 2,291 | 2,465 | - |\n| 6 | Tax Expenses | 1,252 | 1,210 | - | 1,084 | 15.5 | 4,681 | 4,204 | - |\n| 10 | Profit After Tax | 3,563 | 3,551 | - | 3,545 | 0.5 | 13,842 | 12,388 | - |\n| 11 | Share of Profit/(Loss) of Associates & JVs | 11 | - | 7 | (26) | - | (4) | - | 4 |\n| 12 | Profit After Tax and Share of Profit/(Loss) of Associates & JVs | 3,574 | 3,558 | - | 3,519 | 1.6 | 13,838 | 12,392 | - |"
   },
   {
-    "id": "7adb699e-0251-404a-921f-01e87b4753f9",
+    "id": "adcc9977-f9d0-4bfb-a010-bd46040b7725",
     "chunkType": "TEXT",
-    "parentChunkId": "ed3f3a4f-6a3b-440d-9cc7-4123278f3c23",
-    "sectionId": "ed3f3a4f-6a3b-440d-9cc7-4123278f3c23",
+    "parentChunkId": "2bf81f14-e603-4e76-8c3f-659b2069ffb3",
+    "sectionId": "2bf81f14-e603-4e76-8c3f-659b2069ffb3",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 8,
@@ -510,10 +510,10 @@
     "content": "*EBITDA Marginiscalculated on Revenuefrom Operations"
   },
   {
-    "id": "6ff512a1-bf57-4150-8392-12b1583622e1",
+    "id": "86254ebd-d669-4e1c-86f3-7786fa36a5dc",
     "chunkType": "SECTION",
-    "parentChunkId": "d8f28ee1-ec19-4a3d-ac76-0fc382942b6e",
-    "sectionId": "6ff512a1-bf57-4150-8392-12b1583622e1",
+    "parentChunkId": "cd660717-3ef3-4736-8303-f274516566bb",
+    "sectionId": "86254ebd-d669-4e1c-86f3-7786fa36a5dc",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -525,10 +525,10 @@
     "content": "Annual Performance\n\nBusiness recorded gross revenue of 370,026 crore for FY26,a growth of 11.8%Y-o-Y, led by\nbroad-based growth across consumption baskets and rapid scale-up of hyper-local commerce.\nBusinessregistered EBITDA at 27,033 crorefor FY26,higher by 7.9%Y-o-Y.EBITDA margin of\n8.3%reflectsinvestment inhyper-local commerce."
   },
   {
-    "id": "895f743e-689c-4773-9620-642dc510e869",
+    "id": "ef5edea7-ef4f-45e5-bf08-7e60e38a0de7",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "895f743e-689c-4773-9620-642dc510e869",
+    "sectionId": "ef5edea7-ef4f-45e5-bf08-7e60e38a0de7",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -540,10 +540,10 @@
     "content": "Depreciation for FY26 at 6,219 crore, up 3.7% Y-o-Y, reflecting store expansion and ongoing"
   },
   {
-    "id": "f56d0207-d2c6-4a87-a12d-3f11b306cc74",
+    "id": "beb5cf6a-bb1e-4983-b583-4faf6ddf8a2c",
     "chunkType": "TEXT",
-    "parentChunkId": "895f743e-689c-4773-9620-642dc510e869",
-    "sectionId": "895f743e-689c-4773-9620-642dc510e869",
+    "parentChunkId": "ef5edea7-ef4f-45e5-bf08-7e60e38a0de7",
+    "sectionId": "ef5edea7-ef4f-45e5-bf08-7e60e38a0de7",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -555,10 +555,10 @@
     "content": "supply-chain investments.\n- Finance costs were down by 7.1% on a Y-o-Y basis, reflecting disciplined balance-sheet management."
   },
   {
-    "id": "6393e611-31d6-4900-94d8-5ff30d0a5606",
+    "id": "51f07b89-9d4c-4e16-a3ba-938c2ee55ef0",
     "chunkType": "SECTION",
-    "parentChunkId": "895f743e-689c-4773-9620-642dc510e869",
-    "sectionId": "6393e611-31d6-4900-94d8-5ff30d0a5606",
+    "parentChunkId": "ef5edea7-ef4f-45e5-bf08-7e60e38a0de7",
+    "sectionId": "51f07b89-9d4c-4e16-a3ba-938c2ee55ef0",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -570,10 +570,10 @@
     "content": "Quarterly Performance(4QFY26vs4QFY25)"
   },
   {
-    "id": "d2898115-d96d-435e-9776-ae9fd698fffa",
+    "id": "4241199b-14ab-467b-bbbf-5fabb00ff2a0",
     "chunkType": "TEXT",
-    "parentChunkId": "6393e611-31d6-4900-94d8-5ff30d0a5606",
-    "sectionId": "6393e611-31d6-4900-94d8-5ff30d0a5606",
+    "parentChunkId": "51f07b89-9d4c-4e16-a3ba-938c2ee55ef0",
+    "sectionId": "51f07b89-9d4c-4e16-a3ba-938c2ee55ef0",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -585,10 +585,10 @@
     "content": "7.7%.\n- [OCR continuation; preceding text may be missing] .\n- Depreciation for 4Q FY26 at 1,581 crore, up 12.8% Y-o-Y.\nFinancecosts at525crore,downby22.8%Y-o-Y,demonstrating continuedbalance-sheetstrength."
   },
   {
-    "id": "3eac9141-80bf-4896-92f3-796e27596a24",
+    "id": "ff586523-af5c-4e19-bc35-ece9038041ba",
     "chunkType": "SECTION",
-    "parentChunkId": "895f743e-689c-4773-9620-642dc510e869",
-    "sectionId": "3eac9141-80bf-4896-92f3-796e27596a24",
+    "parentChunkId": "ef5edea7-ef4f-45e5-bf08-7e60e38a0de7",
+    "sectionId": "ff586523-af5c-4e19-bc35-ece9038041ba",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -600,10 +600,10 @@
     "content": "B.OPERATIONALUPDATE"
   },
   {
-    "id": "59c109b2-f671-484a-8528-1f58888df371",
+    "id": "cef8a93b-1ac2-4fd1-bfa7-f7e2335eb17e",
     "chunkType": "TABLE",
-    "parentChunkId": "3eac9141-80bf-4896-92f3-796e27596a24",
-    "sectionId": "3eac9141-80bf-4896-92f3-796e27596a24",
+    "parentChunkId": "ff586523-af5c-4e19-bc35-ece9038041ba",
+    "sectionId": "ff586523-af5c-4e19-bc35-ece9038041ba",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -615,10 +615,10 @@
     "content": "| Sr. No. | Particulars | Uo M | 4Q FY26 | 3Q FY26 | 4Q FY25 | % chg. Y-0-Y | FY26 | FY25 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | Stores | Number | 20,160 | 19,979 | 19,340 | 4.2 | 20,160 | 19,340 |\n| 2 | Area Operated | Million Sq. ft. | 78.3 | 78.1 | 77.4 | 1.2 | 78.3 | 77.4 |\n| 3 | Registered Customer Base | Million | 387 | 378 | 349 | 10.9 | 387 | 349 |\n| 4 | Numberof Transactions | Million | 585 | 524 | 361 | 62.0 | 1,932 | 1,393 |"
   },
   {
-    "id": "72eb2101-79f2-45b3-bafa-14b93a15395b",
+    "id": "981f949a-d34c-4cd1-92c5-813d54a83703",
     "chunkType": "SECTION",
-    "parentChunkId": "895f743e-689c-4773-9620-642dc510e869",
-    "sectionId": "72eb2101-79f2-45b3-bafa-14b93a15395b",
+    "parentChunkId": "ef5edea7-ef4f-45e5-bf08-7e60e38a0de7",
+    "sectionId": "981f949a-d34c-4cd1-92c5-813d54a83703",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -630,10 +630,10 @@
     "content": "Annual Performance"
   },
   {
-    "id": "aa814471-6660-4244-b7d2-3131f46471a0",
+    "id": "aba0f095-d15b-4e47-88a1-c3effa788753",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "aa814471-6660-4244-b7d2-3131f46471a0",
+    "sectionId": "aba0f095-d15b-4e47-88a1-c3effa788753",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 9,
@@ -645,10 +645,10 @@
     "content": "The business grew its store footprint across consumption baskets,opening 1,564 stores and taking\n\nthe total store count to 20,160 with total area of 78.3 million sq. ft."
   },
   {
-    "id": "de89168c-778e-44dd-8def-8ef407b94172",
+    "id": "e1368f0e-1142-4a0f-92d5-dc8b596e87fd",
     "chunkType": "TEXT",
-    "parentChunkId": "aa814471-6660-4244-b7d2-3131f46471a0",
-    "sectionId": "aa814471-6660-4244-b7d2-3131f46471a0",
+    "parentChunkId": "aba0f095-d15b-4e47-88a1-c3effa788753",
+    "sectionId": "aba0f095-d15b-4e47-88a1-c3effa788753",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -660,10 +660,10 @@
     "content": "- Theregisteredcustomerbase stoodat 387 million,a growth of 10.9%Y-o-Y.Totaltransactions recorded were at 1.93 billion,up38.8%Y-o-Y, led by rapid acceleration in hyper-local commerce."
   },
   {
-    "id": "1329d565-e2db-46e7-ae50-dc82329b8663",
+    "id": "c138a73e-8c7c-4ec6-9296-3d73b7a89092",
     "chunkType": "SECTION",
-    "parentChunkId": "aa814471-6660-4244-b7d2-3131f46471a0",
-    "sectionId": "1329d565-e2db-46e7-ae50-dc82329b8663",
+    "parentChunkId": "aba0f095-d15b-4e47-88a1-c3effa788753",
+    "sectionId": "c138a73e-8c7c-4ec6-9296-3d73b7a89092",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -675,10 +675,10 @@
     "content": "Quarterly Performance(4QFY26vs4QFY25)"
   },
   {
-    "id": "c97a739e-0021-488e-903c-a5f38769f089",
+    "id": "a6c0f15a-3792-42f8-bae6-661beee6a771",
     "chunkType": "TEXT",
-    "parentChunkId": "1329d565-e2db-46e7-ae50-dc82329b8663",
-    "sectionId": "1329d565-e2db-46e7-ae50-dc82329b8663",
+    "parentChunkId": "c138a73e-8c7c-4ec6-9296-3d73b7a89092",
+    "sectionId": "c138a73e-8c7c-4ec6-9296-3d73b7a89092",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -690,10 +690,10 @@
     "content": "India's widest hyper-local delivery network.\nBusinessopened333newstoreswithtotalstorecount at20,160storesandareaunderoperation at\n78.3 million sq. ft.\n- [OCR continuation; preceding text may be missing] retailers in the country."
   },
   {
-    "id": "5f397cf5-bed8-4eb2-a7b2-2644814a4db1",
+    "id": "d2d1ffef-c966-4daf-8cff-a8824ba5b4cc",
     "chunkType": "TEXT",
-    "parentChunkId": "1329d565-e2db-46e7-ae50-dc82329b8663",
-    "sectionId": "1329d565-e2db-46e7-ae50-dc82329b8663",
+    "parentChunkId": "c138a73e-8c7c-4ec6-9296-3d73b7a89092",
+    "sectionId": "c138a73e-8c7c-4ec6-9296-3d73b7a89092",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -705,10 +705,10 @@
     "content": "- Total transactions recorded were at 585 million,up 62.0%Y-o-Y."
   },
   {
-    "id": "f0da6848-63da-473b-b2c0-f5f49b49363a",
+    "id": "307e7365-8746-4415-8c10-00cbacd46254",
     "chunkType": "SECTION",
-    "parentChunkId": "aa814471-6660-4244-b7d2-3131f46471a0",
-    "sectionId": "f0da6848-63da-473b-b2c0-f5f49b49363a",
+    "parentChunkId": "aba0f095-d15b-4e47-88a1-c3effa788753",
+    "sectionId": "307e7365-8746-4415-8c10-00cbacd46254",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -720,10 +720,10 @@
     "content": "Grocery"
   },
   {
-    "id": "5333d061-038a-41dc-904c-2f1f18bfbba9",
+    "id": "d693a7e3-6257-4790-876f-51c561645617",
     "chunkType": "TEXT",
-    "parentChunkId": "f0da6848-63da-473b-b2c0-f5f49b49363a",
-    "sectionId": "f0da6848-63da-473b-b2c0-f5f49b49363a",
+    "parentChunkId": "307e7365-8746-4415-8c10-00cbacd46254",
+    "sectionId": "307e7365-8746-4415-8c10-00cbacd46254",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -735,10 +735,10 @@
     "content": "- The bigbox stores maintained steadyperformance,drivenby festive demand and the continued strategic expansion crossing the milestone of 1,oo0 Smart Bazaar stores."
   },
   {
-    "id": "4236ce97-5677-40dd-bff4-51a4bf76b076",
+    "id": "e53bbcdb-a077-4bba-af75-4d76dca9e7a8",
     "chunkType": "TEXT",
-    "parentChunkId": "f0da6848-63da-473b-b2c0-f5f49b49363a",
-    "sectionId": "f0da6848-63da-473b-b2c0-f5f49b49363a",
+    "parentChunkId": "307e7365-8746-4415-8c10-00cbacd46254",
+    "sectionId": "307e7365-8746-4415-8c10-00cbacd46254",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -750,10 +750,10 @@
     "content": "HPC,and Processed Food.\n- [OCR continuation; preceding text may be missing] Rotis, Ready Sprouts, and Ready-to-Eat Chutneys."
   },
   {
-    "id": "6c40e14d-4c4b-4ff1-a0e5-3484453d1745",
+    "id": "160e77fb-70aa-44c9-a794-ab44023a9a27",
     "chunkType": "TEXT",
-    "parentChunkId": "f0da6848-63da-473b-b2c0-f5f49b49363a",
-    "sectionId": "f0da6848-63da-473b-b2c0-f5f49b49363a",
+    "parentChunkId": "307e7365-8746-4415-8c10-00cbacd46254",
+    "sectionId": "307e7365-8746-4415-8c10-00cbacd46254",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -765,10 +765,10 @@
     "content": "- The‘Full Paisa Vasoolsale delivered strong performance,registering its highest-ever sales with 26% Y-o-Y growth.\n- Growth momentum was sustained across Staples,Beverages,Confectionery and Snacks.Metro digitalplatformscaledupdrivenbycustomer-experienceandpromotional improvements."
   },
   {
-    "id": "1b8f56f4-d793-427b-9132-8e01f47b901a",
+    "id": "ec3f5357-9cc8-4f39-9ea3-361c948384af",
     "chunkType": "SECTION",
-    "parentChunkId": "aa814471-6660-4244-b7d2-3131f46471a0",
-    "sectionId": "1b8f56f4-d793-427b-9132-8e01f47b901a",
+    "parentChunkId": "aba0f095-d15b-4e47-88a1-c3effa788753",
+    "sectionId": "ec3f5357-9cc8-4f39-9ea3-361c948384af",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -780,10 +780,10 @@
     "content": "Jio Mart"
   },
   {
-    "id": "8d88596c-93fa-49b0-b6df-695698fce68b",
+    "id": "35c1e90d-dbe4-490e-84eb-97921be4bb19",
     "chunkType": "TEXT",
-    "parentChunkId": "1b8f56f4-d793-427b-9132-8e01f47b901a",
-    "sectionId": "1b8f56f4-d793-427b-9132-8e01f47b901a",
+    "parentChunkId": "ec3f5357-9cc8-4f39-9ea3-361c948384af",
+    "sectionId": "ec3f5357-9cc8-4f39-9ea3-361c948384af",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 10,
@@ -795,10 +795,10 @@
     "content": "networkofover3,100+stores.\n- [OCR continuation; preceding text may be missing] the registered customer base by 98% Y-o-Y."
   },
   {
-    "id": "1c2e3e9c-285e-4f7d-8954-833feadcdc40",
+    "id": "d6411dc7-7a6c-4f09-a030-7ea6f4f5f4ad",
     "chunkType": "TEXT",
-    "parentChunkId": "1b8f56f4-d793-427b-9132-8e01f47b901a",
-    "sectionId": "1b8f56f4-d793-427b-9132-8e01f47b901a",
+    "parentChunkId": "ec3f5357-9cc8-4f39-9ea3-361c948384af",
+    "sectionId": "ec3f5357-9cc8-4f39-9ea3-361c948384af",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -810,10 +810,10 @@
     "content": "- Hyper local commerce Q4 average daily orders were up 29% Q-o-Q and 300%+Y-o-Y."
   },
   {
-    "id": "a81acac0-e353-44bd-a2c3-b9b3dfced8ff",
+    "id": "1043905a-56c4-4262-8a57-87dbcf892536",
     "chunkType": "TEXT",
-    "parentChunkId": "1b8f56f4-d793-427b-9132-8e01f47b901a",
-    "sectionId": "1b8f56f4-d793-427b-9132-8e01f47b901a",
+    "parentChunkId": "ec3f5357-9cc8-4f39-9ea3-361c948384af",
+    "sectionId": "ec3f5357-9cc8-4f39-9ea3-361c948384af",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -825,10 +825,10 @@
     "content": "Electronics and 1,700+ Fashion & Lifestyle stores with 2-hour delivery promise."
   },
   {
-    "id": "d2f26914-d4b4-41d4-9526-de3c56caceb6",
+    "id": "cf0eed20-8232-48fa-98b5-31be194a30e7",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "d2f26914-d4b4-41d4-9526-de3c56caceb6",
+    "sectionId": "cf0eed20-8232-48fa-98b5-31be194a30e7",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -840,10 +840,10 @@
     "content": "·The platform positioning around value and savings was strengthened through the successful\n\nexecutionof the'Fayda Kamao'brand campaign."
   },
   {
-    "id": "1d57ecdc-6c9b-4679-b4f8-4cac19e92330",
+    "id": "48ccb00e-7729-460d-b840-0a40c7315302",
     "chunkType": "TEXT",
-    "parentChunkId": "d2f26914-d4b4-41d4-9526-de3c56caceb6",
-    "sectionId": "d2f26914-d4b4-41d4-9526-de3c56caceb6",
+    "parentChunkId": "cf0eed20-8232-48fa-98b5-31be194a30e7",
+    "sectionId": "cf0eed20-8232-48fa-98b5-31be194a30e7",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -855,10 +855,10 @@
     "content": "- Jio Mart strengthened its marketplace ecosystem, growing its seller base by 22% Y-o-Y.\n- [OCR continuation; preceding text may be missing] Fashion and Lifestyle"
   },
   {
-    "id": "0633d5ac-e1da-41a9-9cf2-6bb14000ca68",
+    "id": "5059ea18-60a2-447c-9d64-5bac6475b158",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "0633d5ac-e1da-41a9-9cf2-6bb14000ca68",
+    "sectionId": "5059ea18-60a2-447c-9d64-5bac6475b158",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -870,10 +870,10 @@
     "content": "·The business delivered steady performance and broad-based growth across categories, led by strong"
   },
   {
-    "id": "441ed949-1948-4a7b-9d0a-7bc965a6a4c9",
+    "id": "d955193c-9888-4310-927d-3829fe3958ce",
     "chunkType": "TEXT",
-    "parentChunkId": "0633d5ac-e1da-41a9-9cf2-6bb14000ca68",
-    "sectionId": "0633d5ac-e1da-41a9-9cf2-6bb14000ca68",
+    "parentChunkId": "5059ea18-60a2-447c-9d64-5bac6475b158",
+    "sectionId": "5059ea18-60a2-447c-9d64-5bac6475b158",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -885,10 +885,10 @@
     "content": "customerdemandandoutperformanceinmen'sfashion.\nStrategicrefreshanddigitalenablementofover 1,500storeswasundertakentoelevatecustomer\nexperience.\nBusiness undertook Al-native operating model transformation,embedding intelligence across\nmerchandising, supply chain, and omni-channel fulfillment.\n- [OCR continuation; preceding text may be missing] alongside continued investments in fabric innovation within own brands."
   },
   {
-    "id": "05eb211e-dd6e-43fa-8c62-9a6258bfa84a",
+    "id": "636b65cd-1676-483a-b90b-246df0f0849f",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "05eb211e-dd6e-43fa-8c62-9a6258bfa84a",
+    "sectionId": "636b65cd-1676-483a-b90b-246df0f0849f",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -900,10 +900,10 @@
     "content": "·Ajio delivered steady growth, driven by higher platform engagement which resulted in a 23%Y-o-Y\n\nincrease in Average Bill Value."
   },
   {
-    "id": "777a615e-586b-4513-a2ce-a0154c4f00bb",
+    "id": "dcadbf4f-fba3-4940-936d-22dbbd273859",
     "chunkType": "SECTION",
-    "parentChunkId": "05eb211e-dd6e-43fa-8c62-9a6258bfa84a",
-    "sectionId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
+    "parentChunkId": "636b65cd-1676-483a-b90b-246df0f0849f",
+    "sectionId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -915,10 +915,10 @@
     "content": "·Ajio Rush expanded its reach to 600+ cities, establishing India's widest fashion network with 4-hour\n\ndelivery promise."
   },
   {
-    "id": "6db2bbd0-21e7-48f2-bc7a-2a45478cd281",
+    "id": "cc793e04-43f3-4da1-97f2-dd56a74f8871",
     "chunkType": "TEXT",
-    "parentChunkId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
-    "sectionId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
+    "parentChunkId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
+    "sectionId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 11,
@@ -930,10 +930,10 @@
     "content": "- Shein continued to maintain revenue growth momentum, supported by strong user traction exceeding\n- Premium Brands delivered steady growth,led by uptick in Premium Menswear,Eyewear,and Children's Wearcategories.Exclusivepartnershipwassignedwith Kurt Geiger,a Britishpremium footwear and accessories brand.\n- [OCR continuation; preceding text may be missing] an 11% Y-o-Y increase in option count."
   },
   {
-    "id": "0ec92ef3-8c3e-41a5-bc43-1266a82a14f0",
+    "id": "3f8a15bf-b3a7-4d92-b8d4-6070d6fa6388",
     "chunkType": "TEXT",
-    "parentChunkId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
-    "sectionId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
+    "parentChunkId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
+    "sectionId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 12,
@@ -945,10 +945,10 @@
     "content": "- The Jewelsbusinessdeliveredanotherquarterofstrongperformance.Average Bill Valuegrew53% Y-o-Y driven by rising gold prices."
   },
   {
-    "id": "ca0bbec2-df9b-4098-bd86-203589a56a7b",
+    "id": "d26e803e-24b0-45c2-9d42-c4a9da783868",
     "chunkType": "TEXT",
-    "parentChunkId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
-    "sectionId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
+    "parentChunkId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
+    "sectionId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 12,
@@ -960,10 +960,10 @@
     "content": "Consumer Electronics"
   },
   {
-    "id": "f42dbaa0-5a18-4ea8-a4e0-d328e86b105a",
+    "id": "2560975d-14be-4960-aeec-09e8707503cb",
     "chunkType": "TEXT",
-    "parentChunkId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
-    "sectionId": "777a615e-586b-4513-a2ce-a0154c4f00bb",
+    "parentChunkId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
+    "sectionId": "dcadbf4f-fba3-4940-936d-22dbbd273859",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 12,
@@ -975,10 +975,10 @@
     "content": "- Thestores maintainedrevenuemomentum drivenbysuccessful festive campaigns,newproduct launches, and broad-based growth across categories led by Laptops, Mobiles, and TVs.\n- [OCR continuation; preceding text may be missing] promotions and underlying festive demand.\n- [OCR continuation; preceding text may be missing] locations.\n- [OCR continuation; preceding text may be missing] in TV and IT categories."
   },
   {
-    "id": "be2e708e-cd71-4b03-97c4-069349afbb94",
+    "id": "b670b02a-f01b-4c71-9735-02d2f1b3e03a",
     "chunkType": "SECTION",
-    "parentChunkId": "05eb211e-dd6e-43fa-8c62-9a6258bfa84a",
-    "sectionId": "be2e708e-cd71-4b03-97c4-069349afbb94",
+    "parentChunkId": "636b65cd-1676-483a-b90b-246df0f0849f",
+    "sectionId": "b670b02a-f01b-4c71-9735-02d2f1b3e03a",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 12,
@@ -990,10 +990,10 @@
     "content": "C.LEADERSHIP QUOTE"
   },
   {
-    "id": "239460ea-43d8-42b4-88e7-575e6fb7fb0a",
+    "id": "b8ff126e-af96-4857-bca9-6992549ed08d",
     "chunkType": "TEXT",
-    "parentChunkId": "be2e708e-cd71-4b03-97c4-069349afbb94",
-    "sectionId": "be2e708e-cd71-4b03-97c4-069349afbb94",
+    "parentChunkId": "b670b02a-f01b-4c71-9735-02d2f1b3e03a",
+    "sectionId": "b670b02a-f01b-4c71-9735-02d2f1b3e03a",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 12,
@@ -1005,10 +1005,10 @@
     "content": "profitablegrowthatscalefor Reliance Retail .Revenuecrossed3.70 lakhcrore,EBl TDAcrossed\n27,000 crore,and we served 387 million registered customers across 1.93 billion transactions -\nunderlining the enduring strength of India's largest retail franchise.\n- [OCR continuation; preceding text may be missing] As we enter FY27, our focus is on converting this unmatched reach into deeper customer value - through\n- [OCR continuation; preceding text may be missing] of sustainable, profitable growth.\""
   },
   {
-    "id": "ef2075dc-e349-493f-b311-6d75e65b1ecb",
+    "id": "c514869a-069d-49f8-8499-c4f138611981",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "ef2075dc-e349-493f-b311-6d75e65b1ecb",
+    "sectionId": "c514869a-069d-49f8-8499-c4f138611981",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 13,
@@ -1020,10 +1020,10 @@
     "content": "OILTO CHEMICALS(\"O2C\")SEGMENT\n\nRecord Annual Revenue at 662,401 crore ($ 69.9 billion), up 5.7% Y-o-Y\nQuarterly Revenue at 184,944 crore ($ 19.5 billion), up 12.4% Y-o-Y\nQuarterly EBITDA at14,520crore($1.5billion),down3.7%Y-o-Y\nJio-bp operates a strong country-wide network of 2,199 fuel retail outlets"
   },
   {
-    "id": "6370c664-8503-4dfe-9fd3-235d52deca69",
+    "id": "333d4ad3-6de4-4ba0-837d-81246e7216a5",
     "chunkType": "SECTION",
-    "parentChunkId": "ef2075dc-e349-493f-b311-6d75e65b1ecb",
-    "sectionId": "6370c664-8503-4dfe-9fd3-235d52deca69",
+    "parentChunkId": "c514869a-069d-49f8-8499-c4f138611981",
+    "sectionId": "333d4ad3-6de4-4ba0-837d-81246e7216a5",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 13,
@@ -1035,10 +1035,10 @@
     "content": "A.FINANCIAL RESULTS"
   },
   {
-    "id": "c85c83ee-ab5f-4f6b-8708-32dd12307837",
+    "id": "5e6ede34-69b2-47ce-b5e9-a3311f1137ec",
     "chunkType": "TABLE",
-    "parentChunkId": "6370c664-8503-4dfe-9fd3-235d52deca69",
-    "sectionId": "6370c664-8503-4dfe-9fd3-235d52deca69",
+    "parentChunkId": "333d4ad3-6de4-4ba0-837d-81246e7216a5",
+    "sectionId": "333d4ad3-6de4-4ba0-837d-81246e7216a5",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 13,
@@ -1050,10 +1050,10 @@
     "content": "( in crore)\n| Sr. 'ON | Particulars | 4Q FY26 | 3Q FY26 | 4Q FY25 | % chg. Y-0-Y | FY26 | Column 8 | FY25 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | Revenue | 184,944 | 162,095 | 164,613 | 12.4 | 662,401 | - | 626,921 |\n| 2 | Exports | 81,540 | 66,830 | 73,749 | 10.6 | 278,570 | - | 283,515 |\n| 3 | EBITDA | 14,520 | 16,507 | 15,080 | (3.7) | 60,546 | - | 54,988 |\n| 4 | EBITDA Margin (%) | 7.9 | 10.2 | 9.2 | (130 bps) | - | 9.1 | 8.8 |\n| 5 | Depreciation | 2,764 | 2,586 | 1,941 | 42.4 | 9,788 | - | 7,731 |"
   },
   {
-    "id": "b6cd0468-c4b3-4fa0-9bfa-09eef6191bcb",
+    "id": "ff624069-bad7-42c7-a885-70fdedb73c6b",
     "chunkType": "SECTION",
-    "parentChunkId": "ef2075dc-e349-493f-b311-6d75e65b1ecb",
-    "sectionId": "b6cd0468-c4b3-4fa0-9bfa-09eef6191bcb",
+    "parentChunkId": "c514869a-069d-49f8-8499-c4f138611981",
+    "sectionId": "ff624069-bad7-42c7-a885-70fdedb73c6b",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 13,
@@ -1065,10 +1065,10 @@
     "content": "Annual Performance"
   },
   {
-    "id": "db75de1f-6cf7-4c83-8f2b-9c598da7fd36",
+    "id": "9ff56caf-6850-41a6-aafd-89df519a605d",
     "chunkType": "TEXT",
-    "parentChunkId": "b6cd0468-c4b3-4fa0-9bfa-09eef6191bcb",
-    "sectionId": "b6cd0468-c4b3-4fa0-9bfa-09eef6191bcb",
+    "parentChunkId": "ff624069-bad7-42c7-a885-70fdedb73c6b",
+    "sectionId": "ff624069-bad7-42c7-a885-70fdedb73c6b",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 13,
@@ -1080,10 +1080,10 @@
     "content": "- Segment Revenuefor FY26 increased by5.7%Y-o-Y to662,401crore($69.9billion)primarily on\naccount of higher domestic product placement and better price realisation.\nSegment EBITDA for FY26 was higher at 60,546 crore ($ 6.4 billion),up 10.1%Y-o-Y.EBITDA margin\n- [OCR continuation; preceding text may be missing] feedstock sourcing and higher product placement through Jio-bp fuel retail outlets. Earnings were constrainedbycontinuingweakmarginenvironmentfordownstreamchemicalsanddisruptionscaused\nby outbreak of conflict in Middle East region towards the year-end.\n- [OCR continuation; preceding text may be missing] Margin Environment -Transportation Fuels (FY26 vs FY25) Transportationfuelcracks increasedsharplywithstructural tightnessintheglobalrefiningsystemand better-than-expected demand growth. Energy markets, however, remained volatile amid heightened geopolitical and trade tensions."
   },
   {
-    "id": "198c9b73-3bd0-4d78-ba19-3774170d996f",
+    "id": "03a696ef-67a1-49b0-a9ff-7745a8e2aa5b",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "198c9b73-3bd0-4d78-ba19-3774170d996f",
+    "sectionId": "03a696ef-67a1-49b0-a9ff-7745a8e2aa5b",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1095,10 +1095,10 @@
     "content": "Average\n\nProduct\nComment\nChange\nCracks (/bbl)"
   },
   {
-    "id": "afbd8377-4c72-448b-98fb-09e598e9b5d7",
+    "id": "764ee23f-e190-4af8-813f-137e2255dab7",
     "chunkType": "SECTION",
-    "parentChunkId": "198c9b73-3bd0-4d78-ba19-3774170d996f",
-    "sectionId": "afbd8377-4c72-448b-98fb-09e598e9b5d7",
+    "parentChunkId": "03a696ef-67a1-49b0-a9ff-7745a8e2aa5b",
+    "sectionId": "764ee23f-e190-4af8-813f-137e2255dab7",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1110,10 +1110,10 @@
     "content": "Singapore\n\nRefinery closures in North America, Europe\n$9.3\n+34%\nGasoline 92 RON\nLower Chinese gasoline exports\nLowerinventories in US,Europe\nSingapore Gasoil\n$23.6\n+63%\nRefinery disruptions in Russia,ME conflict"
   },
   {
-    "id": "f173af39-7449-4354-a142-4536f8db7615",
+    "id": "bfeb4d91-7920-4cf3-9f23-8ffa1964e218",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "f173af39-7449-4354-a142-4536f8db7615",
+    "sectionId": "bfeb4d91-7920-4cf3-9f23-8ffa1964e218",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1125,10 +1125,10 @@
     "content": "10-ppm\n\nEUrestrictionondieselimportsfrom Russiancrude"
   },
   {
-    "id": "69f2d8dc-02e9-4412-b48a-420297ad0c3e",
+    "id": "90288762-187b-4332-a094-da37f7e4dbb7",
     "chunkType": "SECTION",
-    "parentChunkId": "f173af39-7449-4354-a142-4536f8db7615",
-    "sectionId": "69f2d8dc-02e9-4412-b48a-420297ad0c3e",
+    "parentChunkId": "bfeb4d91-7920-4cf3-9f23-8ffa1964e218",
+    "sectionId": "90288762-187b-4332-a094-da37f7e4dbb7",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1140,10 +1140,10 @@
     "content": "Singapore"
   },
   {
-    "id": "d5a037e4-61aa-44a1-a22a-deea258f5299",
+    "id": "1f44b50e-7abd-40ef-b7ca-ade49c4b896f",
     "chunkType": "TEXT",
-    "parentChunkId": "69f2d8dc-02e9-4412-b48a-420297ad0c3e",
-    "sectionId": "69f2d8dc-02e9-4412-b48a-420297ad0c3e",
+    "parentChunkId": "90288762-187b-4332-a094-da37f7e4dbb7",
+    "sectionId": "90288762-187b-4332-a094-da37f7e4dbb7",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1155,10 +1155,10 @@
     "content": "Improved in-line with gasoil cracks\n$22.8\n+68%\nJet/Kerosene\nHealthy travel and seasonal winterheating demand\n- [OCR continuation; preceding text may be missing] Margin Environment-Downstream Chemicals(FY26vs FY25) Downstreamchemicalmarginswitnessedmixedtrendsamidexcesssupplyandweakglobal demand growth. Feedstock prices also witnessed divergent trends with average Naphtha prices down 7% Y-0- Y at $600/MT, while average US Ethane prices increased 16% Y-o-Y at $24.3 cpg."
   },
   {
-    "id": "db23845e-9cb7-4a81-ac6c-0982239b26e4",
+    "id": "c87155c3-b878-4ef3-9b77-d290ea535cf4",
     "chunkType": "SECTION",
-    "parentChunkId": "f173af39-7449-4354-a142-4536f8db7615",
-    "sectionId": "db23845e-9cb7-4a81-ac6c-0982239b26e4",
+    "parentChunkId": "bfeb4d91-7920-4cf3-9f23-8ffa1964e218",
+    "sectionId": "c87155c3-b878-4ef3-9b77-d290ea535cf4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1170,10 +1170,10 @@
     "content": "Delta ($/MT)"
   },
   {
-    "id": "6217906c-0d5b-46b8-86a9-df555b5df1b9",
+    "id": "a76e4ac1-5247-45ff-a4e6-b5a12457745e",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "6217906c-0d5b-46b8-86a9-df555b5df1b9",
+    "sectionId": "a76e4ac1-5247-45ff-a4e6-b5a12457745e",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1185,10 +1185,10 @@
     "content": "Change\n\nProduct\nComment"
   },
   {
-    "id": "10ec5dd1-8bad-4c6d-91be-290ac8b03acc",
+    "id": "7b1bc403-cb6a-402e-88b9-b1750e068465",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "10ec5dd1-8bad-4c6d-91be-290ac8b03acc",
+    "sectionId": "7b1bc403-cb6a-402e-88b9-b1750e068465",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1200,10 +1200,10 @@
     "content": "Lower Naphtha prices"
   },
   {
-    "id": "4eb652dc-ae39-4daa-8d4c-fff7128f7111",
+    "id": "f8548b1e-0279-401b-be2b-e61997d3a517",
     "chunkType": "TEXT",
-    "parentChunkId": "10ec5dd1-8bad-4c6d-91be-290ac8b03acc",
-    "sectionId": "10ec5dd1-8bad-4c6d-91be-290ac8b03acc",
+    "parentChunkId": "7b1bc403-cb6a-402e-88b9-b1750e068465",
+    "sectionId": "7b1bc403-cb6a-402e-88b9-b1750e068465",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1215,10 +1215,10 @@
     "content": "PE\n306\n+2%\nWeak demand led tosharperfall inproductprices ascompared\n293\n(5%)\nPP\ntodeclineinnaphthaprices\n+1%\nPVC\n363\nDeclineinfeedstockprices(EDCdown30%at$206/MT)\n  - [OCR continuation; preceding text may be missing] to capacity overhang.\nPolyester\n446\n(1%)\n-PTAdeltadeclinedwithfurthercapacityadditionsin China\nChain"
   },
   {
-    "id": "c234227d-9b7b-4169-a1d7-997ca6749136",
+    "id": "623d941a-2103-4c04-abdb-3678170b293d",
     "chunkType": "SECTION",
-    "parentChunkId": "10ec5dd1-8bad-4c6d-91be-290ac8b03acc",
-    "sectionId": "c234227d-9b7b-4169-a1d7-997ca6749136",
+    "parentChunkId": "7b1bc403-cb6a-402e-88b9-b1750e068465",
+    "sectionId": "623d941a-2103-4c04-abdb-3678170b293d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1230,10 +1230,10 @@
     "content": "PX delta increased due to tight supply and lower Naphtha\n\nprices"
   },
   {
-    "id": "4682098d-86fc-4859-8ddd-a45a282407b3",
+    "id": "06671812-70ba-4774-bad5-ea00ead6ca81",
     "chunkType": "SECTION",
-    "parentChunkId": "10ec5dd1-8bad-4c6d-91be-290ac8b03acc",
-    "sectionId": "4682098d-86fc-4859-8ddd-a45a282407b3",
+    "parentChunkId": "7b1bc403-cb6a-402e-88b9-b1750e068465",
+    "sectionId": "06671812-70ba-4774-bad5-ea00ead6ca81",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 14,
@@ -1245,10 +1245,10 @@
     "content": "Quarterly Performance (4Q FY26 vs 4Q FY25)\n\nSegment Revenue for 4QFY26increased by 12.4%Y-o-Y to184,944crore($ 19.5billion)mainly\nduetosharpincreaseincrudeoil pricesby12%Y-o-Yandhighervolumesindomesticfuel retail\nSegment EBITDA for4QFY26decreasedby3.7%Y-o-Y to 14,520crore($1.5billion)despite\nstrengthin transportation fuel cracks.Multipleheadwinds curtailedmargincaptureincluding sharprise\nin crudepremiumsonphysicalbarrels,elevatedfreight and insurancecost and higherfuel cost.Further,"
   },
   {
-    "id": "7adbe9b4-0e86-4bbb-8b78-4ca3490ca6e8",
+    "id": "60187028-2364-4336-8114-a3045a50ab93",
     "chunkType": "TEXT",
-    "parentChunkId": "4682098d-86fc-4859-8ddd-a45a282407b3",
-    "sectionId": "4682098d-86fc-4859-8ddd-a45a282407b3",
+    "parentChunkId": "06671812-70ba-4774-bad5-ea00ead6ca81",
+    "sectionId": "06671812-70ba-4774-bad5-ea00ead6ca81",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 15,
@@ -1260,10 +1260,10 @@
     "content": "in order to protect domestic consumers, RIL diverted propane / butane to boost LPG output and KGD6\n- [OCR continuation; preceding text may be missing] Operating Environment(4QFY26vs4QFY25) In 4Q FY26,globaloildemandrose by 0.5 mb/d Y-o-Y to103.4 mb/d,with steady demand across gasoline, diesel and jet/kero."
   },
   {
-    "id": "239faab4-80c1-411b-a321-799ebdae4228",
+    "id": "9242b19b-2bdf-4fe2-acaa-b3397d0c4fde",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "239faab4-80c1-411b-a321-799ebdae4228",
+    "sectionId": "9242b19b-2bdf-4fe2-acaa-b3397d0c4fde",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 15,
@@ -1275,10 +1275,10 @@
     "content": "Dated Brent crude averaged $80.6/bbl in 4Q FY26, up $4.9/bbl Y-o-Y. Lower crude prices in January"
   },
   {
-    "id": "b338dc80-4a37-48a7-8a17-2ab14e5af93e",
+    "id": "7c1f541e-2707-4194-bdfb-94b495a31c3c",
     "chunkType": "TEXT",
-    "parentChunkId": "239faab4-80c1-411b-a321-799ebdae4228",
-    "sectionId": "239faab4-80c1-411b-a321-799ebdae4228",
+    "parentChunkId": "9242b19b-2bdf-4fe2-acaa-b3397d0c4fde",
+    "sectionId": "9242b19b-2bdf-4fe2-acaa-b3397d0c4fde",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 15,
@@ -1290,10 +1290,10 @@
     "content": "furniture,household goods,appliances,paints, automotive and packaging sectors.Polyvinyl Chloride\n- [OCR continuation; preceding text may be missing] and lower imports availability.\n- [OCR continuation; preceding text may be missing] March'26duetoheightenedpricevolatility,limited ability of fabricproducers topass onhigher yarn\n- [OCR continuation; preceding text may be missing] anticipatedsummerdemand."
   },
   {
-    "id": "95de4ae8-faa7-430a-89cb-d411e0a841f0",
+    "id": "26628432-a276-41bf-9118-627e2f418952",
     "chunkType": "TEXT",
-    "parentChunkId": "239faab4-80c1-411b-a321-799ebdae4228",
-    "sectionId": "239faab4-80c1-411b-a321-799ebdae4228",
+    "parentChunkId": "9242b19b-2bdf-4fe2-acaa-b3397d0c4fde",
+    "sectionId": "9242b19b-2bdf-4fe2-acaa-b3397d0c4fde",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1305,10 +1305,10 @@
     "content": "Margin Environment-Transportation Fuels(4QFY26vs4QFY25)\n- [OCR continuation; preceding text may be missing] Middledistillatecracksjumpedsharplyparticularlyaftertheoutbreakof MEconflict.However,margin"
   },
   {
-    "id": "73808a3a-a035-4c77-a2df-72d9f389d495",
+    "id": "940c8879-3e65-4d5d-be5a-d4e64e2b3e79",
     "chunkType": "SECTION",
-    "parentChunkId": "239faab4-80c1-411b-a321-799ebdae4228",
-    "sectionId": "73808a3a-a035-4c77-a2df-72d9f389d495",
+    "parentChunkId": "9242b19b-2bdf-4fe2-acaa-b3397d0c4fde",
+    "sectionId": "940c8879-3e65-4d5d-be5a-d4e64e2b3e79",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1320,10 +1320,10 @@
     "content": "Average"
   },
   {
-    "id": "95431636-953a-4abe-8d1e-64e8fae2b999",
+    "id": "3628eae0-79cc-430a-8948-20104c0bfe29",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "95431636-953a-4abe-8d1e-64e8fae2b999",
+    "sectionId": "3628eae0-79cc-430a-8948-20104c0bfe29",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1335,10 +1335,10 @@
     "content": "Change\n\nProduct\nComment\nCracks (/bbl)"
   },
   {
-    "id": "0a19e234-140e-4c3e-9037-47bdb8114ec4",
+    "id": "4bd4f0d8-a603-4876-b1c5-2e7afd857efe",
     "chunkType": "SECTION",
-    "parentChunkId": "95431636-953a-4abe-8d1e-64e8fae2b999",
-    "sectionId": "0a19e234-140e-4c3e-9037-47bdb8114ec4",
+    "parentChunkId": "3628eae0-79cc-430a-8948-20104c0bfe29",
+    "sectionId": "4bd4f0d8-a603-4876-b1c5-2e7afd857efe",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1350,10 +1350,10 @@
     "content": "Singapore\n\nHigh light distillate inventories in Singapore capped cracks\nGasoline 92\n$5.6\n(8%)"
   },
   {
-    "id": "04e8e96d-9fa1-40cc-921d-797512be8eb0",
+    "id": "878bb07a-0b12-4512-86e7-c6de4579686e",
     "chunkType": "SECTION",
-    "parentChunkId": "95431636-953a-4abe-8d1e-64e8fae2b999",
-    "sectionId": "04e8e96d-9fa1-40cc-921d-797512be8eb0",
+    "parentChunkId": "3628eae0-79cc-430a-8948-20104c0bfe29",
+    "sectionId": "878bb07a-0b12-4512-86e7-c6de4579686e",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1365,10 +1365,10 @@
     "content": "-Lower buying interest in some markets like Indonesia\n\nRON\nBlockage of diesel and crude flows through So H"
   },
   {
-    "id": "9814b134-96df-4ba7-bf74-99cc2eec0f32",
+    "id": "d73fb1e7-7750-42df-80ee-cea46c2f9dc1",
     "chunkType": "SECTION",
-    "parentChunkId": "95431636-953a-4abe-8d1e-64e8fae2b999",
-    "sectionId": "9814b134-96df-4ba7-bf74-99cc2eec0f32",
+    "parentChunkId": "3628eae0-79cc-430a-8948-20104c0bfe29",
+    "sectionId": "d73fb1e7-7750-42df-80ee-cea46c2f9dc1",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1380,10 +1380,10 @@
     "content": "Singapore\n\n$35.4\n+ 148%\n-Significant regional refinery run cuts amid supply constraints\nGasoil 10-ppm\nSuspensionof Chineseproductexports"
   },
   {
-    "id": "4edc7248-6a86-4b8d-a2df-b10e9df42108",
+    "id": "393a04af-d59d-4d6a-8ee1-786f21cf17ac",
     "chunkType": "SECTION",
-    "parentChunkId": "95431636-953a-4abe-8d1e-64e8fae2b999",
-    "sectionId": "4edc7248-6a86-4b8d-a2df-b10e9df42108",
+    "parentChunkId": "3628eae0-79cc-430a-8948-20104c0bfe29",
+    "sectionId": "393a04af-d59d-4d6a-8ee1-786f21cf17ac",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1395,10 +1395,10 @@
     "content": "Disruption of jetfuel supply to Europe due to So Hclosure"
   },
   {
-    "id": "bfab5e87-6f39-4885-8142-526d86ca8b99",
+    "id": "57681fdb-f8ab-4853-889c-d8dfedc51456",
     "chunkType": "TEXT",
-    "parentChunkId": "4edc7248-6a86-4b8d-a2df-b10e9df42108",
-    "sectionId": "4edc7248-6a86-4b8d-a2df-b10e9df42108",
+    "parentChunkId": "393a04af-d59d-4d6a-8ee1-786f21cf17ac",
+    "sectionId": "393a04af-d59d-4d6a-8ee1-786f21cf17ac",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1410,10 +1410,10 @@
     "content": "Singapore\n$36.3\nwithlimited alternativesources\n+ 175%\nJet/Kerosene\nRationalisationofrunsby Asianrefiners\n- [OCR continuation; preceding text may be missing] Margin Environment-Downstream Chemicals(4QFY26vs4QFY25)\n- [OCR continuation; preceding text may be missing] Downstream chemicaldeltasremained underpressureamid higher Naphtha prices(+13%)and weak demand trends.MEdisruptioninfeedstock,products alongwithdamage toinfrastructure significantly\ntightenedthemarketsin Marchwithseveralproducersdeclaring Force Majeure."
   },
   {
-    "id": "0f8b4176-e4c2-4a4e-809d-b92060356a4f",
+    "id": "b6faab66-2a5d-43fa-b388-3caf45c69fa2",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "0f8b4176-e4c2-4a4e-809d-b92060356a4f",
+    "sectionId": "b6faab66-2a5d-43fa-b388-3caf45c69fa2",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1425,10 +1425,10 @@
     "content": "US Ethane price averaged 23.5 cpg,down 14%Y-o-Y, in line with lower US Natural Gas prices,leading\n\nto favourable cracking economics."
   },
   {
-    "id": "58c0cf24-5314-4cfe-b697-220ea3ea842f",
+    "id": "4bb12fe2-c83d-4054-8b6c-2601bb8e6c53",
     "chunkType": "SECTION",
-    "parentChunkId": "0f8b4176-e4c2-4a4e-809d-b92060356a4f",
-    "sectionId": "58c0cf24-5314-4cfe-b697-220ea3ea842f",
+    "parentChunkId": "b6faab66-2a5d-43fa-b388-3caf45c69fa2",
+    "sectionId": "4bb12fe2-c83d-4054-8b6c-2601bb8e6c53",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1440,10 +1440,10 @@
     "content": "Product"
   },
   {
-    "id": "f29d5e76-f344-40d3-a3f7-6f1233e243cf",
+    "id": "11ea4784-80c8-47c9-9f9b-8188818f68c9",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "f29d5e76-f344-40d3-a3f7-6f1233e243cf",
+    "sectionId": "11ea4784-80c8-47c9-9f9b-8188818f68c9",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1455,10 +1455,10 @@
     "content": "Change\n\nDelta($/MT)\nComment"
   },
   {
-    "id": "7f564cd4-e6eb-41e9-a7e5-21163cecafdc",
+    "id": "dfc33757-313b-4edc-bb9b-72d8d4c0a173",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "7f564cd4-e6eb-41e9-a7e5-21163cecafdc",
+    "sectionId": "dfc33757-313b-4edc-bb9b-72d8d4c0a173",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1470,10 +1470,10 @@
     "content": "Higher Naphtha prices\n\nPE\n265\n(4%)"
   },
   {
-    "id": "68e2dd15-d9d9-45ea-9823-a93ea4fd6427",
+    "id": "c0df7ea7-101c-4fb2-a73d-a79dea8d87d4",
     "chunkType": "SECTION",
-    "parentChunkId": "7f564cd4-e6eb-41e9-a7e5-21163cecafdc",
-    "sectionId": "68e2dd15-d9d9-45ea-9823-a93ea4fd6427",
+    "parentChunkId": "dfc33757-313b-4edc-bb9b-72d8d4c0a173",
+    "sectionId": "c0df7ea7-101c-4fb2-a73d-a79dea8d87d4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1485,10 +1485,10 @@
     "content": "Oversupplyleading tolowerproduct priceswhile Naphthaprices"
   },
   {
-    "id": "dd5b0b03-4e49-4fbb-9adc-153305d0327e",
+    "id": "9023373e-cf07-49e5-95ad-04fbd67f0d1d",
     "chunkType": "TEXT",
-    "parentChunkId": "68e2dd15-d9d9-45ea-9823-a93ea4fd6427",
-    "sectionId": "68e2dd15-d9d9-45ea-9823-a93ea4fd6427",
+    "parentChunkId": "c0df7ea7-101c-4fb2-a73d-a79dea8d87d4",
+    "sectionId": "c0df7ea7-101c-4fb2-a73d-a79dea8d87d4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1500,10 +1500,10 @@
     "content": "PP\n224\n(28%)\ntrended higher\nPVC\n363\n+2%\nIncreaseinproductpriceswithstabledemand\n- [OCR continuation; preceding text may be missing] Polyester demand from new PTA capacity. 479 +16% Polyester deltas increased withlower capacityaddsin China\nChain"
   },
   {
-    "id": "b9f7db71-38fb-42af-91eb-29f4c460ab27",
+    "id": "1484884f-ffbd-4d0b-ac06-7e13ced11746",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "b9f7db71-38fb-42af-91eb-29f4c460ab27",
+    "sectionId": "1484884f-ffbd-4d0b-ac06-7e13ced11746",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 16,
@@ -1515,10 +1515,10 @@
     "content": "Lower MEG delta due to higher China port inventory"
   },
   {
-    "id": "25e56005-c464-425a-8726-7e968602cb99",
+    "id": "6f7a6ed1-600c-4754-b72f-a503daafa651",
     "chunkType": "SECTION",
-    "parentChunkId": "b9f7db71-38fb-42af-91eb-29f4c460ab27",
-    "sectionId": "25e56005-c464-425a-8726-7e968602cb99",
+    "parentChunkId": "1484884f-ffbd-4d0b-ac06-7e13ced11746",
+    "sectionId": "6f7a6ed1-600c-4754-b72f-a503daafa651",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 17,
@@ -1530,10 +1530,10 @@
     "content": "B.OPERATIONALUPDATE"
   },
   {
-    "id": "83001dde-7e49-4753-bbb2-c9f2eb09c75b",
+    "id": "b3daab24-81db-4c7e-bc76-cd2cd601a51e",
     "chunkType": "TABLE",
-    "parentChunkId": "25e56005-c464-425a-8726-7e968602cb99",
-    "sectionId": "25e56005-c464-425a-8726-7e968602cb99",
+    "parentChunkId": "6f7a6ed1-600c-4754-b72f-a503daafa651",
+    "sectionId": "6f7a6ed1-600c-4754-b72f-a503daafa651",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 17,
@@ -1545,10 +1545,10 @@
     "content": "| Sr. No. | Particulars | Uo M | 4Q FY26 | 3Q FY26 | 4Q FY25 | % chg. Y-0-Y | FY26 | FY25 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | Total Throughput | MMT | 19.5 | 20.6 | 20.3 | (3.9) | 80.0 | 80.5 |\n| 2 | Productionmeantfor Sale* | MMT | 17.2 | 18.2 | 17.9 | (3.9) | 70.9 | 71.2 |"
   },
   {
-    "id": "bda366de-f2dc-4ac7-8048-3b14c9cc207f",
+    "id": "e131f904-4809-48ad-8573-2a154ffc7741",
     "chunkType": "TEXT",
-    "parentChunkId": "25e56005-c464-425a-8726-7e968602cb99",
-    "sectionId": "25e56005-c464-425a-8726-7e968602cb99",
+    "parentChunkId": "6f7a6ed1-600c-4754-b72f-a503daafa651",
+    "sectionId": "6f7a6ed1-600c-4754-b72f-a503daafa651",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 17,
@@ -1560,10 +1560,10 @@
     "content": "*Productionmeantfor Saledenotes Total Productionadjustedfor Captive Consumption\n- [OCR continuation; preceding text may be missing] Agilecrudesourcingamidongoing Middle Eastconflicttosustainthroughput Aromaticsproduction optimized to capturehigherdeltas inthe overallvalue chain. High Octane gasoline export increased with attractive premium. Jamnagar Complex fuel cost minimized by sustaining higher gasifier availability. Higher LPG supplied to PSUs to help offset disruptions caused by So H closure.This was achieved by reducing transport fuel and downstream production."
   },
   {
-    "id": "ab20bc27-384e-4b25-a1f3-32c3020163c6",
+    "id": "bc5b1d7f-e973-402f-93c9-680544aa24bb",
     "chunkType": "SECTION",
-    "parentChunkId": "b9f7db71-38fb-42af-91eb-29f4c460ab27",
-    "sectionId": "ab20bc27-384e-4b25-a1f3-32c3020163c6",
+    "parentChunkId": "1484884f-ffbd-4d0b-ac06-7e13ced11746",
+    "sectionId": "bc5b1d7f-e973-402f-93c9-680544aa24bb",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 17,
@@ -1575,10 +1575,10 @@
     "content": "Jio-bp update"
   },
   {
-    "id": "ba3080b3-54a2-4aa2-8d76-0f1c28fbf3a8",
+    "id": "1e19f7d8-bd4d-4346-9d43-b2c02c857c06",
     "chunkType": "TEXT",
-    "parentChunkId": "ab20bc27-384e-4b25-a1f3-32c3020163c6",
-    "sectionId": "ab20bc27-384e-4b25-a1f3-32c3020163c6",
+    "parentChunkId": "bc5b1d7f-e973-402f-93c9-680544aa24bb",
+    "sectionId": "bc5b1d7f-e973-402f-93c9-680544aa24bb",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 17,
@@ -1590,10 +1590,10 @@
     "content": "Reliance BPMobility Limited(RBML)(operatingunderbrand Jio-bp)operates a country-wide network\nof 2,199 outlets (vs 1,916 in 4QFY25).\n- [OCR continuation; preceding text may be missing] programs namely Trans-Connect'forfleets,‘Reward Meter'for truck driver and‘4ever'forcar traveler, clubbed withnew“Mobility+’credit card from Induslnd Bank,Jio-bp and Ru Pay,continue toaddvalue\nto customers.\nRBMLquarterlysalesfor HSDand MSgrewat 24%and 37%respectivelyon Y-o-Ybasisasagainst\nindustry sales volume growth rate of 6.1% and 6.5% respectively.\nRBML continued supporting the India aviation story,capturing 5.9%market share."
   },
   {
-    "id": "9b11045b-d772-4dcd-b73c-d31b130ce9d8",
+    "id": "0ae1465a-92df-4272-9dd6-427b29281e90",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "9b11045b-d772-4dcd-b73c-d31b130ce9d8",
+    "sectionId": "0ae1465a-92df-4272-9dd6-427b29281e90",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 17,
@@ -1605,10 +1605,10 @@
     "content": "Under Jio-bp Pulse,RBML has grown network of over 6,281 live charging points at 1,071 unique sites"
   },
   {
-    "id": "889b0486-4e50-49b7-bd93-87a6c4cb0b31",
+    "id": "fafea03f-6209-40df-af20-425ae2c25316",
     "chunkType": "TEXT",
-    "parentChunkId": "9b11045b-d772-4dcd-b73c-d31b130ce9d8",
-    "sectionId": "9b11045b-d772-4dcd-b73c-d31b130ce9d8",
+    "parentChunkId": "0ae1465a-92df-4272-9dd6-427b29281e90",
+    "sectionId": "0ae1465a-92df-4272-9dd6-427b29281e90",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 17,
@@ -1620,10 +1620,10 @@
     "content": "with industry leading charger uptime.\n- [OCR continuation; preceding text may be missing] RIL's Bio-gas plants. RBML is also ramping up its network of CNG outlets."
   },
   {
-    "id": "395606b2-c179-4941-91ac-d942b9c70867",
+    "id": "62a85666-3b3a-4827-9361-7eb287d48336",
     "chunkType": "SECTION",
-    "parentChunkId": "9b11045b-d772-4dcd-b73c-d31b130ce9d8",
-    "sectionId": "395606b2-c179-4941-91ac-d942b9c70867",
+    "parentChunkId": "0ae1465a-92df-4272-9dd6-427b29281e90",
+    "sectionId": "62a85666-3b3a-4827-9361-7eb287d48336",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 18,
@@ -1635,10 +1635,10 @@
     "content": "OILANDGAS(EXPLORATIONANDPRODUCTION)SEGMENT\n\nQuarterly Revenueat5,867crore($619million),down8.9%Y-o-Y\nQuarterly EBITDAat4,195crore($442million),down18.1%Y-o-Y"
   },
   {
-    "id": "88a0df54-5402-4688-ab5e-053e9e6e1d9e",
+    "id": "c8b050f5-1709-45cc-b042-b522963bc8ce",
     "chunkType": "SECTION",
-    "parentChunkId": "9b11045b-d772-4dcd-b73c-d31b130ce9d8",
-    "sectionId": "88a0df54-5402-4688-ab5e-053e9e6e1d9e",
+    "parentChunkId": "0ae1465a-92df-4272-9dd6-427b29281e90",
+    "sectionId": "c8b050f5-1709-45cc-b042-b522963bc8ce",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 18,
@@ -1650,10 +1650,10 @@
     "content": "A.FINANCIAL RESULTS"
   },
   {
-    "id": "5c24532e-012b-4494-adfe-9138c5bb36e7",
+    "id": "77928672-59c1-4918-8794-ef3d069e391e",
     "chunkType": "TABLE",
-    "parentChunkId": "88a0df54-5402-4688-ab5e-053e9e6e1d9e",
-    "sectionId": "88a0df54-5402-4688-ab5e-053e9e6e1d9e",
+    "parentChunkId": "c8b050f5-1709-45cc-b042-b522963bc8ce",
+    "sectionId": "c8b050f5-1709-45cc-b042-b522963bc8ce",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 18,
@@ -1665,10 +1665,10 @@
     "content": "( in crore)\n| Sr. No | Particulars | 4Q FY26 | 3Q FY26 | 4Q FY25 | % chg. Y-o-Y | FY26 | FY25 |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | Revenue | 5,867 | 5,833 | 6,440 | (8.9) | 23,861 | 25,211 |\n| 2 | EBITDA | 4,195 | 4,857 | 5,123 | (18.1) | 19,050 | 21,188 |\n| 3 | EBITDA Margin(%) | 71.5 | 83.3 | 79.5 | (800 bps) | 79.8 | 84.0 |\n| 4 | Depreciation | 1,292 | 1,394 | 1,318 | (2.0) | 5,586 | 5,348 |"
   },
   {
-    "id": "6460a83a-9321-4ad1-8a5b-3069b57d1be5",
+    "id": "cd202a67-4324-4876-a272-a4759caeb24a",
     "chunkType": "SECTION",
-    "parentChunkId": "9b11045b-d772-4dcd-b73c-d31b130ce9d8",
-    "sectionId": "6460a83a-9321-4ad1-8a5b-3069b57d1be5",
+    "parentChunkId": "0ae1465a-92df-4272-9dd6-427b29281e90",
+    "sectionId": "cd202a67-4324-4876-a272-a4759caeb24a",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 18,
@@ -1680,10 +1680,10 @@
     "content": "Annual Performance\n\nfrom KGD6block.Revenuewas alsoimpactedbylowerrealisationfor CBMGasand KGD6Crude\nwhich was partly offset by higher KGD6 Gas price realisation.\nThe averagepricerealisedfor KGD6gaswas$9.81/MMBTU in FY26vis-a-vis$9.65/MMBTUin FY25."
   },
   {
-    "id": "0714f5d9-6e3a-4afd-bc84-26b1f0eb64fe",
+    "id": "08b7e37d-f5cb-4add-b411-acb6c673024d",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "0714f5d9-6e3a-4afd-bc84-26b1f0eb64fe",
+    "sectionId": "08b7e37d-f5cb-4add-b411-acb6c673024d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 18,
@@ -1695,10 +1695,10 @@
     "content": "The average price realised for CBM gas was $ 9.43/MMBTU in FY26 vis-a-vis $ 10.95/MMBTU in"
   },
   {
-    "id": "6d587426-c668-472c-8645-a80f4228fbe3",
+    "id": "bbc6d134-61e0-4cc7-b1f6-c02f157b7ec2",
     "chunkType": "TEXT",
-    "parentChunkId": "0714f5d9-6e3a-4afd-bc84-26b1f0eb64fe",
-    "sectionId": "0714f5d9-6e3a-4afd-bc84-26b1f0eb64fe",
+    "parentChunkId": "08b7e37d-f5cb-4add-b411-acb6c673024d",
+    "sectionId": "08b7e37d-f5cb-4add-b411-acb6c673024d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 18,
@@ -1710,10 +1710,10 @@
     "content": "FY25.\n- EBITDA decreasedby 10.1%to 19,050croreon Y-o-Ybasiswithlower revenues and higher cost."
   },
   {
-    "id": "07e83019-a4fb-4102-9a70-a28e0b07d727",
+    "id": "31f315f7-838f-4e55-9474-b7691c0b0747",
     "chunkType": "SECTION",
-    "parentChunkId": "0714f5d9-6e3a-4afd-bc84-26b1f0eb64fe",
-    "sectionId": "07e83019-a4fb-4102-9a70-a28e0b07d727",
+    "parentChunkId": "08b7e37d-f5cb-4add-b411-acb6c673024d",
+    "sectionId": "31f315f7-838f-4e55-9474-b7691c0b0747",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 18,
@@ -1725,10 +1725,10 @@
     "content": "Quarterly Performance (4Q FY26 vs 4Q FY25)"
   },
   {
-    "id": "43f404b0-51f5-4f8c-8b01-5d1c9321f01d",
+    "id": "563808f0-7ace-4fc9-8f31-68bfdd78dce2",
     "chunkType": "TEXT",
-    "parentChunkId": "07e83019-a4fb-4102-9a70-a28e0b07d727",
-    "sectionId": "07e83019-a4fb-4102-9a70-a28e0b07d727",
+    "parentChunkId": "31f315f7-838f-4e55-9474-b7691c0b0747",
+    "sectionId": "31f315f7-838f-4e55-9474-b7691c0b0747",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 18,
@@ -1740,10 +1740,10 @@
     "content": "4QFY26revenueislowerby8.9%Y-o-Ymainlyonaccountoflower Gaspricerealisationin KGD6\nand CBMand,lower Gasvolumein KGD6Field.\n- [OCR continuation; preceding text may be missing] 4QFY25.The averageprice realised for CBMgaswas$ 9.01/MMBTU in4QFY26vis-a-vis $ 10.36/MMBTU in4QFY25."
   },
   {
-    "id": "87571bf5-c205-4f02-b998-8b4461da294d",
+    "id": "722b1f4a-6efa-4e31-b8f8-ec99a36808c6",
     "chunkType": "TEXT",
-    "parentChunkId": "07e83019-a4fb-4102-9a70-a28e0b07d727",
-    "sectionId": "07e83019-a4fb-4102-9a70-a28e0b07d727",
+    "parentChunkId": "31f315f7-838f-4e55-9474-b7691c0b0747",
+    "sectionId": "31f315f7-838f-4e55-9474-b7691c0b0747",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 19,
@@ -1755,10 +1755,10 @@
     "content": "EBITDAdeclinedby18.1%to?4,195croreon Y-o-Ybasisduetolowerrevenuecoupledwithhigher\noperatingcostduetomaintenanceactivityand Governmentlevies."
   },
   {
-    "id": "a939d0c3-89f4-40cd-8650-9a1eae83e36d",
+    "id": "9112789c-373d-4934-9a74-7d08363c46f6",
     "chunkType": "SECTION",
-    "parentChunkId": "0714f5d9-6e3a-4afd-bc84-26b1f0eb64fe",
-    "sectionId": "a939d0c3-89f4-40cd-8650-9a1eae83e36d",
+    "parentChunkId": "08b7e37d-f5cb-4add-b411-acb6c673024d",
+    "sectionId": "9112789c-373d-4934-9a74-7d08363c46f6",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 19,
@@ -1770,10 +1770,10 @@
     "content": "B.OPERATIONAL UPDATE"
   },
   {
-    "id": "49549f35-a80e-42b6-8a3a-d8069f7c039d",
+    "id": "72d99d5c-52c7-4ffd-bebf-cef9ea6f6cb3",
     "chunkType": "TABLE",
-    "parentChunkId": "a939d0c3-89f4-40cd-8650-9a1eae83e36d",
-    "sectionId": "a939d0c3-89f4-40cd-8650-9a1eae83e36d",
+    "parentChunkId": "9112789c-373d-4934-9a74-7d08363c46f6",
+    "sectionId": "9112789c-373d-4934-9a74-7d08363c46f6",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 19,
@@ -1785,10 +1785,10 @@
     "content": "| Sr. No. | Particulars | Uo M | 4Q FY26 | 3Q FY26 | 4Q FY25 | % chg. Y-0-Y | FY26 | FY25 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 1 | KGD6Production | BCFe | 59.6 | 61.8 | 63.7 | (6.4) | 248.8 | 270.9 |\n| 2 | CBM Production | BCFe | 2.9 | 2.82 | 2.7 | 7.4 | 11.3 | 10.3 |"
   },
   {
-    "id": "00926ba4-4e0a-45e6-8eba-68715ed2d699",
+    "id": "d22ac5d8-56b2-403e-b85c-1b67c060f292",
     "chunkType": "SECTION",
-    "parentChunkId": "0714f5d9-6e3a-4afd-bc84-26b1f0eb64fe",
-    "sectionId": "00926ba4-4e0a-45e6-8eba-68715ed2d699",
+    "parentChunkId": "08b7e37d-f5cb-4add-b411-acb6c673024d",
+    "sectionId": "d22ac5d8-56b2-403e-b85c-1b67c060f292",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 19,
@@ -1800,10 +1800,10 @@
     "content": "KGD6:"
   },
   {
-    "id": "2c373de0-85a2-40f5-a69b-cbae41d4a609",
+    "id": "3e68bc55-e601-4e6b-8828-da3b56e14ce6",
     "chunkType": "TEXT",
-    "parentChunkId": "00926ba4-4e0a-45e6-8eba-68715ed2d699",
-    "sectionId": "00926ba4-4e0a-45e6-8eba-68715ed2d699",
+    "parentChunkId": "d22ac5d8-56b2-403e-b85c-1b67c060f292",
+    "sectionId": "d22ac5d8-56b2-403e-b85c-1b67c060f292",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 19,
@@ -1815,10 +1815,10 @@
     "content": "Theaverage KGD6productionforthe4QFY26is25.2MMSCMDof gasand~17,310bbl/dayof Oil\n/ Condensate.\n- [OCR continuation; preceding text may be missing] CBM: Secondphaseof multi-lateral well(MLW)campaign isunderwaytoaugmentproduction.Drillingof23 wellshasbeencompletedoutof40MLWwellscampaign.21wellshavebeenconnectedtothe production system. Thecurrentrateofproductionis0.91MMSCMDwithasignificantcontributionfromnewwellsunder production."
   },
   {
-    "id": "81069e67-6018-44fa-9afe-a1b3bd42bbf3",
+    "id": "ac26a56d-b2b8-4c07-af23-6356df776508",
     "chunkType": "SECTION",
-    "parentChunkId": "0714f5d9-6e3a-4afd-bc84-26b1f0eb64fe",
-    "sectionId": "81069e67-6018-44fa-9afe-a1b3bd42bbf3",
+    "parentChunkId": "08b7e37d-f5cb-4add-b411-acb6c673024d",
+    "sectionId": "ac26a56d-b2b8-4c07-af23-6356df776508",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 20,
@@ -1830,10 +1830,10 @@
     "content": "JIOSTARBUSINESS"
   },
   {
-    "id": "f178ded0-3dad-4ad9-9d51-d7182698f3eb",
+    "id": "c0e78995-983e-4a4d-8d0b-3e1e5e9250be",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "f178ded0-3dad-4ad9-9d51-d7182698f3eb",
+    "sectionId": "c0e78995-983e-4a4d-8d0b-3e1e5e9250be",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 20,
@@ -1845,10 +1845,10 @@
     "content": "Jio Hotstar averaged5o0million MAUsduringthequarter"
   },
   {
-    "id": "a3b1ef12-28ae-477f-a54b-692197cd9125",
+    "id": "0a86a3ee-70ae-47ae-ad80-b49850e0abe2",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "a3b1ef12-28ae-477f-a54b-692197cd9125",
+    "sectionId": "0a86a3ee-70ae-47ae-ad80-b49850e0abe2",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 20,
@@ -1860,10 +1860,10 @@
     "content": "Industry leading TV Entertainmentviewership share of 34.2%\n\nStrong EBITDA of 827 crore for the quarter"
   },
   {
-    "id": "06a8a314-dfba-447b-9f06-0f1b05429439",
+    "id": "3034a035-76aa-4720-867a-07722fdf5cc4",
     "chunkType": "SECTION",
-    "parentChunkId": "a3b1ef12-28ae-477f-a54b-692197cd9125",
-    "sectionId": "06a8a314-dfba-447b-9f06-0f1b05429439",
+    "parentChunkId": "0a86a3ee-70ae-47ae-ad80-b49850e0abe2",
+    "sectionId": "3034a035-76aa-4720-867a-07722fdf5cc4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 20,
@@ -1875,10 +1875,10 @@
     "content": "A. FINANCIAL RESULTS"
   },
   {
-    "id": "22c829c1-94f1-4037-a1ea-0237abca1891",
+    "id": "74322ec4-c817-428b-8eb9-a8e256b029a7",
     "chunkType": "TABLE",
-    "parentChunkId": "06a8a314-dfba-447b-9f06-0f1b05429439",
-    "sectionId": "06a8a314-dfba-447b-9f06-0f1b05429439",
+    "parentChunkId": "3034a035-76aa-4720-867a-07722fdf5cc4",
+    "sectionId": "3034a035-76aa-4720-867a-07722fdf5cc4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 20,
@@ -1890,10 +1890,10 @@
     "content": "( in crore)\n| Sr. No. | Particulars | 4Q FY26 | 3Q FY26 | FY26 | FY25# |\n| --- | --- | --- | --- | --- | --- |\n| 1 | Gross Revenue | 9,784 | 8,010 | 36,248 | 11,032 |\n| 2 | Revenue from Operations | 8,372 | 6,896 | 31,048 | 9,497 |\n| 3 | EBITDA | 827 | 1,303 | 4,885 | 774 |\n| 4 | EBITDA Margin (%)* | 9.9 | 18.9 | 15.7 | 8.1 |\n| 5 | Depreciation | 341 | 343 | 1,323 | 330 |\n| 6 | Finance Cost | 65 | 62 | 334 | 201 |\n| 7 | Tax Expenses | 2 | 10 | 18 | 14 |\n| 8 | Profit After Tax | 419 | 888 | 3,210 | 229 |"
   },
   {
-    "id": "0f35c9fe-3354-4fe2-aafc-1acf2ab9d1ba",
+    "id": "ecb802bb-9db6-4336-8902-c8f8a78c484f",
     "chunkType": "TEXT",
-    "parentChunkId": "06a8a314-dfba-447b-9f06-0f1b05429439",
-    "sectionId": "06a8a314-dfba-447b-9f06-0f1b05429439",
+    "parentChunkId": "3034a035-76aa-4720-867a-07722fdf5cc4",
+    "sectionId": "3034a035-76aa-4720-867a-07722fdf5cc4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 20,
@@ -1905,10 +1905,10 @@
     "content": "*EBITDAMarginiscalculated on Revenuefrom Operations\n#From 14th Nov'24to 31st Mar'25."
   },
   {
-    "id": "b9c5c1fe-844e-4387-b9e7-d90e328bb305",
+    "id": "7b0443dc-5986-46bd-a9aa-58c80a801b00",
     "chunkType": "SECTION",
-    "parentChunkId": "a3b1ef12-28ae-477f-a54b-692197cd9125",
-    "sectionId": "b9c5c1fe-844e-4387-b9e7-d90e328bb305",
+    "parentChunkId": "0a86a3ee-70ae-47ae-ad80-b49850e0abe2",
+    "sectionId": "7b0443dc-5986-46bd-a9aa-58c80a801b00",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 21,
@@ -1920,10 +1920,10 @@
     "content": "B.OPERATIONAL UPDATE"
   },
   {
-    "id": "a4f95043-8c3a-40c7-8bcc-e1e53099c7c2",
+    "id": "3cd61543-d3b1-48da-adf5-0e49a06734d0",
     "chunkType": "TEXT",
-    "parentChunkId": "b9c5c1fe-844e-4387-b9e7-d90e328bb305",
-    "sectionId": "b9c5c1fe-844e-4387-b9e7-d90e328bb305",
+    "parentChunkId": "7b0443dc-5986-46bd-a9aa-58c80a801b00",
+    "sectionId": "7b0443dc-5986-46bd-a9aa-58c80a801b00",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 21,
@@ -1935,10 +1935,10 @@
     "content": "Jio Star\n- [OCR continuation; preceding text may be missing] for 4Q FY26."
   },
   {
-    "id": "31cb16af-6b3d-4611-a92d-e8bc1aa8704c",
+    "id": "df326f97-449d-4b55-9f8e-4f7849000ccb",
     "chunkType": "TEXT",
-    "parentChunkId": "b9c5c1fe-844e-4387-b9e7-d90e328bb305",
-    "sectionId": "b9c5c1fe-844e-4387-b9e7-d90e328bb305",
+    "parentChunkId": "7b0443dc-5986-46bd-a9aa-58c80a801b00",
+    "sectionId": "7b0443dc-5986-46bd-a9aa-58c80a801b00",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 21,
@@ -1950,10 +1950,10 @@
     "content": "- The network continued to reinforce its leadership in key markets with TV entertainment viewership share at 34.2%share',reaching over810 millionviewers nationally.\n- [OCR continuation; preceding text may be missing] Jio Hotstaraveraged500million Monthly Active Users(MAUs)duringthequarter,withthe T20Men's"
   },
   {
-    "id": "338b771e-b2fb-4bf9-89f3-e9dd553763ea",
+    "id": "4e6df369-453a-4344-a6f2-02ebe7865c7d",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "338b771e-b2fb-4bf9-89f3-e9dd553763ea",
+    "sectionId": "4e6df369-453a-4344-a6f2-02ebe7865c7d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 21,
@@ -1965,10 +1965,10 @@
     "content": "Cricket WC Final achieving a record 72.5 million peak concurrency, the highest ever for any property"
   },
   {
-    "id": "a07dbde5-cf7d-4448-a2a1-aea89ce02513",
+    "id": "cfa16739-27fc-4da9-8e6e-f098550a5497",
     "chunkType": "TEXT",
-    "parentChunkId": "338b771e-b2fb-4bf9-89f3-e9dd553763ea",
-    "sectionId": "338b771e-b2fb-4bf9-89f3-e9dd553763ea",
+    "parentChunkId": "4e6df369-453a-4344-a6f2-02ebe7865c7d",
+    "sectionId": "4e6df369-453a-4344-a6f2-02ebe7865c7d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 21,
@@ -1980,10 +1980,10 @@
     "content": "entertainment.\n- [OCR continuation; preceding text may be missing] Digital\n- [OCR continuation; preceding text may be missing] reaching an all-time high, aided by the launch of the new monthly plans to improve affordability and flexibility to users."
   },
   {
-    "id": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
+    "id": "42d31c85-3ca1-4e30-b2d2-8be147729092",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
+    "sectionId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 21,
@@ -1995,10 +1995,10 @@
     "content": "·Jio Hotstar redefined content discovery on the platform with the launchof conversational discovery"
   },
   {
-    "id": "1d663a3d-804f-4c4b-b4b6-038075665f09",
+    "id": "57aedf42-7c97-44d2-9b5c-dcdab4e1e477",
     "chunkType": "TEXT",
-    "parentChunkId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
-    "sectionId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
+    "parentChunkId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
+    "sectionId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 21,
@@ -2010,10 +2010,10 @@
     "content": "through an industry-defining partnership with Open Al - the voice search experience is now powered by\nthe best-in-class Al technology.\n- [OCR continuation; preceding text may be missing] integrations: in-app food ordering with Swiggy on the IPL and ‘Shop the Look' partnership with New Me on Splitsvilla.\n- [OCR continuation; preceding text may be missing] interface across Mobile and CTV, aimed at improving navigation, discovery, and overall engagement.\n- [OCR continuation; preceding text may be missing] World Cup-a testament to theplatform's scale and stability."
   },
   {
-    "id": "659b60f3-2865-4e25-aa5b-fabf41c5bf0b",
+    "id": "41ea0cd7-572a-425a-8718-4e2dfa6c3523",
     "chunkType": "TEXT",
-    "parentChunkId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
-    "sectionId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
+    "parentChunkId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
+    "sectionId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 22,
@@ -2025,10 +2025,10 @@
     "content": "Sports"
   },
   {
-    "id": "f6212b38-1b9b-4c5e-b9bf-9100110a19b8",
+    "id": "f40aa739-1b60-4150-a8ea-9d9ef7aefb44",
     "chunkType": "TEXT",
-    "parentChunkId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
-    "sectionId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
+    "parentChunkId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
+    "sectionId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 22,
@@ -2040,10 +2040,10 @@
     "content": "- Thequarterwasademonstrationofthestrongperformanceofoursportslineup,ledbytherecord- breaking ICCT20World Cup,Women's Premier League,and the Indiavs New Zealandbilateralseries.\n- [OCR continuation; preceding text may be missing] surpassing allpeak concurrencyrecords in the semi-finaland the final-ranking as one of themost-"
   },
   {
-    "id": "0bc4af6d-68cf-463d-a37b-5936896104e1",
+    "id": "a03b6540-2828-4e4a-8dd4-7a06f0aeed87",
     "chunkType": "TEXT",
-    "parentChunkId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
-    "sectionId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
+    "parentChunkId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
+    "sectionId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 22,
@@ -2055,10 +2055,10 @@
     "content": "Entertainment"
   },
   {
-    "id": "f5943634-43ef-4b24-915f-7468f840a474",
+    "id": "240b1354-545b-4520-a3f0-cdec7d803830",
     "chunkType": "SECTION",
-    "parentChunkId": "756a5361-2111-47cc-b0aa-1fbf38c8e010",
-    "sectionId": "f5943634-43ef-4b24-915f-7468f840a474",
+    "parentChunkId": "42d31c85-3ca1-4e30-b2d2-8be147729092",
+    "sectionId": "240b1354-545b-4520-a3f0-cdec7d803830",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 22,
@@ -2070,10 +2070,10 @@
     "content": "·Jio Star maintained its undisputed #1 position, with viewership share close to combined share of the\n\nnext3biggestnetworks."
   },
   {
-    "id": "e7db90db-8418-416f-895e-e96bf111c140",
+    "id": "3b31500f-a22f-47fd-a804-79d06ed757c0",
     "chunkType": "TEXT",
-    "parentChunkId": "f5943634-43ef-4b24-915f-7468f840a474",
-    "sectionId": "f5943634-43ef-4b24-915f-7468f840a474",
+    "parentChunkId": "240b1354-545b-4520-a3f0-cdec7d803830",
+    "sectionId": "240b1354-545b-4520-a3f0-cdec7d803830",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 22,
@@ -2085,10 +2085,10 @@
     "content": "- Regional GECs delivered consistentperformance acrossmarkets.Star Pravah,Star Jalsha,Star Maa and Asianetcontinuedtobe#1Entertainmentchannelsintheirrespectivemarkets.\n- The network sustained its leadership in niche genres-Kids,Youth and English.\n- [OCR continuation; preceding text may be missing] the 2nd biggest reality show ever on Jio Hotstar, while Chiraiya emerged among the top 5 most-watched"
   },
   {
-    "id": "3c59d7b9-8445-4d78-80bb-b4f78887d6f6",
+    "id": "c2e5ddf6-e35b-42ea-95b1-c72919dd3104",
     "chunkType": "TEXT",
-    "parentChunkId": "f5943634-43ef-4b24-915f-7468f840a474",
-    "sectionId": "f5943634-43ef-4b24-915f-7468f840a474",
+    "parentChunkId": "240b1354-545b-4520-a3f0-cdec7d803830",
+    "sectionId": "240b1354-545b-4520-a3f0-cdec7d803830",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 22,
@@ -2100,10 +2100,10 @@
     "content": "Regionalmoviesandspecialsalsosetnewplatformbenchmarkswith Prabhasstarrer‘Raja Saab\nbecoming the most-watched South film on Jio Hotstar, while Vijay Sethupathi starrer “Muthu Alias"
   },
   {
-    "id": "bc95d8c7-2a32-4302-b412-3ec1b3e899da",
+    "id": "7278980c-ad3b-4131-863d-d8e4abba5ecc",
     "chunkType": "TEXT",
-    "parentChunkId": "f5943634-43ef-4b24-915f-7468f840a474",
-    "sectionId": "f5943634-43ef-4b24-915f-7468f840a474",
+    "parentChunkId": "240b1354-545b-4520-a3f0-cdec7d803830",
+    "sectionId": "240b1354-545b-4520-a3f0-cdec7d803830",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 22,
@@ -2115,10 +2115,10 @@
     "content": "- Jio Hotstarfurtherstrengtheneditspositionastheprimarydestinationof internationalentertainment content:thetitlesontheplatformwon32awardsacrossthe Oscars(11),Golden Globes(9),and Critics Choice Awards(12),with Sinners and One Battle After Anotheramong themostrecognised titles.\n- [OCR continuation; preceding text may be missing] i Source:BARC,2+India;Share in total includes all genres"
   },
   {
-    "id": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
+    "id": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
+    "sectionId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 23,
@@ -2130,10 +2130,10 @@
     "content": "Reliance Industries Limited\n\n(incroreexceptpershare dataandratios)\nYear Ended\nQuarter Ended\nParticulars\n31st Mar'25\n31st Mar'26\n31st Dec'25\n31st Mar'25\n31st Mar'26\nIncome\n325,290\n288,138\n1,175,919\n1,071,174\nValue of Sales &Services (Revenue)\n293,829\n26,669\n23,565\n100,244\n91,038\nLess: GST Recovered\n24,333\n1,075,675\nRevenue from Operations\n298,621\n269,496\n264,573\n980,136\nOther Income\n4,914\n17,978\n4,447\n4,905\n28,962\nTotal Income\n1,104,637\n303,068\n274,410\n269,478\n998,114\nExpenses\n422,127\nCost of Materials Consumed\n128,985\n108,346\n107,347\n443,101\n255,829\nPurchases of Stock-in-Trade\n60,402\n222,686\n68,878\n64,093\nChanges in Inventoriesof Finished Goods,Work-in-\n3,179\n2,621\n(15,124)\n(811)\n(10,267)\nProgress and Stock-in-Trade\nExcise Duty\n18,456\n15,443\n4,562\n4,591\n3,185"
   },
   {
-    "id": "f2af7a3b-c89b-4fd1-a284-21f740ba0117",
+    "id": "1b6328ba-5762-4b99-9ac1-5d48417ed2da",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "f2af7a3b-c89b-4fd1-a284-21f740ba0117",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "1b6328ba-5762-4b99-9ac1-5d48417ed2da",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 23,
@@ -2145,10 +2145,10 @@
     "content": "Employee Benefits Expense"
   },
   {
-    "id": "f4284d1d-6e2c-49ca-a184-c95f41111a23",
+    "id": "d5fc9db8-e3e7-4285-9608-2dfabe68bfdb",
     "chunkType": "TEXT",
-    "parentChunkId": "f2af7a3b-c89b-4fd1-a284-21f740ba0117",
-    "sectionId": "f2af7a3b-c89b-4fd1-a284-21f740ba0117",
+    "parentChunkId": "1b6328ba-5762-4b99-9ac1-5d48417ed2da",
+    "sectionId": "1b6328ba-5762-4b99-9ac1-5d48417ed2da",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 23,
@@ -2160,10 +2160,10 @@
     "content": "30,318\n28,559\n7,683\n7,912\n7,684\n27,061\n24,269\n- Finance Costs 6,585 6,613 6,155\n- Depreciation/Amortisationand Depletion Expense 14,808 14,622 13,479 57,688 53,136\nOther Expenses\n39,347\n41,193\n39,502\n159,289\n141,001\n275,873\n244,713\n240,375\n981,475\n892,097\nTotal Expenses\n27,195\n29,697\n29,103\n123,162\n106,017\nProfit Before Tax\n- Tax Expenses 12,758 844 3,139 2,906 9,736\nCurrent Tax\n12,472\n5,735\n4,391\n3,763\nDeferred Tax\n17,816\n20,616\n22,167\n22,434\n95,610\n- Profit After Tax 80,787"
   },
   {
-    "id": "eeb0fc74-b858-4beb-8d09-27d6038c05b8",
+    "id": "552ca698-88b7-4094-8483-92444a88d80b",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "eeb0fc74-b858-4beb-8d09-27d6038c05b8",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "552ca698-88b7-4094-8483-92444a88d80b",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 23,
@@ -2175,10 +2175,10 @@
     "content": "Share of Proft/(Loss)of Associates and Joint Ventures"
   },
   {
-    "id": "3e13ee68-e842-4f05-8df8-0638591ff2db",
+    "id": "1232b5c5-da94-47ec-a62b-f1fbfda2377d",
     "chunkType": "TEXT",
-    "parentChunkId": "eeb0fc74-b858-4beb-8d09-27d6038c05b8",
-    "sectionId": "eeb0fc74-b858-4beb-8d09-27d6038c05b8",
+    "parentChunkId": "552ca698-88b7-4094-8483-92444a88d80b",
+    "sectionId": "552ca698-88b7-4094-8483-92444a88d80b",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 23,
@@ -2190,10 +2190,10 @@
     "content": "123\n144\n(27)\n522\n177\n- Profit After Tax and Share of Profit/(Loss)of 95,754 20,589 22,290 22,611 81,309\nAssociates and Joint Ventures\nOther Comprehensive Income\nItems that willnot bereclassified to Profit or Loss\n(123)\n(337)\n(2,904)\n(400)\n(440)\nIncome taxrelating toitems that will notbe\n69\n71\n438\n18\n84\nreclassified to Profit or Loss\n(872)\n(214)\n(8,379)\n1,275\n(14,623)\nItems that will be reclassified to Profit or Loss\nIncome tax relating to items that will be\n410\n(213)\n1,519\n3,329\n244\nIV\nreclassified to Profit or Loss\nTotal Other Comprehensive Income/(Loss)\n(7,191)\n(567)\n(11,547)\n(2,436)\n693\n(Net of Tax)\nTotal Comprehensive Incomeforthe Period\n13,398\n21,723\n23,304\n84,207\n78,873\nNet Profit attributable to:\nOwners of the Company\n16,971\n18,645\n19,407\n80,775\na)\n69,648\n3,618\n3,645\n3,204\n14,979\n11,661\nb)\nNon-Controlling Interest\nOther Comprehensive Income attributableto:"
   },
   {
-    "id": "f659e5aa-08b0-48ee-91a3-3874e26948e1",
+    "id": "41e19525-210e-4f82-b5dd-4ee99f7ebcb6",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "f659e5aa-08b0-48ee-91a3-3874e26948e1",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "41e19525-210e-4f82-b5dd-4ee99f7ebcb6",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 23,
@@ -2205,10 +2205,10 @@
     "content": "Owners of the Company\n\n(543)\n(7,575)\n591\n(11,937)\n(2,433)\n(e\nNon-Controlling Interest\n384\n102\n390\nb)\n(24)\n(3)\nTotal Comprehensive Income atributable to:\nOwners of the Company\n18,102\n19,998\n68,838\n67,215\n9,396\na)\nNon-Controlling Interest\n3,306\n15.369\n11,658\n4,002\n3,621\nb)\n\nEarnings perequity share(Face Value of 10/-)\n(Not Annualised for the quarter)\nBasic (in )\nDiluted (in )\nPaid-up Equity Share Capital (Equity Shares of face value\n13,532\n13,532\n13,532\n13,532\n13,532\nof 10/-each)\n890,498\nOther Equity excluding Revaluation Reserve\n829,668\nCapital Redemption Reserve/Debenture Redemption\n3,211\n3,211\n2,113\n2,114\n2,113\nReserve\nNet Worth (including Retained Earnings)\n867,828\n851,590\n795,069\n867,828\n795,069\nRatios\n2.42\n2.77\n2.91\n2.59\n2.33\na)\nDebt Service Coverage Ratio\nb)\n5.13\n5.73\nInterest Service Coverage Ratio\n5.49\n5.55\n5.37\nDebt Equity Ratio\n0.41\n0.39\n0.41\n0.41\n0.41\nc)\nCurrent Ratio\n1.12\n1.10\n1.10\n1.10\n1.10\n(p\nLong-term debt to working capital\n3.76\n3.56\n3.76\n3.56\ne)\n3.73\nf\nBad debts to Accountreceivable ratio\ng)\nCurrent liability ratio\n0.50\n0.46\n0.48\n0.50\n0.48\nTotal debts to total assets\nh)\n0.17\n0.17\n0.18\n0.17\n0.18\nDebtors tumover $\ni\n25.13\n26.13\n28.40\n23.38\n29.05\nInventory turnover$\ni）\n6.03\n6.88\n5.86\n6.05\n6.29"
   },
   {
-    "id": "3ebc90b5-f6ee-49ab-809e-0787317303df",
+    "id": "a8768884-858f-4529-8fd1-86498d0112f7",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "3ebc90b5-f6ee-49ab-809e-0787317303df",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "a8768884-858f-4529-8fd1-86498d0112f7",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 24,
@@ -2220,10 +2220,10 @@
     "content": "Operating margin (%)\n\n10.5\n9.0\n10.7\n10.5\n10.3\nk)\nNet profit margin (%)\n6.3\n7.6\n7.8\n8.1\n7.6\nRatios forthe quarterhave been annualised"
   },
   {
-    "id": "6ec85de2-79a1-453e-9686-aa79f9620d94",
+    "id": "39bbf409-512b-4cd2-b403-92196d41411b",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "6ec85de2-79a1-453e-9686-aa79f9620d94",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "39bbf409-512b-4cd2-b403-92196d41411b",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 25,
@@ -2235,10 +2235,10 @@
     "content": "AUDITEDCONSOLIDATEDBALANCESHEETASAT31STMARCH,2026\n\nAs at 31st March, 2025\nAs at31st March,2026\nNon-Current Assets\nProperty, Plant and Equipment\nSpectrum\n188,120\n147,122\nOther Intangible Assets\n157,126\n144,639\nGoodwill\n28,462\n24,530\n192,287\n169,710\nCapital Work-in-Progress\n54,176\nSpectrum Under Development\n8,611\nOther Intangible Assets Under Development\n36,788\n38,472\nFinancial Assets\nInvestments\n150,901\n123,672\n826\n742\nLoans\n4,899\nOther Financial Assets\n6,088\nDeferred Tax Assets (Net)\n594\n408\nOther Non-Current Assets\n64,190\n58,190\n1,583,891\n1,450,851\nTotal Non-Current Assets\nCurrent Assets\nInventories\n166,941\n146,062\nFinancial Assets\nInvestments\n97,431\n118,709\n42,121\nTrade Receivables\n58,491\n145,977\n106,502\nCash and Cash Equivalents\nLoans\n4,870\n5,182\nOther Financial Assets\n57,926\n23,546\nOther Current Assets\n57,148\n62,613\nTotal Current Assets\n594,249\n499,270\n2,178,140\n1,950,121\nTotal Assets"
   },
   {
-    "id": "ec2adba2-146d-4bb1-8862-c8f985b40228",
+    "id": "a5f8504e-7843-4bf8-a9c5-bb40a2daf2e3",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "ec2adba2-146d-4bb1-8862-c8f985b40228",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "a5f8504e-7843-4bf8-a9c5-bb40a2daf2e3",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 25,
@@ -2250,10 +2250,10 @@
     "content": "EQUITY AND LIABILITIES\n\nEquity\nEquity Share Capital\n13,532\n13,532\nOther Equity\n890,498\n829,668\n181,836\n166,426\nNon-Controlling Interest\n1,085,866\n1,009,626\nTotal Equity\nLiabilities\nNon-Current Liabilities\nFinancial Liabilies\nBorrowings\n270,751\n236,899\nLease Liabilities\n16,198\n17,142"
   },
   {
-    "id": "a984ba6b-c1f3-49f3-a54b-8e187fe95ebd",
+    "id": "065c6e5f-b650-4b3a-b819-30220e672c0e",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "a984ba6b-c1f3-49f3-a54b-8e187fe95ebd",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "065c6e5f-b650-4b3a-b819-30220e672c0e",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 25,
@@ -2265,10 +2265,10 @@
     "content": "Defered Payment Liabities\n\n99,552\n104,410\nOther Financial Liabilities\n37,833\n10,909\n21,793\n28,304\nProvisions\n97,961\n83,453\nDeferred Tax Liabilities (Net)\nOther Non-Current Liabilities\n6,932\n5,641\nTotal Non-Current Liabilities\n551,020\n486,758\nCurrent Liabilities\nFinancial Liabilies\nBorrowings\n103,670\n110,631\nLease Liabilities\n4,903\n7,381\nTrade Payables\n158,842\n186,789\n64,660\n57,143\nOther Financial Liabilities\nOther Current Liabilities\n201,503\n90,124\nProvisions\n5,198\n4,147\nTotal Current Liabilities\n453,737\n541,254\nTotal Liabilities\n1,092,274\n940,495\n2,178,140\nTotal Equity and Liabilities\n1,950,121"
   },
   {
-    "id": "d337da81-0926-4d64-97f8-cae5cd6ff188",
+    "id": "7b334555-5cf3-46a1-b861-8eb5000b0d10",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "d337da81-0926-4d64-97f8-cae5cd6ff188",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "7b334555-5cf3-46a1-b861-8eb5000b0d10",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 26,
@@ -2280,10 +2280,10 @@
     "content": "CASHFLOWFROMOPERATINGACTIVITIES:\n\nNet Profit Before Taxasper Statement of Profit and Loss\n123,162\n106,017\nAdjusted for:\n143\n135\nLoss on Sale/Discard of Property, Plant and Equipment and Other Intangible Assets (Net)\nDepreciation/Amortisation and Depletion Expense\n57,688\n53,136\nEffect of Exchange Rate Change\n(2,182)\n6,518\nNet Gain on Financial Assets\n(2,946)\n(1,557)\nDividend Income\n(9,100)\n(504)\nInterest Income\n(13,302)\n(12,410)\nFinance Costs\n27,061\n24,269\nOperating Profit before Working Capital Changes\n189,224\n166,904\nAdjusted for:\nTrade and Other Receivables\n(53,322)\n(17,837)\n3,134\n(20,790)\nInventories\n86,609\n38,427\nTrade and Other Payables\nCash Generated from Operations\n201,721\n190,628\nTaxes Paid (Net)\n(9,608)\n(11,925)\n192,113\n178,703\nNet Cash Flowfrom Operating Activities"
   },
   {
-    "id": "4a9d2ac6-7916-4f1e-a7ce-b77d07bb2adb",
+    "id": "94b81d73-90fd-4a38-bf67-0a4248089217",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "4a9d2ac6-7916-4f1e-a7ce-b77d07bb2adb",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "94b81d73-90fd-4a38-bf67-0a4248089217",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 26,
@@ -2295,10 +2295,10 @@
     "content": "CASHFLOWFROMINVESTINGACTIVITIES:\n\n(122,916)\n(139,967)\n826\nProceeds from disposal of Property, Plant and Equipment and Other Intangible Assets\n2,343\nPurchase of Investments\n(988,777)\n(684,340)\n991,876\n672,558\nProceeds from Sale of Financial Assets\nPayment of Deferred Payment liabilities\n(4,736)\n(4,574)\nInterest Income\n13,538\n15,833\n49\n49\nDividend Income from Associates\n563\n9,051\nDividend Income from Others\nNet Cash Flow used in Investing Activities\n(101,089)\n(137,535)"
   },
   {
-    "id": "5962e045-df1e-4fdd-b7df-c061b8db4253",
+    "id": "74682f61-1664-4fa3-a793-26b334165c5f",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "5962e045-df1e-4fdd-b7df-c061b8db4253",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "74682f61-1664-4fa3-a793-26b334165c5f",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 26,
@@ -2310,10 +2310,10 @@
     "content": "CASHFLOWFROMFINANCINGACTIVITIES:\n\nProceeds from Issue of Equity Share Capital\n*\n#\nNet Proceeds from Rights Issue\n22\n(6,508)\n(2,956)\nPayment of Lease Liabilities\nProceedsfrom Borowings-Non-Current (including currentmaturties)\n38.871\n26,378\nRepayment of Borrowings - Non-Current (including current maturities)\n(30,881)\n(31,755)\nBorrowings - Current (Net)\n24,624\n(5,171)\nPaymentof Dividendto Equity Holdersof the Company\n(7,443)\n(6,766)\n(436)\nPayment of Dividend to Non-Controlling Interest\n(414)\nInterest Paid\n(39,981)\n(41,024)\nNet Cash Flow used in Financing Activities\n(51,549)\n(31,891)\n39,475\nNet Increase in Cash and Cash Equivalents\n9,277\n97,225\nOpening Balance of Cash and Cash Equivalents\n106,502\nClosing Balanceof Cashand Cash Equivalents\n145,977\n106,502\n997,360\n*2,200,000"
   },
   {
-    "id": "96c0dff4-5865-43e4-b7dc-e1ae09594375",
+    "id": "160bfcf8-72eb-4263-a861-a019d6d2b949",
     "chunkType": "SECTION",
-    "parentChunkId": "8a15ad73-2014-4f28-81e4-ae1198ab4740",
-    "sectionId": "96c0dff4-5865-43e4-b7dc-e1ae09594375",
+    "parentChunkId": "993cd260-c75d-4fb7-b4f9-3df4190d9551",
+    "sectionId": "160bfcf8-72eb-4263-a861-a019d6d2b949",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 27,
@@ -2325,10 +2325,10 @@
     "content": "Notes"
   },
   {
-    "id": "2f779657-35f9-467d-a24c-bb9753015aef",
+    "id": "3611c56b-7904-44d6-9f38-875a191a50b3",
     "chunkType": "TEXT",
-    "parentChunkId": "96c0dff4-5865-43e4-b7dc-e1ae09594375",
-    "sectionId": "96c0dff4-5865-43e4-b7dc-e1ae09594375",
+    "parentChunkId": "160bfcf8-72eb-4263-a861-a019d6d2b949",
+    "sectionId": "160bfcf8-72eb-4263-a861-a019d6d2b949",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 27,
@@ -2340,10 +2340,10 @@
     "content": "necessary, to make them comparable.\n  - [OCR continuation; preceding text may be missing] of the full financial year and the limited reviewed year-to-date figures upto the third quarter of the financial year.\n  - [OCR continuation; preceding text may be missing] chargesand Fair Valuation Impact)ason March31，2026are27,389croreoutofwhich, Secured Non-Convertible Debenturesare?20,000crore.\nThe Secured Non-Convertible Debentures of the Group aggregating 20,000 crore as on March\n  - [OCR continuation; preceding text may be missing] securitycoverinrespectof the Secured Non-Convertible Debenturesof the Groupason March\n  - [OCR continuation; preceding text may be missing] Convertible Debentures.\n  - [OCR continuation; preceding text may be missing] Duringtheyear April2025to March2026,the Groupredeemed Listed Unsecured Redeemable Non-Convertible Debentures amounting to 1,650crore(PPDSeries L)and Listed Secured\nRedeemable Non-Convertible Debenturesamountingto1,0o0crore(PPD8)."
   },
   {
-    "id": "c2aec8bb-279e-444c-8f16-6abaaf5778c3",
+    "id": "575a70e8-4c0d-4529-963f-801443ef7b31",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "c2aec8bb-279e-444c-8f16-6abaaf5778c3",
+    "sectionId": "575a70e8-4c0d-4529-963f-801443ef7b31",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 27,
@@ -2355,10 +2355,10 @@
     "content": "4.The Companyhas estimated andrecognized the impact of implementation of the New Labour\n\nsameisnotmaterialtotheresultsfortheyear."
   },
   {
-    "id": "c0361184-bdad-4083-a8d4-64087a85056a",
+    "id": "f19b9377-6be2-43fb-ba7d-204cabba2cad",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "c0361184-bdad-4083-a8d4-64087a85056a",
+    "sectionId": "f19b9377-6be2-43fb-ba7d-204cabba2cad",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 27,
@@ -2370,10 +2370,10 @@
     "content": "5.Other Incomefortheyearended March31，2026includes8,924crore,beingproceedsof\n\nprofit from sale of listed investments."
   },
   {
-    "id": "255a99bf-0210-499c-a02d-2d98d48d01ca",
+    "id": "f6fd9c1c-ebc8-4692-8f6c-60da6fd3e65a",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "255a99bf-0210-499c-a02d-2d98d48d01ca",
+    "sectionId": "f6fd9c1c-ebc8-4692-8f6c-60da6fd3e65a",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2385,10 +2385,10 @@
     "content": "6. Formulae for computation of ratios are as follows -\n\nFormulae"
   },
   {
-    "id": "d7aa71bb-fb9d-443f-9c4c-3ea594dedbf2",
+    "id": "7135601d-fbda-46ad-a449-648902807029",
     "chunkType": "SECTION",
-    "parentChunkId": "255a99bf-0210-499c-a02d-2d98d48d01ca",
-    "sectionId": "d7aa71bb-fb9d-443f-9c4c-3ea594dedbf2",
+    "parentChunkId": "f6fd9c1c-ebc8-4692-8f6c-60da6fd3e65a",
+    "sectionId": "7135601d-fbda-46ad-a449-648902807029",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2400,10 +2400,10 @@
     "content": "Debt Service Coverage"
   },
   {
-    "id": "7f08ee5e-5c7e-474f-8840-7f1cdb80335c",
+    "id": "937b6093-0b47-4de3-a41d-697fc2aa3c14",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "7f08ee5e-5c7e-474f-8840-7f1cdb80335c",
+    "sectionId": "937b6093-0b47-4de3-a41d-697fc2aa3c14",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2415,10 +2415,10 @@
     "content": "Earnings before Interest and Tax"
   },
   {
-    "id": "ead2a150-6208-4b97-9532-9f7059992ac0",
+    "id": "5ce61c8d-cf09-4348-bb90-d40e8cbd09b1",
     "chunkType": "TEXT",
-    "parentChunkId": "7f08ee5e-5c7e-474f-8840-7f1cdb80335c",
-    "sectionId": "7f08ee5e-5c7e-474f-8840-7f1cdb80335c",
+    "parentChunkId": "937b6093-0b47-4de3-a41d-697fc2aa3c14",
+    "sectionId": "937b6093-0b47-4de3-a41d-697fc2aa3c14",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2430,10 +2430,10 @@
     "content": "Ratio\nInterest Expense +Principal Repayments made during the\nperiod for long term loans\n  - [OCR continuation; preceding text may be missing] Interest Service\nb)\nEarnings before Interest and Tax"
   },
   {
-    "id": "1eb9b474-73aa-4093-ac8d-d87a08115284",
+    "id": "442d9250-3d6f-49be-8e1f-c65f4b8036fe",
     "chunkType": "SECTION",
-    "parentChunkId": "7f08ee5e-5c7e-474f-8840-7f1cdb80335c",
-    "sectionId": "1eb9b474-73aa-4093-ac8d-d87a08115284",
+    "parentChunkId": "937b6093-0b47-4de3-a41d-697fc2aa3c14",
+    "sectionId": "442d9250-3d6f-49be-8e1f-c65f4b8036fe",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2445,10 +2445,10 @@
     "content": "Coverage Ratio"
   },
   {
-    "id": "666b6a82-6a37-47dc-9a94-3ce7051e00a6",
+    "id": "057e53f6-d44f-46d6-bbab-afbdc9e27027",
     "chunkType": "TEXT",
-    "parentChunkId": "1eb9b474-73aa-4093-ac8d-d87a08115284",
-    "sectionId": "1eb9b474-73aa-4093-ac8d-d87a08115284",
+    "parentChunkId": "442d9250-3d6f-49be-8e1f-c65f4b8036fe",
+    "sectionId": "442d9250-3d6f-49be-8e1f-c65f4b8036fe",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2460,10 +2460,10 @@
     "content": "Interest Expense\n  - [OCR continuation; preceding text may be missing] Debt Equity Ratio Total Debt\nc)"
   },
   {
-    "id": "185b371b-d0f9-433a-bea8-fefd86615f06",
+    "id": "1ed078e6-dcc9-4e14-908a-58879a3493af",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "185b371b-d0f9-433a-bea8-fefd86615f06",
+    "sectionId": "1ed078e6-dcc9-4e14-908a-58879a3493af",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2475,10 +2475,10 @@
     "content": "Total Equity"
   },
   {
-    "id": "440b266a-853c-4c42-8a9a-5ea7a94948b1",
+    "id": "65a284c7-f315-465c-aa64-f64dd56c7be1",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "440b266a-853c-4c42-8a9a-5ea7a94948b1",
+    "sectionId": "65a284c7-f315-465c-aa64-f64dd56c7be1",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2490,10 +2490,10 @@
     "content": "Current Assets\n\nCurrent Ratio\nd)"
   },
   {
-    "id": "97617b79-521f-4659-bf50-73008f6afd80",
+    "id": "0101d471-44ed-4c48-808f-6adce14a7901",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "97617b79-521f-4659-bf50-73008f6afd80",
+    "sectionId": "0101d471-44ed-4c48-808f-6adce14a7901",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2505,10 +2505,10 @@
     "content": "Current Liabilities"
   },
   {
-    "id": "43dd656c-0e60-41cb-a747-2a470eb302b3",
+    "id": "7cc36a3a-d0e4-432d-8bd4-4a51f40fad5d",
     "chunkType": "TEXT",
-    "parentChunkId": "97617b79-521f-4659-bf50-73008f6afd80",
-    "sectionId": "97617b79-521f-4659-bf50-73008f6afd80",
+    "parentChunkId": "0101d471-44ed-4c48-808f-6adce14a7901",
+    "sectionId": "0101d471-44ed-4c48-808f-6adce14a7901",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2520,10 +2520,10 @@
     "content": "Non-Current Borrowings (Including Current Maturities of Non-\nLong term debt to\n(a\nCurrent Borrowings)\nworking capital\n  - [OCR continuation; preceding text may be missing] Current Assets Less Current Liabilities(Excluding Current"
   },
   {
-    "id": "02648e29-d17c-41de-8f84-c36ce23e00bd",
+    "id": "901504b3-54f6-491d-b126-abd9ba6be587",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "02648e29-d17c-41de-8f84-c36ce23e00bd",
+    "sectionId": "901504b3-54f6-491d-b126-abd9ba6be587",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2535,10 +2535,10 @@
     "content": "Maturities of Non-Current Borrowings)\n\nBad Debts\nf)\nBaddebtstoaccount\nreceivableratio\nAverage Trade Receivables"
   },
   {
-    "id": "d0c69901-ee65-4386-8b49-cc2b72dae98c",
+    "id": "c0c9b6a1-8e4a-4d74-bd8a-940e9267b57c",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "d0c69901-ee65-4386-8b49-cc2b72dae98c",
+    "sectionId": "c0c9b6a1-8e4a-4d74-bd8a-940e9267b57c",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2550,10 +2550,10 @@
     "content": "Total Current Liabilities"
   },
   {
-    "id": "4081b161-160c-45ad-b487-8bb923454fe8",
+    "id": "3cf834cc-bf15-4354-a79f-2a920b9da6f3",
     "chunkType": "TEXT",
-    "parentChunkId": "d0c69901-ee65-4386-8b49-cc2b72dae98c",
-    "sectionId": "d0c69901-ee65-4386-8b49-cc2b72dae98c",
+    "parentChunkId": "c0c9b6a1-8e4a-4d74-bd8a-940e9267b57c",
+    "sectionId": "c0c9b6a1-8e4a-4d74-bd8a-940e9267b57c",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2565,10 +2565,10 @@
     "content": "Current liability ratio\ng)\nTotal Liabilities\n  - [OCR continuation; preceding text may be missing] h) Totaldebtstototal Total Debt assets Total Assets"
   },
   {
-    "id": "7094739a-eec6-4705-8fe4-a387b5d914e4",
+    "id": "e45452d4-1108-438a-9694-cee3e30515f8",
     "chunkType": "SECTION",
-    "parentChunkId": "d0c69901-ee65-4386-8b49-cc2b72dae98c",
-    "sectionId": "7094739a-eec6-4705-8fe4-a387b5d914e4",
+    "parentChunkId": "c0c9b6a1-8e4a-4d74-bd8a-940e9267b57c",
+    "sectionId": "e45452d4-1108-438a-9694-cee3e30515f8",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2580,10 +2580,10 @@
     "content": "Debtors turnover"
   },
   {
-    "id": "65155470-d9ba-4f3b-867c-c95f1292e5b1",
+    "id": "7fa5a2f7-ca1f-419f-911a-46fb4077912e",
     "chunkType": "TEXT",
-    "parentChunkId": "7094739a-eec6-4705-8fe4-a387b5d914e4",
-    "sectionId": "7094739a-eec6-4705-8fe4-a387b5d914e4",
+    "parentChunkId": "e45452d4-1108-438a-9694-cee3e30515f8",
+    "sectionId": "e45452d4-1108-438a-9694-cee3e30515f8",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2595,10 +2595,10 @@
     "content": "Value of Sales & Services\ni)\nAverage Trade Receivables\n  - [OCR continuation; preceding text may be missing] j) Inventoryturnover Costof Goods Sold(Costof Material Consumed+Purchases+"
   },
   {
-    "id": "4a1a6d9b-5c65-4010-aef2-5d8a126f6ead",
+    "id": "dc6d43c0-1909-4ee8-b07b-70d0efc67d67",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "4a1a6d9b-5c65-4010-aef2-5d8a126f6ead",
+    "sectionId": "dc6d43c0-1909-4ee8-b07b-70d0efc67d67",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2610,10 +2610,10 @@
     "content": "Changes in Inventory + Manufacturing Expenses)\n\nAverage Inventoriesof Finished Goods,Stock-in-Processand\nStock-in-Trade"
   },
   {
-    "id": "21771add-52e3-40cd-a50e-ccfe23b1b4fc",
+    "id": "ee6ef69d-a684-4f34-8650-81f8a3f77f0d",
     "chunkType": "SECTION",
-    "parentChunkId": "4a1a6d9b-5c65-4010-aef2-5d8a126f6ead",
-    "sectionId": "21771add-52e3-40cd-a50e-ccfe23b1b4fc",
+    "parentChunkId": "dc6d43c0-1909-4ee8-b07b-70d0efc67d67",
+    "sectionId": "ee6ef69d-a684-4f34-8650-81f8a3f77f0d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2625,10 +2625,10 @@
     "content": "Operating margin (%)"
   },
   {
-    "id": "afe00402-8613-451e-8769-d98bf2dd9ee8",
+    "id": "b29b6709-3eaa-407c-9233-a1978b3603f2",
     "chunkType": "TEXT",
-    "parentChunkId": "21771add-52e3-40cd-a50e-ccfe23b1b4fc",
-    "sectionId": "21771add-52e3-40cd-a50e-ccfe23b1b4fc",
+    "parentChunkId": "ee6ef69d-a684-4f34-8650-81f8a3f77f0d",
+    "sectionId": "ee6ef69d-a684-4f34-8650-81f8a3f77f0d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 28,
@@ -2640,10 +2640,10 @@
     "content": "Earnings before Interest and Tax\n(y\nless Other Income\n  - [OCR continuation; preceding text may be missing] Valueof Sales&Services\n  - [OCR continuation; preceding text may be missing] Net profit margin (%) Profit After Taxand Share of Profit/(Loss)of Associatesand\nI\nJoint Ventures\nValueof Sales&Services"
   },
   {
-    "id": "ec4ae078-ca81-420e-b40a-9e96a451a468",
+    "id": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
+    "sectionId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 29,
@@ -2655,10 +2655,10 @@
     "content": "7.The Audit Committee hasreviewed,and the Board of Directors has approved the above results\n\nand itsreleaseat theirrespectivemeetingsheldon April24,2026.The Statutory Auditorsof the\nCompanyhaveissuedauditreportwithunmodifiedopiniononthe aboveresults."
   },
   {
-    "id": "3470bde7-4d1e-4a36-9339-5bce16bb8a71",
+    "id": "610d2af0-14db-41d9-90c8-4702f935f82c",
     "chunkType": "TEXT",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 30,
@@ -2670,10 +2670,10 @@
     "content": "31st Mar'26\n31st Mar'25\n31st Mar'26\n31st Mar'25\n31st Dec'25\nSegment Value of Sales and Services (Revenue)\n626,921\n- Oil to Chemicals (O2C)\n184,944\n162,095\n164,613\n662,401\n5.867\n- Oil and Gas\n5,833\n6,440\n23,861\n25,211\n98,457\n88,637\n371,085\n- Retail\n97,912\n330,943\n- Digital Services\n45,945\n44,653\n40,861\n154,119\n176,164\n27,976\n17.868\n19,920\n80,522\n55.859\n-Others\n363,189\n320,471\nGross Value of Sales and Services\n328,361\n1,314,033\n1,193,053\n138,114\n121,879\nLess: Inter Segment Transfers\n37,899\n34,532\n32,333\nValue of Sales&Services\n288,138\n1,175,919\n1,071,174\n325,290\n293,829\n100,244\n26.669\n24.333\n23.565\n91,038\nLess: GST Recovered\n298,621\n264,573\n980,136\nRevenue from Operations\n1,075,675\n269,496\n  - [OCR continuation; preceding text may be missing] Segment Results (EBITDA) -Oil to Chemicals(O2C)* 14,520 16,507 15,080 60,546 54,988 19,050 21,188\n- Oil and Gas\n4,195\n4,857\n5,123\n27,034\n25,094\n6,921\n6,915\n6,721\n-Retail*\n- Digital Services\n20,041\n19,325\n17,278\n76,560\n65,001\n-Others\n2,751\n10.857\n2,746\n2,269\n8,526\nTotal Segment Profit before Interest,Tax and\n174,797\n48,423\n50,355\n46,471\n194,047\nDepreciation,Amortisation and Depletion\n  - [OCR continuation; preceding text may be missing] Segment Results (EBIT) 3 11,756 13,921 13,139 50,758 47,257\n-Oilto Chemicals (O2C)*\n- Oiland Gas\n2,903\n13,464\n15,840\n3,463\n3,805\n-Retail*\n20,817\n19,070\n5,342\n5,340\n5,314\n39,717\n- Digital Services\n12,612\n12,118\n10.801\n48,211\n1,098\n3,448\n- Others\n982\n202\n530\nTotal Segment Profit before Interest and Tax\n33,711\n35,824\n33,261\n136,698\n122,414\nFinance Cost\n(27,061)\n(24,269)\n(6,585)\n(6,613)\n(6,155)\n(\n(i) Interest Income\n10,395\n10,896\n2,451\n2,736\n2,661\n(ii) Other Un-allocable Income (Net of Expenditure)\n(2.250)\n(3.024)\n(664)\n3,130\n(2,382)\n27,195\n29,697\n29,103\n123,162\n106,017\nProfit Before Tax\n(i) Current Tax\n(3,139)\n(2,906)\n(9,736)\n(12,758)\n(844)\n(i) Deferred Tax\n(3.763)\n(5,735)\n(4,391)\n(17,816)\n(12,472)\n22,434\nProfit After Tax\n22,167\n80,787\n20,616\n95,610\nShare of Profit / (Loss) of Associates and Joint\n123\n177\n144\n(27)\n522\nVentures\nProfit After Tax and Share of Profit I(Loss)of\n20,589\n22,290\n22,611\n95,754\n81,309\nAssociates and Joint Ventures\n*Segment results(EBITDAand EBIT)include Interest Income pertaining totherespective segments."
   },
   {
-    "id": "28d27f03-aaf3-42ae-85a4-bf68bc70857f",
+    "id": "6879214e-1c3d-4289-95d0-0d7016e3d6cc",
     "chunkType": "TEXT",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 31,
@@ -2685,10 +2685,10 @@
     "content": "Segment Assets\n- Oil to Chemicals (O2C)\n  - [OCR continuation; preceding text may be missing] 249,862 218,219 218,219\n-Digital Services\n633,700\n627,509\n598,015\n633,700\n598,015\n344,853\n-Others\n391,869\n374,807\n391,869\n344,853\n353,444\n315.983\n312,312\n353,444\n312,312\n- Unallocated\nTotal Segment Assets\n2,178,140\n2,075,981\n2,178,140\n1,950,121\n1,950,121\nSegment Liabilities\n5\n283,079\n240,790\n195,845\n283,079\n195,845\n-Oil to Chemicals (O2C)\n- Oil and Gas\n13,409\n15,320\n13,806\n15,320\n13,806\n91,345\n87,867\n87,554\n91,345\n87,554\n-Retail\n237,786\n- Digital Services\n237,786\n243,116\n243,664\n243,664\n-Others\n92,622\n86,408\n72,263\n92,622\n72,263\n1,457,988\n1,404,391\n1,336,989\n1,457,988\n1,336,989\n- Unallocated\nTotal Segment Liabilities\n2,178,140\n2,075,981\n1,950,121\n2,178, 140\n1,950,121"
   },
   {
-    "id": "8a6c8371-da4d-4fb8-937f-0a567bf5d4c7",
+    "id": "ebed6987-308e-43f8-b209-ee28c3e99e4d",
     "chunkType": "TEXT",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 32,
@@ -2700,10 +2700,10 @@
     "content": "Notesto Segment Information(Consolidated)forthe Quarterand Year Ended31st March2026\n- [OCR continuation; preceding text may be missing] Information',as described below: The Oil to Chemicals segment includes refining,petrochemicals,fuel retailing,aviation a) fuel and bulk wholesale marketing. It includes breadth of portfolio spanning transportation fuels,polymers,polyesters and elastomers.The deep and unique integration of O2C business includes world-class assets comprising Refinery Off-Gas Cracker, Aromatics, Gasification,Multi-feedand Gas Crackers alongwithdownstreammanufacturing facilities,logisticsandsupply-chaininfrastructure.\n  - [OCR continuation; preceding text may be missing] (q The Oiland Gassegmentincludesexploration,development,productionofcrudeoiland natural gas.\n  - [OCR continuation; preceding text may be missing] The Retail segment includes consumer retail and range of related services\nc)\n  - [OCR continuation; preceding text may be missing] d) The Digital Servicessegmentincludesprovisionofarangeofdigital services.\n  - [OCR continuation; preceding text may be missing] (a Otherbusinesssegmentswhicharenotseparatelyreportablehavebeengroupedunder the Otherssegment.\n  - [OCR continuation; preceding text may be missing] ：(+91 22)3555 5000"
   },
   {
-    "id": "89c9e5a9-d912-48d9-83d5-85f68e9728e4",
+    "id": "81963ec8-4045-4520-8c10-d699dbde25f4",
     "chunkType": "TEXT",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 33,
@@ -2715,10 +2715,10 @@
     "content": "(incroreexceptpershare dataandratios)\n- [OCR continuation; preceding text may be missing] Income Value of Sales &Services (Revenue) 152,325 130,842 142,680 546,852 557,163 22,747 24,371 5,940 5,101 6,533\nLess: GST Recovered\n146,385\n125,741\n136,147\n524,105\n532,792\nRevenue from Operations\n3.357\n3,412\nOther Income\n23,674\n16,094\n5,577\nTotal Income\n149,742\n129,153\n141,724\n547,779\n548,886\nExpenses\n109,426\n87,540\n95,945\n370,973\n384,021\nCost of Materials Consumed\n16,065\n15,864\n2,974\n3,580\n4,610\nPurchases of Stock-in-Trade\nChanges in Inventoriesof Finished Goods,Work-in-\n(966)\n(1,734)\n(2,664)\n(6,750)\n(10,679)\nProgress and Stock-in-Trade\n18,456\n15,443\nExcise Duty\n4,562\n4,591\n3,185"
   },
   {
-    "id": "8d1bd8cf-9576-428e-a059-2ee9890ac8d7",
+    "id": "e5843d22-1e36-4fc9-a8e1-2a6c3ca9e347",
     "chunkType": "SECTION",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "8d1bd8cf-9576-428e-a059-2ee9890ac8d7",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "e5843d22-1e36-4fc9-a8e1-2a6c3ca9e347",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 33,
@@ -2730,10 +2730,10 @@
     "content": "Employee Benefits Expense"
   },
   {
-    "id": "ca86fd08-b45f-4d73-b66a-44b04043530c",
+    "id": "d260a7c1-48ac-4b94-9998-e20551cba314",
     "chunkType": "TEXT",
-    "parentChunkId": "8d1bd8cf-9576-428e-a059-2ee9890ac8d7",
-    "sectionId": "8d1bd8cf-9576-428e-a059-2ee9890ac8d7",
+    "parentChunkId": "e5843d22-1e36-4fc9-a8e1-2a6c3ca9e347",
+    "sectionId": "e5843d22-1e36-4fc9-a8e1-2a6c3ca9e347",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 33,
@@ -2745,10 +2745,10 @@
     "content": "2,504\n2,759\n2,276\n9,681\n8,690\n10,054\n1,467\n1,473\n2,058\n6,904\n- Finance Costs 4,434 4,464\n- Depreciation / Amortisation and Depletion Expense 4,069 17,105 17,981 16.691 15,045 16,010 61,269\nOther Expenses\n61,384\nTotal Expenses\n139,959\n116,758\n127,553\n493,703\n502,758\n14,171\nProfit Before Tax\n9,783\n12,395\n54,076\n46,128\n- Tax Expenses\nCurrent Tax\n1,028\n2,895\n2,346\n7,872\n9,399\n1,333\n104\n608\n2,353\n1,467\nDeferred Tax\n- Profit After Tax 7,422 9,396 11,217 43,851 35,262\nOther Comprehensive Income\nItems that will not be reclassified to Profit or\n(53)\n267\n255\n(316)\n(402)\nLoss\nIncome tax relating to items that will not be\n(33)\n(29)\n48\n8\n67\nreclassified to Profit or Loss\n(9,194)\n(16,281)\n(1,132)\nItems that will be reclassified to Profit or Loss\n(1,555)\n1,089\nIncome tax relating to items that will be\n383\n365\nIV\n1,586\n(208)\n3,341\nreclassified to Profit or Loss\nTotal Other Comprehensive Income/(Loss)(Net of\n(1,217)\n(13,275)\n(541)\n(7,876)\n1,115"
   },
   {
-    "id": "5f85e36f-c3b6-4097-a204-174b25932777",
+    "id": "5b526679-1930-4a90-acb1-880604929189",
     "chunkType": "SECTION",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "5f85e36f-c3b6-4097-a204-174b25932777",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "5b526679-1930-4a90-acb1-880604929189",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 33,
@@ -2760,10 +2760,10 @@
     "content": "Tax)\n\nTotal Comprehensive Income/(Loss)forthe\n8,179\n(454)\n12,332\n30,576\n34,721\nPeriod\nEarnings perequity share(Face Valueof10/-)\n(Not Annualised forthequarter)\n8.29\n6.94\n32.40\nBasic (in )\n5.48\n26.06\na)\n5.48\n6.94\n8.29\nDiluted (in )\n32.40\n26.06\nb)\nPaid up Equity Share Capital (Equity Shares of face\n13,532\n13,532\n13,532\n13,532\n13,532\nvalue of 10/-each)\n552,703\n529,555\nOther Equity excluding Revaluation Reserve\nCapital Redemption Reserve/Debenture Redemption\n1,683\n1,683\n1,683\n1,683\n1,683\nReserve\nNet Worth(including Retained Earnings)\n533,313\n525,877\n496,889\n533,313\n496,889\n\nDebt Service Coverage Ratio\n5.59\n7.67\n9.41\n7.89\n8.83\nInterest Service Coverage Ratio\nb)\n0.41\n0.37\n0.41\n0.36\n0.37\nc)\nDebt Equity Ratio\n0.99\n0.99\n1.05\n1.05\nd)\nCurrent Ratio\n1.03\n17.12\n7.53\n17.12\n7.53\n16.61\ne)\nLong term debt to working capital\nBad debts to Account receivable ratio\nf)\n0.54\nCurrent liability ratio\n0.55\n0.54\n0.55\n0.51\n9)\n0.19\n0.20\n0.20\n0.19\nh)\n0.19\nTotal debts to total assets\nDebtors turnover $\n41.22\n39.64\n36.74\n40.93\n33.93\ni)\n6.85\nInventory turnover$\n6.59\n5.51\n6.56\n5.91\n=\nOperating margin (%)\n5.2\n7.5\n6.8\n7.2\n8.0\nk)\n4.9\n7.9\n8.0\n6.3\nNet Profit margin (%)\n7.2\nSRatiosforthequarterhavebeenannualised."
   },
   {
-    "id": "27fe045a-3f05-4f65-9bc4-fb6327eab346",
+    "id": "1e86147f-a4d6-4602-aadc-acc12f10c6bc",
     "chunkType": "SECTION",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "27fe045a-3f05-4f65-9bc4-fb6327eab346",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "1e86147f-a4d6-4602-aadc-acc12f10c6bc",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 35,
@@ -2775,10 +2775,10 @@
     "content": "AUDITEDSTANDALONEBALANCESHEETASAT31STMARCH,2026"
   },
   {
-    "id": "b4334c07-581a-474e-b568-43c53fb46f33",
+    "id": "d2a4f68a-5003-41f8-8cf5-1ea456504450",
     "chunkType": "TEXT",
-    "parentChunkId": "27fe045a-3f05-4f65-9bc4-fb6327eab346",
-    "sectionId": "27fe045a-3f05-4f65-9bc4-fb6327eab346",
+    "parentChunkId": "1e86147f-a4d6-4602-aadc-acc12f10c6bc",
+    "sectionId": "1e86147f-a4d6-4602-aadc-acc12f10c6bc",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 35,
@@ -2790,10 +2790,10 @@
     "content": "(incrore)\nAsat31st March,2026\nAs at 31st March,2025\n- [OCR continuation; preceding text may be missing] Non-Current Assets Property, Plant and Equipment\nIntangible Assets\nCapital Work-in-Progress\n76,322\n130,954\n6,615\n6,095\nIntangible Assets Under Development\nFinancial Assets\nInvestments\n364,073\n333,258\n4,941\n8,789\nLoans\nOthers Financial Assets\n13,725\n15,256\nOther Non-Current Assets\n6,925\n5,919\n838,190\nTotal Non-Current Assets\n752,838\nCurrent Assets\nInventories\n89,216\n104,925\nFinancial Assets\nInvestments\n50,540\n57,102\n16,641\n15,591\nTrade Receivables\n82,471\nCash and Cash Equivalents\n108,179\n15,218\nOthers Financial Assets\n34,926\n12,408\nOther Current Assets\n9,965\n327,619\nTotal Current Assets\n269,563\n1,165,809\nTotal Assets\n1,022,401"
   },
   {
-    "id": "77c8a142-1a88-4629-917b-8edcfaaced23",
+    "id": "55ec0ea7-73f1-4a54-a9c0-d09f53027901",
     "chunkType": "SECTION",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "77c8a142-1a88-4629-917b-8edcfaaced23",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "55ec0ea7-73f1-4a54-a9c0-d09f53027901",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 35,
@@ -2805,10 +2805,10 @@
     "content": "EQUITY AND LIABILITIES\n\nEquity\nEquity Share Capital\n13,532\n13,532\nOther Equity\n552,703\n529,555\nTotal Equity\n566,235\n543,087\nLiabilities\nNon-Current Liabilities\nFinancial Liabilities\nBorrowings\n188,070\n172,025\nLease Liabilities\n2,557\n2,627\nOther Financial Liabilities\n4,397\n35,573\nProvisions\n3,219\n1,767\nDeferred Tax Liabilities (Net)\n36,335\n37,390\nOther Non-Current Liabilities\n4,040\n3,173\n269,794\n221,379\nTotal Non-Current Liabilities\nCurrent Liabilities\nFinancial Liabilities\nBorrowings\n43,311\n26,788\nLease Liabilities\n70\n65\nTrade Payables due to:\nMicro and Small Enterprises\n573\n1,301\nOther than Micro and Small Enterprises\n146,842\n121,078\nOther Financial Liabilities\n35,264\n41,456\nOther Current Liabilities\n96,322\n72,283\nProvisions\n1,206\n1,156\nTotal Current Liabilities\n329,780\n257,935\n599,574\n479,314\nTotal Liabilities\nTotal Equity and Liabilities\n1,165,809\n1,022,401\n\n31st March,2026\n31st March,2025"
   },
   {
-    "id": "082ee9f9-cd8b-45a5-b8fa-f95a414aec94",
+    "id": "692b9ecf-6b7b-43ba-b41f-d8c2d2344909",
     "chunkType": "SECTION",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "082ee9f9-cd8b-45a5-b8fa-f95a414aec94",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "692b9ecf-6b7b-43ba-b41f-d8c2d2344909",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 36,
@@ -2820,10 +2820,10 @@
     "content": "CASHFLOWFROMOPERATINGACTIVITIES\n\nNet Profit Before Taxasper Statement of Profit and Loss\n46,128\n54,076\nAdjusted for:\n38\n14\nLoss on Sale / Discard of Property, Plant and Equipment and Intangible Assets (Net)\n17,981\nDepreciation/Amortisation and Depletion Expense\n17,105\nEffect of Exchange Rate Change\n(1,877)\n5,047\n(965)\n(433)\nNet Gain on Financial Assets\nDividend Income\n(9,454)\n(1,763)\n(10,718)\n(11,180)\nInterest Income\n10,054\nFinance Costs\n6,904\nOperating Profit before Working Capital Changes\n58,924\n62,033\nAdjusted for:\n3,209\n(28,196)\nTrade and Other Receivables\nInventories\n(15,709)\n(4,116)\n69,234\nTrade and Other Payables\n30,536\n87,362\nCash Generated from Operations\n88,553\nTaxes Paid (Net)\n(8.303)\n(9.161)\nNet Cash Flowfrom Operating Activities\n79,059\n79,392"
   },
   {
-    "id": "a23cc6d6-fa6c-48ed-80a1-c82df014ec54",
+    "id": "a57dc434-c0a3-40a0-8964-c90b5c918681",
     "chunkType": "SECTION",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "a23cc6d6-fa6c-48ed-80a1-c82df014ec54",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "a57dc434-c0a3-40a0-8964-c90b5c918681",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 36,
@@ -2835,10 +2835,10 @@
     "content": "CASHFLOWFROMINVESTINGACTIVITIES\n\nB.\n(34,143)\n(37,304)\nExpenditure on Property, Plant and Equipment and Intangible Assets\n39\nProceeds from disposai of Property,Plant and Equipment and Intangible Assets\n17\nInvestment in Subsidiaries\n(46,580)\n(46,372)\nProceeds from Redemption/Disposal of Investments in Subsidiaries\n15,507\n15,089\nPurchase of Other Investments\n(720,319)\n(412,018)\n720,245\n433,295\nProceeds from Sale of Financial Assets\n(3,848)\nLoans Repaid /(Given) -Subsidiaries, Associates,Joint Ventures and Others\n5,110\n12,292\nInterest Income\n9,216\nDividend Income from Subsidiaries,Associates and Joint Ventures\n9,453\n1,762\nDividend Income from Others\nNet Cash Flowused in Investing Activities\n(50,451)\n(28,106)"
   },
   {
-    "id": "e9c09e42-a0b7-428f-93b3-c60e62b9ff8a",
+    "id": "a666e886-286f-4851-89cc-200f5e295fdb",
     "chunkType": "SECTION",
-    "parentChunkId": "ec4ae078-ca81-420e-b40a-9e96a451a468",
-    "sectionId": "e9c09e42-a0b7-428f-93b3-c60e62b9ff8a",
+    "parentChunkId": "3824f336-013d-43f0-b15b-e4c96db2b6a4",
+    "sectionId": "a666e886-286f-4851-89cc-200f5e295fdb",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 36,
@@ -2850,10 +2850,10 @@
     "content": "CASHFLOWFROMFINANCINGACTIVITIES\n\nC.\nProceeds from Issue of Equity Share Capital\n#\n22\nNet Proceeds from Rights Issue\n(65)\n(93)\nPayment of Lease Liabilities\nProceeds from Borrowings -Non-Current (including current maturities)\n8,426\n4,016\n(17,253)\n(8,236)\nRepayment of Borrowings - Non-Current (including current maturities)\n15,480\nBorrowings - Current (Net)\n(3,427)\nDividend Paid\n(7,443)\n(6,766)\nInterest Paid\n(11,062)\n(14,562)\nNet Cash Flow used in Financing Activities\n(2,900)\n(38,063)\n25,708\nNet Increase in Cash and Cash Equivalents\n13,223\n82,471\n69,248\nOpening Balance of Cash and Cash Equivalents\nClosing Balanceof Cashand Cash Equivalents\n108,179\n82,471\n#997,360\n*2,200,000"
   },
   {
-    "id": "6992bc83-65ec-4185-8ee7-987ef5c897af",
+    "id": "87a52259-b58d-4f34-9e42-f167d3219c3d",
     "chunkType": "TEXT",
-    "parentChunkId": "e9c09e42-a0b7-428f-93b3-c60e62b9ff8a",
-    "sectionId": "e9c09e42-a0b7-428f-93b3-c60e62b9ff8a",
+    "parentChunkId": "a666e886-286f-4851-89cc-200f5e295fdb",
+    "sectionId": "a666e886-286f-4851-89cc-200f5e295fdb",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 37,
@@ -2865,10 +2865,10 @@
     "content": "Notes\n  - [OCR continuation; preceding text may be missing] necessary,tomakethemcomparable.\n  - [OCR continuation; preceding text may be missing] the financial year.\n  - [OCR continuation; preceding text may be missing] The Boardof Directorshasrecommendeddividendof6/-perfullypaid-upequityshareof\n2.\n- [OCR continuation; preceding text may be missing] 3. financecharges and Fair Valuation Impact)ason March31，2026are27,389croreout of which,Secured Non-Convertible Debenturesare20,000crore.\n  - [OCR continuation; preceding text may be missing] The Secured Non-Convertible Debenturesof the Companyaggregating20,oo0croreason March31，2026aresecuredbywayoffirstchargeonthe Company'scertainmovable\nproperties. The security cover in respect of the Secured Non-Convertible Debentures of the\n  - [OCR continuation; preceding text may be missing] of thesaid Secured Non-Convertible Debentures.\n  - [OCR continuation; preceding text may be missing] During the year April 2025 to March2026，the Company redeemed Listed Unsecured Redeemable Non-Convertible Debenturesamountingto1,650crore(PPDSeries L）and\nListed Secured Redeemable Non-Convertible Debentures amounting to 1,0o0 crore (PPD 8).\n  - [OCR continuation; preceding text may be missing] The Company has estimated and recognized the impact of implementation of the New Labour\n4.\n  - [OCR continuation; preceding text may be missing] same is not material to theresults fortheyear."
   },
   {
-    "id": "8dad60b1-efd7-499c-a6ee-77628990f98c",
+    "id": "60a5bf8d-4509-48bd-b03f-11f06e4236c9",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "8dad60b1-efd7-499c-a6ee-77628990f98c",
+    "sectionId": "60a5bf8d-4509-48bd-b03f-11f06e4236c9",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 37,
@@ -2880,10 +2880,10 @@
     "content": "5. Other Income for the year ended March 31, 2026 includes 8,924 crore,being proceeds of\n\nprofitfromsaleoflistedinvestments"
   },
   {
-    "id": "dd98ce9c-86c4-4f15-9552-4f2c3906c9a7",
+    "id": "eff883b4-43a2-4d73-81d5-2c2f73fc455c",
     "chunkType": "TEXT",
-    "parentChunkId": "8dad60b1-efd7-499c-a6ee-77628990f98c",
-    "sectionId": "8dad60b1-efd7-499c-a6ee-77628990f98c",
+    "parentChunkId": "60a5bf8d-4509-48bd-b03f-11f06e4236c9",
+    "sectionId": "60a5bf8d-4509-48bd-b03f-11f06e4236c9",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -2895,10 +2895,10 @@
     "content": "Formulae for computation of ratios are as follows -\n  - [OCR continuation; preceding text may be missing] Formulae"
   },
   {
-    "id": "dc09ae89-b3e1-43a7-8d22-2039dd76ef31",
+    "id": "3571b181-86ff-43ff-9eca-9aeec22a3b6c",
     "chunkType": "SECTION",
-    "parentChunkId": "8dad60b1-efd7-499c-a6ee-77628990f98c",
-    "sectionId": "dc09ae89-b3e1-43a7-8d22-2039dd76ef31",
+    "parentChunkId": "60a5bf8d-4509-48bd-b03f-11f06e4236c9",
+    "sectionId": "3571b181-86ff-43ff-9eca-9aeec22a3b6c",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -2910,10 +2910,10 @@
     "content": "Debt Service Coverage\n\nEarnings before Interest and Tax\nRatio"
   },
   {
-    "id": "acc2fb91-868f-45a0-8812-1e98d70e3639",
+    "id": "34712a41-c921-45ce-9fb5-bb41b8e6d7ed",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "acc2fb91-868f-45a0-8812-1e98d70e3639",
+    "sectionId": "34712a41-c921-45ce-9fb5-bb41b8e6d7ed",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -2925,10 +2925,10 @@
     "content": "Interest Expense+Principal Repayments made during the"
   },
   {
-    "id": "940ceff9-b35a-4693-9c64-a99f2ac7db8d",
+    "id": "3487a803-61db-4ca1-9388-39639e678e1a",
     "chunkType": "TEXT",
-    "parentChunkId": "acc2fb91-868f-45a0-8812-1e98d70e3639",
-    "sectionId": "acc2fb91-868f-45a0-8812-1e98d70e3639",
+    "parentChunkId": "34712a41-c921-45ce-9fb5-bb41b8e6d7ed",
+    "sectionId": "34712a41-c921-45ce-9fb5-bb41b8e6d7ed",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -2940,10 +2940,10 @@
     "content": "period forlong term loans\n  - [OCR continuation; preceding text may be missing] b) Interest Service Earnings before Interest and Tax Coverage Ratio"
   },
   {
-    "id": "3e477ab9-81a7-40c4-9c38-809aad868e3a",
+    "id": "6baefb0d-acba-4722-9017-d299a68053f1",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "3e477ab9-81a7-40c4-9c38-809aad868e3a",
+    "sectionId": "6baefb0d-acba-4722-9017-d299a68053f1",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -2955,10 +2955,10 @@
     "content": "Interest Expense\n\nDebt Equity Ratio\nc)\nTotal Debt"
   },
   {
-    "id": "1f8e6d1b-5370-4a08-a4a6-86fd94faf45f",
+    "id": "ecd7420c-0c4d-4641-9605-8da8b5a6556e",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "1f8e6d1b-5370-4a08-a4a6-86fd94faf45f",
+    "sectionId": "ecd7420c-0c4d-4641-9605-8da8b5a6556e",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -2970,10 +2970,10 @@
     "content": "Total Equity"
   },
   {
-    "id": "675d5f31-2462-4bfb-9dd2-7e2b869c951a",
+    "id": "b20c9a30-d88b-44c8-8510-2dc9d10e341e",
     "chunkType": "TEXT",
-    "parentChunkId": "1f8e6d1b-5370-4a08-a4a6-86fd94faf45f",
-    "sectionId": "1f8e6d1b-5370-4a08-a4a6-86fd94faf45f",
+    "parentChunkId": "ecd7420c-0c4d-4641-9605-8da8b5a6556e",
+    "sectionId": "ecd7420c-0c4d-4641-9605-8da8b5a6556e",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -2985,10 +2985,10 @@
     "content": "Current Ratio\nCurrent Assets\n(p\nCurrent Liabilities\n  - [OCR continuation; preceding text may be missing] Long term debt to\ne)\nNon-Current Borrowings(Including Current Maturitiesof Non-\nworking capital\nCurrent Borrowings)\nCurrent Assets Less Current Liabilities (Excluding Current\nMaturities of Non-Current Borrowings)\n  - [OCR continuation; preceding text may be missing] f Bad Debts Baddebtstoaccount receivable ratio Average Trade Receivables Current liability ratio Total Current Liabilities\ng)\nTotal Liabilities\n  - [OCR continuation; preceding text may be missing] Total Debt\nh)\nTotal debts tototal\nassets\nTotal Assets"
   },
   {
-    "id": "b12db18b-8c40-45ea-8588-051344e9deaf",
+    "id": "a1509650-dd4b-410e-b734-7663966ee9a6",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "b12db18b-8c40-45ea-8588-051344e9deaf",
+    "sectionId": "a1509650-dd4b-410e-b734-7663966ee9a6",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -3000,10 +3000,10 @@
     "content": "Value of Sales &Services\n\ni)\nDebtors turnover"
   },
   {
-    "id": "0cb69ff7-2653-433f-86a7-23cc489c0396",
+    "id": "080d4a14-e355-4f81-bc31-e0e7799f2589",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "0cb69ff7-2653-433f-86a7-23cc489c0396",
+    "sectionId": "080d4a14-e355-4f81-bc31-e0e7799f2589",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -3015,10 +3015,10 @@
     "content": "Average Trade Receivables"
   },
   {
-    "id": "8a2e5d2e-cc43-438d-9a5e-33e1adf91c4b",
+    "id": "2acb3b51-41f5-4c16-8285-67d239644ea7",
     "chunkType": "TEXT",
-    "parentChunkId": "0cb69ff7-2653-433f-86a7-23cc489c0396",
-    "sectionId": "0cb69ff7-2653-433f-86a7-23cc489c0396",
+    "parentChunkId": "080d4a14-e355-4f81-bc31-e0e7799f2589",
+    "sectionId": "080d4a14-e355-4f81-bc31-e0e7799f2589",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -3030,10 +3030,10 @@
     "content": "Inventory turnover\nCost of Goods Sold(Costof Material Consumed+Purchases+\nChangesin Inventory+Manufacturing Expenses)\n  - [OCR continuation; preceding text may be missing] Average Inventoriesof Finished Goods,Stock-in-Processand Stock-in-Trade"
   },
   {
-    "id": "8844086a-2161-4a3e-a6be-d219cda801e4",
+    "id": "bd76dbc1-76a5-4922-a1b8-3e1f6c7d7f22",
     "chunkType": "SECTION",
-    "parentChunkId": "0cb69ff7-2653-433f-86a7-23cc489c0396",
-    "sectionId": "8844086a-2161-4a3e-a6be-d219cda801e4",
+    "parentChunkId": "080d4a14-e355-4f81-bc31-e0e7799f2589",
+    "sectionId": "bd76dbc1-76a5-4922-a1b8-3e1f6c7d7f22",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -3045,10 +3045,10 @@
     "content": "Operating margin (%)\n\nk)\nEarningsbefore Interestand Tax\nless Other Income"
   },
   {
-    "id": "fcd5ef16-2e2c-4acc-8826-cf2babdd2eed",
+    "id": "18fdd427-7120-4cbb-9ff6-ff5645665138",
     "chunkType": "SECTION",
     "parentChunkId": null,
-    "sectionId": "fcd5ef16-2e2c-4acc-8826-cf2babdd2eed",
+    "sectionId": "18fdd427-7120-4cbb-9ff6-ff5645665138",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -3060,10 +3060,10 @@
     "content": "Value of Sales&Services"
   },
   {
-    "id": "9bf7fd02-841d-469e-9b32-a50972fb2490",
+    "id": "b02a04d6-c2fb-4e98-86ba-0c96e128fcb6",
     "chunkType": "SECTION",
-    "parentChunkId": "fcd5ef16-2e2c-4acc-8826-cf2babdd2eed",
-    "sectionId": "9bf7fd02-841d-469e-9b32-a50972fb2490",
+    "parentChunkId": "18fdd427-7120-4cbb-9ff6-ff5645665138",
+    "sectionId": "b02a04d6-c2fb-4e98-86ba-0c96e128fcb6",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 38,
@@ -3075,10 +3075,10 @@
     "content": "Net profit margin (%)\n\nProfit After Tax\nI\nValue of Sales&Services\n\nThe Audit Committeehasreviewed,andthe Boardof Directorshasapprovedtheaboveresults\nand its release at their respective meetings held on April 24,2026.The Statutory Auditors of the\nCompanyhaveissuedauditreportwithunmodifiedopiniononthe aboveresults."
   },
   {
-    "id": "01ffa112-483d-4ae9-8073-afb250b28e25",
+    "id": "ce136b3e-ca18-4ce1-989e-a35082b03420",
     "chunkType": "SECTION",
-    "parentChunkId": "fcd5ef16-2e2c-4acc-8826-cf2babdd2eed",
-    "sectionId": "01ffa112-483d-4ae9-8073-afb250b28e25",
+    "parentChunkId": "18fdd427-7120-4cbb-9ff6-ff5645665138",
+    "sectionId": "ce136b3e-ca18-4ce1-989e-a35082b03420",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 40,
@@ -3090,10 +3090,10 @@
     "content": "AUDITEDSTANDALONESEGMENTINFORMATIONFORTHEQUARTER/YEARENDED31STMARCH,2026"
   },
   {
-    "id": "7fcc16ef-9284-4bd8-bdbd-bb687883e5de",
+    "id": "ef67a01f-e82f-405f-92e1-6f6eb27fe9a3",
     "chunkType": "TEXT",
-    "parentChunkId": "01ffa112-483d-4ae9-8073-afb250b28e25",
-    "sectionId": "01ffa112-483d-4ae9-8073-afb250b28e25",
+    "parentChunkId": "ce136b3e-ca18-4ce1-989e-a35082b03420",
+    "sectionId": "ce136b3e-ca18-4ce1-989e-a35082b03420",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 40,
@@ -3105,10 +3105,10 @@
     "content": "(in crore)\n  - [OCR continuation; preceding text may be missing] 31st Mar’25 31st Mar25\nSegment Value of Sales and Services (Revenue)\n-Oil to Chemicals (O2C)\n142,058\n120,698\n130,210\n505,114\n512,829\n25,101\n- Oil and Gas\n5,842\n5,809\n6,393\n23,765\n- Retail\n15\n2\n6\n64\n2"
   },
   {
-    "id": "c74903f7-de24-4a38-8883-6b4fd26e832c",
+    "id": "272defec-b69a-4e9d-8167-1cb1fa93dc0d",
     "chunkType": "SECTION",
-    "parentChunkId": "fcd5ef16-2e2c-4acc-8826-cf2babdd2eed",
-    "sectionId": "c74903f7-de24-4a38-8883-6b4fd26e832c",
+    "parentChunkId": "18fdd427-7120-4cbb-9ff6-ff5645665138",
+    "sectionId": "272defec-b69a-4e9d-8167-1cb1fa93dc0d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 40,
@@ -3120,10 +3120,10 @@
     "content": "- Digital Services"
   },
   {
-    "id": "54ea1a73-c542-491b-9b94-1206ea8e4aa0",
+    "id": "75fe6a45-0bfe-40c8-99ef-67df59fe32a8",
     "chunkType": "TEXT",
-    "parentChunkId": "c74903f7-de24-4a38-8883-6b4fd26e832c",
-    "sectionId": "c74903f7-de24-4a38-8883-6b4fd26e832c",
+    "parentChunkId": "272defec-b69a-4e9d-8167-1cb1fa93dc0d",
+    "sectionId": "272defec-b69a-4e9d-8167-1cb1fa93dc0d",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 40,
@@ -3135,10 +3135,10 @@
     "content": "325\n352\n277\n1,362\n1,279\n-Others\n16,880\n18,231\n4,175\n4,036\n5,867\nGross Value of Sales and Services\n152,402\n130,897\n142,762\n547,127\n557,504\nLess:Inter Segment Transfers\n55\n82\n275\n341\n77"
   },
   {
-    "id": "1b517868-ea63-4731-b231-dd1ed834b551",
+    "id": "575fc8cd-0740-4d9a-b1e1-c096974b0d84",
     "chunkType": "SECTION",
-    "parentChunkId": "fcd5ef16-2e2c-4acc-8826-cf2babdd2eed",
-    "sectionId": "1b517868-ea63-4731-b231-dd1ed834b551",
+    "parentChunkId": "18fdd427-7120-4cbb-9ff6-ff5645665138",
+    "sectionId": "575fc8cd-0740-4d9a-b1e1-c096974b0d84",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 40,
@@ -3150,10 +3150,10 @@
     "content": "Value of Sales& Services"
   },
   {
-    "id": "23de24f6-54f4-42e9-815e-b3cbceb22dc8",
+    "id": "78667163-d5d4-4f65-a73d-e72b89b307b9",
     "chunkType": "TEXT",
-    "parentChunkId": "1b517868-ea63-4731-b231-dd1ed834b551",
-    "sectionId": "1b517868-ea63-4731-b231-dd1ed834b551",
+    "parentChunkId": "575fc8cd-0740-4d9a-b1e1-c096974b0d84",
+    "sectionId": "575fc8cd-0740-4d9a-b1e1-c096974b0d84",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 40,
@@ -3165,10 +3165,10 @@
     "content": "130,842\n546,852\n152,325\n142,680\n557,163\n22,747\n24,371\nLess: GST Recovered\n5,940\n5,101\n6,533\nRevenue from Operations\n532,792\n146,385\n125,741\n136,147\n524,105\nSegment Results (EBITDA)\n-Oilto Chemicals (O2C)*\n10,505\n12,426\n42,025\n36,528\n9,553\n- Oil and Gas\n4,845\n19,001\n21,086\n4,186\n5,095\n10\n- Retail\n0\n40\n1\n1\n-Digital Services\n179\n126\n147\n650\n688\n-Others\n888\n1,087\n3,601\n4,202\n8,749\nTotal Segment Profit before Interest, Tax and\n15,726\n18,538\n18,385\n65,879\n67,091\nDepreciation,Amortisation and Depletion\n  - [OCR continuation; preceding text may be missing] Segment Results (EBIT) 3\n-Oil to Chemicals(O2C)*\n10,426\n34,925\n30,366\n8,648\n8,002\n-Oil and Gas\n13,454\n15,777\n2,901\n3,463\n3,788\n5\n- Retail\n0\n13\n1\n- Digital Services\n86\n2\n116\n2\n42\n-Others\n169\n225\n2,342\n500\n3,444\nTotal Segment Profit before Interest and Tax\n11,720\n14,157\n14,139\n48,966\n49,716\n(i) Finance Cost\n(1,467)\n(1,473)\n(2,058)\n(6,904)\n(10,054)\n(i) Interest Income\n2,035\n2,277\n2,382\n9,174\n9,537\n(2,505)\n(2,566)\n(3.071)\n(ii) Other Un-allocable Income (Net of Expenditure)\n(292)\n2,840\nProfit Before Tax\n54,076\n9,783\n12,395\n14,171\n46,128\n(1,028)\n(2,346)\n(7,872)\n(9,399)\n(i) Current Tax\n(2,895)\n(i)Deferred Tax\n(1,467)\n(1,333)\n(104)\n(608)\n(2,353)\n7,422\n11,217\n43,851\n35,262\nProfit After Tax\n9,396\n*Segment results (EBITDA and EBIT) include Interest Income pertaining to the respective segments."
   },
   {
-    "id": "359325d2-34db-4274-aeaf-122c7691f66d",
+    "id": "bf250aef-7857-46ce-8070-f93c982cfeb0",
     "chunkType": "TEXT",
-    "parentChunkId": "1b517868-ea63-4731-b231-dd1ed834b551",
-    "sectionId": "1b517868-ea63-4731-b231-dd1ed834b551",
+    "parentChunkId": "575fc8cd-0740-4d9a-b1e1-c096974b0d84",
+    "sectionId": "575fc8cd-0740-4d9a-b1e1-c096974b0d84",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 41,
@@ -3180,10 +3180,10 @@
     "content": "( incrore)"
   },
   {
-    "id": "c5092315-53f9-4130-b6fa-76731e358205",
+    "id": "0598f33c-45bc-4803-aa8d-0687b7303040",
     "chunkType": "SECTION",
-    "parentChunkId": "fcd5ef16-2e2c-4acc-8826-cf2babdd2eed",
-    "sectionId": "c5092315-53f9-4130-b6fa-76731e358205",
+    "parentChunkId": "18fdd427-7120-4cbb-9ff6-ff5645665138",
+    "sectionId": "0598f33c-45bc-4803-aa8d-0687b7303040",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 41,
@@ -3195,10 +3195,10 @@
     "content": "Segment Assets"
   },
   {
-    "id": "e80d38eb-9bc1-40fd-aef5-30552652d7b2",
+    "id": "3f36ad3f-a9c6-4026-ac14-aa210c1e5ed8",
     "chunkType": "TEXT",
-    "parentChunkId": "c5092315-53f9-4130-b6fa-76731e358205",
-    "sectionId": "c5092315-53f9-4130-b6fa-76731e358205",
+    "parentChunkId": "0598f33c-45bc-4803-aa8d-0687b7303040",
+    "sectionId": "0598f33c-45bc-4803-aa8d-0687b7303040",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 41,
@@ -3210,10 +3210,10 @@
     "content": "Oilto Chemicals (O2C)\n-Oil and Gas\n33,401\n31,059\n30,834\n33,401\n31,059\n18,987\n19,825\n20,486\n18,987\n20,486\n- Retail\n68.035\n67,939\n66,595\n67,939\n66,595\n-Digital Services\n219,752\n-Others\n258,881\n240,731\n219,752\n258,881\n- Unallocated\n394,581\n358,286\n338,350\n394,581\n338,350"
   },
   {
-    "id": "1c456b46-97ae-4f7d-9797-b6492b51510e",
+    "id": "3a99c073-9b35-40ff-a9c7-0b0f1603ed83",
     "chunkType": "SECTION",
-    "parentChunkId": "fcd5ef16-2e2c-4acc-8826-cf2babdd2eed",
-    "sectionId": "1c456b46-97ae-4f7d-9797-b6492b51510e",
+    "parentChunkId": "18fdd427-7120-4cbb-9ff6-ff5645665138",
+    "sectionId": "3a99c073-9b35-40ff-a9c7-0b0f1603ed83",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 41,
@@ -3225,10 +3225,10 @@
     "content": "Total Segment Assets"
   },
   {
-    "id": "7d6426a3-0e58-4dad-a42a-672d662bcee9",
+    "id": "8c18bfc8-eaf9-48a4-96cc-8b9cdc2cbc11",
     "chunkType": "TEXT",
-    "parentChunkId": "1c456b46-97ae-4f7d-9797-b6492b51510e",
-    "sectionId": "1c456b46-97ae-4f7d-9797-b6492b51510e",
+    "parentChunkId": "3a99c073-9b35-40ff-a9c7-0b0f1603ed83",
+    "sectionId": "3a99c073-9b35-40ff-a9c7-0b0f1603ed83",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 41,
@@ -3240,10 +3240,10 @@
     "content": "1,165,809\n1,078,799\n1,022,401\n1,165,809\n1,022,401\n  - [OCR continuation; preceding text may be missing] Segment Liabilities 5 151,899 98,509 105,577 151,899 105,577\nOil to Chemicals (O2C)\n-Oil and Gas\n13,224\n15,303\n13,385\n13,224\n15,303\n-Retail\n4\n4\n1\n1\n- Digital Services\n192\n196\n192\n680\n680\n-Others\n40,004\n33,035\n19,298\n40,004\n19,298\n958,410\n933,673\n883,618\n958,410\n883,618\n-Unallocated\nTotal Segment Liabilities\n1,165,809\n1,078,799\n1,022,401\n1,165,809\n1,022,401"
   },
   {
-    "id": "f1936b6e-d412-4ee0-af2c-74f2b4ba161b",
+    "id": "d93fe9ad-a830-47ad-9243-eb8d6109ddff",
     "chunkType": "TEXT",
-    "parentChunkId": "1c456b46-97ae-4f7d-9797-b6492b51510e",
-    "sectionId": "1c456b46-97ae-4f7d-9797-b6492b51510e",
+    "parentChunkId": "3a99c073-9b35-40ff-a9c7-0b0f1603ed83",
+    "sectionId": "3a99c073-9b35-40ff-a9c7-0b0f1603ed83",
     "groupId": null,
     "isGroupHead": false,
     "pageStart": 42,

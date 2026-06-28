@@ -1,6 +1,6 @@
 # PaddleOCR Chunk Export Summary
 
-Output directory: `/Users/likhithv/AndroidStudioProjects/AgenticRAG/experiments/paddleocr_test/chunk_outputs`
+Output directory: `experiments/paddleocr_test/chunk_outputs`
 
 | Document | Pages | Chunks | Sections | Text | Tables | Table Parts | Avg Tokens |
 |---|---:|---:|---:|---:|---:|---:|---:|

@@ -40,6 +40,36 @@ class PdfHierarchicalParser(private val context: Context) : DocumentParser {
 
         private val listPrefixRegex = Regex("""^[•‣◦⁃∙*\-–]\s+.+|^\d+[.)]\s+.+""")
 
+        // Footer/false-positive row detection: generic across any Indian listed-company PDF.
+        // Covers: registered office block, contact info rows, auditor credentials,
+        // generic "For [Firm] LLP" auditor signatures, exchange notification headers, CIN.
+        private val footerPhraseRe = Regex(
+            """(Registered\s+(Office|Offic)|Corporate\s+Communications|Telefax|""" +
+            """Membership\s+No|UDIN:|ICAI\s+Reg|Chartered\s+Accountants|""" +
+            """BSE\s+Limited|National\s+Stock\s+Exchange|""" +
+            """For\s+[A-Z].+\s+LLP\b|""" +
+            """CIN\s+[A-Z]\d)""",
+            RegexOption.IGNORE_CASE
+        )
+        private fun isFooterRow(row: List<PageRun>): Boolean =
+            row.any { run -> footerPhraseRe.containsMatchIn(run.text) }
+
+        // Financial token detection: comma-formatted numbers, decimals, percentages, currency
+        private val commaNumRe = Regex("""^\d{1,3}(,\d{3})+(\.\d+)?$""")
+        private val decimalFinRe = Regex("""^\(?\d+\.\d{1,4}%?\)?$""")
+        private val currencyRe = Regex("""^[$₹€£¥]""")
+        private val finNumRe = Regex("""^[\d,.()%\-]+$""")
+        private fun rowHasLargeFinancialToken(row: List<PageRun>): Boolean {
+            for (run in row) {
+                var t = run.text.trimStart('$', '₹', '€', '£', '¥', '+').trimStart('(').trimEnd(')')
+                if (commaNumRe.matches(t)) return true
+                if (decimalFinRe.matches(t)) return true
+                if (run.text.contains('%') && finNumRe.matches(t)) return true
+                if (currencyRe.containsMatchIn(run.text) && finNumRe.matches(t)) return true
+            }
+            return false
+        }
+
         private data class PageRun(
             val x: Float,
             val y: Float,
@@ -220,7 +250,13 @@ class PdfHierarchicalParser(private val context: Context) : DocumentParser {
 
         private fun buildTableBlock(tableRows: List<List<PageRun>>): Block.Table? {
             if (tableRows.isEmpty()) return null
-            val allXs = tableRows.flatMap { row -> row.map { it.x } }.sorted()
+            var cleanRows = tableRows.filterNot { isFooterRow(it) }
+            // Trim trailing rows without financial tokens (footer continuation rows bridged in)
+            while (cleanRows.isNotEmpty() && !rowHasLargeFinancialToken(cleanRows.last()))
+                cleanRows = cleanRows.dropLast(1)
+            if (cleanRows.size < 2) return null
+            if (!cleanRows.any { rowHasLargeFinancialToken(it) }) return null
+            val allXs = cleanRows.flatMap { row -> row.map { it.x } }.sorted()
             val columns = mutableListOf<Float>()
             for (x in allXs) {
                 if (columns.isEmpty() || x - columns.last() > 20f) columns.add(x)
@@ -230,7 +266,7 @@ class PdfHierarchicalParser(private val context: Context) : DocumentParser {
             fun assignCol(run: PageRun): Int =
                 columns.indices.minByOrNull { abs(columns[it] - run.x) } ?: 0
 
-            val cellMatrix = tableRows.map { row ->
+            val cellMatrix = cleanRows.map { row ->
                 val cells = Array(columns.size) { StringBuilder() }
                 for (run in row) {
                     val col = assignCol(run)

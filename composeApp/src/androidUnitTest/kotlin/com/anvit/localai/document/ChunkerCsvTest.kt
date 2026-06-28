@@ -9,7 +9,7 @@ class ChunkerCsvTest {
 
     @Test
     fun testExportChunksToCsv() = runBlocking {
-        val testDocsFolder = File("/Users/likhithv/AndroidStudioProjects/AgenticRAG/Test Docs")
+        val testDocsFolder = testDocsFolder()
         
         if (!testDocsFolder.exists() || !testDocsFolder.isDirectory) {
             println("Test Docs folder not found at ${testDocsFolder.absolutePath}.")
@@ -70,7 +70,7 @@ class ChunkerCsvTest {
 
     @Test
     fun testExportChunksToMarkdown() = runBlocking {
-        val testDocsFolder = File("/Users/likhithv/AndroidStudioProjects/AgenticRAG/Test Docs")
+        val testDocsFolder = testDocsFolder()
 
         if (!testDocsFolder.exists() || !testDocsFolder.isDirectory) {
             println("Test Docs folder not found at ${testDocsFolder.absolutePath}.")
@@ -127,4 +127,9 @@ class ChunkerCsvTest {
         }
         return escaped
     }
+
+    private fun testDocsFolder(): File =
+        listOf(File("Test Docs"), File("../Test Docs"))
+            .firstOrNull { it.exists() && it.isDirectory }
+            ?: File("../Test Docs")
 }
