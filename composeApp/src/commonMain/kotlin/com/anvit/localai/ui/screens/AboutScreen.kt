@@ -14,14 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.anvit.localai.ui.AnvitSupportContent
 import com.anvit.localai.ui.theme.LocalAnvitColors
 
 @Composable
 fun AboutScreen(onBack: () -> Unit) {
     val c = LocalAnvitColors.current
+    val uriHandler = LocalUriHandler.current
 
     Column(modifier = Modifier.fillMaxSize().background(c.bg)) {
 
@@ -88,6 +91,17 @@ fun AboutScreen(onBack: () -> Unit) {
                     "No cloud. No tracking. No data collection. Your documents, questions, and conversations never leave your phone.",
                     color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium,
                 )
+                Spacer(Modifier.height(8.dp))
+                Button(
+                    onClick = { uriHandler.openUri(AnvitSupportContent.websiteUrl) },
+                    modifier = Modifier.fillMaxWidth().height(38.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = c.accentDim,
+                        contentColor = c.accent,
+                    ),
+                ) {
+                    Text(AnvitSupportContent.websiteButtonLabel, fontSize = 13.sp)
+                }
             }
 
             // Key features
@@ -128,12 +142,33 @@ fun AboutScreen(onBack: () -> Unit) {
                 }
             }
 
+            InfoCard(title = AnvitSupportContent.feedbackTitle) {
+                Text(
+                    AnvitSupportContent.feedbackDescription,
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
+                )
+                Text(
+                    AnvitSupportContent.feedbackPrivacyNote,
+                    color = c.txt1, fontSize = 12.sp, lineHeight = 18.sp,
+                )
+                Button(
+                    onClick = { uriHandler.openUri(AnvitSupportContent.feedbackFormUrl) },
+                    modifier = Modifier.fillMaxWidth().height(38.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = c.accentDim,
+                        contentColor = c.accent,
+                    ),
+                ) {
+                    Text(AnvitSupportContent.feedbackButtonLabel, fontSize = 13.sp)
+                }
+            }
+
             // Version footer
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center,
             ) {
-                Text("v1.0.0  ·  © 2026 Anvit", color = c.txt2, fontSize = 12.sp)
+                Text("v1.0.12  ·  © 2026 Anvit", color = c.txt2, fontSize = 12.sp)
             }
 
             Spacer(Modifier.height(8.dp))

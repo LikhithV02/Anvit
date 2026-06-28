@@ -31,7 +31,6 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
         val ACTIVE_COLLECTION_ID     = stringPreferencesKey("active_collection_id")
         val ACCELERATOR              = stringPreferencesKey("accelerator")
         val COMPLIANCE_LAST_SEEN              = longPreferencesKey("compliance_last_seen")
-        val USER_EMAIL                        = stringPreferencesKey("user_email")
         val THEME_MODE                        = stringPreferencesKey("theme_mode")
         val RATING_PROMPT_MSGS_AT_LAST_SHOWN  = longPreferencesKey("rating_prompt_msgs_at_last_shown")
         val RATING_PROMPT_PERMANENTLY_DISMISSED = booleanPreferencesKey("rating_prompt_permanently_dismissed")
@@ -61,7 +60,6 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     val activeCollectionId:     Flow<String>  = flow(ACTIVE_COLLECTION_ID,      DEFAULT_COLLECTION_ID)
     val accelerator:            Flow<String>  = flow(ACCELERATOR,               "cpu")
     val complianceLastSeen:                Flow<Long>    = flow(COMPLIANCE_LAST_SEEN,                      0L)
-    val userEmail:                         Flow<String>  = flow(USER_EMAIL,                               "")
     val themeMode:                         Flow<String>  = flow(THEME_MODE,                               "system")
     val ratingPromptMsgsAtLastShown:       Flow<Long>    = flow(RATING_PROMPT_MSGS_AT_LAST_SHOWN,         -1L)
     val ratingPromptPermanentlyDismissed:  Flow<Boolean> = flow(RATING_PROMPT_PERMANENTLY_DISMISSED,      false)
@@ -83,7 +81,6 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     suspend fun setActiveCollectionId(id: String?)         { dataStore.edit { it[ACTIVE_COLLECTION_ID] = id ?: NO_DOCS_SENTINEL } }
     suspend fun setAccelerator(v: String)                 { dataStore.edit { it[ACCELERATOR] = v } }
     suspend fun setComplianceLastSeen(t: Long)            { dataStore.edit { it[COMPLIANCE_LAST_SEEN] = t } }
-    suspend fun setUserEmail(email: String)               { dataStore.edit { it[USER_EMAIL] = email } }
     suspend fun setThemeMode(mode: String)                { dataStore.edit { it[THEME_MODE] = mode } }
     suspend fun setRatingPromptShown(totalMessages: Long) { dataStore.edit { it[RATING_PROMPT_MSGS_AT_LAST_SHOWN] = totalMessages } }
     suspend fun dismissRatingPromptPermanently()          { dataStore.edit { it[RATING_PROMPT_PERMANENTLY_DISMISSED] = true } }

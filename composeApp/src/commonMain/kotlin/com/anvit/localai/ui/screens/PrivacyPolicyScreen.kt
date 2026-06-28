@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.anvit.localai.ui.AnvitSupportContent
 import com.anvit.localai.ui.theme.LocalAnvitColors
 
 @Composable
@@ -99,7 +100,6 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                     "AI model files (LLM & embedding)" to "Run inference fully offline after download",
                     "App settings & preferences" to "Remember your configuration",
                     "HuggingFace token (optional)" to "Authenticate model downloads if provided",
-                    "Email address (optional)" to "Pre-fill the feedback form if provided",
                 )
                 items.forEach { (data, purpose) ->
                     HorizontalDivider(color = c.border, thickness = 0.5.dp, modifier = Modifier.padding(vertical = 3.dp))
@@ -141,14 +141,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
                 Spacer(Modifier.height(10.dp))
                 Text("2. Voluntary Feedback — Google Forms", color = c.txt0, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
                 Spacer(Modifier.height(4.dp))
-                Text("If you submit a feedback form, the following is sent:", color = c.txt0, fontSize = 13.sp)
-                Spacer(Modifier.height(4.dp))
-                listOf(
-                    "A hashed message ID (8-character hex, not linked to your identity)",
-                    "The query and AI response you found inaccurate",
-                    "Your selected feedback reason",
-                    "Your email address — only if you typed it in",
-                ).forEach { PolicyBullet(it) }
+                Text(AnvitSupportContent.privacyFeedbackCopy, color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp)
                 Spacer(Modifier.height(8.dp))
                 HighlightBox {
                     Text(
@@ -212,11 +205,18 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
             // Contact
             PolicyCard(emoji = "✉️", title = "Contact") {
                 Text(
-                    "Questions or concerns about this policy? Reach out at:",
+                    "Questions, feedback, and bug reports can be shared through the Google Form:",
                     color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
                 )
                 Spacer(Modifier.height(4.dp))
-                Text("likhithv02@gmail.com", color = c.accent, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                Text(AnvitSupportContent.feedbackFormUrl, color = c.accent, fontSize = 12.sp, lineHeight = 18.sp, fontWeight = FontWeight.Medium)
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    "To learn more about Anvit, visit:",
+                    color = c.txt0, fontSize = 13.sp, lineHeight = 20.sp,
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(AnvitSupportContent.websiteUrl, color = c.accent, fontSize = 12.sp, lineHeight = 18.sp, fontWeight = FontWeight.Medium)
             }
 
             // Footer

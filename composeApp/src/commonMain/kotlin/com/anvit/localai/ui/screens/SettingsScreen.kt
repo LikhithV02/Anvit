@@ -21,7 +21,6 @@ import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
@@ -36,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -53,6 +53,7 @@ import com.anvit.localai.data.models.GemmaModel
 import com.anvit.localai.download.DownloadProgress
 import com.anvit.localai.download.DownloadState
 import com.anvit.localai.ui.theme.*
+import com.anvit.localai.ui.AnvitSupportContent
 import com.anvit.localai.ui.contextWindowSettingMax
 import com.anvit.localai.ui.viewmodels.SettingsViewModel
 import com.anvit.localai.utils.isIosPlatform
@@ -61,6 +62,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun SettingsScreen(navController: NavController, viewModel: SettingsViewModel = koinViewModel()) {
     val c = LocalAnvitColors.current
+    val uriHandler = LocalUriHandler.current
     val uiState by viewModel.uiState.collectAsState()
 
     Column(
@@ -188,32 +190,28 @@ fun SettingsScreen(navController: NavController, viewModel: SettingsViewModel = 
             }
         }
 
-        // ── User Information ──────────────────────────────────────────────────
-        SettingsSection(title = "User Information") {
+        // ── Feedback ──────────────────────────────────────────────────────────
+        SettingsSection(title = AnvitSupportContent.feedbackTitle) {
             Text(
-                "Your email is used only for reporting issues.",
-                color = c.txt1, fontSize = 11.sp
+                AnvitSupportContent.feedbackDescription,
+                color = c.txt1, fontSize = 12.sp, lineHeight = 17.sp
             )
-            OutlinedTextField(
-                value = uiState.userEmail,
-                onValueChange = { viewModel.setUserEmail(it) },
-                modifier = Modifier.fillMaxWidth(),
-                shape = CircleShape,
-                placeholder = { Text("email@example.com", color = c.txt2, fontSize = 13.sp) },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = androidx.compose.ui.text.input.KeyboardType.Email),
-                leadingIcon = {
-                    Icon(Icons.Default.Email, null, tint = c.accent.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = c.accent,
-                    unfocusedBorderColor = c.border2,
-                    focusedTextColor = c.txt0,
-                    unfocusedTextColor = c.txt0,
-                    cursorColor = c.accent
-                ),
-                textStyle = LocalTextStyle.current.copy(fontSize = 13.sp)
+            Text(
+                AnvitSupportContent.feedbackPrivacyNote,
+                color = c.txt2, fontSize = 11.sp, lineHeight = 16.sp
             )
+            Button(
+                onClick = { uriHandler.openUri(AnvitSupportContent.feedbackFormUrl) },
+                modifier = Modifier.fillMaxWidth().height(40.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = c.accentDim,
+                    contentColor = c.accent
+                )
+            ) {
+                Icon(Icons.Default.Info, null, modifier = Modifier.size(16.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(AnvitSupportContent.feedbackButtonLabel, fontSize = 13.sp)
+            }
         }
 
         // ── HuggingFace Token ─────────────────────────────────────────────────
@@ -388,7 +386,30 @@ fun SettingsScreen(navController: NavController, viewModel: SettingsViewModel = 
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text("Anvit Local AI", color = c.txt0, fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                Text("v1.0.0", color = c.txt2, fontSize = 12.sp)
+                Text("v1.0.12", color = c.txt2, fontSize = 12.sp)
+            }
+            HorizontalDivider(color = c.border, thickness = 0.5.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable { uriHandler.openUri(AnvitSupportContent.websiteUrl) }
+                    .padding(vertical = 6.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Icon(Icons.Default.Info, null, tint = c.accent, modifier = Modifier.size(18.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(AnvitSupportContent.websiteButtonLabel, color = c.txt0, fontSize = 14.sp)
+                        Text(AnvitSupportContent.websiteDescription, color = c.txt2, fontSize = 11.sp, lineHeight = 15.sp)
+                    }
+                }
+                Icon(Icons.Default.ChevronRight, null, tint = c.txt2, modifier = Modifier.size(18.dp))
             }
             HorizontalDivider(color = c.border, thickness = 0.5.dp)
             // About Anvit row

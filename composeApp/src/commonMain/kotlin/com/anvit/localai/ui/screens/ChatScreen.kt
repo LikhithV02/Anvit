@@ -50,6 +50,7 @@ import anvit.composeapp.generated.resources.logo
 import com.anvit.localai.data.db.entities.ChatSessionEntity
 import com.anvit.localai.data.db.entities.CollectionEntity
 import com.anvit.localai.data.models.GemmaModel
+import com.anvit.localai.ui.AnvitSupportContent
 import com.anvit.localai.ui.components.AgentStepsPanel
 import com.anvit.localai.ui.components.MarkdownText
 import com.anvit.localai.ui.theme.*
@@ -201,7 +202,6 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
                         val canInteract = !message.isStreaming && !uiState.isGenerating
                         MessageBubble(
                             message               = message,
-                            userEmail             = uiState.userEmail,
                             onEditQuery           = if (canInteract && message.role == "user") {
                                 { newText -> viewModel.editAndResendMessage(message.id, newText) }
                             } else null,
@@ -212,7 +212,7 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
                                 { viewModel.restartStoppedResponse(message.id) }
                             } else null,
                             onReportResponse      = if (canInteract && message.role == "assistant") {
-                                { email, reason, content -> viewModel.submitReport(message.id, content, reason, email) }
+                                { uriHandler.openUri(AnvitSupportContent.feedbackFormUrl) }
                             } else null,
                         )
                     }
@@ -1176,19 +1176,15 @@ private fun CollectionPickerRow(
 @Composable
 private fun MessageBubble(
     message: ChatMessage,
-    userEmail: String = "",
     onEditQuery: ((String) -> Unit)? = null,
     onRestartFrom: (() -> Unit)? = null,
     onRestartGeneration: (() -> Unit)? = null,
-    onReportResponse: ((String, String, String) -> Unit)? = null,
+    onReportResponse: (() -> Unit)? = null,
 ) {
     val c = LocalAnvitColors.current
     val isUser = message.role == "user"
     val clipboardManager = LocalClipboardManager.current
     var showEditDialog   by remember { mutableStateOf(false) }
-    var showReportDialog by remember { mutableStateOf(false) }
-    var reportReason     by remember { mutableStateOf("") }
-    var reportEmail      by remember(userEmail) { mutableStateOf(userEmail) }
 
     Column(
         modifier = Modifier.fillMaxWidth().animateContentSize(animationSpec = spring(stiffness = Spring.StiffnessLow)),
@@ -1278,7 +1274,7 @@ private fun MessageBubble(
                             }
                         }
                         if (onReportResponse != null) {
-                            IconButton(onClick = { showReportDialog = true }, modifier = Modifier.size(36.dp)) {
+                            IconButton(onClick = onReportResponse, modifier = Modifier.size(36.dp)) {
                                 Icon(Icons.Default.Flag, "Report", tint = c.txt2, modifier = Modifier.size(18.dp))
                             }
                         }
@@ -1347,52 +1343,6 @@ private fun MessageBubble(
         )
     }
 
-    if (showReportDialog) {
-        val c2 = LocalAnvitColors.current
-        val emailMissing = userEmail.isBlank()
-        var emailError by remember { mutableStateOf(false) }
-        AlertDialog(
-            onDismissRequest = { showReportDialog = false },
-            containerColor   = c2.surf2,
-            title = { Text("Report Response", color = c2.txt0) },
-            text  = {
-                Column {
-                    Text("Does this response contain offensive or unsafe content?", color = c2.txt1, fontSize = 13.sp)
-                    Spacer(Modifier.height(8.dp))
-                    if (emailMissing) {
-                        OutlinedTextField(
-                            value = reportEmail, onValueChange = { reportEmail = it; emailError = false },
-                            placeholder = { Text("Your email (required)…", color = c2.txt3) },
-                            isError = emailError,
-                            supportingText = if (emailError) { { Text("Email is required", color = ErrorRed, fontSize = 11.sp) } } else null,
-                            singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                            colors = OutlinedTextFieldDefaults.colors(focusedTextColor = c2.txt0, unfocusedTextColor = c2.txt0, focusedBorderColor = c2.accent, unfocusedBorderColor = c2.border2, cursorColor = c2.accent),
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                        Spacer(Modifier.height(8.dp))
-                    }
-                    OutlinedTextField(
-                        value = reportReason, onValueChange = { reportReason = it },
-                        placeholder = { Text("Reason (optional)…", color = c2.txt3) },
-                        colors = OutlinedTextFieldDefaults.colors(focusedTextColor = c2.txt0, unfocusedTextColor = c2.txt0, focusedBorderColor = c2.accent, unfocusedBorderColor = c2.border2, cursorColor = c2.accent),
-                        modifier = Modifier.fillMaxWidth(), maxLines = 3,
-                    )
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    if (emailMissing && reportEmail.isBlank()) { emailError = true }
-                    else {
-                        onReportResponse?.invoke(if (emailMissing) reportEmail else userEmail, reportReason, message.content)
-                        showReportDialog = false; reportReason = ""
-                    }
-                }) { Text("Submit", color = ErrorRed) }
-            },
-            dismissButton = {
-                TextButton(onClick = { showReportDialog = false }) { Text("Cancel", color = c2.txt2) }
-            },
-        )
-    }
 }
 
 // ── Edit query dialog ─────────────────────────────────────────────────────────

@@ -15,7 +15,6 @@ import com.anvit.localai.data.db.entities.CollectionEntity
 import com.anvit.localai.data.models.GemmaModel
 import com.anvit.localai.data.models.GemmaModels
 import com.anvit.localai.data.preferences.AnvitPreferences
-import com.anvit.localai.data.reporting.ReportingService
 import com.anvit.localai.download.DownloadService
 import com.anvit.localai.inference.InferenceService
 import com.anvit.localai.retrieval.HybridRetriever
@@ -79,7 +78,6 @@ data class ChatUiState(
     val enableThinking: Boolean = true,
 
     val showRatingDialog: Boolean = false,
-    val userEmail: String = ""
 ) {
     val allMessages: List<ChatMessage> get() =
         if (streamingMessage != null) messages + streamingMessage else messages
@@ -92,7 +90,6 @@ class ChatViewModel(
     private val chatSessionDao: ChatSessionDao,
     private val orchestrator: AgenticRagOrchestrator,
     private val collectionDao: CollectionDao,
-    private val reportingService: ReportingService,
     private val downloadService: DownloadService
 ) : ViewModel() {
 
@@ -166,11 +163,6 @@ class ChatViewModel(
             }
         }
         viewModelScope.launch {
-            preferences.userEmail.collect { email ->
-                _uiState.update { it.copy(userEmail = email) }
-            }
-        }
-        viewModelScope.launch {
             chatSessionDao.getTotalMessageCount().collect { count ->
                 totalMessagesCount = count
             }
@@ -200,24 +192,6 @@ class ChatViewModel(
         val neverShown = lastShownAt == -1L
         if (neverShown || (total - lastShownAt >= 10)) {
             _uiState.update { it.copy(showRatingDialog = true) }
-        }
-    }
-
-    fun submitReport(messageId: String, content: String, reason: String, email: String) {
-        viewModelScope.launch {
-            preferences.setUserEmail(email)
-            val messages = _uiState.value.messages
-            val index = messages.indexOfFirst { it.id == messageId }
-            val query = if (index > 0) messages[index - 1].content else "N/A"
-            val refId = messages.getOrNull(index)?.provenanceId ?: "N/A"
-
-            reportingService.sendReport(
-                messageId = refId,
-                query = query,
-                response = content,
-                reason = reason,
-                userEmail = email
-            )
         }
     }
 
