@@ -33,6 +33,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
         val COMPLIANCE_LAST_SEEN              = longPreferencesKey("compliance_last_seen")
         val THEME_MODE                        = stringPreferencesKey("theme_mode")
         val RATING_PROMPT_MSGS_AT_LAST_SHOWN  = longPreferencesKey("rating_prompt_msgs_at_last_shown")
+        val RATING_PROMPT_SNOOZED_UNTIL_MSGS  = longPreferencesKey("rating_prompt_snoozed_until_msg_count")
         val RATING_PROMPT_PERMANENTLY_DISMISSED = booleanPreferencesKey("rating_prompt_permanently_dismissed")
         val WALKTHROUGH_SEEN                  = booleanPreferencesKey("walkthrough_seen")
     }
@@ -62,6 +63,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     val complianceLastSeen:                Flow<Long>    = flow(COMPLIANCE_LAST_SEEN,                      0L)
     val themeMode:                         Flow<String>  = flow(THEME_MODE,                               "system")
     val ratingPromptMsgsAtLastShown:       Flow<Long>    = flow(RATING_PROMPT_MSGS_AT_LAST_SHOWN,         -1L)
+    val ratingPromptSnoozedUntilMessages:  Flow<Long>    = flow(RATING_PROMPT_SNOOZED_UNTIL_MSGS,         0L)
     val ratingPromptPermanentlyDismissed:  Flow<Boolean> = flow(RATING_PROMPT_PERMANENTLY_DISMISSED,      false)
     val walkthroughSeen:                   Flow<Boolean> = flow(WALKTHROUGH_SEEN,                         false)
 
@@ -83,6 +85,7 @@ class AnvitPreferences(private val dataStore: DataStore<Preferences>) {
     suspend fun setComplianceLastSeen(t: Long)            { dataStore.edit { it[COMPLIANCE_LAST_SEEN] = t } }
     suspend fun setThemeMode(mode: String)                { dataStore.edit { it[THEME_MODE] = mode } }
     suspend fun setRatingPromptShown(totalMessages: Long) { dataStore.edit { it[RATING_PROMPT_MSGS_AT_LAST_SHOWN] = totalMessages } }
+    suspend fun setRatingPromptSnoozedUntil(totalMessages: Long) { dataStore.edit { it[RATING_PROMPT_SNOOZED_UNTIL_MSGS] = totalMessages } }
     suspend fun dismissRatingPromptPermanently()          { dataStore.edit { it[RATING_PROMPT_PERMANENTLY_DISMISSED] = true } }
     suspend fun setWalkthroughSeen(v: Boolean)            { dataStore.edit { it[WALKTHROUGH_SEEN] = v } }
 

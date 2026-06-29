@@ -165,6 +165,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.koin.android)
+    implementation(libs.play.review.ktx)
 
     // Test
     testImplementation(libs.junit)

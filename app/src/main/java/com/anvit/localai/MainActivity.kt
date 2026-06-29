@@ -15,6 +15,7 @@ import com.anvit.localai.data.preferences.AnvitPreferences
 import com.anvit.localai.ui.navigation.AnvitNavHost
 import com.anvit.localai.ui.theme.AnvitTheme
 import com.anvit.localai.ui.theme.toThemeMode
+import com.google.android.play.core.review.ReviewManagerFactory
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val themeModeStr by prefs.themeMode.collectAsStateWithLifecycle(initialValue = "system")
             AnvitTheme(mode = themeModeStr.toThemeMode()) {
-                AnvitNavHost()
+                AnvitNavHost(onRequestAppReview = ::requestAppReview)
             }
         }
         requestNotificationPermissionIfNeeded()
@@ -46,5 +47,13 @@ class MainActivity : ComponentActivity() {
             ) == PackageManager.PERMISSION_GRANTED
         ) return
         notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    private fun requestAppReview() {
+        val reviewManager = ReviewManagerFactory.create(this)
+        reviewManager.requestReviewFlow()
+            .addOnSuccessListener { reviewInfo ->
+                reviewManager.launchReviewFlow(this, reviewInfo)
+            }
     }
 }

@@ -22,6 +22,7 @@ ktor                   = "3.1.0"          # must match coil-network-ktor3's tran
 profileinstaller       = "1.4.1"
 pdfbox-android         = "2.0.27.0"
 apache-poi             = "5.3.0"
+playReview             = "2.0.2"
 
 [libraries]
 # AndroidX core
@@ -76,6 +77,7 @@ ktor-client-core                   = { group = "io.ktor",                name = 
 ktor-client-okhttp                 = { group = "io.ktor",                name = "ktor-client-okhttp",            version.ref = "ktor" }
 ktor-client-darwin                 = { group = "io.ktor",                name = "ktor-client-darwin",            version.ref = "ktor" }
 androidx-profileinstaller          = { group = "androidx.profileinstaller", name = "profileinstaller",           version.ref = "profileinstaller" }
+play-review-ktx                    = { group = "com.google.android.play",   name = "review-ktx",                 version.ref = "playReview" }
 # Document parsing (Android only)
 pdfbox-android                     = { group = "com.tom-roush",             name = "pdfbox-android",                version.ref = "pdfbox-android" }
 apache-poi-ooxml                   = { group = "org.apache.poi",            name = "poi-ooxml",                     version.ref = "apache-poi" }

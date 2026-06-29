@@ -19,6 +19,8 @@ import com.anvit.localai.download.DownloadService
 import com.anvit.localai.inference.InferenceService
 import com.anvit.localai.retrieval.HybridRetriever
 import com.anvit.localai.retrieval.RetrievalMode
+import com.anvit.localai.ui.AppReviewPromptPolicy
+import com.anvit.localai.ui.AppReviewPromptState
 import com.anvit.localai.utils.currentTimeMillis
 import com.anvit.localai.utils.isIosPlatform
 import com.anvit.localai.utils.randomUUID
@@ -101,7 +103,6 @@ class ChatViewModel(
 
     private var currentSessionId: String = ""
     private var generationJob: Job? = null
-    private var totalMessagesCount: Long = 0L
 
 
     companion object {
@@ -162,11 +163,6 @@ class ChatViewModel(
                 _uiState.update { it.copy(enableThinking = enabled) }
             }
         }
-        viewModelScope.launch {
-            chatSessionDao.getTotalMessageCount().collect { count ->
-                totalMessagesCount = count
-            }
-        }
         viewModelScope.launch { ensureDefaultSession() }
 
         checkModelLoaded()
@@ -175,22 +171,31 @@ class ChatViewModel(
     // ── Session management ────────────────────────────────────────────────────
 
 
-    fun dismissRatingPrompt(permanent: Boolean) {
+    fun recordNativeReviewPromptRequested() {
         viewModelScope.launch {
-            if (permanent) preferences.dismissRatingPromptPermanently()
-            preferences.setRatingPromptShown(totalMessagesCount)
+            val totalMessages = chatSessionDao.getTotalMessageCountNow()
+            val nextState = AppReviewPromptPolicy.afterNativeReviewRequested(
+                AppReviewPromptState(
+                    totalMessages = totalMessages,
+                    lastShownAtMessages = preferences.ratingPromptMsgsAtLastShown.first(),
+                    snoozedUntilMessages = preferences.ratingPromptSnoozedUntilMessages.first(),
+                    permanentlyDismissed = preferences.ratingPromptPermanentlyDismissed.first(),
+                )
+            )
+            preferences.setRatingPromptShown(nextState.lastShownAtMessages)
+            preferences.setRatingPromptSnoozedUntil(nextState.snoozedUntilMessages)
             _uiState.update { it.copy(showRatingDialog = false) }
         }
     }
 
-    private suspend fun checkAndTriggerRatingPrompt() {
-        val permanentlyDismissed = preferences.ratingPromptPermanentlyDismissed.first()
-        if (permanentlyDismissed) return
-        val total = totalMessagesCount
-        if (total < 10) return
-        val lastShownAt = preferences.ratingPromptMsgsAtLastShown.first()
-        val neverShown = lastShownAt == -1L
-        if (neverShown || (total - lastShownAt >= 10)) {
+    private suspend fun checkAndTriggerRatingPrompt(totalMessages: Long) {
+        val state = AppReviewPromptState(
+            totalMessages = totalMessages,
+            lastShownAtMessages = preferences.ratingPromptMsgsAtLastShown.first(),
+            snoozedUntilMessages = preferences.ratingPromptSnoozedUntilMessages.first(),
+            permanentlyDismissed = preferences.ratingPromptPermanentlyDismissed.first(),
+        )
+        if (AppReviewPromptPolicy.shouldPrompt(state)) {
             _uiState.update { it.copy(showRatingDialog = true) }
         }
     }
@@ -590,7 +595,7 @@ class ChatViewModel(
                 chatSessionDao.getSession(sessionId)?.let { s ->
                     chatSessionDao.updateSession(s.copy(updatedAt = currentTimeMillis(), messageCount = msgCount))
                 }
-                checkAndTriggerRatingPrompt()
+                checkAndTriggerRatingPrompt(chatSessionDao.getTotalMessageCountNow())
                 val finalMsg = ChatMessage(
                     assistantMsgId, "assistant", finalContent, agentStepsList,
                     false, finalThinking, false, usedDirectMode, usedSources = sourcesList

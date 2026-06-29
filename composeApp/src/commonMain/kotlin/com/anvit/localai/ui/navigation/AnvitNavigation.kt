@@ -48,7 +48,7 @@ private val screenOrder = listOf(SageScreen.Chat.route, SageScreen.Documents.rou
 private const val TRANSITION_DURATION = 280
 
 @Composable
-fun AnvitNavHost() {
+fun AnvitNavHost(onRequestAppReview: () -> Unit = {}) {
     val c = LocalAnvitColors.current
     val navController = rememberNavController()
 
@@ -105,7 +105,7 @@ fun AnvitNavHost() {
                         fadeOut(tween(TRANSITION_DURATION))
                 },
             ) {
-                composable(SageScreen.Chat.route)      { ChatScreen() }
+                composable(SageScreen.Chat.route)      { ChatScreen(onRequestAppReview = onRequestAppReview) }
                 composable(SageScreen.Documents.route) { DocumentsScreen() }
                 composable(SageScreen.Settings.route)  { SettingsScreen(navController) }
                 composable("about")   { AboutScreen(onBack = { navController.popBackStack() }) }

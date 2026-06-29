@@ -69,7 +69,10 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
+fun ChatScreen(
+    viewModel: ChatViewModel = koinViewModel(),
+    onRequestAppReview: () -> Unit = {},
+) {
     val c          = LocalAnvitColors.current
     val uiState    by viewModel.uiState.collectAsState()
     val listState   = rememberLazyListState()
@@ -81,6 +84,13 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
     var showModelPicker      by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) { viewModel.refreshModelState() }
+
+    LaunchedEffect(uiState.showRatingDialog) {
+        if (uiState.showRatingDialog) {
+            onRequestAppReview()
+            viewModel.recordNativeReviewPromptRequested()
+        }
+    }
 
     LaunchedEffect(uiState.allMessages.size) {
         if (uiState.allMessages.isNotEmpty()) {
@@ -261,33 +271,6 @@ fun ChatScreen(viewModel: ChatViewModel = koinViewModel()) {
     }
 
 
-    if (uiState.showRatingDialog) {
-        val c2 = LocalAnvitColors.current
-        AlertDialog(
-            onDismissRequest = { viewModel.dismissRatingPrompt(permanent = false) },
-            containerColor   = c2.surf2,
-            title = { Text("Enjoying Anvit?", color = c2.txt0, fontWeight = FontWeight.Bold) },
-            text  = { Text("Your rating helps us grow and improve. It only takes a second!", color = c2.txt1) },
-            confirmButton = {
-                TextButton(onClick = {
-                    viewModel.dismissRatingPrompt(permanent = true)
-                    uriHandler.openUri("https://play.google.com/store/apps/details?id=com.likhith.anvit")
-                }) {
-                    Text("Rate Now ⭐", color = c2.accent)
-                }
-            },
-            dismissButton = {
-                Row {
-                    TextButton(onClick = { viewModel.dismissRatingPrompt(permanent = true) }) {
-                        Text("No Thanks", color = c2.txt1.copy(alpha = 0.6f))
-                    }
-                    TextButton(onClick = { viewModel.dismissRatingPrompt(permanent = false) }) {
-                        Text("Maybe Later", color = c2.txt1)
-                    }
-                }
-            },
-        )
-    }
 }
 
 // ── Top bar ───────────────────────────────────────────────────────────────────

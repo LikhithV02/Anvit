@@ -24,6 +24,9 @@ interface ChatSessionDao {
     @Query("DELETE FROM chat_sessions WHERE id = :id")
     suspend fun deleteSession(id: String)
 
-    @Query("SELECT COALESCE(SUM(messageCount), 0) FROM chat_sessions")
+    @Query("SELECT COUNT(*) FROM chat_messages")
     fun getTotalMessageCount(): Flow<Long>
+
+    @Query("SELECT COUNT(*) FROM chat_messages")
+    suspend fun getTotalMessageCountNow(): Long
 }
