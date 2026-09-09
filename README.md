@@ -2,6 +2,8 @@
 
 A fully local, privacy-first Android app for intelligent document analysis and multimodal Q&A using Gemma 4 and an agentic RAG pipeline. No cloud. No API keys. Everything runs on-device.
 
+[<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="80">](https://play.google.com/store/apps/details?id=com.likhith.anvit)
+
 ---
 
 ## App Name
@@ -116,70 +118,6 @@ flowchart TD
 
 ---
 
-## Key Files
-
-| File | Role |
-|------|------|
-| `agentic/AgenticRagOrchestrator.kt` | Main pipeline coordinator |
-| `agentic/QueryRouter.kt` | Classify query: SINGLE_SHOT / AGENTIC |
-| `agentic/QueryDecomposer.kt` | Break complex queries into sub-questions |
-| `agentic/RelevanceEvaluator.kt` | CRAG: evaluate retrieval quality |
-| `agentic/SelectiveContentReducer.kt` | Trim chunks before LLM (~30% token reduction) |
-| `agentic/SelfCritiqueLoop.kt` | Post-generation quality check + refinement |
-| `inference/GemmaInferenceService.kt` | Gemma 4 E2B/E4B via LiteRT-LM; CPU/GPU backend; image + audio content |
-| `inference/RagAgentTools.kt` | Gemma 4 native tool definitions (search_documents, get_document_section) |
-| `inference/InferenceForegroundService.kt` | Foreground service keeping inference alive during generation |
-| `embedding/EmbeddingService.kt` | Gecko / EmbeddingGemma-300M embeddings |
-| `retrieval/HybridRetriever.kt` | Vector cosine + FTS5 BM25 via Reciprocal Rank Fusion |
-| `document/PdfProcessor.kt` | PDF text extraction (iText7) |
-| `document/DocumentChunker.kt` | Paragraph → sentence chunking with overlap |
-| `document/DocumentIngestionService.kt` | Full PDF → chunks → embeddings → DB pipeline |
-| `data/db/AnvitDatabase.kt` | Room DB v8 (documents, chunks, FTS5, chat sessions, messages, collections) |
-| `data/preferences/AnvitPreferences.kt` | DataStore: model, accelerator, RAG config, generation params |
-| `ui/screens/ChatScreen.kt` | Chat UI: streaming, agent steps, audio player, source cards, message actions |
-| `ui/screens/DocumentsScreen.kt` | PDF upload + collection management |
-| `ui/screens/SettingsScreen.kt` | Model selection, accelerator, RAG config, generation params |
-| `ui/viewmodels/ChatViewModel.kt` | Chat state, send/stop, audio transcription, session management |
-| `ui/viewmodels/SettingsViewModel.kt` | Model load/unload, settings persistence |
-
----
-
-## Setup Instructions
-
-### Step 1: Download Model Files
-
-Place the following files in the app's internal storage:
-```
-Android/data/com.anvit.localai/files/models/
-```
-
-**LLM (one of):**
-- `gemma4-e2b-it-int4.litertlm` — Gemma 4 E2B (~1.3 GB, default, 6 GB RAM devices)
-- `gemma4-e4b-it-int4.litertlm` — Gemma 4 E4B (~2.5 GB, 10 GB RAM devices)
-
-**Embedding model (one of):**
-- `embeddinggemma-300M_seq2048_mixed-precision.tflite` — EmbeddingGemma (recommended)
-- `gecko-110m-en-512.tflite` — Gecko (alternative)
-
-**Tokenizer (optional, for some Gecko models):**
-- `sentencepiece.model`
-
-### Step 2: Install the App
-
-Open the project in Android Studio → Build → Run on device (API 27+, arm64).
-
-### Step 3: First Launch
-
-1. Go to **Settings** tab
-2. Select model (E2B or E4B) and accelerator (CPU recommended)
-3. Tap **Load Selected Model** — wait ~10–30 seconds
-4. Tap **Initialize** next to Embedding Model
-5. Go to **Documents** tab → create a collection → tap **+** → select a PDF
-6. Wait for ingestion (embedding all chunks takes 1–5 minutes per PDF)
-7. Go to **Chat** tab → select your collection → ask questions
-
----
-
 ## Settings Reference
 
 | Setting | Description | Default |
@@ -209,77 +147,6 @@ Open the project in Android Studio → Build → Run on device (API 27+, arm64).
 | **Total** | **~2.2–2.5 GB** |
 
 Works on 6 GB RAM devices. For 4 GB devices, reduce max retrieval chunks to 3 and disable Self-Critique.
-
----
-
-## Database Schema
-
-Room database `anvit_database` — current version **8**.
-
-```
-collections
-├── id           TEXT  PK
-├── name         TEXT
-├── description  TEXT  DEFAULT ''
-├── createdAt    INTEGER
-└── isDefault    INTEGER (0/1)
-
-documents
-├── id           TEXT  PK
-├── fileName     TEXT
-├── filePath     TEXT
-├── pageCount    INTEGER
-├── chunkCount   INTEGER
-├── status       TEXT  -- PENDING | PROCESSING | READY | FAILED
-├── createdAt    INTEGER
-├── sizeBytes    INTEGER
-└── collectionId TEXT  FK → collections.id
-
-chunks
-├── id           TEXT  PK  -- "{docId}_{chunkIndex}"
-├── docId        TEXT  FK → documents.id  (CASCADE DELETE)
-├── fileName     TEXT
-├── chunkIndex   INTEGER
-├── content      TEXT
-├── embedding    BLOB  -- float[] serialised as ByteArray (vector search)
-├── createdAt    INTEGER
-└── collectionId TEXT  FK → collections.id
-
-chunks_fts  (FTS4 virtual table, content = chunks)
-└── content  TEXT  -- mirrors chunks.content for BM25 full-text search
-
-chat_sessions
-├── id           TEXT  PK
-├── title        TEXT
-├── createdAt    INTEGER
-├── updatedAt    INTEGER
-└── messageCount INTEGER
-
-chat_messages
-├── id               TEXT  PK
-├── sessionId        TEXT  FK → chat_sessions.id
-├── role             TEXT  -- "user" | "assistant"
-├── content          TEXT
-├── agentSteps       TEXT  -- JSON array of {type, description}
-├── thinkingContent  TEXT  -- <|think|> chain-of-thought from Gemma 4
-├── createdAt        INTEGER
-├── imagePath        TEXT  -- absolute path in filesDir/chat_images/; NULL = none
-├── audioPath        TEXT  -- absolute path in filesDir/chat_audio/; NULL = none
-├── usedSources      TEXT  -- JSON array of {title, snippet} RAG sources
-└── isTranscribed    INTEGER (0/1)  -- 1 when content was auto-transcribed from audio
-```
-
-### Migration History
-
-| Version | Change |
-|---------|--------|
-| 1 → 2 | Added `thinkingContent` to `chat_messages` |
-| 2 → 3 | Added `chat_sessions` table; added `sessionId` to `chat_messages` |
-| 3 → 4 | Added `collections` table; added `collectionId` to `documents` and `chunks`; rebuilt FTS index |
-| 4 → 5 | Added `imagePath` to `chat_messages` |
-| 5 → 6 | Added `usedSources` to `chat_messages` |
-| 6 → 7 | Added `audioPath` to `chat_messages` |
-| 7 → 8 | Added `isTranscribed` to `chat_messages` |
 
 ---
 
