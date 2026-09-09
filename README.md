@@ -170,3 +170,21 @@ Works on 6 GB RAM devices. For 4 GB devices, reduce max retrieval chunks to 3 an
 - **Concurrent queries** not supported — wait for current generation to finish
 - **Large PDFs (100+ pages)** take several minutes to embed on first ingest
 - **Audio input** requires `RECORD_AUDIO` permission; denied permission disables the mic button
+
+---
+
+## Contributing
+
+Contributions are welcome! To get started:
+
+- Fork the repository
+- Create a feature branch (`git checkout -b feature/your-feature`)
+- Commit your changes (`git commit -m "Add your feature"`)
+- Push to your branch (`git push origin feature/your-feature`)
+- Open a Pull Request describing your changes
+
+Please open an issue first to discuss significant changes. For bug reports, include steps to reproduce, expected vs. actual behavior, and your device/Android version.
+
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
+
+
